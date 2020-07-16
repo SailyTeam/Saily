@@ -1,4 +1,5 @@
 # Saily
+### Modern. Fast. Beautiful.
 
 Saily will handle your system with great power and responsibility. It is a package manager for project Protein.
 

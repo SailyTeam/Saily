@@ -24,6 +24,6 @@ sudo gem install cocoapods
 
 This should install all the pods we use along with the submodule for the LNPopupController.
 
-Open the Protein.xcworkspace ***not*** the .xcproj. Once you open the Workspace, change the Bundle ID for the Saily project to a new identifier. This way you will be able to compile with your provisioning profile. 
+Open the Protein.xcworkspace ***not*** the .xcproj. Once you open the Workspace, change the Bundle ID for the Protein project to a new identifier. This way you will be able to compile with your provisioning profile. 
 
 Good luck, if you have any questions, feel free to DM [Saily Support](https://twitter.com/SailySupport) on Twitter.

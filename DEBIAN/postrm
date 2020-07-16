@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# rm -rf /var/root/Library/Caches/com.hackemist.SDImageCache
+
+rm -rf /var/root/Library/Caches/wiki.qaq.Protein
+rm -rf /var/mobile/Documents/wiki.qaq.Protein
+rm -rf /var/mobile/Library/Caches/com.hackemist.SDImageCache
+rm -rf /var/mobile/Library/Caches/wiki.qaq.Protein
+rm -rf /var/root/Documents/wiki.qaq.Protein/Downloads
+
+uicache

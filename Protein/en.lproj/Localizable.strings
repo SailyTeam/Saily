@@ -1,0 +1,241 @@
+/* 
+  Localizable.strings
+  Protein
+
+  Created by Lakr Aream on 2020/5/26.
+  Copyright © 2020 Lakr Aream. All rights reserved.
+*/
+
+"LANGUAGE_FALG_233" = "English";
+
+"Confirm" = "Confirm";
+"Dismiss" = "Dismiss";
+"Refresh" = "Refresh";
+"Share" = "Share";
+"Error" = "Error";
+"Cancel" = "Cancel";
+"Warning" = "Warning";
+"Delete" = "Delete";
+"Submit" = "Submit";
+"Other" = "Other";
+"Done" = "Done";
+"CancelAll" = "Cancel All";
+"Install" = "Install";
+"LICENSE" = "LICENSE";
+
+"Hours" = "Hours";
+"Tasks" = "Tasks";
+"Installed" = "Installed";
+"WishList" = "Wish List";
+"Version" = "Version";
+"Screenshot" = "Screenshot";
+"AvailableUpdate" = "Available Updates";
+"RecentInstalled" = "Recent Installed";
+"RecentUpdate" = "Recent Update";
+"ErrorReadInstalledPackages" = "Error reading installed packages";
+"PleaseTryReInstallApp" = "Please try reinstall this app";
+"OperationLocked" = "Operation Locked";
+"LoadingDataBase" = "Loading Database";
+"WaitingForDataBase" = "Waiting For Database";
+"NoRecentUpdate" = "No Recent Update";
+"NoRecentUpdateInstruction" = "All up to date!";
+"DownloadingWaitHint" = "Downloading...";
+"IndexInProgress" = "Index in progress";
+"Ungroupped" = "Ungroupped";
+"MENU" = "MENU";
+"Download Tasks" = "Downloads";
+"Package Tasks" = "Package Tasks";
+"Other Tasks" = "Other Tasks";
+"UpdateAll" = "Update All";
+"EnterNumber" = "Enter Number";
+"InputInvalid" = "Input Invalid";
+"Number" = "Number";
+"Group" = "Group";
+"Downloaded" = "Downloaded";
+"Console" = "Console";
+
+"AppDelegate_init" = "Loading...";
+"AppDelegate_loadRepoRecord" = "Loading repos...";
+"AppDelegate_loadPackageRecord" = "Loading packages...";
+"AppDelegate_startTaskManager" = "Loading tasks...";
+"AppDelegate_RevealLoader" = "Loading reveal...";
+"AppDelegate_BootstrapTime" = "Boot time";
+
+"TimeGap_JustNow" = "Just Now";
+"TimeGap_MinBefore" = " mins ago";
+"TimeGap_HoursBefore" = " hours ago";
+"TimeGap_DaysBefore" = " days ago";
+"TimeGap_OutDated" = " outdated";
+
+"Repo_NoDescription" = "No description provided";
+
+"Package_NoName" = "No Name";
+"Package_ContentDamaged" = "This package is dameaged";
+
+"Navigation_GoBack" = "Back";
+
+"SearchBar_SearchPackageOrRepo" = "Search Here";
+
+"HomeCard_Welcome" = "Welcome to Saily";
+"HomeCard_Desc" = "While the world sleep, we dream";
+
+"DashBoardNavigatorCard_DashBoard" = "DashBoard";
+"DashBoardNavigatorCard_Setting" = "Setting";
+"DashBoardNavigatorCard_Tasks" = "Tasks";
+"DashBoardNavigatorCard_Installed" = "Installed";
+
+"RepoCard_NoRepo" = "No Repo";
+"RepoCard_AddInstruction" = "Add";
+"RepoCard_AddInstructionHint" = "Good Luck";
+"RepoCard_Cell_RepoInUpdate" = "Update in progress...";
+"RepoCard_Cell_PendingUpdate" = "In queue";
+"RepoCard_Cell_LastUpdateTimeHintPrefix" = "Last Update ";
+
+"WishList_RemoveHint" = "Are you sure about removing it from whish list?";
+"WishList_RemovedHint" = "Removed";
+"WishList_AddedHint" = "Saved";
+
+"RepoViewController_RepoLastUpdated" = "Last Update ";
+"RepoViewController_RepoContains" = " contains ";
+"RepoViewController_RepoContainsSuffix" = " packages";
+"RepoViewController_RepoFeaturedPackageNotFoundHint" = "The package was not found\nPlease retry after refresh";
+
+"RepoAddViewController_TitleAdd" = "Add";
+"RepoAddViewController_SelectionSwitcher" = "Switch Select";
+"RepoAddViewController_RepoDescription" = "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover.";
+"RepoAddViewController_APTRecordTitle" = "APT Records";
+"RepoAddViewController_APTRecordDescription" = "Following software sources come from APT or other package managers";
+"RepoAddViewController_ClipBoardTitle" = "Clipboard";
+"RepoAddViewController_ClipBoardDescription" = "We found these links in the clipboard, they may be the source of the software";
+"RepoAddViewController_HistoryTitle" = "History";
+"RepoAddViewController_HistoryDescription" = "You have added these software sources before. These records will be kept for two weeks until you manually turn off this function.";
+"RepoAddViewController_InputTitle" = "Manual Input";
+"RepoAddViewController_InputDescription" = "Enter the software source address manually here and use line feed to split multiple addresses";
+
+"NativeDepiction_ErrorCanNotOpenURLPrefix" = "Unable to resolve address\n";
+
+"SplitView_Feature" = "Features";
+"SplitView_MyRepo" = "Software Source";
+
+"Installed_SortByDateAccending" = "Time - Most Early";
+"Installed_SortByDateDesending" = "Time - Most Recent";
+"Installed_SortByNameDesending" = "Name - Zz -> Aa";
+"Installed_SortByNameAccending" = "Name - Aa -> Zz";
+
+"BuiltInDepiction_Preview" = "Preview";
+"BuiltInDepiction_Description" = "Description";
+"BuiltInDepiction_whatsNew" = "What's New";
+"BuiltInDepiction_Converted" = "The content of this page is extracted from the built-in information of the software package";
+"BuiltInDepiction_metaTitle" = "Metadata";
+
+"PackageButtonStart" = "Option";
+"PackageButtonContinue" = "Continue";
+"UPDATE" = "UPDATE";
+"MODIFY" = "MODIFY";
+"GET" = "GET";
+"Unavailable"  = "Unavailable";
+"PackageDepictionError" = "Package description is not available";
+"PackageOperation_AddToInstall" = "Install";
+"PackageOperation_JustDownload" = "Download Only";
+"PackageOperation_SelectVersion" = "Select Version...";
+"PackageOperation_Share" = "Share";
+"PackageOperation_Advanced" = "Advanced...";
+"PackageOperation_FromThisDeveloper" = "From Developer";
+"PackageOperation_MailBugReports" = "Mail Bug Reports";
+"PackageOperation_BlockUpdates" = "Block Updates";
+"PackageOperation_BlockThisPackage" = "Block Package";
+"PackageOperation_BlockThisDeveloper" = "Block Developer";
+"PackageOperation_AddToDelete" = "Delete";
+"PackageOperation_AddToReInstall" = "Reinstall";
+"PackageOperation_AddToUpdate" = "Update";
+"PackageOperation_NotAvailable" = "Broken Metadata";
+"PackageOperation_RemoveFromQueue" = "Remove from queue";
+"PackageOperation_RemoveFromWishList" = "Remove from wishlist";
+"PackageOperation_AddWishList" = "Add to wish list";
+"PackageOperation_NotAvailableAlertHint" = "No Operation Available";
+"PackageOperation_OperationInvalid" = "Operation Invalid/Not Permitted";
+
+"TaskOperationName_RepoUpdate" = "Repo Update ";
+"TaskOperationName_IndexDescription" = "It takes some time to build the index";
+"TaskOperationName_Index" = "Index Database";
+"TaskOperationName_PackageInstall" = "+ ";
+"TaskOperationName_PackageInstall_SelectedInstall" = "Selected ";
+"TaskOperationName_PackageInstall_PulledInstall" = "Install as dependency ";
+"TaskOperationName_PackageDelete" = "- ";
+"TaskOperationName_PackageInstall_PulledDelete" = "Removed due to conflict ";
+"TaskOperationName_PackageInstall_SelectedDelete" = "Selected to delete ";
+"TaskOperationName_Download" = "Download ";
+
+"NoTaskAvailable" = "Empty";
+"NoTaskAvailableTint" = "New tasks are automatically added here";
+
+"Settings" = "Settings";
+"DeviceInfo" = "Device Info";
+"RandomDeviceInfoEnabledOrUDIDNotAvailable" = "UDID Not Available / Hided";
+"EnableRandomDeviceInfoWarning" = "Random device information is only enabled for free software packages, which may block functions including but not limited to software source account login and paid packages download.";
+"EnableRandomDeviceInfo" = "Enable Random Device Info";
+"SoftwareSources" = "Software Sources";
+"RepoLoginHint" = "Manage Logins";
+"RepoDownloadLimit" = "Download Queue Limit 1/24";
+"RepoDownloadTimeLimit" = "Download Timeout 6/180s";
+"AllowRepoHistory" = "Enable History";
+"AllowReportRepos" = "Allow Analysis Upload";
+"SoftwareBehaves" = "Software Behaves";
+"SoftwareAutoUpdateWhenLaunch" = "Auto Queue Updates When Possible";
+"UpdateNotification" = "Update Notifications";
+"AllowReportSoftwares" = "Allow Analysis Upload";
+"DownloadWaitMinMax" = "The download timeout value should be set between 6 seconds and 180 seconds";
+"DownloadQueueNumberMinMax" = "The download queue value should be set between 1 seconds and 24";
+"DeleteRepoHistory" = "This will delete history";
+"AppLanguage" = "Language";
+"RestartAppHint" = "This operation requires restarting the application";
+"ReloadSpringBoard" = "Respring";
+"RebootUserSpace" = "Reboot User Space";
+"RebuildUIcache" = "Reload Springboard Icons";
+"RepoRefreshTimeGap" = "Auto Refresh Time Gap";
+"RepoRefreshTimeGapMinMax" = "Smart refresh requires a time interval between 0.5 and 240 hours";
+"EnterSafeMode" = "Enter Safe Mode";
+"OpenDownload" = "Open Download";
+"FilzaRequiredAlert" = "Filza not installed";
+"DeleteAllDownload" = "Clean Downloads";
+"UnknownSize" = "Unknown Size";
+"DownloadSizeCalculateTimeout" = "Calculate Failed";
+"WebOpenSourceCode" = "Get Source Code";
+"PhotoLibraryUnavailableHint" = "Photo library unavailable, check your privacy settings";
+"SetAvatar" = "Pick Avatar";
+"RemoveAvatar" = "Remove Avatar";
+"Accounts" = "Accounts";
+
+"PackageDiagnosis" = "Diagnosis";
+"PackageDiagnosis_ConditionGroup" = "Requirements";
+"PackageDiagnosis_Help" = "Get Help";
+"PackageDiagnosis_WelcomeLeft" = "The operation requirements for software package";
+"PackageDiagnosis_WelcomeRight" = "are not met, please refer to the following conditions and fix them manually.";
+"PackageDiagnosis_DependsHint" = "This group specifies additional installation targets, but all of them cannot be met.";
+"PackageDiagnosis_ConflictHint" = "The group identified conflict objects and the objects exist.";
+"PackageDiagnosis_ExtraInstall" = "Extra Install";
+"PackageDiagnosis_ExtraDelete" = "Extra Delete";
+"PackageDiagnosis_ExtraInstallHint" = "This group specifies additional installation targets and has been found in the database.";
+"PackageDiagnosis_ExtraDeleteHint" = "This group specifies conflict objects, but the target can be resolved by uninstalling.";
+"PackageDiagnosis_PackageRequired" = "Required By";
+"PackageDiagnosis_PackageRequiredHint" = "To resolve the conflict, please uninstall this package or add it to the uninstall queue";
+"PackageDiagnosis_PackageRequiredTryFix" = "Possible Solution: Delete All";
+"PackageDiagnosis_PackageRequiredTryFixHint" = "Adding all packages above to the delete queue may solve the problem";
+"PackageDiagnosis_PackageRequiredTryFixFailedHint" = "The package has too complicated dependencies, please consider manually clicking on the error condition and selecting delete to view these relationships.";
+"PackageDiagnosis_GoToIssue" = "Go to the error feedback page";
+"PackageDiagnosis_NoDownloadURLAvailable" = "Could not find download URL, please consider refreshing the software source or contacting the software administrator";
+
+"InstallAgent_SubmitTitle" = "Submit Queue";
+"InstallAgent_SubmitTitleHint" = "Please check everything carefully";
+"InstallAgent_APTReportTitle" = "APT Report";
+"InstallAgent_APTReportTitleHint" = "Click the Generate button below to generate the report. This will take some time.";
+"InstallAgent_APTGenerateReport" = "Create Report";
+"InstallAgent_Locked" = "The operation is locked, please try again later";
+"InstallAgent_UnknownError" = "Unknown Error";
+"InstallAgent_UnableAquireDownloadFile" = "Unable to obtain download file";
+"InstallAgent_APTGeneratingReport" = "Creating Report";
+"InstallAgent_APTGeneratedReportContainWarningOrError" = "Report appears to contain warnings or errors, please check carefully";
+"InstallAgent_NoTaskAvailable" = "No task in queue";
+"InstallAgent_DownloadNotFinished" = "The download is not yet complete, please try again later. If the error persists and you cannot see the download queue, tLocalizablehere may be a problem with the package download address. Please try to refresh the software source or clear the download cache in the settings.";
+"InstallAgent_UpdateNotice" = "We are about to update ourself. The app will exit during the progress and will reopen when finished. Please wait and do not reopen manually.";
+"InstallAgent_InTasksNotice" = "System locked, please try again later.";

@@ -1,0 +1,69 @@
+PODS:
+  - Cosmos (22.1.0)
+  - Down (0.9.3)
+  - DropDown (2.3.13)
+  - FLAnimatedImage (1.0.12)
+  - JGProgressHUD (2.1)
+  - JJFloatingActionButton (2.5.0)
+  - LTMorphingLabel (0.8.0)
+  - SDWebImage (5.8.3):
+    - SDWebImage/Core (= 5.8.3)
+  - SDWebImage/Core (5.8.3)
+  - SnapKit (5.0.1)
+  - SQLiteRepairKit (1.2.2):
+    - WCDBOptimizedSQLCipher (~> 1.2.0)
+  - WCDB (1.0.7.5):
+    - SQLiteRepairKit (~> 1.2.0)
+    - WCDBOptimizedSQLCipher (~> 1.2.0)
+  - WCDB.swift (1.0.8.2):
+    - SQLiteRepairKit (~> 1.2.0)
+    - WCDBOptimizedSQLCipher (~> 1.2.0)
+  - WCDBOptimizedSQLCipher (1.2.1)
+
+DEPENDENCIES:
+  - Cosmos
+  - Down
+  - DropDown
+  - FLAnimatedImage
+  - JGProgressHUD
+  - JJFloatingActionButton
+  - LTMorphingLabel
+  - SDWebImage
+  - SnapKit
+  - WCDB
+  - WCDB.swift
+
+SPEC REPOS:
+  trunk:
+    - Cosmos
+    - Down
+    - DropDown
+    - FLAnimatedImage
+    - JGProgressHUD
+    - JJFloatingActionButton
+    - LTMorphingLabel
+    - SDWebImage
+    - SnapKit
+    - SQLiteRepairKit
+    - WCDB
+    - WCDB.swift
+    - WCDBOptimizedSQLCipher
+
+SPEC CHECKSUMS:
+  Cosmos: 2795b36ad4bbea1af3050d6d65576ed63875f86a
+  Down: 4553b984236807e384fa0ef7c7e360ef9f7c425d
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
+  JJFloatingActionButton: fdc3aefb0f28f04d0f988fa25d5fac97028a9ea7
+  LTMorphingLabel: 1ada1cb5c046ae4ce5c66b428cf2e05e227e8e4f
+  SDWebImage: 112503ec94a5a2a41869503844a15e8d8f1ead5c
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SQLiteRepairKit: 35aaae5a8838adb85f5b1eb4d796055be6060a4b
+  WCDB: 8e90babdeb7784c569353a4bd22a66c0a175a882
+  WCDB.swift: 05d509d7a0e60fb6e11c34eb7e4027c0fab5849f
+  WCDBOptimizedSQLCipher: baf44493b0c7a3d49e97bc5b64a3856f6428ddd1
+
+PODFILE CHECKSUM: ee27bc5e47d3f1e4e017062a0894143d3d5b56f1
+
+COCOAPODS: 1.9.2

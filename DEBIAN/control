@@ -1,0 +1,14 @@
+Package: wiki.qaq.Protein
+Name: Saily
+Description: Take the best care to you and your device
+Author: Lakr Aream <master@233owo.com>
+Maintainer: Lakr Aream <master@233owo.com>
+Version: 1.0-1
+Section: Applications
+Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt, gsc.ipad
+Architecture: iphoneos-arm
+Homepage: https://github.com/SailyTeam/main/
+Website: https://github.com/SailyTeam/main/
+Depiction: https://github.com/SailyTeam/main/blob/master/README.md
+Nativedepiction: https://github.com/SailyTeam/main/raw/master/Attachments/nativeDepiction.json
+Icon: https://github.com/SailyTeam/main/raw/master/Protein/Assets.xcassets/AppIcon.appiconset/icon-83.5%402x.png

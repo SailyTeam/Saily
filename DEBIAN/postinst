@@ -1,0 +1,26 @@
+#!/bin/bash
+
+chown -R root:wheel /Applications/Saily.app
+chmod -R 755 /Applications/Saily.app
+chmod +s /Applications/Saily.app/Saily
+
+# Fix keyboard behave
+#ln -sf /var/mobile/Library/Preferences/com.apple.keyboard.plist /var/root/Library/Preferences/com.apple.keyboard.plist
+#ln -sf /var/mobile/Library/Preferences/com.apple.textInput.keyboardServices.textReplacement.plist /var/root/Library/Preferences/com.apple.textInput.keyboardServices.textReplacement.plist
+#ln -sf /var/mobile/Library/Preferences/com.apple.preferences.plist /var/root/Library/Preferences/com.apple.preferences.plist
+#ln -sf /var/mobile/Library/Keyboard /var/root/Library/Keyboard
+#ln -sf /var/mobile/Library/KeyboardServices /var/root/Library/KeyboardServices
+
+# Language Fix Up
+ln -sf /var/mobile/Library/Preferences/.GlobalPreferences.plist /var/root//Library/Preferences/.GlobalPreferences.plist
+
+uicache
+
+chmod +x /bin/openApplication
+
+FILE=/private/var/root/Documents/wiki.qaq.protein.update.reopen
+if test -f "$FILE"; then
+    echo "* Programme specific to open after updates"
+    rm -f "$FILE"
+    /bin/openApplication wiki.qaq.Protein
+fi

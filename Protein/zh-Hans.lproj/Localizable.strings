@@ -1,0 +1,241 @@
+/* 
+  Localizable.strings
+  Protein
+
+  Created by Lakr Aream on 2020/5/26.
+  Copyright © 2020 Lakr Aream. All rights reserved.
+*/
+
+"LANGUAGE_FALG_233" = "简体中文";
+
+"Confirm" = "确定";
+"Dismiss" = "确定";
+"Refresh" = "刷新";
+"Share" = "分享";
+"Error" = "错误";
+"Cancel" = "取消";
+"Warning" = "警告";
+"Delete" = "删除";
+"Submit" = "提交";
+"Other" = "其他";
+"Done" = "完成";
+"CancelAll" = "全部取消";
+"Install" = "安装";
+"LICENSE" = "许可证";
+
+"Hours" = "小时";
+"Tasks" = "计划任务";
+"Installed" = "已安装";
+"WishList" = "心愿单";
+"Version" = "版本";
+"Screenshot" = "屏幕截图";
+"AvailableUpdate" = "可用更新";
+"RecentInstalled" = "最近安装";
+"RecentUpdate" = "最近更新";
+"ErrorReadInstalledPackages" = "无法读取最近安装";
+"PleaseTryReInstallApp" = "请尝试重新安装程序";
+"OperationLocked" = "操作被锁定 请稍后再试";
+"LoadingDataBase" = "正在读取数据库";
+"WaitingForDataBase" = "正在等待数据库";
+"NoRecentUpdate" = "没有最近更新";
+"NoRecentUpdateInstruction" = "尝试添加一些软件源吧";
+"DownloadingWaitHint" = "正在下载数据 请稍后";
+"IndexInProgress" = "正在等待索引";
+"Ungroupped" = "未分组";
+"MENU" = "菜单";
+"Download Tasks" = "下载任务";
+"Package Tasks" = "软件包任务";
+"Other Tasks" = "其他任务";
+"UpdateAll" = "全部更新";
+"EnterNumber" = "输入数值";
+"InputInvalid" = "数字不合法或超出范围";
+"Number" = "数字";
+"Group" = "组";
+"Downloaded" = "已下载";
+"Console" = "终端";
+
+"AppDelegate_init" = "正在初始化应用设置";
+"AppDelegate_loadRepoRecord" = "正在读取软件源及其软件包记录";
+"AppDelegate_loadPackageRecord" = "正在初始化本地软件包状态";
+"AppDelegate_startTaskManager" = "正在初始化任务管理模块";
+"AppDelegate_RevealLoader" = "[reveal] 等待调试器启动Reveal 🕶️";
+"AppDelegate_BootstrapTime" = "初始化耗时：";
+
+"TimeGap_JustNow" = "刚刚";
+"TimeGap_MinBefore" = "分钟前";
+"TimeGap_HoursBefore" = "小时前";
+"TimeGap_DaysBefore" = "天前";
+"TimeGap_OutDated" = "已过期";
+
+"Repo_NoDescription" = "该软件源没有描述";
+
+"Package_NoName" = "佚名";
+"Package_ContentDamaged" = "该软件包数据已损坏";
+
+"Navigation_GoBack" = "返回";
+
+"SearchBar_SearchPackageOrRepo" = "搜索软件包/软件源";
+
+"HomeCard_Welcome" = "欢迎来到 Saily";
+"HomeCard_Desc" = "你每次安装软件包时都会有新的色彩添加到这里";
+
+"DashBoardNavigatorCard_DashBoard" = "面板";
+"DashBoardNavigatorCard_Setting" = "设置";
+"DashBoardNavigatorCard_Tasks" = "计划任务";
+"DashBoardNavigatorCard_Installed" = "已安装";
+
+"RepoCard_NoRepo" = "没有软件源";
+"RepoCard_AddInstruction" = "赶紧点击上面的按钮添加一个软件源吧";
+"RepoCard_AddInstructionHint" = "祝好运";
+"RepoCard_Cell_RepoInUpdate" = "正在更新 请稍后";
+"RepoCard_Cell_PendingUpdate" = "排队等待更新";
+"RepoCard_Cell_LastUpdateTimeHintPrefix" = "上次刷新 ";
+
+"WishList_RemoveHint" = "确定要从心愿单中删除这个软件包么";
+"WishList_RemovedHint" = "已将这个软件包存从心愿单中删除";
+"WishList_AddedHint" = "已将这个软件包存入心愿单";
+
+"RepoViewController_RepoLastUpdated" = "上次更新于 ";
+"RepoViewController_RepoContains" = " 共包含 ";
+"RepoViewController_RepoContainsSuffix" = " 个软件包";
+"RepoViewController_RepoFeaturedPackageNotFoundHint" = "未找到目标软件包\n请刷新后重试";
+
+"RepoAddViewController_TitleAdd" = "添加";
+"RepoAddViewController_SelectionSwitcher" = "切换选择状态";
+"RepoAddViewController_RepoDescription" = "软件源包含了各式各样的插件、应用、主题、铃声，他们由官方或非官方的组织或个人维护。你可以不受限制的添加任何软件源，但请注意我们无法确认他们提供的数据或信息是安全的，他们也许会损坏你的系统或设备，使其无法恢复。\n\n\n-> 请只添加你信任的软件源。";
+"RepoAddViewController_APTRecordTitle" = "APT 记录";
+"RepoAddViewController_APTRecordDescription" = "这些软件源来自APT或使用APT的其他软件包管理器";
+"RepoAddViewController_ClipBoardTitle" = "剪贴板";
+"RepoAddViewController_ClipBoardDescription" = "我们在剪贴板内找到了这些链接 ，他们也许是软件源";
+"RepoAddViewController_HistoryTitle" = "历史记录";
+"RepoAddViewController_HistoryDescription" = "你以前添加过这些软件源。这些记录会保留两周，直到你手动关闭该功能。";
+"RepoAddViewController_InputTitle" = "手动输入";
+"RepoAddViewController_InputDescription" = "在这里手动输入软件源地址并使用换行来分割多个地址";
+
+"NativeDepiction_ErrorCanNotOpenURLPrefix" = "无法解析地址\n";
+
+"SplitView_Feature" = "功能";
+"SplitView_MyRepo" = "我的软件源";
+
+"Installed_SortByDateAccending" = "按照时间 早日靠前";
+"Installed_SortByDateDesending" = "按照时间 靠近靠前";
+"Installed_SortByNameDesending" = "按照名称 降序排列";
+"Installed_SortByNameAccending" = "按照名称 升序排列";
+
+"BuiltInDepiction_Preview" = "预览";
+"BuiltInDepiction_Description" = "简介";
+"BuiltInDepiction_whatsNew" = "新内容";
+"BuiltInDepiction_Converted" = "本页面内容提取自软件包内建信息";
+"BuiltInDepiction_metaTitle" = "元数据";
+
+"PackageButtonStart" = "选项";
+"PackageButtonContinue" = "继续";
+"UPDATE" = "更新";
+"MODIFY" = "修改";
+"GET" = "获取";
+"Unavailable" = "不可用";
+"PackageDepictionError" = "软件包描述不可用";
+"PackageOperation_AddToInstall" = "安装";
+"PackageOperation_JustDownload" = "仅下载";
+"PackageOperation_SelectVersion" = "选择版本...";
+"PackageOperation_Share" = "分享";
+"PackageOperation_Advanced" = "高级选项...";
+"PackageOperation_FromThisDeveloper" = "开发者的其他项目";
+"PackageOperation_MailBugReports" = "发送错误分析邮件";
+"PackageOperation_BlockUpdates" = "锁定更新";
+"PackageOperation_BlockThisPackage" = "加入黑名单";
+"PackageOperation_BlockThisDeveloper" = "屏蔽这位开发者";
+"PackageOperation_AddToDelete" = "删除";
+"PackageOperation_AddToReInstall" = "重新安装";
+"PackageOperation_AddToUpdate" = "更新";
+"PackageOperation_NotAvailable" = "软件包已损坏";
+"PackageOperation_RemoveFromQueue" = "取消计划任务";
+"PackageOperation_RemoveFromWishList" = "从心愿单移除";
+"PackageOperation_AddWishList" = "添加到心愿单";
+"PackageOperation_NotAvailableAlertHint" = "软件包已损坏 没有可用操作";
+"PackageOperation_OperationInvalid" = "无效的操作";
+
+"TaskOperationName_RepoUpdate" = "刷新 ";
+"TaskOperationName_IndexDescription" = "这个任务这需要一些时间";
+"TaskOperationName_Index" = "构建索引";
+"TaskOperationName_PackageInstall" = "安装 ";
+"TaskOperationName_PackageInstall_SelectedInstall" = "您要求安装 ";
+"TaskOperationName_PackageInstall_PulledInstall" = "其他软件包需要该软件包 ";
+"TaskOperationName_PackageDelete" = "卸载 ";
+"TaskOperationName_PackageInstall_PulledDelete" = "这个软件包与您的配置不兼容";
+"TaskOperationName_PackageInstall_SelectedDelete" = "您要求卸载 ";
+"TaskOperationName_Download" = "下载 ";
+
+"NoTaskAvailable" = "空";
+"NoTaskAvailableTint" = "新的任务会自动添加到这里";
+
+"Settings" = "偏好设置";
+"DeviceInfo" = "设备信息";
+"RandomDeviceInfoEnabledOrUDIDNotAvailable" = "设备ID不可用 / 已隐藏";
+"EnableRandomDeviceInfoWarning" = "随机设备信息仅针对免费软件包开启，这可能会屏蔽包括但不限于软件源账号登录及收费插件下载的功能。";
+"EnableRandomDeviceInfo" = "启用随机的设备信息";
+"SoftwareSources" = "软件源";
+"RepoLoginHint" = "管理软件源账号";
+"RepoDownloadLimit" = "队列数量 1/24";
+"RepoDownloadTimeLimit" = "下载超时 6/180秒";
+"AllowRepoHistory" = "启用历史记录";
+"AllowReportRepos" = "允许数据统计";
+"SoftwareBehaves" = "软件包";
+"SoftwareAutoUpdateWhenLaunch" = "自动添加更新到队列";
+"UpdateNotification" = "有更新时通知我";
+"AllowReportSoftwares" = "允许数据统计";
+"DownloadWaitMinMax" = "下载超时的数值设置应在6秒至180秒之间";
+"DownloadQueueNumberMinMax" = "下载队列的数值设置应在1至24之间";
+"DeleteRepoHistory" = "这会删除历史记录";
+"AppLanguage" = "语言";
+"RestartAppHint" = "这项操作需要重启应用";
+"ReloadSpringBoard" = "注销";
+"RebootUserSpace" = "软重启";
+"RebuildUIcache" = "重建桌面图标缓存";
+"RepoRefreshTimeGap" = "智能刷新间隔";
+"RepoRefreshTimeGapMinMax" = "智能刷新要求时间间隔在0.5至240小时内";
+"EnterSafeMode" = "安全模式";
+"OpenDownload" = "打开下载";
+"FilzaRequiredAlert" = "Filza 未安装";
+"DeleteAllDownload" = "清除全部下载";
+"UnknownSize" = "未知大小";
+"DownloadSizeCalculateTimeout" = "计算超时";
+"WebOpenSourceCode" = "获取源码";
+"PhotoLibraryUnavailableHint" = "照片图库不可用，请检查隐私设置";
+"SetAvatar" = "设置头像";
+"RemoveAvatar" = "删除头像";
+"Accounts" = "管理账号";
+
+"PackageDiagnosis" = "诊断";
+"PackageDiagnosis_ConditionGroup" = "需求与冲突";
+"PackageDiagnosis_Help" = "获取帮助";
+"PackageDiagnosis_WelcomeLeft" = "软件包";
+"PackageDiagnosis_WelcomeRight" = "不满足操作要求。请参考下面的条件，并手动修复。";
+"PackageDiagnosis_DependsHint" = "该组明确了额外的安装目标，但所有目标均不可满足。";
+"PackageDiagnosis_ConflictHint" = "该组明确了冲突对象，且对象存在。";
+"PackageDiagnosis_ExtraInstall" = "额外安装";
+"PackageDiagnosis_ExtraDelete" = "额外删除";
+"PackageDiagnosis_ExtraInstallHint" = "该组明确了额外的安装目标，且已经在数据库中找到。";
+"PackageDiagnosis_ExtraDeleteHint" = "该组明确了冲突对象，但目标可以通过卸载来解决。";
+"PackageDiagnosis_PackageRequired" = "被需要";
+"PackageDiagnosis_PackageRequiredHint" = "要解决该冲突，请将这个软件包卸载或加入卸载队列";
+"PackageDiagnosis_PackageRequiredTryFix" = "尝试修复：全部删除";
+"PackageDiagnosis_PackageRequiredTryFixHint" = "将上述全部软件包添加到删除队列也许可以解决问题";
+"PackageDiagnosis_PackageRequiredTryFixFailedHint" = "软件包存在过于复杂的依赖关系，请考虑手动点击错误条件并选择删除来查看这些关系。";
+"PackageDiagnosis_GoToIssue" = "转到错误反馈页面";
+"PackageDiagnosis_NoDownloadURLAvailable" = "找不到下载地址，请考虑刷新软件源或联系软件管理员";
+
+"InstallAgent_SubmitTitle" = "提交队列";
+"InstallAgent_SubmitTitleHint" = "现在，你还有最后一次检查的机会。请仔细检查全部内容。\n\n-> 安装与删除队列是否存在明显的错误？\n-> 与提交时的队列是否存在不匹配的现象？\n\n除此之外，你还可以点击下方的打印APT测试来检查队列合法性。请注意，提交错误的队列会损坏您的系统。如果您不确定队列是否安全，请考虑点击下方的生成报告，并前往当地的社交媒体寻求帮助。";
+"InstallAgent_APTReportTitle" = "APT 报告";
+"InstallAgent_APTReportTitleHint" = "点击下方的生成按钮来生成报告。这需要花费一些时间。";
+"InstallAgent_APTGenerateReport" = "创建报告";
+"InstallAgent_Locked" = "操作被锁定，请稍后再试";
+"InstallAgent_UnknownError" = "未知错误";
+"InstallAgent_UnableAquireDownloadFile" = "无法获取下载文件";
+"InstallAgent_APTGeneratingReport" = "正在创建报告";
+"InstallAgent_APTGeneratedReportContainWarningOrError" = "报告似乎包含警告或错误，请仔细检查";
+"InstallAgent_NoTaskAvailable" = "队列不包含可执行的操作";
+"InstallAgent_DownloadNotFinished" = "下载尚未完成，请稍后再试。如果错误持续存在并且您看不到下载队列，则可能是软件包下载地址存在问题。请尝试刷新软件源或在设置里清除下载缓存。";
+"InstallAgent_UpdateNotice" = "本次安装包含自我更新，程序会在安装时退出。更新完成后会重新启动App，请耐心等待。";
+"InstallAgent_InTasksNotice" = "队列正在执行，请稍后再试。";

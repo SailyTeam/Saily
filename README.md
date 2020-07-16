@@ -4,7 +4,7 @@
 
 [![pipeline status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
 
-![priview](./Attachments/main.jpeg)
+![Preview](./Attachments/main.jpeg)
 
 ## Boarding Instructions
 

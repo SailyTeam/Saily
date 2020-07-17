@@ -79,6 +79,12 @@ class PackageViewControllerSectionView: UIView {
             x.height.equalTo(2)
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: .TaskSystemFinished, object: nil)
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     public func setPackage(with item: PackageStruct?) {
@@ -89,6 +95,8 @@ class PackageViewControllerSectionView: UIView {
     }
     
     private var reloadToken = ""
+    
+    @objc
     public func reloadData() {
         reloadToken = UUID().uuidString
         if let item = 📦 {

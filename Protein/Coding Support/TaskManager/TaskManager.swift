@@ -602,7 +602,23 @@ final class TaskManager {
         }
         for item in targets {
             downloadManager.sendToDownload(fromPackage: item.value, fromURL: item.key, withFileName: item.key.lastPathComponent) { (progress) in
-//                print("[DownloadProgress] " + item.key.urlString + " - " + String(progress))
+                NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : item.key.urlString, "progress" : progress])
+            }
+        }
+    }
+    
+    func downloadPackageWith(urlAsKey: String) {
+        var targets = [URL : PackageStruct]()
+        let capture = ownTaskContainer
+        for item in capture where item.type == .packageTask {
+            if let pkg = item.relatedObjects?["attach"] as? PackageStruct, let url = pkg.obtainDownloadLocationFromNewestVersion() {
+                if url.urlString == urlAsKey {
+                    targets[url] = pkg
+                }
+            }
+        }
+        for item in targets {
+            downloadManager.sendToDownload(fromPackage: item.value, fromURL: item.key, withFileName: item.key.lastPathComponent) { (progress) in
                 NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : item.key.urlString, "progress" : progress])
             }
         }

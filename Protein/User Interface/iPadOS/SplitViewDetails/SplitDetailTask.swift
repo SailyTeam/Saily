@@ -63,14 +63,10 @@ class SplitDetailTask: UIViewController {
             x.height.equalTo(66)
         }
         
-        let queue = DispatchQueue(label: "TaskWatcher", qos: .background, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
-        DispatchQueue.global(qos: .background).async {
-            queue.async {
-                self.loop()
-            }
-        }
         NotificationCenter.default.addObserver(self, selector: #selector(fastReloadNow), name: .TaskListUpdated, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadWithThrottler), name: .TaskNumberChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadWithThrottler), name: .TaskListUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadWithThrottler), name: .TaskSystemFinished, object: nil)
     }
     
     @Atomic private var taskSummary = [[TaskManager.Task]]()
@@ -95,29 +91,6 @@ class SplitDetailTask: UIViewController {
         let _ = self.buildTaskDataSource()
         DispatchQueue.main.async {
             self.tableView.reloadData()
-        }
-    }
-
-    func loop() {
-        DispatchQueue.main.async {
-            let _ = self.buildTaskDataSource()
-//            let old = self.buildTaskDataSource()
-//            let new = self.taskSummary
-//            if old == new {
-//                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-//                    self.loop()
-//                }
-//            } else {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    self.tableView.reloadData()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.loop()
-                    }
-                }
-//            }
         }
     }
     
@@ -156,7 +129,14 @@ class SplitDetailTask: UIViewController {
     func cancelAllPackageTasks() {
         TaskManager.shared.cancelAllTasks()
     }
-    
+
+    private let tot = CommonThrottler(minimumDelay: 0.5)
+    @objc
+    func reloadWithThrottler() {
+        tot.throttle {
+            self.fastReloadNow()
+        }
+    }
 }
 
 extension SplitDetailTask: UITableViewDelegate, UITableViewDataSource {
@@ -207,7 +187,7 @@ extension SplitDetailTask: UITableViewDelegate, UITableViewDataSource {
                 cell.hideButton()
             }
         } else {
-            cell.clearTaskInfo()
+            cell.setTask(task: nil)
             cell.noTaskAvail()
         }
         
@@ -445,86 +425,86 @@ fileprivate class TaskCell: UITableViewCell {
         
     }
     
-    func setTask(task: TaskManager.Task) {
-        
-        clearTaskInfo()
-        taskCache = task
-        
-        optionBtn.isHidden = false
-        isPlaceHolderAsHint = false
-        iconView.isHidden = false
-        iconView.snp.updateConstraints { (x) in
-            x.width.equalTo(32)
-        }
-        titleLab.text = task.name
-        descLab.text = task.description
-        
-        if task.status == .activated /* || task.status == .prepare */ {
-            activateIndicator.startAnimating()
-            activateIndicator.snp.updateConstraints { (x) in
-                x.left.equalToSuperview().offset(12)
+    func setTask(task: TaskManager.Task?) {
+        if let task = task {
+            if taskCache == task {
+                return
             }
-        } else {
-            activateIndicator.snp.updateConstraints { (x) in
-                x.left.equalToSuperview().offset(0)
+            taskCache = task
+            optionBtn.isHidden = false
+            isPlaceHolderAsHint = false
+            iconView.isHidden = false
+            iconView.snp.updateConstraints { (x) in
+                x.width.equalTo(32)
             }
-        }
-        
-        if let taskMeta = task.relatedObjects {
-            if let icon = taskMeta["icon"] as? UIImage {
-                iconView.image = icon
-            } else if let url = taskMeta["iconlink"] as? URL, let image = SDImageCache.shared.imageFromCache(forKey: url.absoluteString) {
-                iconView.image = image
+            titleLab.text = task.name
+            descLab.text = task.description
+            
+            if task.status == .activated {
+                activateIndicator.startAnimating()
+                activateIndicator.snp.updateConstraints { (x) in
+                    x.left.equalToSuperview().offset(12)
+                }
+            } else {
+                activateIndicator.snp.updateConstraints { (x) in
+                    x.left.equalToSuperview().offset(0)
+                }
+            }
+            
+            if let taskMeta = task.relatedObjects {
+                if let icon = taskMeta["icon"] as? UIImage {
+                    iconView.image = icon
+                } else if let url = taskMeta["iconlink"] as? URL, let image = SDImageCache.shared.imageFromCache(forKey: url.absoluteString) {
+                    iconView.image = image
+                } else {
+                    iconView.image = UIImage(named: "task")
+                }
+                if let progress = taskMeta["progress"] as? Double {
+                    let str = String(Int(progress * 100)) + "%"
+                    progressLab.text = str
+                }
             } else {
                 iconView.image = UIImage(named: "task")
             }
-            if let progress = taskMeta["progress"] as? Double {
-                let str = String(Int(progress * 100)) + "%"
-                progressLab.text = str
-            }
-        } else {
-            iconView.image = UIImage(named: "task")
-        }
-        
-        if task.type == .packageTask {
-            iconView.image = UIImage(named: "mod")
-            if let package = task.relatedObjects?["attach"] as? PackageStruct {
-                let promise = package.obtainIconIfExists()
-                if let img = promise.1 {
-                    iconView.image = img
-                } else if let link = URL(string: promise.0 ?? ""),
-                    let image = SDImageCache.shared.imageFromCache(forKey: link.absoluteString) {
-                    iconView.image = image
+            
+            if task.type == .packageTask {
+                iconView.image = UIImage(named: "mod")
+                if let package = task.relatedObjects?["attach"] as? PackageStruct {
+                    let promise = package.obtainIconIfExists()
+                    if let img = promise.1 {
+                        iconView.image = img
+                    } else if let link = URL(string: promise.0 ?? ""),
+                        let image = SDImageCache.shared.imageFromCache(forKey: link.absoluteString) {
+                        iconView.image = image
+                    }
+                } else if let type = task.relatedObjects?["type"] as? TaskManager.PackageTaskType,
+                    type == .selectDelete || type == .pullupDelete {
+                    iconView.image = UIImage(named: "delete")
                 }
-            } else if let type = task.relatedObjects?["type"] as? TaskManager.PackageTaskType,
-                type == .selectDelete || type == .pullupDelete {
-                iconView.image = UIImage(named: "delete")
             }
+            
+            if task.type == .downloadTask {
+                iconView.image = UIImage(named: "download")
+            }
+            
+            // test if download completed
+            downloadCompleteCall()
+        } else {
+            iconView.image = nil
+            activateIndicator.stopAnimating()
+            titleLab.text = ""
+            descLab.text = ""
+            optionBtn.isHidden = false
+            iconView.snp.updateConstraints { (x) in
+                x.width.equalTo(0)
+            }
+            activateIndicator.snp.updateConstraints { (x) in
+                x.left.equalToSuperview().offset(-10)
+            }
+            downloadProgressUpdated()
         }
         
-        if task.type == .downloadTask {
-            iconView.image = UIImage(named: "download")
-        }
         
-        // test if download completed
-        downloadCompleteCall()
-        
-    }
-    
-    func clearTaskInfo() {
-        taskCache = nil
-        iconView.image = nil
-        activateIndicator.stopAnimating()
-        titleLab.text = ""
-        descLab.text = ""
-        optionBtn.isHidden = false
-        iconView.snp.updateConstraints { (x) in
-            x.width.equalTo(0)
-        }
-        activateIndicator.snp.updateConstraints { (x) in
-            x.left.equalToSuperview().offset(-10)
-        }
-        downloadProgressUpdated()
     }
     
     func noTaskAvail() {
@@ -547,7 +527,16 @@ fileprivate class TaskCell: UITableViewCell {
     @objc
     func optionPressed() {
         let dropDown = DropDown()
-        let actionSource = ["Cancel"]
+        var actionSource = ["Cancel"]
+        var cntUrl: URL? = nil
+        if let task = taskCache, task.type == .packageTask,
+        let ttype = task.relatedObjects?["type"] as? TaskManager.PackageTaskType, ttype == .pullupInstall || ttype == .selectInstall,
+        let pkg = task.relatedObjects?["attach"] as? PackageStruct, let url = pkg.obtainDownloadLocationFromNewestVersion() {
+            if TaskManager.shared.downloadManager.doesDownloadEverBroken(urlAsKey: url.urlString) {
+                cntUrl = url
+                actionSource.append("Continue")
+            }
+        }
         dropDown.dataSource = actionSource.map({ (str) -> String in
             return "   " + str.localized()
         })
@@ -586,6 +575,10 @@ fileprivate class TaskCell: UITableViewCell {
                         self.obtainParentViewController?.present(alert, animated: true, completion: nil)
                     }
                 }
+            case "Continue":
+                if let url = cntUrl {
+                    TaskManager.shared.downloadPackageWith(urlAsKey: url.urlString)
+                }
             default:
                 print("[TaskManager] Operation not understood: " + item)
             }
@@ -595,7 +588,7 @@ fileprivate class TaskCell: UITableViewCell {
     
     @objc
     func downloadProgressUpdated(object: Notification? = nil) {
-        if let url = taskCache?.relatedObjects?["url"] as? String,
+        if let url = (taskCache?.relatedObjects?["url"] as? URL)?.urlString,
             let urlString = object?.userInfo?["key"] as? String, url == urlString,
             let progress = object?.userInfo?["progress"] as? Float {
             let userFriendlyProgress = String(Int(progress * 100)) + " %"
@@ -634,7 +627,16 @@ fileprivate class TaskCell: UITableViewCell {
                     self.progressLab.text = "Downloaded".localized()
                 }
                 return true
+            } else if TaskManager.shared.downloadManager.doesDownloadEverFailed(urlAsKey: url.urlString) {
+                DispatchQueue.main.async {
+                    self.progressLab.text = "Failed".localized()
+                }
+            } else if TaskManager.shared.downloadManager.doesDownloadEverBroken(urlAsKey: url.urlString) {
+                DispatchQueue.main.async {
+                    self.progressLab.text = "Suspended".localized()
+                }
             }
+            
         }
         return false
     }

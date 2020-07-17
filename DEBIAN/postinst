@@ -14,7 +14,23 @@ chmod +s /Applications/Saily.app/Saily
 # Language Fix Up
 ln -sf /var/mobile/Library/Preferences/.GlobalPreferences.plist /var/root//Library/Preferences/.GlobalPreferences.plist
 
-uicache
+
+UN=/.installed_unc0ver
+if test -f "$UN"; then
+    echo "* Running uicache for un"
+    uicache
+else
+    CH=/.bootstrapped
+    if test -f "$CH"; then
+        echo "* Running uicache for checkra1n"
+        uicache
+    else
+        echo "* Running uicache for other jailbreaks"
+        uicache --all
+    fi
+fi
+
+
 
 chmod +x /bin/openApplication
 

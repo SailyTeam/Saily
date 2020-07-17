@@ -7,5 +7,19 @@ rm -rf /var/mobile/Documents/wiki.qaq.Protein
 rm -rf /var/mobile/Library/Caches/com.hackemist.SDImageCache
 rm -rf /var/mobile/Library/Caches/wiki.qaq.Protein
 rm -rf /var/root/Documents/wiki.qaq.Protein/Downloads
+rm -rf /var/root/Documents/wiki.qaq.Protein/SystemEvents
 
-uicache
+UN=/.installed_unc0ver
+if test -f "$UN"; then
+    echo "* Running uicache for un"
+    uicache
+else
+    CH=/.bootstrapped
+    if test -f "$CH"; then
+        echo "* Running uicache for checkra1n"
+        uicache
+    else
+        echo "* Running uicache for other jailbreaks"
+        uicache --all
+    fi
+fi

@@ -412,20 +412,21 @@ class SettingView: UIView {
                                                         }
                                                         return "UnknownSize".localized()
         }) { (_, dropDownAnchor) in
-             let dropDown = DropDown()
-             let actionSource = ["DeleteAllDownload", "Cancel"]
-             dropDown.dataSource = actionSource.map({ (str) -> String in
-                return "   " + str.localized()
-             })
-             dropDown.anchorView = dropDownAnchor
-             dropDown.selectionAction = { (index: Int, _: String) in
-                if actionSource[index] == "DeleteAllDownload" {
-                    TaskManager.shared.downloadManager.deleteEverything()
-                    NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
-                }
-             }
-             dropDown.show(onTopOf: self.window)
-             dropDown.show()
+            NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
+            let dropDown = DropDown()
+            let actionSource = ["DeleteAllDownload", "Cancel"]
+            dropDown.dataSource = actionSource.map({ (str) -> String in
+               return "   " + str.localized()
+            })
+            dropDown.anchorView = dropDownAnchor
+            dropDown.selectionAction = { (index: Int, _: String) in
+               if actionSource[index] == "DeleteAllDownload" {
+                   TaskManager.shared.downloadManager.deleteEverything()
+                   NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
+               }
+            }
+            dropDown.show(onTopOf: self.window)
+            dropDown.show()
         }
         let softwareAutoUpdateWhenLaunch = SettingSectionView(iconSystemNamed: "paperplane",
                                                               text: "SoftwareAutoUpdateWhenLaunch".localized(),
@@ -542,7 +543,7 @@ class SettingView: UIView {
                 let alert = UIAlertController(title: "LANGUAGE_FALG_233".localized(target), message: "RestartAppHint".localized(), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .destructive, handler: { (_) in
                     ConfigManager.shared.Application.usedLanguage = target
-                    let _ = Tools.spawnCommandAndWriteToFileReturnFileLocationAndSignalFileLocation("sleep 2 && openApplication wiki.qaq.Protein")
+                    let _ = Tools.spawnCommandAndWriteToFileReturnFileLocationAndSignalFileLocation("sleep 1 && openApplication wiki.qaq.Protein")
                     NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
                     UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
                     usleep(23333);

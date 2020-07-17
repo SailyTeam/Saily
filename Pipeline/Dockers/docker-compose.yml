@@ -1,0 +1,15 @@
+version: "2.1"
+
+services:
+  nginx:
+    image: linuxserver/nginx
+    container_name: nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./Buildtime/www:/config/www
+    ports:
+      - 900:80
+    restart: unless-stopped

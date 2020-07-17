@@ -1,10 +1,10 @@
 # Saily
+### Modern. Fast. Beautiful.
 
-Saily will handle your system with great power and responsibility. It is a package manager for project Protein.
 
 [![pipeline status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
 
-![priview](./Attachments/main.jpeg)
+![Preview](./Attachments/main.jpeg)
 
 ## Boarding Instructions
 
@@ -42,6 +42,8 @@ We will cancel the matching release immediately until its proved safe to work.
 There is bug all around the world. Feel free to open an issue. Be sure to check around if there is any duplicated otherwise we would close yours.
 
 - Your next bug is not a bug, it is a feature. cc/ Apple
+
+Saily will handle your system with great power and responsibility.
 
 ----
 

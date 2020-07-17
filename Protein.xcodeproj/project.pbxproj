@@ -1312,7 +1312,7 @@
 				50D528B52449B11300F4A483 /* Frameworks */,
 				50D528B62449B11300F4A483 /* Resources */,
 				50D5290B2449B11600F4A483 /* Embed Watch Content */,
-				5093A6EB246EC5690086C844 /* [Root] Debug As Root To Real Device */,
+				5093A6EB246EC5690086C844 /* [Root] Package DEB And Send To Docker */,
 				13EF7E3AFE292164DAA4F5E7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1574,7 +1574,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5093A6EB246EC5690086C844 /* [Root] Debug As Root To Real Device */ = {
+		5093A6EB246EC5690086C844 /* [Root] Package DEB And Send To Docker */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1583,14 +1583,14 @@
 			);
 			inputPaths = (
 			);
-			name = "[Root] Debug As Root To Real Device";
+			name = "[Root] Package DEB And Send To Docker";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\nfi\n";
+			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n    export DEB_LOCATION=\"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n\n    echo \"Starting Docker Build Process\"\n    bash \"$LOCROOT/Pipeline/Dockers/build.sh\" &> \"$LOCROOT/Pipeline/Dockers/Buildtime/logs.txt\"\n    \nfi\n";
 		};
 		588A26AEF77FD0A6308FD05B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

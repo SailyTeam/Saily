@@ -23,6 +23,9 @@
 "Install" = "Install";
 "LICENSE" = "LICENSE";
 
+"Continue" = "Continue";
+"Suspended" = "Suspended";
+"Failed" = "Failed";
 "Hours" = "Hours";
 "Tasks" = "Tasks";
 "Installed" = "Installed";
@@ -62,10 +65,10 @@
 "AppDelegate_BootstrapTime" = "Boot time";
 
 "TimeGap_JustNow" = "Just Now";
-"TimeGap_MinBefore" = " mins ago";
-"TimeGap_HoursBefore" = " hours ago";
-"TimeGap_DaysBefore" = " days ago";
-"TimeGap_OutDated" = " outdated";
+"%xTimeGap_MinBefore" = "%x mins ago";
+"%xTimeGap_HoursBefore" = "%x hours ago";
+"%xTimeGap_DaysBefore" = "%x days ago";
+"%xTimeGap_OutDated" = "%x outdated";
 
 "Repo_NoDescription" = "No description provided";
 
@@ -226,8 +229,8 @@
 "PackageDiagnosis_NoDownloadURLAvailable" = "Could not find download URL, please consider refreshing the software source or contacting the software administrator";
 
 "InstallAgent_SubmitTitle" = "Submit Queue";
-"InstallAgent_SubmitTitleHint" = "Please check everything carefully";
-"InstallAgent_APTReportTitle" = "APT Report";
+"InstallAgent_SubmitTitleHint" = "Now, you still have the last chance to check. Please check all the contents carefully.\n\n->Is there an obvious error in the installation and removal queues?\n->Is there a queue with the submission? Matching phenomenon?\n\nIn addition, you can also click the print APT test below to check the legality of the queue. Please note that submitting the wrong queue will damage your system. If you are not sure whether the queue is safe, please Consider clicking the generate report below and going to local social media for help.";
+"InstallAgent_APTReportTitle" = "APT Report";"InstallAgent_APTReportTitle" = "APT Report";
 "InstallAgent_APTReportTitleHint" = "Click the Generate button below to generate the report. This will take some time.";
 "InstallAgent_APTGenerateReport" = "Create Report";
 "InstallAgent_Locked" = "The operation is locked, please try again later";

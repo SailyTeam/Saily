@@ -38,6 +38,8 @@ class RepoAddViewController: UIViewController {
     
     private let layoutEnd = UIView()
 
+    private var instructionArrow = UILabel()
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
         print("[ARC] RepoAddViewController has been deinited")
@@ -56,8 +58,9 @@ class RepoAddViewController: UIViewController {
         let alread = RepoManager.shared.repos
         
         do {
-            let items = try FileManager.default.contentsOfDirectory(atPath: "/etc/apt/sources.list.d/")
-            for item in items {
+            // Cydia
+            let cydiaRecord = try? FileManager.default.contentsOfDirectory(atPath: "/etc/apt/sources.list.d/")
+            for item in cydiaRecord ?? [] {
                 if let read = try? String(contentsOfFile: "/etc/apt/sources.list.d/" + item) {
                     for line in read.components(separatedBy: "\n") {
                         for each in line.components(separatedBy: " ") where each.hasPrefix("http") {
@@ -74,6 +77,21 @@ class RepoAddViewController: UIViewController {
                     }
                 }
             }
+            // Sileo
+            let sileoRecord = try? FileManager.default.contentsOfDirectory(atPath: "/etc/apt/sileo.list.d/")
+            for item in sileoRecord ?? [] {
+                if let read = try? String(contentsOfFile: "/etc/apt/sileo.list.d/" + item) {
+                    for line in read.components(separatedBy: "\n") {
+                        if let tryRead = line.components(separatedBy: " ").last {
+                            if tryRead.hasPrefix("https://") || tryRead.hasPrefix("http://"),
+                                let url = URL(string: tryRead) {
+                                APTRepos.append(url.urlString)
+                            }
+                        }
+                    }
+                }
+            }
+            
             if APTRepos.count > 0 {
                 Tools.rprint("Fond APT repos")
                 for item in APTRepos {
@@ -81,9 +99,9 @@ class RepoAddViewController: UIViewController {
                 }
             }
             aptContext = RepoAddSectionInput(defaultVal: APTRepos)
-        } catch {
+        } /* catch {
             Tools.rprint("RepoAddViewController Failed to load APT repos from record")
-        }
+        } */
         
         do {
             let read = String.clipBoardContext
@@ -138,6 +156,39 @@ class RepoAddViewController: UIViewController {
         bootstrapViews()
         
     }
+    
+    func showInstructionArrow() {
+
+        instructionArrow.text = "⬇️"
+        instructionArrow.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.addSubview(instructionArrow)
+        instructionArrow.snp.makeConstraints { (x) in
+            x.top.equalTo(self.view.snp.bottom).offset(10)
+            x.centerX.equalTo(self.view.snp.centerX)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
+                self.instructionArrow.snp.updateConstraints { (x) in
+                    x.top.equalTo(self.view.snp.bottom).offset(-50)
+                }
+                self.view.layoutIfNeeded()
+            }) { (_) in }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
+                    self.instructionArrow.snp.updateConstraints { (x) in
+                        x.top.equalTo(self.view.snp.bottom).offset(10)
+                    }
+                    self.view.layoutIfNeeded()
+                }) { (_) in
+                }
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                self.instructionArrow.removeFromSuperview()
+            }
+        }
+    }
+    
     
     func bootstrapViews() {
         
@@ -435,6 +486,7 @@ class RepoAddViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
+    private var instructionArrowAlreadyShown = false
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -442,6 +494,10 @@ class RepoAddViewController: UIViewController {
                 self.adjustDescriptionsSize()
             }, completion:{ (_) in
                 self.container.contentSize = CGSize(width: 0, height: self.layoutEnd.frame.maxY)
+                if !self.instructionArrowAlreadyShown, self.layoutEnd.frame.maxY > self.container.frame.height + 50 {
+                    self.instructionArrowAlreadyShown = true
+                    self.showInstructionArrow()
+                }
             })
         }
     }

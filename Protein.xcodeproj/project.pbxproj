@@ -359,6 +359,7 @@
 		509FFDF824BE07590017A417 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		509FFDFF24BE07760017A417 /* ObjCDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCDown.h; sourceTree = "<group>"; };
 		509FFE0024BE07760017A417 /* ObjCDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCDown.m; sourceTree = "<group>"; };
+		50AA060024C1F20E006EF85B /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50ACA3B32470119900A80F46 /* BZipCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BZipCompression.h; sourceTree = "<group>"; };
 		50ACA3B42470119900A80F46 /* BZipCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BZipCompression.m; sourceTree = "<group>"; };
 		50ACA3B62470124600A80F46 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libbz2.tbd; sourceTree = DEVELOPER_DIR; };
@@ -1440,6 +1441,7 @@
 				Base,
 				"zh-Hans",
 				ja,
+				cs,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1590,7 +1592,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n    export DEB_LOCATION=\"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n\n    echo \"Starting Docker Build Process\"\n    bash \"$LOCROOT/Pipeline/Dockers/build.sh\" &> \"$LOCROOT/Pipeline/Dockers/Buildtime/logs.txt\"\n    \nfi\n";
+			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n    export DEB_LOCATION=\"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n\n    echo \"Starting Docker Build Process\"\n    mkdir -p \"$LOCROOT/Pipeline/Dockers/Buildtime/\"\n    bash \"$LOCROOT/Pipeline/Dockers/build.sh\" &> \"$LOCROOT/Pipeline/Dockers/Buildtime/logs.txt\"\n    \nfi\n";
 		};
 		588A26AEF77FD0A6308FD05B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1888,6 +1890,7 @@
 				507F1DD8247D493600E9BAE7 /* en */,
 				507F1DDA247D493B00E9BAE7 /* zh-Hans */,
 				509FFDE324BD96A70017A417 /* ja */,
+				50AA060024C1F20E006EF85B /* cs */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

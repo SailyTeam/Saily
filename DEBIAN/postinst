@@ -17,7 +17,7 @@ ln -sf /var/mobile/Library/Preferences/.GlobalPreferences.plist /var/root//Libra
 
 UN=/.installed_unc0ver
 if test -f "$UN"; then
-    echo "* Running uicache for un"
+    echo "* Running uicache for unc0ver"
     uicache
 else
     CH=/.bootstrapped
@@ -30,7 +30,7 @@ else
     fi
 fi
 
-
+sleep 1
 
 chmod +x /bin/openApplication
 
@@ -38,5 +38,6 @@ FILE=/private/var/root/Documents/wiki.qaq.protein.update.reopen
 if test -f "$FILE"; then
     echo "* Programme specific to open after updates"
     rm -f "$FILE"
-    /bin/openApplication wiki.qaq.Protein
+    # detach to avoid any error
+    (/bin/openApplication wiki.qaq.Protein &)
 fi

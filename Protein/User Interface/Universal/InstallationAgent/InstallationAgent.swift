@@ -76,7 +76,6 @@ class InstallationAgent: UIViewController {
             titleLab.snp.makeConstraints { (x) in
                 x.top.equalTo(container.snp.top).offset(30)
                 x.centerX.equalTo(safeAnchor)
-                x.width.equalTo(123)
                 x.height.equalTo(60)
             }
             anchor = titleLab
@@ -319,8 +318,8 @@ class InstallationAgent: UIViewController {
     
     private var selfUpdateNotice: Bool = false
     @objc
-    func sendToConfirm(sender: UIButton) {
-        sender.puddingAnimate()
+    func sendToConfirm(sender: UIButton?) {
+        sender?.puddingAnimate()
         
         isLocked = true
         defer { isLocked = false }
@@ -354,9 +353,12 @@ class InstallationAgent: UIViewController {
             var installFileLocation = [String]()
             for item in install {
                 if item.1.identity.lowercased() == "wiki.qaq.protein" && !selfUpdateNotice {
-                    self.selfUpdateNotice = true
                     let alert = UIAlertController(title: "Warning".localized(), message: "InstallAgent_UpdateNotice".localized(), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                    alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .destructive) { (_) in
+                        self.selfUpdateNotice = true
+                        self.sendToConfirm(sender: nil)
+                    })
+                    alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .default, handler: nil))
                     present(alert, animated: true, completion: nil)
                     FileManager.default.createFile(atPath: "/private/var/root/Documents/wiki.qaq.protein.update.reopen", contents: nil, attributes: nil)
                     return

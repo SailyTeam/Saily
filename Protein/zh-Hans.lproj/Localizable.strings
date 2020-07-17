@@ -23,6 +23,9 @@
 "Install" = "安装";
 "LICENSE" = "许可证";
 
+"Continue" = "继续";
+"Suspended" = "已暂停";
+"Failed" = "失败";
 "Hours" = "小时";
 "Tasks" = "计划任务";
 "Installed" = "已安装";
@@ -62,10 +65,10 @@
 "AppDelegate_BootstrapTime" = "初始化耗时：";
 
 "TimeGap_JustNow" = "刚刚";
-"TimeGap_MinBefore" = "分钟前";
-"TimeGap_HoursBefore" = "小时前";
-"TimeGap_DaysBefore" = "天前";
-"TimeGap_OutDated" = "已过期";
+"%xTimeGap_MinBefore" = "%x 分钟前";
+"%xTimeGap_HoursBefore" = "%x 小时前";
+"%xTimeGap_DaysBefore" = "%x 天前";
+"%xTimeGap_OutDated" = "%x 已过期";
 
 "Repo_NoDescription" = "该软件源没有描述";
 

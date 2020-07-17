@@ -96,6 +96,7 @@ final class ConfigManager {
         Networking.maxWaitTimeToDownloadRepo = 10
         #endif
         
+        try? FileManager.default.removeItem(at: documentURL.appendingPathComponent("/SystemEvents"))
         resetContainerIfNeeded()
         readUDIDIfNeeded()
         

@@ -110,10 +110,15 @@ class StartUpVC: UIViewController {
             Tools.rprint("AppDelegate_BootstrapTime".localized() + " " + String(time) + "s")
             
             DispatchQueue.main.async {
+                
                 self.present(vc!, animated: false, completion: nil)
+                if !UIDevice.isiPad {
+                    let alert = UIAlertController(title: "Warning".localized(), message: "This beta does not have an iPhone capable interface, if you experienced any error with UI, do not report.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .destructive, handler: nil))
+                    vc?.present(alert, animated: true, completion: nil)
+                }
+                
             }
-            
-            
             
         }
         

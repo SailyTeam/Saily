@@ -5,7 +5,8 @@ Author: Lakr Aream <master@233owo.com>
 Maintainer: Lakr Aream <master@233owo.com>
 Version: 1.0-1
 Section: Applications
-Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt, gsc.ipad
+Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt
+Conflicts: com.lakr233.SailyTest, com.lakr233.jw.SailyPackageManager, com.lakr233.jw.SailyStartupDaemon
 Architecture: iphoneos-arm
 Homepage: https://github.com/SailyTeam/main/
 Website: https://github.com/SailyTeam/main/

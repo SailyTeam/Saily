@@ -93,6 +93,8 @@ final class DownloadManager {
     
     @Atomic private var inDownload = [String : (Float, URLSessionTask, PackageStruct?)]()
     private var queueItem = [(URL, String, ((Float) -> ()), PackageStruct?)]()
+    private var downloadFailed = [String : Int]()
+    private var downloadBroken = [String : Int]()
     private let thot = CommonThrottler(minimumDelay: 0.5)
     
     func sendToDownload(fromPackage: PackageStruct?, fromURL from: URL?, withFileName name: String, restart: Bool = false, onProgress: @escaping (Float) -> ()) {
@@ -157,6 +159,13 @@ final class DownloadManager {
     
     private func doDownload(fromURL from: URL, withFileName name: String, onProgress: @escaping (Float) -> (), pkgRef: PackageStruct?) -> URLSessionTask {
         
+        if downloadFailed[from.urlString] != nil {
+            downloadFailed.removeValue(forKey: from.urlString)
+        }
+        if downloadBroken[from.urlString] != nil {
+            downloadBroken.removeValue(forKey: from.urlString)
+        }
+        
         let str = downloadInProgressLocation + "/" + String.sha256From(data: from.urlString.data) + ".pdl" // MAKE SURE THERE IS EXTENSION NAME
         let dest = URL(fileURLWithPath: str)
         // cache is not located at dest, instead, redownload due to not possible to recover from same priv record location
@@ -179,6 +188,7 @@ final class DownloadManager {
                     if let pkg = pkgRef, !Tools.DEBDownloadIsVerified(withPkg: pkg, andFileLocation: dest.fileString) {
                         print("[DownloadManager] Package broken, delete! " + pkg.obtainNameIfExists())
                         try? FileManager.default.removeItem(atPath: dest.fileString)
+                        self.downloadFailed[from.urlString] = 1
                         return
                     }
                     NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
@@ -186,6 +196,7 @@ final class DownloadManager {
                     self.saveDownloadedRecord(urlStringAsKey: from.urlString, andLocation: self.downloadedContainerLocation + "/" + name)
                 } else {
                     print("[DownloadManager] Download task broken: " + from.urlString)
+                    self.downloadBroken[from.urlString] = 1
                 }
                 NotificationCenter.default.post(name: .DownloadFinished, object: ["attach" : from])
                 self.inDownload.removeValue(forKey: from.urlString)
@@ -306,5 +317,12 @@ final class DownloadManager {
         return inDownload[urlAsKey]?.0
     }
     
+    func doesDownloadEverFailed(urlAsKey: String) -> Bool {
+        return downloadFailed[urlAsKey] != nil
+    }
+    
+    func doesDownloadEverBroken(urlAsKey: String) -> Bool {
+        return downloadBroken[urlAsKey] != nil
+    }
 }
 

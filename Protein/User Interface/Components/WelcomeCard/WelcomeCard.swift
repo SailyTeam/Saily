@@ -110,13 +110,8 @@ class WelcomeCard: UIView {
     func updateAvatar() {
         if let img = UIImage(contentsOfFile: ConfigManager.shared.documentURL.appendingPathComponent("avatar.png").fileString) {
             headIconView.image = img
-            headIconContainer.alpha = 0
-            UIView.animate(withDuration: 0.6) {
-                self.headIconContainer.alpha = 1
-            }
         } else {
-            headIconView.image = nil
-            headIconContainer.alpha = 0.2
+            headIconView.image = UIImage(named: "AppIcon")
         }
     }
     

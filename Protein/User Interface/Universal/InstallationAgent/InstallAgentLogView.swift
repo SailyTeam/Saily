@@ -66,7 +66,7 @@ class InstallAgentLogView: UIViewController {
             x.top.equalTo(titleLab.snp.bottom).offset(25)
             x.bottom.equalTo(self.view.snp.bottom).offset(-25)
             x.left.equalTo(self.view.snp.left).offset(25)
-            x.right.equalTo(self.view.snp.right).offset(25)
+            x.right.equalTo(self.view.snp.right).offset(-25)
         }
         
         looper()

@@ -332,14 +332,15 @@ class InstallationAgent: UIViewController {
         }
         
         var script = ""
-        
+        script += "echo Unlocking system..."
         script += "rm /var/lib/apt/lists/lock\n"
         script += "rm /var/cache/apt/archives/lock\n"
         script += "rm /var/lib/dpkg/lock*\n"
         
         if delete.count > 0 {
             script += "echo ****REMOVE****\n"
-            script += "apt remove --assume-yes "
+            script += "apt remove --allow-remove-essential --assume-yes --purge "
+
             for item in delete {
                 script += item.0 + " "
             }
@@ -428,7 +429,7 @@ class InstallationAgent: UIViewController {
         
         if delete.count > 0 {
             script += "echo ****REMOVE****\n"
-            script += "apt --just-print remove "
+            script += "apt remove --allow-remove-essential --just-print --purge "
             for item in delete {
                 script += item.0 + " "
             }
@@ -459,7 +460,7 @@ class InstallationAgent: UIViewController {
                 }
             }
             
-            script += "apt --just-print install "
+            script += "apt install --just-print "
             for item in installFileLocation {
                 script += item + " "
             }
@@ -490,7 +491,7 @@ class InstallationAgent: UIViewController {
                 DispatchQueue.main.async {
                     self.aptTextResult.text = str
                     self.aptButton.isHidden = true
-                    if str.contains("WARNING") || str.contains("ERROR") {
+                    if str.lowercased().contains("warning") || str.lowercased().contains("error") {
                         let alert = UIAlertController(title: "Warning".localized(), message: "InstallAgent_APTGeneratedReportContainWarningOrError".localized(), preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
                         self.present(alert, animated: true, completion: nil)

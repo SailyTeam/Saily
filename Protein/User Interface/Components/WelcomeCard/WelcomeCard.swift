@@ -111,7 +111,7 @@ class WelcomeCard: UIView {
         if let img = UIImage(contentsOfFile: ConfigManager.shared.documentURL.appendingPathComponent("avatar.png").fileString) {
             headIconView.image = img
         } else {
-            headIconView.image = UIImage(named: "AppIcon")
+            headIconView.image = UIImage(named: "AppStoreIcon")
         }
     }
     

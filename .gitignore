@@ -279,3 +279,4 @@ temp/
 CI-Pods.tar
 
 crowdin.yml
+Pipeline/Dockers/Buildtime/

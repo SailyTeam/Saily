@@ -68,7 +68,7 @@
 "%xTimeGap_MinBefore" = "%x 分钟前";
 "%xTimeGap_HoursBefore" = "%x 小时前";
 "%xTimeGap_DaysBefore" = "%x 天前";
-"%xTimeGap_OutDated" = "%x 已过期";
+"TimeGap_OutDated" = "已过期";
 
 "Repo_NoDescription" = "该软件源没有描述";
 

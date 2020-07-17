@@ -62,7 +62,7 @@
 "AppDelegate_loadRepoRecord" = "Načítám adresáře...";
 "AppDelegate_loadPackageRecord" = "Načítám balíčky...";
 "AppDelegate_startTaskManager" = "Načítám úlohy...";
-"AppDelegate_RevealLoader" = "Loading reveal...";
+"AppDelegate_RevealLoader" = "Odhaduji...";
 "AppDelegate_BootstrapTime" = "Čas spuštění";
 
 "TimeGap_JustNow" = "Právě teď";
@@ -80,7 +80,7 @@
 
 "SearchBar_SearchPackageOrRepo" = "Hledej zde";
 
-"HomeCard_Welcome" = "Wítej v Saily";
+"HomeCard_Welcome" = "Vítej v Saily";
 "HomeCard_Desc" = "Když svět spí, my sníme";
 
 "DashBoardNavigatorCard_DashBoard" = "Hlavní Panel";
@@ -95,24 +95,24 @@
 "RepoCard_Cell_PendingUpdate" = "V pořadí";
 "RepoCard_Cell_LastUpdateTimeHintPrefix" = "Poslední Aktualizace";
 
-"WishList_RemoveHint" = "Opravdu to chceš osdstranit ze svého listu přání?";
+"WishList_RemoveHint" = "Opravdu to chceš odstranit ze svého listu přání?";
 "WishList_RemovedHint" = "Odstraněno";
 "WishList_AddedHint" = "Uloženo";
 
 "RepoViewController_RepoLastUpdated" = "Poslední Aktualizace ";
-"RepoViewController_RepoContains" = " Obsahuje ";
-"RepoViewController_RepoContainsSuffix" = " balíčky";
-"RepoViewController_RepoFeaturedPackageNotFoundHint" = "The package was not found\nPlease retry after refresh";
+"RepoViewController_RepoContains" = " Obsahuje";
+"RepoViewController_RepoContainsSuffix" = " Balíčky";
+"RepoViewController_RepoFeaturedPackageNotFoundHint" = "Balíček nebyl nalezen \nProsím zkus to znovu po refreshnutí zdrojů";
 
 "RepoAddViewController_TitleAdd" = "Přidat";
 "RepoAddViewController_SelectionSwitcher" = "Přepnout vybrané";
-"RepoAddViewController_RepoDescription" = "Adresář obsahuje různé doplňky, aplikace, témata, a vyzvánění, Které jsou spravované oficiální nebo neoficiální organizací či soukromníkem. Můžeš přidat jakýkoliv zdroj bez omezení, ale měj na paměti že nemůžeme potvrdit že data a informace které poskytuje jsou bezpečné, můžou poškodit tvůj systém nebo zařízení, bez možnosti zotavení.";
+"RepoAddViewController_RepoDescription" = "Adresář obsahuje různé doplňky, aplikace, témata, a vyzvánění, které jsou spravované oficiální nebo neoficiální organizací či soukromníkem. Ačkoliv můžeš přidat jakýkoliv zdroj bez omezení, měj na paměti že nemůžeme potvrdit že data a informace které poskytuje jsou bezpečné, můžou poškodit tvůj systém nebo zařízení, bez možnosti zotavení.";
 "RepoAddViewController_APTRecordTitle" = "APT Záznamy";
-"RepoAddViewController_APTRecordDescription" = "Následující zdroj(adresář) pochází z APT nebo jiného manažera balíčků";
+"RepoAddViewController_APTRecordDescription" = "Následující zdroj(adresář) pochází z APT nebo jiného správce balíčků";
 "RepoAddViewController_ClipBoardTitle" = "Připnuté";
 "RepoAddViewController_ClipBoardDescription" = "Našli jsme připnuté tyto adresáře, které můžou být zdrojem balíčků";
 "RepoAddViewController_HistoryTitle" = "Historie";
-"RepoAddViewController_HistoryDescription" = "Tyto zdroje už jsi dříve přidal. Tyto záznami budou ukládány po dobu dvou týdnů, dokud ručně nevypnete tuto funkci.";
+"RepoAddViewController_HistoryDescription" = "Tyto zdroje už jsi dříve přidal. Tyto záznamy budou ukládány po dobu dvou týdnů, dokud ručně nevypnete tuto funkci.";
 "RepoAddViewController_InputTitle" = "Zadat ručně";
 "RepoAddViewController_InputDescription" = "Zadejte adresu zdroje ručně s možností přidat více adres najednou";
 
@@ -121,8 +121,8 @@
 "SplitView_Feature" = "Funkce";
 "SplitView_MyRepo" = "Zdroje";
 
-"Installed_SortByDateAccending" = "Čas - Nejstarší";
-"Installed_SortByDateDesending" = "Čas - Nejnovější";
+"Installed_SortByDateAccending" = "Čas - Od Nejstaršího";
+"Installed_SortByDateDesending" = "Čas - Od Nejnovějšího";
 "Installed_SortByNameDesending" = "Jméno - Zz -> Aa";
 "Installed_SortByNameAccending" = "Jméno - Aa -> Zz";
 
@@ -175,9 +175,9 @@
 
 "Settings" = "Nastavení";
 "DeviceInfo" = "Informace o zařízení";
-"RandomDeviceInfoEnabledOrUDIDNotAvailable" = "UDID Není Dostupné nebo je Skryté";
-"EnableRandomDeviceInfoWarning" = "Nhodné informace o zařízení je zapnuté pouze pro zdarma balíčky, která mohou blokovat funkce, včetně, ale nejen, přihlášení k zdroji softwaru a stahování placených balíčků";
-"EnableRandomDeviceInfo" = "Zapnout Náhodné Informace o Zařízení";
+"RandomDeviceInfoEnabledOrUDIDNotAvailable" = "UDID Není dostupné nebo je skryté";
+"EnableRandomDeviceInfoWarning" = "Náhodné informace o zařízení je zapnuté pouze pro zdarma balíčky, která mohou blokovat funkce, včetně, ale nejen, přihlášení k zdroji softwaru a stahování placených balíčků";
+"EnableRandomDeviceInfo" = "Zapnout náhodné informace o zařízení";
 "SoftwareSources" = "Softwarové zdroje";
 "RepoLoginHint" = "Spravovat přihlášení";
 "RepoDownloadLimit" = "Limit pro frontu stahování 1/24";
@@ -192,21 +192,21 @@
 "DownloadQueueNumberMinMax" = "Časový limit fronty by měl být nastaven mezi 1 až 24 sekundy";
 "DeleteRepoHistory" = "Tímto smažete historii";
 "AppLanguage" = "Jazyk";
-"RestartAppHint" = "Tato operace vyžaduje restartování applikace";
+"RestartAppHint" = "Tato operace vyžaduje restartování aplikace";
 "ReloadSpringBoard" = "Respring";
 "RebootUserSpace" = "Reboot User Space";
 "RebuildUIcache" = "Znovu načíst Springboard Ikony";
 "RepoRefreshTimeGap" = "Automatické refreshnutí Time Gap";
 "RepoRefreshTimeGapMinMax" = "Chytré refreshnutí vyžaduje časový interval mezi 0.5 a 240 hodinami";
 "EnterSafeMode" = "Vstoupit do Safe Módu";
-"OpenDownload" = "OTevřít Stahování";
+"OpenDownload" = "Otevřít Stahování";
 "FilzaRequiredAlert" = "Filza není nainstalována";
 "DeleteAllDownload" = "Vyčistit stažené";
 "UnknownSize" = "Neznámá velikost";
 "DownloadSizeCalculateTimeout" = "Výpočet selhal";
 "WebOpenSourceCode" = "Získat zdrojový kód";
 "PhotoLibraryUnavailableHint" = "Knihovna fotek je nedostupná, zkontrolujte své nastavení soukromí";
-"SetAvatar" = "Vybrat Avatar";
+"SetAvatar" = "Vybrat Avatara";
 "RemoveAvatar" = "Odstranit Avatara";
 "Accounts" = "Účty";
 

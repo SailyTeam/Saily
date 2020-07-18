@@ -65,10 +65,10 @@
 "AppDelegate_BootstrapTime" = "Boot time";
 
 "TimeGap_JustNow" = "Just Now";
-"%xTimeGap_MinBefore" = "%x mins ago";
-"%xTimeGap_HoursBefore" = "%x hours ago";
-"%xTimeGap_DaysBefore" = "%x days ago";
-"TimeGap_OutDated" = "outdated";
+"%dTimeGap_MinBefore" = "%d mins ago";
+"%dTimeGap_HoursBefore" = "%d hours ago";
+"%dTimeGap_DaysBefore" = "%d days ago";
+"TimeGap_OutDated" = "Outdated";
 
 "Repo_NoDescription" = "No description provided";
 
@@ -83,7 +83,7 @@
 "HomeCard_Desc" = "While the world sleep, we dream";
 
 "DashBoardNavigatorCard_DashBoard" = "DashBoard";
-"DashBoardNavigatorCard_Setting" = "Setting";
+"DashBoardNavigatorCard_Setting" = "Settings";
 "DashBoardNavigatorCard_Tasks" = "Tasks";
 "DashBoardNavigatorCard_Installed" = "Installed";
 
@@ -157,6 +157,8 @@
 "PackageOperation_AddWishList" = "Add to wish list";
 "PackageOperation_NotAvailableAlertHint" = "No Operation Available";
 "PackageOperation_OperationInvalid" = "Operation Invalid/Not Permitted";
+"PackageOperation_InstantInstall" = "Instant Install";
+"PackageOperation_InstantInstallHint" = "Instant install will not check any attributes of the package, please be aware.";
 
 "TaskOperationName_RepoUpdate" = "Repo Update ";
 "TaskOperationName_IndexDescription" = "It takes some time to build the index";
@@ -208,6 +210,7 @@
 "SetAvatar" = "Pick Avatar";
 "RemoveAvatar" = "Remove Avatar";
 "Accounts" = "Accounts";
+"ShowAPTReportSection" = "Enable APT Report";
 
 "PackageDiagnosis" = "Diagnosis";
 "PackageDiagnosis_ConditionGroup" = "Requirements";

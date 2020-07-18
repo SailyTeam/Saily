@@ -51,6 +51,30 @@ NSData* _Nullable libArchiveGetData(NSData* fromData) {
     
 }
 
+//NSString* _Nullable libArchiveGetControlString(NSData* fromData) {
+//    
+//    int r;
+//    struct archive_entry *ae;
+//    ssize_t size;
+//    
+//    struct archive *a = archive_read_new();
+//    archive_read_support_filter_all(a);
+//    archive_read_support_format_raw(a);
+//    r = archive_read_open_memory(a, [fromData bytes], BLOCK_SIZE);
+//    if (r != ARCHIVE_OK) {
+//        fprintf(stderr, "[libArchiveExtract] Failed to open file - %s\n", archive_error_string(a));
+//        return NULL;
+//    }
+//    while (archive_read_next_header(a, &ae) == ARCHIVE_OK) {
+//        const char *location = archive_entry_pathname(ae);
+//        printf("-> %s\n", location);
+//        archive_read_data_skip(a);
+//    }
+//
+//    
+//    return [NSString alloc];
+//}
+
 //int libArchiveExtract(NSString* fromArchFile, NSString* writeTo) {
 //    
 //    if (![[NSFileManager defaultManager] fileExistsAtPath:fromArchFile]) {

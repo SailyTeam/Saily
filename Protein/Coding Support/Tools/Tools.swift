@@ -93,15 +93,15 @@ class Tools {
         if gap < 3600 {
             let min = Int(gap / 60)
 //            return String(min) + "TimeGap_MinBefore".localized()
-            return String(format: "%xTimeGap_MinBefore".localized(), min)
+            return String(format: "%dTimeGap_MinBefore".localized(), min)
         }
         if gap < 86400 {
             let h = Int(gap / 3600)
-            return String(format: "%xTimeGap_HoursBefore".localized(), h)
+            return String(format: "%dTimeGap_HoursBefore".localized(), h)
         }
         if gap < 2592000 {
             let d = Int(gap / 86400)
-            return String(format: "%xTimeGap_DaysBefore".localized(), d)
+            return String(format: "%dTimeGap_DaysBefore".localized(), d)
         }
         return "TimeGap_OutDated".localized()
     }

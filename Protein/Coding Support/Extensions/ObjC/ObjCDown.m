@@ -157,7 +157,7 @@
     NSString* downloadCacheLocationString = [[downloadCacheLocation absoluteString] substringFromIndex:7];
     
     // Log
-    NSLog(@"Download from %@ to %@", [url absoluteString], [downloadCacheLocation absoluteString]);
+    NSLog(@"Download from %@ to %@", [url absoluteString], downloadCacheLocationString);
     
     // 初始化下载
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -201,12 +201,11 @@
         if (error) {
             NSLog(@"Task to: %@ failed!\n    -> %@\n", url, [error localizedDescription]);
             // 删除缓存文件 先不删除吧 可能可以继续下载
-//            [[NSFileManager defaultManager] removeItemAtURL:downloadCacheLocation error:NULL];
             callFinish();
             return;
         }
         // 下载目标目录是否存在？
-        NSString* destDir = [[fileLocation absoluteString] stringByDeletingLastPathComponent];
+        NSString* destDir = [[[fileLocation absoluteString] substringFromIndex:5] stringByDeletingLastPathComponent];
         if (![[NSFileManager defaultManager] fileExistsAtPath:destDir]) {
             [[NSFileManager defaultManager] createDirectoryAtPath:destDir
                                       withIntermediateDirectories:YES attributes:NULL error:NULL];

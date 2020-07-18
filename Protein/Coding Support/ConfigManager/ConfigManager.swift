@@ -27,6 +27,7 @@ struct __ApplicationConfig: Encodable, Decodable {
     var shouldAutoUpdateWhenAppLaunch: Bool = false     // ✅
     var shouldNotifyWhenUpdateAvailable: Bool = false   // ✅
     var shouldUploadPackageAnalysis: Bool = false       // ✅
+    var shouldShowAPTReportSection: Bool = true         // ✅
 }
 
 struct __NetworkConfig: Encodable, Decodable {
@@ -201,6 +202,13 @@ final class ConfigManager {
                     Application.shouldSaveRepoRecord = false
                 }
             }
+            if let item = get.attach["ApplicationConfig.shouldShowAPTReportSection"] {
+                if item == "1" {
+                    Application.shouldShowAPTReportSection = true
+                } else {
+                    Application.shouldShowAPTReportSection = false
+                }
+            }
             if let item = get.attach["ApplicationConfig.smartRefreshTimeGapInMin"] {
                 if let value = Int(item) {
                     Application.smartRefreshTimeGapInMin = value
@@ -227,10 +235,11 @@ final class ConfigManager {
         store.attach["ApplicationConfig.shouldAutoUpdateWhenAppLaunch"] = Application.shouldAutoUpdateWhenAppLaunch == true ? "1" : "0"
         store.attach["ApplicationConfig.shouldNotifyWhenUpdateAvailable"] = Application.shouldNotifyWhenUpdateAvailable == true ? "1" : "0"
         store.attach["ApplicationConfig.shouldUploadPackageAnalysis"] = Application.shouldUploadPackageAnalysis == true ? "1" : "0"
+        store.attach["ApplicationConfig.shouldShowAPTReportSection"] = Application.shouldShowAPTReportSection == true ? "1" : "0"
         store.attach["ApplicationConfig.shouldSaveRepoRecord"] = Application.shouldSaveRepoRecord == true ? "1" : "0"
         store.attach["ApplicationConfig.smartRefreshTimeGapInMin"] = String(Application.smartRefreshTimeGapInMin)
         store.attach["ApplicationConfig.usedLanguage"] = Application.usedLanguage
-            
+        
         try! database.drop(table: tableName)
         try! database.create(table: tableName, of: RepoStore.self)
         try! database.insert(objects: [store], intoTable: tableName)

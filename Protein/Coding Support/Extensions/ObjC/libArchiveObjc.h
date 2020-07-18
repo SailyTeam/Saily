@@ -7,12 +7,14 @@
 //
 
 #include "libArchive.h"
+#include "libArchiveEntry.h"
 #import <Foundation/Foundation.h>
 
 #ifndef libArchiveObjc_h
 #define libArchiveObjc_h
 
 NSData* libArchiveGetData(NSData* fromData);
+//NSString* _Nullable libArchiveGetControlString(NSData* fromData);
 //int libArchiveExtract(NSString* fromArchFile, NSString* writeTo);
 
 #endif /* libArchiveObjc_h */

@@ -66,10 +66,10 @@
 "AppDelegate_BootstrapTime" = "Čas spuštění";
 
 "TimeGap_JustNow" = "Právě teď";
-"%xTimeGap_MinBefore" = "Před %x minutami";
-"%xTimeGap_HoursBefore" = "Před %x hodinami";
+"%dTimeGap_MinBefore" = "Před %x minutami";
+"%dTimeGap_HoursBefore" = "Před %x hodinami";
 "%cTimeGap_DaysBefore" = "Před %x dny";
-"%xTimeGap_OutDated" = " %x Zastaralé";
+"%dTimeGap_OutDated" = " %x Zastaralé";
 
 "Repo_NoDescription" = "Nebyl poskytnut žádný popisek";
 
@@ -158,6 +158,8 @@
 "PackageOperation_AddWishList" = "Přidat do seznamu přání";
 "PackageOperation_NotAvailableAlertHint" = "Není dostupná žádná operace";
 "PackageOperation_OperationInvalid" = "Neplatná nebo nepovolená operace";
+"PackageOperation_InstantInstall" = "Instant Install";
+"PackageOperation_InstantInstallHint" = "Instant install will not check any attributes of the package, please be aware.";
 
 "TaskOperationName_RepoUpdate" = "Aktualizace Adresáře ";
 "TaskOperationName_IndexDescription" = "Zabere to nějaký čas k vytvoření buildu indexu";
@@ -209,6 +211,7 @@
 "SetAvatar" = "Vybrat Avatara";
 "RemoveAvatar" = "Odstranit Avatara";
 "Accounts" = "Účty";
+"ShowAPTReportSection" = "Enable APT Report";
 
 "PackageDiagnosis" = "Diagnóza";
 "PackageDiagnosis_ConditionGroup" = "Požadavky";

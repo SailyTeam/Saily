@@ -172,4 +172,53 @@ extension Tools {
         return false
     }
     
+    static func DEBLoadFromFile(atLocation: String) -> PackageStruct? {
+        
+//        guard let data = try? Data(contentsOf: URL(fileURLWithPath: atLocation)) else {
+//            Tools.rprint("|E| Error loading data from file: " + atLocation)
+//            return nil
+//        }
+        
+        let cacheDir = ConfigManager.shared.documentString + "/ExtraDataCache"
+        try? FileManager.default.removeItem(atPath: cacheDir)
+        try? FileManager.default.createDirectory(atPath: cacheDir, withIntermediateDirectories: true, attributes: nil)
+        let _ = Tools.spawnCommandSycn("dpkg -e " + atLocation + " " + cacheDir)
+        usleep(23333);
+        print(cacheDir)
+        
+//        guard let str = try? libArchiveGetControlString(data) else {
+//            Tools.rprint("|E| Failed loading control file from package: " + atLocation)
+//            return nil
+//        }
+//
+        
+        let read = try? String(contentsOfFile: cacheDir + "/control")
+//        #if targetEnvironment(simulator)
+//        let str = """
+//        Package: wiki.qaq.Protein
+//        Name: Saily
+//        Version: 1.0-1-1595069022
+//        """
+//        #else
+        try? FileManager.default.removeItem(atPath: cacheDir)
+        guard let str = read else {
+            Tools.rprint("|E| Failed loading control file from package: " + atLocation)
+            return nil
+        }
+//        #endif
+        
+        let meta = Tools.invokeDebianMetaForPackages(context: str + "\n", fromRepoRef: nil)
+        if meta.count != 1 {
+            Tools.rprint("|E| Invalid return from invokeDebianMetaForPackages with file: " + atLocation)
+            return nil
+        }
+        
+        guard let ret = meta.values.first else {
+            Tools.rprint("|E| Invalid return from meta.keys.first with file: " + atLocation)
+            return nil
+        }
+        
+        return ret
+    }
+    
 }

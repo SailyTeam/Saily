@@ -45,7 +45,6 @@ class InstallationAgent: UIViewController {
         view.insetsLayoutMarginsFromSafeArea = false
         isModalInPresentation = true
         
-        
         container.decelerationRate = .fast
         view.addSubview(container)
         container.snp.makeConstraints { (x) in
@@ -165,7 +164,7 @@ class InstallationAgent: UIViewController {
 
 // MARK: APT
         
-        do {
+        if ConfigManager.shared.Application.shouldShowAPTReportSection {
 //            private var aptDesc  = UITextView()
 //            private var aptButton = UIButton()
 //            private var aptTextResult = UITextView()

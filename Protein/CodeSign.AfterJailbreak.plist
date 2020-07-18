@@ -14,8 +14,6 @@
 	<array>
 		<string>wiki.qaq.Protein</string>
 	</array>
-	<key>get-task-allow</key>
-    <true/>
 	<key>com.apple.CommCenter.fine-grained</key>
     <array>
         <string>spi</string>

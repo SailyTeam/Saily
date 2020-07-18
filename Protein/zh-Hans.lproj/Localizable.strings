@@ -65,9 +65,9 @@
 "AppDelegate_BootstrapTime" = "初始化耗时：";
 
 "TimeGap_JustNow" = "刚刚";
-"%xTimeGap_MinBefore" = "%x 分钟前";
-"%xTimeGap_HoursBefore" = "%x 小时前";
-"%xTimeGap_DaysBefore" = "%x 天前";
+"%dTimeGap_MinBefore" = "%d 分钟前";
+"%dTimeGap_HoursBefore" = "%d 小时前";
+"%dTimeGap_DaysBefore" = "%d 天前";
 "TimeGap_OutDated" = "已过期";
 
 "Repo_NoDescription" = "该软件源没有描述";
@@ -157,6 +157,8 @@
 "PackageOperation_AddWishList" = "添加到心愿单";
 "PackageOperation_NotAvailableAlertHint" = "软件包已损坏 没有可用操作";
 "PackageOperation_OperationInvalid" = "无效的操作";
+"PackageOperation_InstantInstall" = "立即安装";
+"PackageOperation_InstantInstallHint" = "立即安装不会检查软件包的任何依赖、冲突、来源、安全性等属性，请悉知。";
 
 "TaskOperationName_RepoUpdate" = "刷新 ";
 "TaskOperationName_IndexDescription" = "这个任务这需要一些时间";
@@ -208,6 +210,7 @@
 "SetAvatar" = "设置头像";
 "RemoveAvatar" = "删除头像";
 "Accounts" = "管理账号";
+"ShowAPTReportSection" = "启用APT报告";
 
 "PackageDiagnosis" = "诊断";
 "PackageDiagnosis_ConditionGroup" = "需求与冲突";

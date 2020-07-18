@@ -458,12 +458,24 @@ class SettingView: UIView {
         }) { (isOn, _) in
             
         }
+        let showAPTReport = SettingSectionView(iconSystemNamed: "exclamationmark.bubble",
+                                            text: "ShowAPTReportSection".localized(),
+                                            dataType: .switcher,
+                                            initData: {
+                                                return ConfigManager.shared.Application.shouldShowAPTReportSection ? "1" : "0"
+        }) { (isOn, _) in
+            if let val = isOn {
+                ConfigManager.shared.Application.shouldShowAPTReportSection = val
+                NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
+            }
+        }
         softwareReport.setSwitcherUnavailable()
         container.addSubview(groupEffect2)
         container.addSubview(openDownloadedPackages)
         container.addSubview(cleanAllDownload)
         container.addSubview(softwareAutoUpdateWhenLaunch)
         container.addSubview(softwareUpdateNotify)
+        container.addSubview(showAPTReport)
         container.addSubview(softwareReport)
         openDownloadedPackages.snp.makeConstraints { (x) in
             x.left.equalTo(self.safeAnchor.snp.left).offset(8)
@@ -493,6 +505,13 @@ class SettingView: UIView {
             x.height.equalTo(28)
         }
         anchor = softwareUpdateNotify
+        showAPTReport.snp.makeConstraints { (x) in
+            x.left.equalTo(self.safeAnchor.snp.left).offset(8)
+            x.right.equalTo(self.safeAnchor.snp.right).offset(-8)
+            x.top.equalTo(anchor.snp.bottom).offset(18)
+            x.height.equalTo(28)
+        }
+        anchor = showAPTReport
         softwareReport.snp.makeConstraints { (x) in
             x.left.equalTo(self.safeAnchor.snp.left).offset(8)
             x.right.equalTo(self.safeAnchor.snp.right).offset(-8)

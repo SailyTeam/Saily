@@ -66,9 +66,9 @@
 "AppDelegate_BootstrapTime" = "起動してからの時間";
 
 "TimeGap_JustNow" = "ちょうど今";
-"%xTimeGap_MinBefore" = "%x 数分前";
-"%xTimeGap_HoursBefore" = "%x 時間前";
-"%xTimeGap_DaysBefore" = "%x 数日前";
+"%dTimeGap_MinBefore" = "%d 数分前";
+"%dTimeGap_HoursBefore" = "%d 時間前";
+"%dTimeGap_DaysBefore" = "%d 数日前";
 "TimeGap_OutDated" = " かなり前";
 
 "Repo_NoDescription" = "説明がありません";
@@ -158,6 +158,8 @@
 "PackageOperation_AddWishList" = "ほしい物リストに追加する";
 "PackageOperation_NotAvailableAlertHint" = "使用可能な操作はありません";
 "PackageOperation_OperationInvalid" = "操作が無効/許可されていません";
+"PackageOperation_InstantInstall" = "Instant Install";
+"PackageOperation_InstantInstallHint" = "Instant install will not check any attributes of the package, please be aware.";
 
 "TaskOperationName_RepoUpdate" = "リポジトリを更新";
 "TaskOperationName_IndexDescription" = "インデックスの作成には少し時間がかかります";
@@ -209,6 +211,7 @@
 "SetAvatar" = "Pick Avatar";
 "RemoveAvatar" = "Remove Avatar";
 "Accounts" = "Accounts";
+"ShowAPTReportSection" = "Enable APT Report";
 
 "PackageDiagnosis" = "Diagnosis";
 "PackageDiagnosis_ConditionGroup" = "Requirements";

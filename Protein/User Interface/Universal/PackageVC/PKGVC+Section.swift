@@ -184,73 +184,77 @@ class PackageViewControllerSectionView: UIView {
                 downloadAvailable = true
             }
         }
-        
-        switch packageStatusCache {
-        case .clear:
-            if !inQueue && downloadAvailable {
-                source.append("PackageOperation_AddToInstall")
-            }
-            if isInWishList {
-                source.append("PackageOperation_RemoveFromWishList")
-            } else {
-                source.append("PackageOperation_AddWishList")
-            }
-            if downloadAvailable {
-                source.append("PackageOperation_JustDownload")
-            }
-            source.append("PackageOperation_Share")
-            source.append("PackageOperation_Advanced")
-        case .installed:
-            if !inQueue {
-                source.append("PackageOperation_AddToDelete")
-                if downloadAvailable {
-                    source.append("PackageOperation_AddToReInstall")
+        if 📦?.newestMetaData()?["filename"]?.hasPrefix("local-install://") ?? false {
+            source.append("PackageOperation_InstantInstall")
+        } else {
+            switch packageStatusCache {
+            case .clear:
+                if !inQueue && downloadAvailable {
+                    source.append("PackageOperation_AddToInstall")
                 }
-            }
-            if isInWishList {
-                source.append("PackageOperation_RemoveFromWishList")
-            } else {
-                source.append("PackageOperation_AddWishList")
-            }
-            if downloadAvailable {
-                source.append("PackageOperation_JustDownload")
-            }
-            source.append("PackageOperation_Share")
-            source.append("PackageOperation_Advanced")
-        case .outdated:
-            if !inQueue {
-                if downloadAvailable {
-                    source.append("PackageOperation_AddToUpdate")
+                if isInWishList {
+                    source.append("PackageOperation_RemoveFromWishList")
+                } else {
+                    source.append("PackageOperation_AddWishList")
                 }
-                source.append("PackageOperation_AddToDelete")
                 if downloadAvailable {
-                    source.append("PackageOperation_AddToReInstall")
+                    source.append("PackageOperation_JustDownload")
                 }
-            }
-            if isInWishList {
-                source.append("PackageOperation_RemoveFromWishList")
-            } else {
-                source.append("PackageOperation_AddWishList")
-            }
-            if downloadAvailable {
-                source.append("PackageOperation_JustDownload")
-            }
-            source.append("PackageOperation_Share")
-            source.append("PackageOperation_Advanced")
-        case .broken:
-            print("case .broken")
-            // todo
-            source.append("PackageOperation_NotAvailable")
-        default:
-            source.append("PackageOperation_NotAvailable")
+                source.append("PackageOperation_Share")
+                source.append("PackageOperation_Advanced")
+            case .installed:
+                if !inQueue {
+                    source.append("PackageOperation_AddToDelete")
+                    if downloadAvailable {
+                        source.append("PackageOperation_AddToReInstall")
+                    }
+                }
+                if isInWishList {
+                    source.append("PackageOperation_RemoveFromWishList")
+                } else {
+                    source.append("PackageOperation_AddWishList")
+                }
+                if downloadAvailable {
+                    source.append("PackageOperation_JustDownload")
+                }
+                source.append("PackageOperation_Share")
+                source.append("PackageOperation_Advanced")
+            case .outdated:
+                if !inQueue {
+                    if downloadAvailable {
+                        source.append("PackageOperation_AddToUpdate")
+                    }
+                    source.append("PackageOperation_AddToDelete")
+                    if downloadAvailable {
+                        source.append("PackageOperation_AddToReInstall")
+                    }
+                }
+                if isInWishList {
+                    source.append("PackageOperation_RemoveFromWishList")
+                } else {
+                    source.append("PackageOperation_AddWishList")
+                }
+                if downloadAvailable {
+                    source.append("PackageOperation_JustDownload")
+                }
+                source.append("PackageOperation_Share")
+                source.append("PackageOperation_Advanced")
+            case .broken:
+                print("case .broken")
+                // todo
+                source.append("PackageOperation_NotAvailable")
+            default:
+                source.append("PackageOperation_NotAvailable")
 
-            let alert = UIAlertController(title: "Error".localized(),
-                                          message: "PackageOperation_NotAvailableAlertHint".localized(),
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-            self.obtainParentViewController?.present(alert, animated: true, completion: nil)
-            return
+                let alert = UIAlertController(title: "Error".localized(),
+                                              message: "PackageOperation_NotAvailableAlertHint".localized(),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                return
+            }
         }
+        
         let rawOperationList = source
         let text = source.map { (str) -> String in
             return "   " + str.localized()
@@ -261,6 +265,40 @@ class PackageViewControllerSectionView: UIView {
             let operationString = rawOperationList[index]
             if let item = self.📦 {
                 switch operationString {
+                case "PackageOperation_InstantInstall":
+                    let alert = UIAlertController(title: "Warning".localized(), message: "PackageOperation_InstantInstallHint".localized(), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .destructive, handler: { (_) in
+                        if let location = self.📦?.newestMetaData()?["filename"] {
+                            let realLocation = location.dropFirst("local-install://".count)
+                            print("[PackageManager] Instant install: " + realLocation)
+                            var script = ""
+                            script += "echo Unlocking system...\n"
+                            script += "rm -f /var/lib/apt/lists/lock\n"
+                            script += "rm -f /var/cache/apt/archives/lock\n"
+                            script += "rm -f /var/lib/dpkg/lock*\n"
+                            if self.📦?.identity == "wiki.qaq.Protein" {
+                                FileManager.default.createFile(atPath: "/private/var/root/Documents/wiki.qaq.protein.update.reopen", contents: nil, attributes: nil)
+                            }
+                            script += "echo ****INSTALL****\n"
+                            script += "apt install --assume-yes --reinstall " + realLocation
+                            script += "\n"
+                            script += "echo ***DONE***\n"
+                            let ret = Tools.spawnCommandAndWriteToFileReturnFileLocationAndSignalFileLocation(script)
+                            let pop = InstallAgentLogView()
+                            pop.watchFile = ret.0
+                            pop.watchSignal = ret.1
+                            pop.modalPresentationStyle = .formSheet;
+                            pop.modalTransitionStyle = .coverVertical;
+                            let window = self.window
+                            self.obtainParentViewController?.dismiss(animated: true, completion: {
+                                DispatchQueue.main.async {
+                                    window?.rootViewController?.present(pop, animated: true, completion: nil)
+                                }
+                            })
+                        }
+                    }))
+                    alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: nil))
+                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
                 case "PackageOperation_NotAvailable":
                     print("Huso? case PackageOperation_NotAvailable should be block above")
                 case "PackageOperation_AddWishList":

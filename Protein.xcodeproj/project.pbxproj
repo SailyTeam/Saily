@@ -56,6 +56,7 @@
 		5040EEC82481721F00A6993F /* CSTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEAA2481721F00A6993F /* CSTextView.swift */; };
 		5054B8442467FA9A0046F6C2 /* UIWindowSceneUnlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054B8432467FA9A0046F6C2 /* UIWindowSceneUnlock.m */; };
 		505C89CC2468237500B992C8 /* NowUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505C89CB2468237500B992C8 /* NowUpdateView.swift */; };
+		505DD3D424C2FD5100606E26 /* ImportInstall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DD3D324C2FD5100606E26 /* ImportInstall.swift */; };
 		5060A58F24BC925900C626B5 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060A58E24BC925900C626B5 /* SettingView.swift */; };
 		507F1DD7247D493600E9BAE7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 507F1DD9247D493600E9BAE7 /* Localizable.strings */; };
 		5087162A244B365B003E0023 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50871622244B365B003E0023 /* Tools.swift */; };
@@ -288,6 +289,8 @@
 		5054B8432467FA9A0046F6C2 /* UIWindowSceneUnlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIWindowSceneUnlock.m; sourceTree = "<group>"; };
 		5054B8452467FAA20046F6C2 /* UIWindowSceneUnlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIWindowSceneUnlock.h; sourceTree = "<group>"; };
 		505C89CB2468237500B992C8 /* NowUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowUpdateView.swift; sourceTree = "<group>"; };
+		505DD3D324C2FD5100606E26 /* ImportInstall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportInstall.swift; sourceTree = "<group>"; };
+		505DD3D624C312EF00606E26 /* libArchiveEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libArchiveEntry.h; sourceTree = "<group>"; };
 		5060A58E24BC925900C626B5 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		50772D44247D7FD1006859C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		507F1DD4247D48F300E9BAE7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -815,6 +818,7 @@
 				50ACA3B32470119900A80F46 /* BZipCompression.h */,
 				50ACA3B42470119900A80F46 /* BZipCompression.m */,
 				50DE39BF2478627F00332FB7 /* libArchive.h */,
+				505DD3D624C312EF00606E26 /* libArchiveEntry.h */,
 				50DE39C02478628900332FB7 /* libArchiveObjc.h */,
 				50DE39BD2478627600332FB7 /* libArchiveObjc.m */,
 				50D0A1D9246866BA0064C5CB /* ForceFree.h */,
@@ -833,6 +837,14 @@
 				505C89CB2468237500B992C8 /* NowUpdateView.swift */,
 			);
 			path = NowUpdateView;
+			sourceTree = "<group>";
+		};
+		505DD3D524C2FD5800606E26 /* ImportInstall */ = {
+			isa = PBXGroup;
+			children = (
+				505DD3D324C2FD5100606E26 /* ImportInstall.swift */,
+			);
+			path = ImportInstall;
 			sourceTree = "<group>";
 		};
 		5060A58D24BC922F00C626B5 /* SettingView */ = {
@@ -997,6 +1009,7 @@
 				50EB6C00245409D200D66F8A /* RamLogVC */,
 				50007C71245F0C0F00213615 /* PackageVC */,
 				50DB19942455CCDD00457ABD /* PackageCollectionVC */,
+				505DD3D524C2FD5800606E26 /* ImportInstall */,
 			);
 			path = Universal;
 			sourceTree = "<group>";
@@ -1598,7 +1611,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n    export DEB_LOCATION=\"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n\n    echo \"Starting Docker Build Process\"\n    mkdir -p \"$LOCROOT/Pipeline/Dockers/Buildtime/\"\n    bash \"$LOCROOT/Pipeline/Dockers/build.sh\" &> \"$LOCROOT/Pipeline/Dockers/Buildtime/logs.txt\"\n    \nfi\n";
+			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n    export DEB_LOCATION=\"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n\n    echo \"Starting Docker Build Process\"\n    \n    if [ \"$DOCKER_SHOULD_BUILD\" == \"YES\" ]; then\n        mkdir -p \"$LOCROOT/Pipeline/Dockers/Buildtime/\"\n        bash \"$LOCROOT/Pipeline/Dockers/build.sh\" &> \"$LOCROOT/Pipeline/Dockers/Buildtime/logs.txt\"\n    fi\n    \nfi\n";
 		};
 		588A26AEF77FD0A6308FD05B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1772,6 +1785,7 @@
 				5087162C244B365B003E0023 /* PPShine.swift in Sources */,
 				5040EEBC2481721F00A6993F /* SEColors.swift in Sources */,
 				509FFDE824BD9D0F0017A417 /* Process.m in Sources */,
+				505DD3D424C2FD5100606E26 /* ImportInstall.swift in Sources */,
 				50D0A1D8246866B20064C5CB /* ForceFree.m in Sources */,
 				50871639244B36FD003E0023 /* UIFont.swift in Sources */,
 				50871649244B3DF9003E0023 /* DataBase1.swift in Sources */,
@@ -2143,6 +2157,7 @@
 				CODE_SIGN_ENTITLEMENTS = Protein/Protein.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ2J5N72GP;
+				DOCKER_SHOULD_BUILD = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Protein/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2169,13 +2184,14 @@
 				CODE_SIGN_ENTITLEMENTS = Protein/Protein.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ2J5N72GP;
+				DOCKER_SHOULD_BUILD = NO;
 				INFOPLIST_FILE = Protein/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LK_DEBUG_ROOT = NO;
+				LK_DEBUG_ROOT = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.Protein;
 				PRODUCT_NAME = Saily;
 				SUPPORTS_MACCATALYST = YES;

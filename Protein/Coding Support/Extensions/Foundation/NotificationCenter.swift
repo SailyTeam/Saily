@@ -46,4 +46,6 @@ extension Notification.Name {
     static let DownloadProgressUpdated = Notification.Name("wiki.qaq.Protein.DownloadProgressUpdated")
     static let DownloadFinished = Notification.Name("wiki.qaq.Protein.DownloadFinished")
     
+    static let UserImportedPackage = Notification.Name("wiki.qaq.Protein.UserImportedPackage")
+    
 }

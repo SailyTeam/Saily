@@ -33,10 +33,10 @@
 "Version" = "Version";
 "Screenshot" = "Screenshot";
 "AvailableUpdate" = "Available Updates";
-"RecentInstalled" = "Recent Installed";
-"RecentUpdate" = "Recent Update";
-"ErrorReadInstalledPackages" = "Error reading installed packages";
-"PleaseTryReInstallApp" = "Please try reinstall this app";
+"RecentInstalled" = "Recently Installed";
+"RecentUpdate" = "Recently Updated";
+"ErrorReadInstalledPackages" = "Error while reading installed packages";
+"PleaseTryReInstallApp" = "Please try to reinstall this package";
 "OperationLocked" = "Operation Locked";
 "LoadingDataBase" = "Loading Database";
 "WaitingForDataBase" = "Waiting For Database";
@@ -73,14 +73,14 @@
 "Repo_NoDescription" = "No description provided";
 
 "Package_NoName" = "No Name";
-"Package_ContentDamaged" = "This package is dameaged";
+"Package_ContentDamaged" = "This package is damaged";
 
 "Navigation_GoBack" = "Back";
 
 "SearchBar_SearchPackageOrRepo" = "Search Here";
 
 "HomeCard_Welcome" = "Welcome to Saily";
-"HomeCard_Desc" = "While the world sleep, we dream";
+"HomeCard_Desc" = "We dream, while the world sleeps";
 
 "DashBoardNavigatorCard_DashBoard" = "DashBoard";
 "DashBoardNavigatorCard_Setting" = "Settings";
@@ -94,9 +94,9 @@
 "RepoCard_Cell_PendingUpdate" = "In queue";
 "RepoCard_Cell_LastUpdateTimeHintPrefix" = "Last Update ";
 
-"WishList_RemoveHint" = "Are you sure about removing it from whish list?";
+"WishList_RemoveHint" = "Remove it from your wishlist?";
 "WishList_RemovedHint" = "Removed";
-"WishList_AddedHint" = "Saved";
+"WishList_AddedHint" = "Added";
 
 "RepoViewController_RepoLastUpdated" = "Last Update ";
 "RepoViewController_RepoContains" = " contains ";
@@ -104,7 +104,7 @@
 "RepoViewController_RepoFeaturedPackageNotFoundHint" = "The package was not found\nPlease retry after refresh";
 
 "RepoAddViewController_TitleAdd" = "Add";
-"RepoAddViewController_SelectionSwitcher" = "Switch Select";
+"RepoAddViewController_SelectionSwitcher" = "Toggle All";
 "RepoAddViewController_RepoDescription" = "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover.";
 "RepoAddViewController_APTRecordTitle" = "APT Records";
 "RepoAddViewController_APTRecordDescription" = "Following software sources come from APT or other package managers";
@@ -118,17 +118,17 @@
 "NativeDepiction_ErrorCanNotOpenURLPrefix" = "Unable to resolve address\n";
 
 "SplitView_Feature" = "Features";
-"SplitView_MyRepo" = "Software Source";
+"SplitView_MyRepo" = "Sources";
 
-"Installed_SortByDateAccending" = "Time - Most Early";
-"Installed_SortByDateDesending" = "Time - Most Recent";
+"Installed_SortByDateAccending" = "Time - Earliest";
+"Installed_SortByDateDesending" = "Time - Latest";
 "Installed_SortByNameDesending" = "Name - Zz -> Aa";
 "Installed_SortByNameAccending" = "Name - Aa -> Zz";
 
 "BuiltInDepiction_Preview" = "Preview";
 "BuiltInDepiction_Description" = "Description";
 "BuiltInDepiction_whatsNew" = "What's New";
-"BuiltInDepiction_Converted" = "The content of this page is extracted from the built-in information of the software package";
+"BuiltInDepiction_Converted" = "The content of this page is extracted from the built-in information of the package";
 "BuiltInDepiction_metaTitle" = "Metadata";
 
 "PackageButtonStart" = "Option";
@@ -154,15 +154,15 @@
 "PackageOperation_NotAvailable" = "Broken Metadata";
 "PackageOperation_RemoveFromQueue" = "Remove from queue";
 "PackageOperation_RemoveFromWishList" = "Remove from wishlist";
-"PackageOperation_AddWishList" = "Add to wish list";
+"PackageOperation_AddWishList" = "Add to wishlist";
 "PackageOperation_NotAvailableAlertHint" = "No Operation Available";
 "PackageOperation_OperationInvalid" = "Operation Invalid/Not Permitted";
 "PackageOperation_InstantInstall" = "Instant Install";
-"PackageOperation_InstantInstallHint" = "Instant install will not check any attributes of the package, please be aware.";
+"PackageOperation_InstantInstallHint" = "Please be aware that instant install will not check for any package attributes";
 
 "TaskOperationName_RepoUpdate" = "Repo Update ";
-"TaskOperationName_IndexDescription" = "It takes some time to build the index";
-"TaskOperationName_Index" = "Index Database";
+"TaskOperationName_IndexDescription" = "It will take some time to build the index";
+"TaskOperationName_Index" = "Indexing Database";
 "TaskOperationName_PackageInstall" = "+ ";
 "TaskOperationName_PackageInstall_SelectedInstall" = "Selected ";
 "TaskOperationName_PackageInstall_PulledInstall" = "Install as dependency ";
@@ -172,20 +172,20 @@
 "TaskOperationName_Download" = "Download ";
 
 "NoTaskAvailable" = "Empty";
-"NoTaskAvailableTint" = "New tasks are automatically added here";
+"NoTaskAvailableTint" = "New tasks will be listed here";
 
 "Settings" = "Settings";
 "DeviceInfo" = "Device Info";
 "RandomDeviceInfoEnabledOrUDIDNotAvailable" = "UDID Not Available / Hided";
 "EnableRandomDeviceInfoWarning" = "Random device information is only enabled for free software packages, which may block functions including but not limited to software source account login and paid packages download.";
 "EnableRandomDeviceInfo" = "Enable Random Device Info";
-"SoftwareSources" = "Software Sources";
+"SoftwareSources" = "Sources";
 "RepoLoginHint" = "Manage Logins";
 "RepoDownloadLimit" = "Download Queue Limit 1/24";
 "RepoDownloadTimeLimit" = "Download Timeout 6/180s";
 "AllowRepoHistory" = "Enable History";
 "AllowReportRepos" = "Allow Analysis Upload";
-"SoftwareBehaves" = "Software Behaves";
+"SoftwareBehaves" = "App Behavior";
 "SoftwareAutoUpdateWhenLaunch" = "Auto Queue Updates When Possible";
 "UpdateNotification" = "Update Notifications";
 "AllowReportSoftwares" = "Allow Analysis Upload";
@@ -193,20 +193,20 @@
 "DownloadQueueNumberMinMax" = "The download queue value should be set between 1 seconds and 24";
 "DeleteRepoHistory" = "This will delete history";
 "AppLanguage" = "Language";
-"RestartAppHint" = "This operation requires restarting the application";
+"RestartAppHint" = "This operation requires a restart of the application";
 "ReloadSpringBoard" = "Respring";
 "RebootUserSpace" = "Reboot User Space";
-"RebuildUIcache" = "Reload Springboard Icons";
+"RebuildUIcache" = "Reload Icon Cache";
 "RepoRefreshTimeGap" = "Auto Refresh Time Gap";
 "RepoRefreshTimeGapMinMax" = "Smart refresh requires a time interval between 0.5 and 240 hours";
 "EnterSafeMode" = "Enter Safe Mode";
-"OpenDownload" = "Open Download";
-"FilzaRequiredAlert" = "Filza not installed";
-"DeleteAllDownload" = "Clean Downloads";
+"OpenDownload" = "Open Downloads Folder";
+"FilzaRequiredAlert" = "Filza is not installed";
+"DeleteAllDownload" = "Clean Downloads Folder";
 "UnknownSize" = "Unknown Size";
-"DownloadSizeCalculateTimeout" = "Calculate Failed";
+"DownloadSizeCalculateTimeout" = "Calculation Failed";
 "WebOpenSourceCode" = "Get Source Code";
-"PhotoLibraryUnavailableHint" = "Photo library unavailable, check your privacy settings";
+"PhotoLibraryUnavailableHint" = "Photo library is inaccessible, please check your privacy settings";
 "SetAvatar" = "Pick Avatar";
 "RemoveAvatar" = "Remove Avatar";
 "Accounts" = "Accounts";
@@ -243,5 +243,5 @@
 "InstallAgent_APTGeneratedReportContainWarningOrError" = "Report appears to contain warnings or errors, please check carefully";
 "InstallAgent_NoTaskAvailable" = "No task in queue";
 "InstallAgent_DownloadNotFinished" = "The download is not yet complete, please try again later. If the error persists and you cannot see the download queue, tLocalizablehere may be a problem with the package download address. Please try to refresh the software source or clear the download cache in the settings.";
-"InstallAgent_UpdateNotice" = "We are about to update ourself. The app will exit during the progress and will reopen when finished. Please wait and do not reopen manually.";
-"InstallAgent_InTasksNotice" = "System locked, please try again later.";
+"InstallAgent_UpdateNotice" = "We are about to update Saily. The app will exit during the progress and will reopen when finished. Please wait and do not reopen manually.";
+"InstallAgent_InTasksNotice" = "dpkg locked, please try again later.";

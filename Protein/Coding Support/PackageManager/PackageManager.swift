@@ -209,10 +209,18 @@ final class PackageManager {
     
     private
     func copyDpkgStatusOver() {
-        Tools.spawnCommandSycn("chmod -R 777 /Library/dpkg")
+//        let _ = Tools.spawnCommandSycn("chmod -R 777 /Library/dpkg")
         let cacheDest = ConfigManager.shared.documentString + "/dpkgLoadCache"
         let saveDest = ConfigManager.shared.documentString + "/dpkgStatus"
-        Tools.spawnCommandSycn("cp -rf /Library/dpkg/status " + saveDest + "/status")
+        let _ = Tools.spawnCommandSycn("cp -rf /Library/dpkg/status " + saveDest + "/status")
+        assert(cacheDest != "/")
+        assert(cacheDest.count > 5) // keep us safe
+        let _ = Tools.spawnCommandSycn("rm -rf " + cacheDest)
+        usleep(2333)
+        let _ = Tools.spawnCommandSycn("cp -rf /Library/dpkg " + cacheDest)
+        usleep(2333)
+        let _ = Tools.spawnCommandSycn("chmod -R 777 " + cacheDest)
+        usleep(2333)
         try? FileManager.default.removeItem(atPath: cacheDest)
         var done = false
         do {
@@ -254,9 +262,13 @@ final class PackageManager {
             if let read = try? String(contentsOfFile: saveDest + "/status") {
                 placeHolder = Tools.invokeDebianMetaForPackages(context: read, fromRepoRef: nil)
             }
-            for foo in placeHolder {
+            trick0: for foo in placeHolder {
                 var meta: [String : [String : String]] = [:]
-                meta[foo.value.newestVersion()] = foo.value.newestMetaData()
+                let payloads = foo.value.newestMetaData()
+                if payloads?["status"] == "deinstall ok config-files" {
+                    continue trick0
+                }
+                meta[foo.value.newestVersion()] = payloads
                 placeHolder[foo.key] = PackageStruct(identity: foo.key, versions: meta, fromRepoUrlRef: nil)
             }
         }

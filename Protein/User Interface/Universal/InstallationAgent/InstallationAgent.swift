@@ -332,10 +332,10 @@ class InstallationAgent: UIViewController {
         }
         
         var script = ""
-        script += "echo Unlocking system..."
-        script += "rm /var/lib/apt/lists/lock\n"
-        script += "rm /var/cache/apt/archives/lock\n"
-        script += "rm /var/lib/dpkg/lock*\n"
+        script += "echo Unlocking system...\n"
+        script += "rm -f /var/lib/apt/lists/lock\n"
+        script += "rm -f /var/cache/apt/archives/lock\n"
+        script += "rm -f /var/lib/dpkg/lock*\n"
         
         if delete.count > 0 {
             script += "echo ****REMOVE****\n"

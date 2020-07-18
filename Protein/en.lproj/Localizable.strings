@@ -68,7 +68,7 @@
 "%xTimeGap_MinBefore" = "%x mins ago";
 "%xTimeGap_HoursBefore" = "%x hours ago";
 "%xTimeGap_DaysBefore" = "%x days ago";
-"TimeGap_OutDated" = "outdated";
+"TimeGap_OutDated" = "Outdated";
 
 "Repo_NoDescription" = "No description provided";
 
@@ -83,7 +83,7 @@
 "HomeCard_Desc" = "While the world sleep, we dream";
 
 "DashBoardNavigatorCard_DashBoard" = "DashBoard";
-"DashBoardNavigatorCard_Setting" = "Setting";
+"DashBoardNavigatorCard_Setting" = "Settings";
 "DashBoardNavigatorCard_Tasks" = "Tasks";
 "DashBoardNavigatorCard_Installed" = "Installed";
 

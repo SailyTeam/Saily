@@ -113,7 +113,7 @@ class StartUpVC: UIViewController {
                 
 //                self.present(vc!, animated: false, completion: nil)
                 self.view.window?.rootViewController = vc
-                if !UIDevice.isiPad {
+                if !UIDevice.isiPad && !FileManager.default.fileExists(atPath: ConfigManager.shared.documentString + "/disableiPhoneUIWarning") {
                     let alert = UIAlertController(title: "Warning".localized(), message: "This beta does not have an iPhone capable interface, if you experienced any error with UI, do not report.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .destructive, handler: nil))
                     vc?.present(alert, animated: true, completion: nil)

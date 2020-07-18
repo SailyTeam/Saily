@@ -7,112 +7,106 @@
 //
 
 import UIKit
-import WebKit
+import Down
 
-class LicenseViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+class LicenseViewController: UIViewControllerWithCustomizedNavBar {
     
-    lazy var webView: WKWebView = {
-        let config = WKWebViewConfiguration()
-        let webView = WKWebView(frame: .zero, configuration: config)
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        return webView
-    }()
-    
-    let imgv = UIImageView()
-    let closeButton = UIButton()
+    private let textView: UITextView = UITextView()
+    private let container = UIScrollView()
+    private var attrStr: NSAttributedString = NSAttributedString()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         
-        preferredContentSize = CGSize(width: 700, height: 555)
-        
-        view.insetsLayoutMarginsFromSafeArea = false
-
-        
-        webView.alpha = 0.2
-        webView.backgroundColor = .clear
-        view.backgroundColor = UIColor(named: "G-ViewController-Background")
-        view.addSubview(webView)
-        webView.snp.makeConstraints { (x) in
-            x.edges.equalTo(self.view.snp.edges)
-        }
-        let myURL = URL(string: DEFINE.WEB_LOCATION_LICENSE) ?? URL(string: "https://google.com")!
-        let myRequest = URLRequest(url: myURL)
-        webView.load(myRequest)
-        
-        imgv.image = UIImage(named: "LicenseViewController.Close")
-        imgv.contentMode = .scaleAspectFit
-        view.addSubview(imgv)
-        view.addSubview(closeButton)
-        imgv.snp.makeConstraints { (x) in
-            x.bottom.equalTo(self.view.snp.bottom).offset(-30)
-            x.right.equalTo(self.view.snp.right).offset(-30)
-            x.width.equalTo(20)
-            x.height.equalTo(20)
-        }
-        closeButton.snp.makeConstraints { (x) in
-            x.center.equalTo(imgv.snp.center)
-            x.width.equalTo(50)
-            x.height.equalTo(50)
-        }
-        closeButton.addTarget(self, action: #selector(closeViewController(sender:)), for: .touchUpInside)
-        hideKeyboardWhenTappedAround()
-    }
-    
-    @objc
-    func closeViewController(sender: UIButton) {
-        sender.puddingAnimate()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript("document.readyState", completionHandler: { (complete, error) in
-            if complete != nil {
-                if (self.traitCollection.userInterfaceStyle == .dark) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.webView.evaluateJavaScript(Tools.darkModeJS) { (anyret, err) in
-                            UIView.animate(withDuration: 0.5) {
-                                self.webView.alpha = 1
-                            }
-                        }
-                    }
-                } else {
-                    UIView.animate(withDuration: 0.5) {
-                        self.webView.alpha = 1
-                    }
-                }
+        defer {
+            setupNavigationBar()
+            container.snp.makeConstraints { (x) in
+                x.left.equalToSuperview()
+                x.right.equalToSuperview()
+                x.top.equalTo(self.SimpleNavBar.snp.bottom)
+                x.bottom.equalToSuperview()
             }
-        })
+            textView.snp.makeConstraints { (x) in
+                x.left.equalTo(self.view.snp.left).offset(12)
+                x.right.equalTo(self.view.snp.right).offset(-12)
+                x.top.equalTo(self.container.snp.top).offset(12)
+                x.height.equalTo(1000)
+            }
+            reloadContainerSize()
+        }
+        
+        view.backgroundColor = UIColor(named: "G-ViewController-Background")
+        let size = CGSize(width: 700, height: 555)
+        preferredContentSize = size
+        hideKeyboardWhenTappedAround()
+        view.insetsLayoutMarginsFromSafeArea = false
+        isModalInPresentation = true
+        
+        textView.isEditable = false
+        
+        view.addSubview(container)
+        container.addSubview(textView)
+        
+        if let resource = Bundle.main.path(forResource: "Acknowledge", ofType: "md"),
+            let read = try? String(contentsOfFile: resource) {
+            let down = Down(markdownString: read)
+            var config = DownStylerConfiguration()
+            let colors = LicenseColorCollection()
+            config.colors = colors
+            config.fonts = DepictionFontCollection()
+            config.colors = colors
+            let styler = DownStyler(configuration: config)
+            if let attributedString = try? down.toAttributedString(.default, styler: styler) {
+                textView.attributedText = attributedString
+                attrStr = attributedString
+                textView.setNeedsDisplay()
+                textView.backgroundColor = .clear
+            }
+            
+        }
+        
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        var isDarkMode: Bool {
-//            if #available(iOS 13.0, *) {
-//                return self.traitCollection.userInterfaceStyle == .dark
-//            }
-//            else {
-//                return false
-//            }
-//        }
-//        if isDarkMode {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.webView.evaluateJavaScript(Tools.darkModeJS_JustToggle) { (anyret, err) in
-//                    UIView.animate(withDuration: 0.5) {
-//                        self.webView.alpha = 1
-//                    }
-//                }
-//            }
-//        } else {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.webView.evaluateJavaScript(Tools.darkModeJS_JustToggle) { (anyret, err) in
-//                    UIView.animate(withDuration: 0.5) {
-//                        self.webView.alpha = 1
-//                    }
-//                }
-//            }
-//        }
+    private func updateTextViewHeight() {
+        let framesetter = CTFramesetterCreateWithAttributedString(attrStr)
+        let targetSize = CGSize(width: self.view.frame.width - 24, height: CGFloat.greatestFiniteMagnitude)
+        let fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, attrStr.length), nil, targetSize, nil)
+        let height = fitSize.height + 20
+        textView.snp.updateConstraints { (x) in
+            x.height.equalTo(height)
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        reloadContainerSize()
+    }
+    
+    func reloadContainerSize() {
+        DispatchQueue.main.async {
+            self.updateTextViewHeight()
+            DispatchQueue.main.async {
+                self.container.contentSize = CGSize(width: 0, height: self.textView.frame.maxY + 40)
+            }
+        }
     }
     
 }
+
+fileprivate struct LicenseColorCollection: ColorCollection {
+
+    public var heading1 = SEColors.label
+    public var heading2 = SEColors.label
+    public var heading3 = SEColors.label
+    public var heading4 = SEColors.label
+    public var heading5 = SEColors.label
+    public var heading6 = SEColors.label
+    public var body = SEColors.downLabel
+    public var code = SEColors.downLabel
+    public var link = DownColor.systemBlue
+    public var quote = DownColor.darkGray
+    public var quoteStripe = DownColor.darkGray
+    public var thematicBreak = DownColor(white: 0.9, alpha: 1)
+    public var listItemPrefix = DownColor.lightGray
+    public var codeBlockBackground = DownColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+}
+

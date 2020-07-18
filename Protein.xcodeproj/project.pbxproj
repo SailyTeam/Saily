@@ -124,6 +124,7 @@
 		50C117D924BF60AD002B6368 /* InstallAgentLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C117D824BF60AD002B6368 /* InstallAgentLogView.swift */; };
 		50C7E97624BAE8A20065DB13 /* PKGVC+Diag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C7E97524BAE8A20065DB13 /* PKGVC+Diag.swift */; };
 		50D0A1D8246866B20064C5CB /* ForceFree.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D0A1D7246866B20064C5CB /* ForceFree.m */; };
+		50D4B09224C275BC00FE4B1E /* Acknowledge.md in Resources */ = {isa = PBXBuildFile; fileRef = 50D4B09124C275B800FE4B1E /* Acknowledge.md */; };
 		50D528BC2449B11300F4A483 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528BB2449B11300F4A483 /* AppDelegate.swift */; };
 		50D528BE2449B11300F4A483 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528BD2449B11300F4A483 /* SceneDelegate.swift */; };
 		50D528C02449B11300F4A483 /* UIEntery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528BF2449B11300F4A483 /* UIEntery.swift */; };
@@ -375,6 +376,8 @@
 		50C7E97524BAE8A20065DB13 /* PKGVC+Diag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKGVC+Diag.swift"; sourceTree = "<group>"; };
 		50D0A1D7246866B20064C5CB /* ForceFree.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForceFree.m; sourceTree = "<group>"; };
 		50D0A1D9246866BA0064C5CB /* ForceFree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForceFree.h; sourceTree = "<group>"; };
+		50D4B09024C274B700FE4B1E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50D4B09124C275B800FE4B1E /* Acknowledge.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Acknowledge.md; sourceTree = "<group>"; };
 		50D528B82449B11300F4A483 /* Saily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Saily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D528BB2449B11300F4A483 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50D528BD2449B11300F4A483 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -1113,6 +1116,7 @@
 			isa = PBXGroup;
 			children = (
 				50871653244B5633003E0023 /* Protein.entitlements */,
+				50D4B09124C275B800FE4B1E /* Acknowledge.md */,
 				5087161F244B3464003E0023 /* Application Support */,
 				50871620244B3530003E0023 /* Coding Support */,
 				5087161E244B345D003E0023 /* User Interface */,
@@ -1442,6 +1446,7 @@
 				"zh-Hans",
 				ja,
 				cs,
+				vi,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1468,6 +1473,7 @@
 				5087166E244B7387003E0023 /* DashNavCard.xcassets in Resources */,
 				500034862469822100890951 /* error.html in Resources */,
 				500034802469765800890951 /* Sections.xcassets in Resources */,
+				50D4B09224C275BC00FE4B1E /* Acknowledge.md in Resources */,
 				50B9587B2483E82C002D0675 /* PKGVC.xcassets in Resources */,
 				5087165F244B59C0003E0023 /* Colors.xcassets in Resources */,
 				50D528C52449B11400F4A483 /* Assets.xcassets in Resources */,
@@ -1891,6 +1897,7 @@
 				507F1DDA247D493B00E9BAE7 /* zh-Hans */,
 				509FFDE324BD96A70017A417 /* ja */,
 				50AA060024C1F20E006EF85B /* cs */,
+				50D4B09024C274B700FE4B1E /* vi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

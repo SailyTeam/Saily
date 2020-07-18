@@ -185,7 +185,7 @@ class InstallAgentLogView: UIViewController {
                     hud?.show(in: view)
                 }
                 DispatchQueue.global(qos: .background).async {
-                    print(Tools.spawnCommandSycn("uicache && echo done >> " + signalFile))
+                    print(Tools.spawnCommandSycn("uicache -a && echo done >> " + signalFile))
                 }
                 DispatchQueue.global(qos: .background).async {
                     var count = 0

@@ -37,7 +37,7 @@ struct __NetworkConfig: Encodable, Decodable {
 final class ConfigManager {
     
     static let shared = ConfigManager("wiki.qaq.Protein.vender.ConfigManager")
-    static let availableLanguage = ["zh-Hans", "en", "cs"]
+    static let availableLanguage = ["zh-Hans", "en", "cs", "vi"]
     
     @Atomic public var CydiaConfig: __CydiaConfig
     @Atomic public var Application: __ApplicationConfig

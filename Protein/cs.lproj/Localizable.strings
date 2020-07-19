@@ -246,3 +246,23 @@
 "InstallAgent_DownloadNotFinished" = "Stahování není kompletní, prosím zkus to znovu. Pokud problém přetrvává, a ty nevidíš frontu stahování, tLocalizablehere může být problém s adresou balíčku. Prosím zkus obnovit stránku se zdroji nebo vyčisti cache pamět stahování v nastavení.";
 "InstallAgent_UpdateNotice" = "Zanedlouho proběhne aktualizace mně samotné. Aplikace se zavře v průběhu aktualizace a znovu otevře až bude vše hotovo. Prosím počkejte a neotvírejte aplikaci manuálně.";
 "InstallAgent_InTasksNotice" = "Systém uzamknut, zkus to znovu později.";
+
+"Account" = "Account";
+"Option" = "Option";
+"RepoLoginTitle" = "Software Source Login";
+"RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
+"SignOut" = "Sign Out";
+"ListPurchased" = "Purchased";
+"LoginFailedLeadingHint" = "Login Failed: ";
+"LoginFailedTrailingHint" = "Unexpected Error Occurred";
+"NoPurchased" = "No Item";
+"NoRepoSupportsPayment" = "No supported repo";
+"Payment_GetHelp" = "Open Issue Report Page";
+"PackageOperation_PaymentInvalid" = "Vender information was broken, no operation available.";
+"PackageOperation_RequiredLogin" = "Sign in required for this operation";
+"PackageOperation_PurchaseHint" = "Process to purchase?";
+"PackageOperation_PaymentSuccess" = "Purchase complete";
+"RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";
+ 
+
+

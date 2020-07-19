@@ -245,3 +245,20 @@
 "InstallAgent_DownloadNotFinished" = "下载尚未完成，请稍后再试。如果错误持续存在并且您看不到下载队列，则可能是软件包下载地址存在问题。请尝试刷新软件源或在设置里清除下载缓存。";
 "InstallAgent_UpdateNotice" = "本次安装包含自我更新，程序会在安装时退出。更新完成后会重新启动App，请耐心等待。";
 "InstallAgent_InTasksNotice" = "队列正在执行，请稍后再试。";
+
+"Account" = "账号";
+"Option" = "选项";
+"RepoLoginTitle" = "登录软件源";
+"RepoSignInBlockedHint" = "无法获取设备信息，登录被禁止。";
+"SignOut" = "注销账号";
+"ListPurchased" = "已购项目";
+"LoginFailedLeadingHint" = "登录失败: ";
+"LoginFailedTrailingHint" = "验证过程出现意外";
+"NoPurchased" = "无已购项目";
+"NoRepoSupportsPayment" = "无可用软件源";
+"Payment_GetHelp" = "前往 GitHub Issue 来获取帮助";
+"PackageOperation_PaymentInvalid" = "付费信息已损坏，无法安装";
+"PackageOperation_RequiredLogin" = "操作该软件包需要登录。";
+"PackageOperation_PurchaseHint" = "需要购买这个软件包吗？";
+"PackageOperation_PaymentSuccess" = "购买已完成";
+"RandomDeviceInfoMustBeTurnOff" = "保护设备信息选项已开启，如要继续，则必须将其关闭";

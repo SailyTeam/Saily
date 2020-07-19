@@ -245,3 +245,21 @@
 "InstallAgent_DownloadNotFinished" = "The download is not yet complete, please try again later. If the error persists and you cannot see the download queue, tLocalizablehere may be a problem with the package download address. Please try to refresh the software source or clear the download cache in the settings.";
 "InstallAgent_UpdateNotice" = "We are about to update ourself. The app will exit during the progress and will reopen when finished. Please wait and do not reopen manually.";
 "InstallAgent_InTasksNotice" = "System locked, please try again later.";
+
+"Account" = "Account";
+"Option" = "Option";
+"RepoLoginTitle" = "Software Source Login";
+"RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
+"SignOut" = "Sign Out";
+"ListPurchased" = "Purchased";
+"LoginFailedLeadingHint" = "Login Failed: ";
+"LoginFailedTrailingHint" = "Unexpected Error Occurred";
+"NoPurchased" = "No Item";
+"NoRepoSupportsPayment" = "No supported repo";
+"Payment_GetHelp" = "Open Issue Report Page";
+"PackageOperation_PaymentInvalid" = "Vender information was broken, no operation available.";
+"PackageOperation_RequiredLogin" = "Sign in required for this operation";
+"PackageOperation_PurchaseHint" = "Process to purchase?";
+"PackageOperation_PaymentSuccess" = "Purchase complete";
+"RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";
+ 

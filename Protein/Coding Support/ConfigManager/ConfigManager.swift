@@ -115,8 +115,18 @@ final class ConfigManager {
         Tools.rprint("-> " + udid)
     }
     
+    func obtainRealDeviceID() -> String? {let foo = dlopen("/usr/lib/libMobileGestalt.dylib", RTLD_GLOBAL | RTLD_LAZY)
+        typealias MGCopyAnswerAddr = @convention(c) (CFString) -> CFString
+        let MGCopyAnswer = unsafeBitCast(dlsym(foo, "MGCopyAnswer"), to: MGCopyAnswerAddr.self)
+        let udid = MGCopyAnswer("UniqueDeviceID" as CFString) as String
+        if udid.count > 8 {
+            return udid.lowercased()
+        }
+        return nil
+    }
+    
     func resetContainerIfNeeded() {
-        let versionCompare = "00000022"
+        let versionCompare = "00000024"
         Tools.rprint("Starting Application With Version Control Code [" + versionCompare + "] 👋")
         var root = documentString
         if root.count < 8 { // at least /var/root

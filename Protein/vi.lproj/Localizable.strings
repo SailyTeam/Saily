@@ -252,3 +252,23 @@
 "InstallAgent_DownloadNotFinished" = "Quá trình tải xuống chưa hoàn tất, vui lòng thử lại sau. Nếu lỗi vẫn còn và bạn không thể thấy hàng đợi tải xuống, Bản địa hóa ở đây có thể là một vấn đề với địa chỉ tải xuống của gói. Vui lòng thử làm mới nguồn phần mềm hoặc xóa bộ đệm tải xuống trong cài đặt.";
 "InstallAgent_UpdateNotice" = "Chúng tôi sắp cập nhật hệ thống. Ứng dụng sẽ thoát trong quá trình thực hiện và sẽ mở lại khi hoàn tất. Vui lòng đợi và không mở lại thủ công.";
 "InstallAgent_InTasksNotice" = "Hệ thống bị khóa, vui lòng thử lại sau.";
+
+"Account" = "Account";
+"Option" = "Option";
+"RepoLoginTitle" = "Software Source Login";
+"RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
+"SignOut" = "Sign Out";
+"ListPurchased" = "Purchased";
+"LoginFailedLeadingHint" = "Login Failed: ";
+"LoginFailedTrailingHint" = "Unexpected Error Occurred";
+"NoPurchased" = "No Item";
+"NoRepoSupportsPayment" = "No supported repo";
+"Payment_GetHelp" = "Open Issue Report Page";
+"PackageOperation_PaymentInvalid" = "Vender information was broken, no operation available.";
+"PackageOperation_RequiredLogin" = "Sign in required for this operation";
+"PackageOperation_PurchaseHint" = "Process to purchase?";
+"PackageOperation_PaymentSuccess" = "Purchase complete";
+"RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";
+ 
+
+

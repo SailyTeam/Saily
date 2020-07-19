@@ -54,6 +54,8 @@
 		5040EEC62481721F00A6993F /* DepictionSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEA72481721F00A6993F /* DepictionSeparatorView.swift */; };
 		5040EEC72481721F00A6993F /* DepictionMinVersionForceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEA92481721F00A6993F /* DepictionMinVersionForceView.swift */; };
 		5040EEC82481721F00A6993F /* CSTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEAA2481721F00A6993F /* CSTextView.swift */; };
+		504CBB1F24C3455700A8AD89 /* RepoPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBB1E24C3455700A8AD89 /* RepoPaymentViewController.swift */; };
+		504CBB2224C3466700A8AD89 /* RepoPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBB2124C3466700A8AD89 /* RepoPaymentManager.swift */; };
 		5054B8442467FA9A0046F6C2 /* UIWindowSceneUnlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054B8432467FA9A0046F6C2 /* UIWindowSceneUnlock.m */; };
 		505C89CC2468237500B992C8 /* NowUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505C89CB2468237500B992C8 /* NowUpdateView.swift */; };
 		505DD3D424C2FD5100606E26 /* ImportInstall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DD3D324C2FD5100606E26 /* ImportInstall.swift */; };
@@ -97,6 +99,7 @@
 		508B7C9C24BC1A1A00358489 /* DownloadTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508B7C9B24BC1A1A00358489 /* DownloadTypes.swift */; };
 		509BD867245DABE7003F60D8 /* Tools+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509BD866245DABE7003F60D8 /* Tools+UI.swift */; };
 		509BD869245DB018003F60D8 /* PackagePreviewCellNoCR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509BD868245DB018003F60D8 /* PackagePreviewCellNoCR.swift */; };
+		509C14D324C4100800D4651B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509C14D224C4100800D4651B /* Data.swift */; };
 		509F1C94244DCFBE00E8577D /* SplitDetailDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F1C93244DCFBE00E8577D /* SplitDetailDashBoard.swift */; };
 		509F1C96244DD0FE00E8577D /* SplitDetailTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F1C95244DD0FE00E8577D /* SplitDetailTask.swift */; };
 		509F1C98244DD12600E8577D /* SplitDetailSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F1C97244DD12600E8577D /* SplitDetailSetting.swift */; };
@@ -286,6 +289,8 @@
 		5040EEA72481721F00A6993F /* DepictionSeparatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepictionSeparatorView.swift; sourceTree = "<group>"; };
 		5040EEA92481721F00A6993F /* DepictionMinVersionForceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepictionMinVersionForceView.swift; sourceTree = "<group>"; };
 		5040EEAA2481721F00A6993F /* CSTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSTextView.swift; sourceTree = "<group>"; };
+		504CBB1E24C3455700A8AD89 /* RepoPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoPaymentViewController.swift; sourceTree = "<group>"; };
+		504CBB2124C3466700A8AD89 /* RepoPaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoPaymentManager.swift; sourceTree = "<group>"; };
 		5054B8432467FA9A0046F6C2 /* UIWindowSceneUnlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIWindowSceneUnlock.m; sourceTree = "<group>"; };
 		5054B8452467FAA20046F6C2 /* UIWindowSceneUnlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIWindowSceneUnlock.h; sourceTree = "<group>"; };
 		505C89CB2468237500B992C8 /* NowUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowUpdateView.swift; sourceTree = "<group>"; };
@@ -337,6 +342,7 @@
 		508B7C9B24BC1A1A00358489 /* DownloadTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTypes.swift; sourceTree = "<group>"; };
 		509BD866245DABE7003F60D8 /* Tools+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tools+UI.swift"; sourceTree = "<group>"; };
 		509BD868245DB018003F60D8 /* PackagePreviewCellNoCR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackagePreviewCellNoCR.swift; sourceTree = "<group>"; };
+		509C14D224C4100800D4651B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		509F1C93244DCFBE00E8577D /* SplitDetailDashBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitDetailDashBoard.swift; sourceTree = "<group>"; };
 		509F1C95244DD0FE00E8577D /* SplitDetailTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitDetailTask.swift; sourceTree = "<group>"; };
 		509F1C97244DD12600E8577D /* SplitDetailSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitDetailSetting.swift; sourceTree = "<group>"; };
@@ -807,6 +813,14 @@
 			path = DepictionMinVersionForceView;
 			sourceTree = "<group>";
 		};
+		504CBB2024C3456500A8AD89 /* RepoPaymentVC */ = {
+			isa = PBXGroup;
+			children = (
+				504CBB1E24C3455700A8AD89 /* RepoPaymentViewController.swift */,
+			);
+			path = RepoPaymentVC;
+			sourceTree = "<group>";
+		};
 		5054B8422467FA7F0046F6C2 /* ObjC */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,12 +853,12 @@
 			path = NowUpdateView;
 			sourceTree = "<group>";
 		};
-		505DD3D524C2FD5800606E26 /* ImportInstall */ = {
+		505DD3D524C2FD5800606E26 /* ImportInstallVC */ = {
 			isa = PBXGroup;
 			children = (
 				505DD3D324C2FD5100606E26 /* ImportInstall.swift */,
 			);
-			path = ImportInstall;
+			path = ImportInstallVC;
 			sourceTree = "<group>";
 		};
 		5060A58D24BC922F00C626B5 /* SettingView */ = {
@@ -931,6 +945,7 @@
 				50C117D124BF0964002B6368 /* FileManager.swift */,
 				50871651244B5224003E0023 /* NotificationCenter.swift */,
 				50FD62F5244C306A00F8F25B /* URL.swift */,
+				509C14D224C4100800D4651B /* Data.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -939,6 +954,7 @@
 			isa = PBXGroup;
 			children = (
 				50871642244B3ABB003E0023 /* RepoManager.swift */,
+				504CBB2124C3466700A8AD89 /* RepoPaymentManager.swift */,
 				50DB198B24559D4100457ABD /* RepoStruct.swift */,
 				50871648244B3DF9003E0023 /* DataBase1.swift */,
 			);
@@ -1001,15 +1017,16 @@
 		50871667244B6EAD003E0023 /* Universal */ = {
 			isa = PBXGroup;
 			children = (
-				50C117D324BF1DD0002B6368 /* InstallationAgent */,
-				50DB19912455CCAE00457ABD /* SearchVC */,
 				50FD62EE244C21DA00F8F25B /* RepoVC */,
-				50FD62FC244C3D7800F8F25B /* RepoAddVC */,
+				50DB19912455CCAE00457ABD /* SearchVC */,
 				50FD62ED244C21D400F8F25B /* LicenseVC */,
+				50FD62FC244C3D7800F8F25B /* RepoAddVC */,
 				50EB6C00245409D200D66F8A /* RamLogVC */,
 				50007C71245F0C0F00213615 /* PackageVC */,
+				505DD3D524C2FD5800606E26 /* ImportInstallVC */,
+				504CBB2024C3456500A8AD89 /* RepoPaymentVC */,
+				50C117D324BF1DD0002B6368 /* InstallationAgentVC */,
 				50DB19942455CCDD00457ABD /* PackageCollectionVC */,
-				505DD3D524C2FD5800606E26 /* ImportInstall */,
 			);
 			path = Universal;
 			sourceTree = "<group>";
@@ -1089,14 +1106,14 @@
 			path = iPhoneOS;
 			sourceTree = "<group>";
 		};
-		50C117D324BF1DD0002B6368 /* InstallationAgent */ = {
+		50C117D324BF1DD0002B6368 /* InstallationAgentVC */ = {
 			isa = PBXGroup;
 			children = (
 				50C117D424BF1DE9002B6368 /* InstallationAgent.swift */,
 				50C117D824BF60AD002B6368 /* InstallAgentLogView.swift */,
 				50C117D624BF3714002B6368 /* InstallationAgentSection.swift */,
 			);
-			path = InstallationAgent;
+			path = InstallationAgentVC;
 			sourceTree = "<group>";
 		};
 		50D528AF2449B11300F4A483 = {
@@ -1789,9 +1806,11 @@
 				50D0A1D8246866B20064C5CB /* ForceFree.m in Sources */,
 				50871639244B36FD003E0023 /* UIFont.swift in Sources */,
 				50871649244B3DF9003E0023 /* DataBase1.swift in Sources */,
+				504CBB1F24C3455700A8AD89 /* RepoPaymentViewController.swift in Sources */,
 				505C89CC2468237500B992C8 /* NowUpdateView.swift in Sources */,
 				5040EEC22481721F00A6993F /* DepictionButton.swift in Sources */,
 				503C6DD02472E89C00D42791 /* PKGVC.swift in Sources */,
+				509C14D324C4100800D4651B /* Data.swift in Sources */,
 				50FD62F0244C21FD00F8F25B /* RepoViewController.swift in Sources */,
 				5040EEB12481721F00A6993F /* DepictionVideoView.swift in Sources */,
 				50F0B90B244F58B10098BCF7 /* GradientView.swift in Sources */,
@@ -1839,6 +1858,7 @@
 				5030B8A72465888C00C70861 /* RecentInstalled.swift in Sources */,
 				5040EEB82481721F00A6993F /* DepictionWebView.swift in Sources */,
 				6865D585246852C10073EF2A /* SearchResultCellModel.swift in Sources */,
+				504CBB2224C3466700A8AD89 /* RepoPaymentManager.swift in Sources */,
 				50B958792483DC89002D0675 /* PKGVC+Section.swift in Sources */,
 				509FFDFB24BE07590017A417 /* AFURLSessionManager.m in Sources */,
 				50871635244B36CD003E0023 /* UIAlertController.swift in Sources */,

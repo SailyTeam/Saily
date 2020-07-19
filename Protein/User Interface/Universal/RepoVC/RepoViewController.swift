@@ -312,7 +312,7 @@ class RepoViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func loadFeaturedIfNeeded() {
         
         var json: [String : Any]?
-        
+        var finishCount = 0
         let masterSem = DispatchSemaphore(value: 0)
         do {
             DispatchQueue.global(qos: .background).async {
@@ -334,7 +334,10 @@ class RepoViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     task.resume()
                     sem.wait()
                 }
-                masterSem.signal()
+                if json != nil || finishCount > 0 {
+                    masterSem.signal()
+                }
+                finishCount += 1
             }
         }
         do {
@@ -359,7 +362,10 @@ class RepoViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     task.resume()
                     sem2.wait()
                 }
-                masterSem.signal()
+                if json != nil || finishCount > 0 {
+                    masterSem.signal()
+                }
+                finishCount += 1
             }
         }
         

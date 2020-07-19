@@ -14,6 +14,8 @@ class PackageCollectionViewController: UIViewControllerWithCustomizedNavBar, UIC
     private var privViewSize = CGSize()
     let collectionView: UICollectionView
     
+    public var nothingInfo: (String, String, String)? = nil
+    
     required init() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
@@ -125,9 +127,15 @@ class PackageCollectionViewController: UIViewControllerWithCustomizedNavBar, UIC
                 }
             }
         } else {
-            cell.name.text = "NoRecentUpdate".localized()
-            cell.auth.text = "😄"
-            cell.desc.text = "NoRecentUpdateInstruction"
+            if let nothing = nothingInfo {
+                cell.name.text = nothing.0
+                cell.auth.text = nothing.1
+                cell.desc.text = nothing.2
+            } else {
+                cell.name.text = "NoRecentUpdate".localized()
+                cell.auth.text = "😄"
+                cell.desc.text = "NoRecentUpdateInstruction".localized()
+            }
             cell.icon.image =  UIImage(named: "mod")
             cell.packageRef = nil
         }
@@ -151,6 +159,9 @@ class PackageCollectionViewController: UIViewControllerWithCustomizedNavBar, UIC
                 self.present(target, animated: true, completion: nil)
             }
         } else {
+            if store.count == 0 {
+                return
+            }
             let alert = UIAlertController(title: "Error".localized(), message: "Package_ContentDamaged".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)

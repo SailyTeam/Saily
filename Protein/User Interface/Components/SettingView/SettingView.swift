@@ -167,9 +167,10 @@ class SettingView: UIView {
         let repoLogin = SettingSectionView(iconSystemNamed: "person.crop.square.fill",
                                            text: "RepoLoginHint".localized(),
                                            dataType: .submenuWithAction, initData: nil) { (_, _) in
-                                            let alert = UIAlertController(title: "Error".localized(), message: "Repo login is not available in this beta", preferredStyle: .alert)
-                                            alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-                                            self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                            let pop = RepoPaymentViewController()
+                                            pop.modalPresentationStyle = .formSheet
+                                            pop.modalTransitionStyle = .coverVertical
+                                            self.obtainParentViewController?.present(pop, animated: true, completion: nil)
         }
         let repoDownloadLimit = SettingSectionView(iconSystemNamed: "link",
                                                    text: "RepoDownloadLimit".localized(),

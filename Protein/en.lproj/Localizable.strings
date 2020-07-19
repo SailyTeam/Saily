@@ -65,15 +65,9 @@
 "AppDelegate_BootstrapTime" = "Boot time";
 
 "TimeGap_JustNow" = "Just Now";
-<<<<<<< HEAD
 "%dTimeGap_MinBefore" = "%d mins ago";
 "%dTimeGap_HoursBefore" = "%d hours ago";
 "%dTimeGap_DaysBefore" = "%d days ago";
-=======
-"%xTimeGap_MinBefore" = "%x mins ago";
-"%xTimeGap_HoursBefore" = "%x hours ago";
-"%xTimeGap_DaysBefore" = "%x days ago";
->>>>>>> eae1b37... Update Localizable.strings
 "TimeGap_OutDated" = "Outdated";
 
 "Repo_NoDescription" = "No description provided";
@@ -251,3 +245,21 @@
 "InstallAgent_DownloadNotFinished" = "The download is not yet complete, please try again later. If the error persists and you cannot see the download queue, tLocalizablehere may be a problem with the package download address. Please try to refresh the software source or clear the download cache in the settings.";
 "InstallAgent_UpdateNotice" = "We are about to update Saily. The app will exit during the progress and will reopen when finished. Please wait and do not reopen manually.";
 "InstallAgent_InTasksNotice" = "dpkg locked, please try again later.";
+
+"Account" = "Account";
+"Option" = "Option";
+"RepoLoginTitle" = "Software Source Login";
+"RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
+"SignOut" = "Sign Out";
+"ListPurchased" = "Purchased";
+"LoginFailedLeadingHint" = "Login Failed: ";
+"LoginFailedTrailingHint" = "Unexpected Error Occurred";
+"NoPurchased" = "No Item";
+"NoRepoSupportsPayment" = "No supported repo";
+"Payment_GetHelp" = "Open Issue Report Page";
+"PackageOperation_PaymentInvalid" = "Vender information was broken, no operation available.";
+"PackageOperation_RequiredLogin" = "Sign in required for this operation";
+"PackageOperation_PurchaseHint" = "Process to purchase?";
+"PackageOperation_PaymentSuccess" = "Purchase complete";
+"RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";
+ 

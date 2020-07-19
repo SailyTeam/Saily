@@ -9,6 +9,7 @@
 import UIKit
 import Down
 import DropDown
+import JGProgressHUD
 
 class PackageViewControllerSectionView: UIView {
     
@@ -175,11 +176,6 @@ class PackageViewControllerSectionView: UIView {
             if PackageManager.shared.wishListExists(withIdentity: item.identity) {
                 isInWishList = true
             }
-            if item.isPaid() {
-                let alert = UIAlertController(title: "Error".localized(), message: "Paid packages are not supported in this beta", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
-            }
             if item.obtainDownloadLocationFromNewestVersion() != nil {
                 downloadAvailable = true
             }
@@ -276,7 +272,7 @@ class PackageViewControllerSectionView: UIView {
                             script += "rm -f /var/lib/apt/lists/lock\n"
                             script += "rm -f /var/cache/apt/archives/lock\n"
                             script += "rm -f /var/lib/dpkg/lock*\n"
-                            if self.📦?.identity == "wiki.qaq.Protein" {
+                            if self.📦?.identity.lowercased() == "wiki.qaq.Protein".lowercased() {
                                 FileManager.default.createFile(atPath: "/private/var/root/Documents/wiki.qaq.protein.update.reopen", contents: nil, attributes: nil)
                             }
                             script += "echo ****INSTALL****\n"
@@ -306,34 +302,9 @@ class PackageViewControllerSectionView: UIView {
                 case "PackageOperation_RemoveFromWishList":
                     PackageManager.shared.wishListDelete(withIdentity: item.identity)
                 case "PackageOperation_AddToInstall", "PackageOperation_AddToUpdate":
-                    let ret = TaskManager.shared.addInstall(with: item)
-                    if !ret.didSuccess {
-                        let diag = PackageDiagViewController()
-                        diag.loadData(withPackage: item, andResolveObject: ret.resolveObject)
-                        diag.modalPresentationStyle = .formSheet;
-                        diag.modalTransitionStyle = .coverVertical;
-                        self.obtainParentViewController?.present(diag, animated: true, completion: nil)
-                    }
-                    self.reloadData()
+                    self.installSelector(withPackage: item)
                 case "PackageOperation_AddToReInstall":
-                    if let installedVersion = PackageManager.shared.getInstalledVersion(withIdentity: item.identity),
-                        let meta = item.versions[installedVersion], meta["filename"] != nil {
-                        let ret = TaskManager.shared.addInstall(with: PackageStruct(identity: item.identity, versions: [installedVersion : meta], fromRepoUrlRef: item.fromRepoUrlRef))
-                            if !ret.didSuccess {
-                                let diag = PackageDiagViewController()
-                                diag.loadData(withPackage: item, andResolveObject: ret.resolveObject)
-                                diag.modalPresentationStyle = .formSheet;
-                                diag.modalTransitionStyle = .coverVertical;
-                                self.obtainParentViewController?.present(diag, animated: true, completion: nil)
-                            }
-                    } else {
-                        let alert = UIAlertController(title: "Error".localized(),
-                                                      message: "PackageDiagnosis_NoDownloadURLAvailable".localized(),
-                                                      preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-                        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
-                    }
-                    self.reloadData()
+                    self.reInstallSelector(withPackage: item)
                 case "PackageOperation_RemoveFromQueue":
                     let ret = TaskManager.shared.removeQueuedPackage(withIdentity: [item.identity])
                     if !ret.didSuccess {
@@ -365,18 +336,7 @@ class PackageViewControllerSectionView: UIView {
                     }
                     shareStr.share(fromView: self.obtainParentViewController?.view)
                 case "PackageOperation_JustDownload":
-                    if let url = item.obtainDownloadLocationFromNewestVersion() {
-                        TaskManager.shared.downloadManager.sendToDownload(fromPackage: item, fromURL: url, withFileName: url.lastPathComponent) { (progress) in
-                            NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : url.urlString, "progress" : progress])
-                        }
-                        NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
-                        NotificationCenter.default.post(name: .TaskListUpdated, object: nil)
-                    } else {
-                        let alert = UIAlertController(title: "Error".localized(),
-                                                      message: "PackageDiagnosis_NoDownloadURLAvailable".localized(), preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-                        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
-                    }
+                    self.justDownloadSelector(withPackage: item)
                 case "PackageOperation_Advanced":
                     let alert = UIAlertController(title: "Error".localized(), message: "Advanced package operation submenu is not supported in this beta", preferredStyle:  .alert)
                     alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
@@ -394,6 +354,300 @@ class PackageViewControllerSectionView: UIView {
             }
         }
         dropDown.show(onTopOf: self.window)
+    }
+    
+    func installSelector(withPackage item: PackageStruct) {
+        if item.isPaid() {
+            if ConfigManager.shared.CydiaConfig.mess {
+                let alert = UIAlertController(title: "Error".localized(), message: "RandomDeviceInfoMustBeTurnOff".localized(), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                return
+            }
+            if let url = item.fromRepoUrlRef,
+                let endPoint = RepoPaymentManager.shared.queryEndpointAndSaveToRam(urlAsKey: url) {
+                if RepoPaymentManager.shared.obtainUserSignInfomation(forRepoUrlAsKey: url) != nil {
+                    let hud: JGProgressHUD
+                    if self.traitCollection.userInterfaceStyle == .dark {
+                        hud = .init(style: .dark)
+                    } else {
+                        hud = .init(style: .light)
+                    }
+                    hud.show(in: self.obtainParentViewController?.view ?? UIView())
+                    DispatchQueue.global(qos: .background).async {
+                        RepoPaymentManager.shared.obtainPackageInfo(withUrlAsKey: url, withPkgIdentity: item.identity) { (paymentMetaInfo) in
+                            defer {
+                                DispatchQueue.main.async {
+                                    hud.dismiss()
+                                }
+                            }
+                            if let meta = paymentMetaInfo, meta.available == true {
+                                if meta.purchased ?? false {
+                                    // go download, overwrite download link
+                                    if let target = RepoPaymentManager.shared.queryDownloadLink(withPackage: item) {
+                                        let version = item.newestVersion()
+                                        var newMeta = item.newestMetaData() ?? [:]
+                                        newMeta["filename"] = target
+                                        let newPkg = PackageStruct(identity: item.identity, versions: [version : newMeta], fromRepoUrlRef: item.fromRepoUrlRef)
+                                        let ret = TaskManager.shared.addInstall(with: newPkg)
+                                        if !ret.didSuccess {
+                                            DispatchQueue.main.async {
+                                                let diag = PackageDiagViewController()
+                                                diag.loadData(withPackage: item, andResolveObject: ret.resolveObject)
+                                                diag.modalPresentationStyle = .formSheet;
+                                                diag.modalTransitionStyle = .coverVertical;
+                                                self.obtainParentViewController?.present(diag, animated: true, completion: nil)
+                                            }
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.reloadData()
+                                        }
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            let alert = UIAlertController(title: "Error".localized(),
+                                                                          message: "PackageOperation_PaymentInvalid".localized(),
+                                                                          preferredStyle: .alert)
+                                            alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                            self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                        }
+                                    }
+                                } else {
+                                    // go 💰
+                                    DispatchQueue.main.async {
+                                        let alert = UIAlertController(title: meta.price ?? "💰",
+                                                                      message: "PackageOperation_PurchaseHint".localized(),
+                                                                      preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "Continue".localized(), style: .default, handler: { (_) in
+                                            let hud: JGProgressHUD
+                                            if self.traitCollection.userInterfaceStyle == .dark {
+                                                hud = .init(style: .dark)
+                                            } else {
+                                                hud = .init(style: .light)
+                                            }
+                                            hud.show(in: self.obtainParentViewController?.view ?? UIView())
+                                            let window = self.window ?? UIWindow()
+                                            DispatchQueue.global(qos: .background).async {
+                                                defer {
+                                                    DispatchQueue.main.async {
+                                                        hud.dismiss()
+                                                    }
+                                                }
+                                                let ret = RepoPaymentManager.shared.initPurchase(withUrlAsKey: url, withPkgIdentity: item.identity, withWindow: window)
+                                                if ret == .fails {
+                                                    let alert = UIAlertController(title: "Error".localized(),
+                                                                                  message: "PackageOperation_PaymentInvalid".localized(),
+                                                                                  preferredStyle: .alert)
+                                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                }
+                                                if ret == .succeed {
+                                                    let alert = UIAlertController(title: "Done".localized(),
+                                                                                  message: "PackageOperation_PaymentSuccess".localized(),
+                                                                                  preferredStyle: .alert)
+                                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                }
+                                            }
+                                        }))
+                                        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .default, handler: nil))
+                                        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                    }
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    let alert = UIAlertController(title: "Error".localized(),
+                                                                  message: "PackageOperation_PaymentInvalid".localized(),
+                                                                  preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    let alert = UIAlertController(title: "Error".localized(),
+                                                  message: "PackageOperation_RequiredLogin".localized(),
+                                                  preferredStyle: .alert)
+                    if let window = self.window {
+                        alert.addAction(UIAlertAction(title: "Continue".localized(), style: .default, handler: { (_) in
+                            RepoPaymentManager.shared.startUserAuthenticate(inWindow: window, inAlertContainer: self.obtainParentViewController, andRepoUrlAsKey: url, withEndpoint: endPoint) {
+                            }
+                        }))
+                    }
+                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                let alert = UIAlertController(title: "Error".localized(),
+                                              message: "PackageOperation_PaymentInvalid".localized(),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+            }
+        } else {
+            let ret = TaskManager.shared.addInstall(with: item)
+            if !ret.didSuccess {
+                let diag = PackageDiagViewController()
+                diag.loadData(withPackage: item, andResolveObject: ret.resolveObject)
+                diag.modalPresentationStyle = .formSheet;
+                diag.modalTransitionStyle = .coverVertical;
+                self.obtainParentViewController?.present(diag, animated: true, completion: nil)
+            }
+            self.reloadData()
+        }
+    }
+    
+    func justDownloadSelector(withPackage item: PackageStruct) {
+        if item.isPaid() {
+            if ConfigManager.shared.CydiaConfig.mess {
+                let alert = UIAlertController(title: "Error".localized(), message: "RandomDeviceInfoMustBeTurnOff".localized(), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                return
+            }
+            if let url = item.fromRepoUrlRef,
+                let endPoint = RepoPaymentManager.shared.queryEndpointAndSaveToRam(urlAsKey: url) {
+                if RepoPaymentManager.shared.obtainUserSignInfomation(forRepoUrlAsKey: url) != nil {
+                    let hud: JGProgressHUD
+                    if self.traitCollection.userInterfaceStyle == .dark {
+                        hud = .init(style: .dark)
+                    } else {
+                        hud = .init(style: .light)
+                    }
+                    hud.show(in: self.obtainParentViewController?.view ?? UIView())
+                    DispatchQueue.global(qos: .background).async {
+                        RepoPaymentManager.shared.obtainPackageInfo(withUrlAsKey: url, withPkgIdentity: item.identity) { (paymentMetaInfo) in
+                            defer {
+                                DispatchQueue.main.async {
+                                    hud.dismiss()
+                                }
+                            }
+                            if let meta = paymentMetaInfo, meta.available == true {
+                                if meta.purchased ?? false {
+                                    // go download, overwrite download link
+                                    if let target = RepoPaymentManager.shared.queryDownloadLink(withPackage: item) {
+                                        let version = item.newestVersion()
+                                        var newMeta = item.newestMetaData() ?? [:]
+                                        newMeta["filename"] = target
+                                        let newPkg = PackageStruct(identity: item.identity, versions: [version : newMeta], fromRepoUrlRef: item.fromRepoUrlRef)
+                                        if let url = newPkg.obtainDownloadLocationFromNewestVersion() {
+                                            TaskManager.shared.downloadManager.sendToDownload(fromPackage: newPkg, fromURL: url, withFileName: url.lastPathComponent) { (progress) in
+                                                NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : url.urlString, "progress" : progress])
+                                            }
+                                            NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
+                                            NotificationCenter.default.post(name: .TaskListUpdated, object: nil)
+                                        }
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            let alert = UIAlertController(title: "Error".localized(),
+                                                                          message: "PackageOperation_PaymentInvalid".localized(),
+                                                                          preferredStyle: .alert)
+                                            alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                            self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                        }
+                                    }
+                                } else {
+                                    // go 💰
+                                    DispatchQueue.main.async {
+                                        let alert = UIAlertController(title: meta.price ?? "💰",
+                                                                      message: "PackageOperation_PurchaseHint".localized(),
+                                                                      preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "Continue".localized(), style: .default, handler: { (_) in
+                                            let hud: JGProgressHUD
+                                            if self.traitCollection.userInterfaceStyle == .dark {
+                                                hud = .init(style: .dark)
+                                            } else {
+                                                hud = .init(style: .light)
+                                            }
+                                            hud.show(in: self.obtainParentViewController?.view ?? UIView())
+                                            let window = self.window ?? UIWindow()
+                                            DispatchQueue.global(qos: .background).async {
+                                                defer {
+                                                    DispatchQueue.main.async {
+                                                        hud.dismiss()
+                                                    }
+                                                }
+                                                let ret = RepoPaymentManager.shared.initPurchase(withUrlAsKey: url, withPkgIdentity: item.identity, withWindow: window)
+                                                if ret == .fails {
+                                                    let alert = UIAlertController(title: "Error".localized(),
+                                                                                  message: "PackageOperation_PaymentInvalid".localized(),
+                                                                                  preferredStyle: .alert)
+                                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                }
+                                                if ret == .succeed {
+                                                    let alert = UIAlertController(title: "Done".localized(),
+                                                                                  message: "PackageOperation_PaymentSuccess".localized(),
+                                                                                  preferredStyle: .alert)
+                                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                }
+                                            }
+                                        }))
+                                        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .default, handler: nil))
+                                        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                    }
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    let alert = UIAlertController(title: "Error".localized(),
+                                                                  message: "PackageOperation_PaymentInvalid".localized(),
+                                                                  preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    let alert = UIAlertController(title: "Error".localized(),
+                                                  message: "PackageOperation_RequiredLogin".localized(),
+                                                  preferredStyle: .alert)
+                    if let window = self.window {
+                        alert.addAction(UIAlertAction(title: "Continue".localized(), style: .default, handler: { (_) in
+                            RepoPaymentManager.shared.startUserAuthenticate(inWindow: window, inAlertContainer: self.obtainParentViewController, andRepoUrlAsKey: url, withEndpoint: endPoint) {
+                            }
+                        }))
+                    }
+                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                let alert = UIAlertController(title: "Error".localized(),
+                                              message: "PackageOperation_PaymentInvalid".localized(),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+            }
+        } else {
+            if let url = item.obtainDownloadLocationFromNewestVersion() {
+                TaskManager.shared.downloadManager.sendToDownload(fromPackage: item, fromURL: url, withFileName: url.lastPathComponent) { (progress) in
+                    NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : url.urlString, "progress" : progress])
+                }
+                NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
+                NotificationCenter.default.post(name: .TaskListUpdated, object: nil)
+            } else {
+                let alert = UIAlertController(title: "Error".localized(),
+                                              message: "PackageDiagnosis_NoDownloadURLAvailable".localized(), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func reInstallSelector(withPackage item: PackageStruct) {
+        if let installedVersion = PackageManager.shared.getInstalledVersion(withIdentity: item.identity),
+            let meta = item.versions[installedVersion], meta["filename"] != nil {
+            let newPackage = PackageStruct(identity: item.identity, versions: [installedVersion : meta], fromRepoUrlRef: item.fromRepoUrlRef)
+            self.installSelector(withPackage: newPackage)
+        } else {
+            let alert = UIAlertController(title: "Error".localized(),
+                                          message: "PackageDiagnosis_NoDownloadURLAvailable".localized(),
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+            self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+        }
+        self.reloadData()
     }
     
 }

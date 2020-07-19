@@ -231,9 +231,14 @@ extension SplitBoardingDash: UIImagePickerControllerDelegate {
     }
     
     func welcomeCardWhenTouchCard() {
-        let alert = UIAlertController(title: "Error".localized(), message: "Account management is not available in this beta", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)    }
+//        let alert = UIAlertController(title: "Error".localized(), message: "Account management is not available in this beta", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
+        let pop = RepoPaymentViewController()
+        pop.modalPresentationStyle = .formSheet
+        pop.modalTransitionStyle = .coverVertical
+        self.present(pop, animated: true, completion: nil)
+    }
     
     func welcomeCardWhenTouchIcon() {
         

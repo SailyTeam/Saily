@@ -579,12 +579,24 @@ final class RepoManager {
             }
         }
         
+        let paymentSem = DispatchSemaphore(value: 0)
+        var paymentEndpoint: String? = nil
+        DispatchQueue.global(qos: .background).async {
+            paymentEndpoint = RepoPaymentManager.shared.queryEndpointAndSaveToRam(urlAsKey: repo.url.urlString, fromUpdate: true)
+            paymentSem.signal()
+        }
+        
+        
         if releaseRAW == nil {
-            let _ = releaseSem.wait(timeout: .now() + Double(10))
+            let _ = releaseSem.wait(timeout: .now() + Double(ConfigManager.shared.Networking.maxWaitTimeToDownloadRepo))
         }
         
         if packageRAW == nil {
             let _ = packageSem.wait(timeout: .now() + Double(ConfigManager.shared.Networking.maxWaitTimeToDownloadRepo))
+        }
+        
+        if paymentEndpoint == nil {
+            let _ = paymentSem.wait(timeout: .now() + Double(ConfigManager.shared.Networking.maxWaitTimeToDownloadRepo))
         }
         
         let timeUsedToUpdateMetas = Double(Int((Date().timeIntervalSince1970 - beginTimeStamp) * 100)) / 100
@@ -618,6 +630,9 @@ final class RepoManager {
             }
             if let cache = packageSearchCache {
                 _newRepo.cacheSearchPath = cache
+            }
+            if let paymentEndpoint = paymentEndpoint {
+                _newRepo.paymentInfo["endpoint"] = paymentEndpoint
             }
             let timeUsedToInvokeMetas = Double(Int((Date().timeIntervalSince1970 - metaTimeStamp) * 100)) / 100
             rprintStatus(repo.obtainPossibleName(), "Meta invoke finished in " + String(timeUsedToInvokeMetas) + "s")

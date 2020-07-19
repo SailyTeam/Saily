@@ -28,6 +28,7 @@ struct RepoStruct: Equatable, Codable {
     var metaPackage: [String : PackageStruct] = [:]
     
     var cacheSearchPath = "bz2"
+    var paymentInfo: [String : String] = [:]
     
     var nameComment: String = "" {
         didSet {
@@ -147,6 +148,10 @@ struct RepoStruct: Equatable, Codable {
             }
         }
         return ret
+    }
+    
+    func isPaymentAvailable() -> Bool {
+        return RepoPaymentManager.shared.queryEndpointAndSaveToRam(urlAsKey: url.urlString) == nil ? false : true
     }
     
 }

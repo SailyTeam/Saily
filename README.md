@@ -1,9 +1,18 @@
 # Saily
 ### Modern. Fast. Beautiful.
 
-Saily is a package manager for jailbroken device with APT support. We are planing to bring support of rootless jailbreak in the future along with the watchOS jailbreak which is still in an early status in my lab.
+Saily is a package manager for jailbroken device on iOS 13 and above with APT support. We are planing to bring support of rootless jailbreak in the future along with the watchOS jailbreak which is still in an early status in my lab.
 
 [![pipeline status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
+
+- [x] Import all your repos from Cydia, Zebra, Installer, Sileo and also clipboard
+- [x] All package depictions, Native/Json Depiction, Web Depiction(with dark mode exists), Zebra Depiction
+- [x] Paid packages/Payment management
+- [x] Continue every package download breaking by anything
+- [x] Multiple window support for iPadOS
+- [x] Quick actions from Settings
+- [x] No hidden network traffic nor obfuscation, full open sourced under MIT License
+- [x] Random device info available from Settings for free packages
 
 ![Preview](./Attachments/main.jpeg)
 

@@ -3,9 +3,12 @@
 
 Saily is a package manager for jailbroken device on iOS 13 and above with APT support. We are planing to bring support of rootless jailbreak in the future along with the watchOS jailbreak which is still in an early status in my lab.
 
-[![pipeline status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
+[![Pipeline Status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 
 - [x] Import all your repos from Cydia, Zebra, Installer, Sileo and also clipboard
+- [x] Smart update depends on the time gap between last refresh
+- [x] Only refresh selected repo(s) and keep every record right
 - [x] All package depictions, Native/Json Depiction, Web Depiction(with dark mode exists), Zebra Depiction
 - [x] Paid packages/Payment management
 - [x] Continue every package download breaking by anything
@@ -27,6 +30,7 @@ Project Leader:
 Code Level Contributor:
 - [@Lakr233](https://www.twitter.com/Lakr233)
 - [@Sou1ghost](https://twitter.com/Sou1gh0st)
+- [@jkpang2](https://twitter.com/jkpang2)
 - [@mx_yolande](https://twitter.com/mx_yolande)
 - [@u0x01](https://twitter.com/u0x01)
 
@@ -56,24 +60,18 @@ Our GitLab CI runner will package our stuff automatically. Contact master@233owo
 
 ## Bug Report
 
-### Critical/Fatal Issue
+If you are experience any issue, please file a report on issue page.
 
-If you are experience critical issue such as boot looped your device or system file missing issue:
-
-- write email to master@233owo.com ASAP
-
-We need following information about a fatal error:
+We need following information about an error:
 
 - your device identify: iPhone/iPad X,X
 - your network condition: WiFi, Mobile Network, Ethernet...
 - the version of our app you installed
 - the system version of your device
+- the APT report if the bug is related with installation
+- the /Library/dpkg folder if is related with installed section
 
-We will cancel the matching release immediately until its proved safe to work.
-
-### General Issue/Feature Request
-
-There is bug all around the world. Feel free to open an issue. Be sure to check around if there is any duplicated otherwise we would close yours.
+There is bug all around the world. Be sure to check around if there is any duplicated otherwise we would close yours.
 
 - Your next bug is not a bug, it is a feature. cc/ Apple
 

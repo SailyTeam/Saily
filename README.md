@@ -13,6 +13,8 @@ Saily is a package manager for jailbroken device on iOS 13 and above with APT su
 - [x] Quick actions from Settings
 - [x] No hidden network traffic nor obfuscation, full open sourced under MIT License
 - [x] Random device info available from Settings for free packages
+- [x] Tested to work with all your jailbreaks and lives with all your package managers together
+- [ ] Unique iPhone UI design in progress... (when ETA: by the end of October this year)
 
 ![Preview](./Attachments/main.jpeg)
 

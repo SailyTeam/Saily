@@ -24,10 +24,10 @@ Description: Saily is a modern APT package manager for jailbroken devices runnin
 - [x] Tested to work with all your jailbreaks and lives with all your package managers together
 - [x] Build and packaged by CI machine, clean and stable as it should be
 - [ ] Unique iPhone UI design in progress... (ETA: end of October)
-- [ ] Full support for rootlessJB (ETA: end of October)
+- [ ] Full support for rootlessJB (ETA: end of October, if rootlessJB supports iOS 13)
 - [ ] Full support for watchOS (ETA: Unavailable at this time)
 
-
+> iOS 12 support is dropped
 
 ## Credits
 
@@ -41,18 +41,18 @@ We would like to akgnowledge everyone who has contibuted to this project. Some o
 
 ### Code Level Contributors:
 - [@Lakr233](https://twitter.com/Lakr233)
-- [@BreckenLusk](https://twitter.com/BreckenLusk)
 - [@Sou1ghost](https://twitter.com/Sou1gh0st)
 - [@jkpang2](https://twitter.com/jkpang2)
 - [@mx_yolande](https://twitter.com/mx_yolande)
 - [@u0x01](https://twitter.com/u0x01)
+- [@BreckenLusk](https://twitter.com/BreckenLusk)
 
 ### Translators:
 - [@BreckenLusk](https://twitter.com/BreckenLusk)
 - [@Litteeen](https://twitter.com/Litteeen)
 - [@fahlnbg](https://twitter.com/fahlnbg)
 - [@lamtaodotstore](https://twitter.com/lamtaodotstore)
-- [@vondrck](https://twitter.com/vondrck)
+- [@vondrck](https://twitter.com/Amachik2)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 
 ### Official Twitter Accounts:
@@ -63,15 +63,28 @@ Both Twitter accounts are held and run by the marketing director, [@BreckenLusk]
 
 ## Boarding Instructions
 
+> Prerequisite
+
 - A mac running macOS 10.15 and above
-- Xcode installed with Catalyst support
-- Execute ./Attachments/boarding.sh
-- Change bundle identify to unique one (dont forget watchOS app) (Or build it with bake.command inside Attachments folder)
-- Check out coding instructions from [here](Attachments/Coding.md)
+- Xcode installed with Catalyst support(if you want to run on macOS)
+- Install dpkg, xcpretty, cocoapods, ldid
+- Execute ./Attachments/boarding.sh to bootsrtap pods and patches
+
+> Development & Debug
+
+- Change bundle identity for each target also watchKit app
+- Check User-Define settings
+- Select Generic iOS Device to build deb on debug build
+- Install docker to build a local repo with port 900 for nginx server
+
+> In house release
+
+- Open ./Attachments/bake.command
+- Check out temps folder for packages
 
 ## Packaging
 
-Our GitLab CI runner will package our stuff automatically. Contact master@233owo.com for more information. Besides, there is no porting plan for GitHub actions. The release will be made available on GitHub after CI passed all tests.
+Our GitLab CI runner will package our stuff automatically. Any question should be asked here [Discord Group](https://discord.gg/2DkKsFd). Besides, there is no porting plan for GitHub actions. The release will be made available on GitHub after CI passed all tests.
 
 ## Bug Reporting
 
@@ -90,7 +103,10 @@ Please be sure to check around if the issue your experiencing has already been r
 
 - Your next bug is not a bug, it is a feature. cc/ Apple
 
-#### "While the world sleeps, we dream."
-#### Copyright © 2020 Saily Team. All rights reserved. Licensed under the MIT License.
+> While the world sleeps, we dream.
+
+---
+
+Copyright © 2020 Saily Team All rights reserved
 
 

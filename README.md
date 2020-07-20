@@ -1,13 +1,17 @@
 # Saily
 ### Modern. Fast. Beautiful.
 
-Saily is a package manager for jailbroken device on iOS 13 and above with APT support. We are planing to bring support of rootless jailbreak in the future along with the watchOS jailbreak which is still in an early status in my lab.
+Saily is an APT package manager for jailbroken devices running iPadOS 13 and up.
 
 [![Pipeline Status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 
-- [x] Import all your repos from Cydia, Zebra, Installer, Sileo and also clipboard
-- [x] Manage repos with no limitation on add nor delete
+![Preview](./Attachments/main.jpeg)
+
+## Features
+
+- [x] Import all your repos from Cydia, Sileo, Zebra, and Installer
+- [x] Add and manage repositories without limitation
 - [x] Smart update depends on the time gap between last refresh
 - [x] Only refresh selected repo(s) and keep every record right
 - [x] All package depictions, Native/Json Depiction, Web Depiction(with dark mode exists), Zebra Depiction
@@ -19,32 +23,34 @@ Saily is a package manager for jailbroken device on iOS 13 and above with APT su
 - [x] Random device info available from Settings for free packages
 - [x] Tested to work with all your jailbreaks and lives with all your package managers together
 - [x] Build and packaged by CI machine, clean and stable as it should be
-- [ ] Unique iPhone UI design in progress... (when ETA: by the end of October this year)
+- [ ] Unique iPhone UI design in progress... (ETA: end of October)
+- [ ] Full support for rootlessJB (ETA: end of October)
+- [ ] Full support for watchOS (ETA: Unavailable at this time)
 
-![Preview](./Attachments/main.jpeg)
 
-## Acknowledgment
+
+## Credits
 
 We make acknowledgement to everyone joined this party. They may not shown in the git history but will be listed here.
 
-Project Leader: 
+### Project Leader: 
 - [@Lakr233](https://www.twitter.com/Lakr233)
 
-Code Level Contributor:
+### Code Level Contributor:
 - [@Lakr233](https://www.twitter.com/Lakr233)
 - [@Sou1ghost](https://twitter.com/Sou1gh0st)
 - [@jkpang2](https://twitter.com/jkpang2)
 - [@mx_yolande](https://twitter.com/mx_yolande)
 - [@u0x01](https://twitter.com/u0x01)
 
-Translator:
+### Translators:
 - [@Litteeen](https://twitter.com/Litteeen)
 - [@fahlnbg](https://twitter.com/fahlnbg)
 - [@lamtaodotstore](https://twitter.com/lamtaodotstore)
 - [@vondrck](https://twitter.com/vondrck)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 
-Official Social Account:
+### Official Social Account:
 - [@TrySaily](https://twitter.com/TrySaily)
 
 Ps. The account is hold by [@BreckenLusk](https://twitter.com/BreckenLusk)

@@ -47,7 +47,7 @@ We make acknowledgement to everyone joined this party. They may not shown in the
 - [@Litteeen](https://twitter.com/Litteeen)
 - [@fahlnbg](https://twitter.com/fahlnbg)
 - [@lamtaodotstore](https://twitter.com/lamtaodotstore)
-- [@vondrck](https://twitter.com/vondrck)
+- [@vondrck](https://twitter.com/Amachik2)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 
 ### Official Social Account:

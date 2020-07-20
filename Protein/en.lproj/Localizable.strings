@@ -248,7 +248,7 @@
 "InstallAgent_InTasksNotice" = "Another operation in progress, please try again later.";
 
 "Account" = "Account";
-"Option" = "Option";
+"Option" = "Options";
 "RepoLoginTitle" = "Software Source Login";
 "RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
 "SignOut" = "Sign Out";
@@ -258,8 +258,8 @@
 "NoPurchased" = "No Item";
 "NoRepoSupportsPayment" = "No supported repo";
 "Payment_GetHelp" = "Open Issue Report Page";
-"PackageOperation_PaymentInvalid" = "Vender information was broken, no operation available.";
+"PackageOperation_PaymentInvalid" = "Vendor information was broken, no operation available.";
 "PackageOperation_RequiredLogin" = "Sign in required for this operation";
-"PackageOperation_PurchaseHint" = "Process to purchase?";
+"PackageOperation_PurchaseHint" = "Proceed to purchase?";
 "PackageOperation_PaymentSuccess" = "Purchase complete";
 "RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";

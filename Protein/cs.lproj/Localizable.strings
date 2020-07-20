@@ -6,7 +6,7 @@
   Copyright © 2020 Lakr Aream. All rights reserved.
  
  From @vondrck
- https://twitter.com/vondrck
+ https://twitter.com/Amachik2
  
 */
 
@@ -158,11 +158,11 @@
 "PackageOperation_AddWishList" = "Přidat do seznamu přání";
 "PackageOperation_NotAvailableAlertHint" = "Není dostupná žádná operace";
 "PackageOperation_OperationInvalid" = "Neplatná nebo nepovolená operace";
-"PackageOperation_InstantInstall" = "Instant Install";
-"PackageOperation_InstantInstallHint" = "Instant install will not check any attributes of the package, please be aware.";
+"PackageOperation_InstantInstall" = "Okamžitá instalace";
+"PackageOperation_InstantInstallHint" = "Okamžitá instalace nezkotroluje žádné atributy balíčku. Měj se na pozoru.";
 
 "TaskOperationName_RepoUpdate" = "Aktualizace Adresáře ";
-"TaskOperationName_IndexDescription" = "Zabere to nějaký čas k vytvoření buildu indexu";
+"TaskOperationName_IndexDescription" = "Zabere to nějaký čas k vytvoření indexu";
 "TaskOperationName_Index" = "Index Databáze";
 "TaskOperationName_PackageInstall" = "+ ";
 "TaskOperationName_PackageInstall_SelectedInstall" = "Vybrané ";
@@ -247,22 +247,22 @@
 "InstallAgent_UpdateNotice" = "Zanedlouho proběhne aktualizace mně samotné. Aplikace se zavře v průběhu aktualizace a znovu otevře až bude vše hotovo. Prosím počkejte a neotvírejte aplikaci manuálně.";
 "InstallAgent_InTasksNotice" = "Systém uzamknut, zkus to znovu později.";
 
-"Account" = "Account";
-"Option" = "Option";
-"RepoLoginTitle" = "Software Source Login";
-"RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
-"SignOut" = "Sign Out";
-"ListPurchased" = "Purchased";
-"LoginFailedLeadingHint" = "Login Failed: ";
-"LoginFailedTrailingHint" = "Unexpected Error Occurred";
-"NoPurchased" = "No Item";
-"NoRepoSupportsPayment" = "No supported repo";
-"Payment_GetHelp" = "Open Issue Report Page";
-"PackageOperation_PaymentInvalid" = "Vender information was broken, no operation available.";
-"PackageOperation_RequiredLogin" = "Sign in required for this operation";
-"PackageOperation_PurchaseHint" = "Process to purchase?";
-"PackageOperation_PaymentSuccess" = "Purchase complete";
-"RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";
+"Account" = "Účet";
+"Option" = "Nastavení";
+"RepoLoginTitle" = "Přihlášení do repositářů";
+"RepoSignInBlockedHint" = "Nepovedlo se získat pravou identitu zařízení, přihlášení zablokováno.";
+"SignOut" = "Odhlásit";
+"ListPurchased" = "Zakoupeno";
+"LoginFailedLeadingHint" = "Přihlášení selhalo: ";
+"LoginFailedTrailingHint" = "Vyskytla se neznámá chyba";
+"NoPurchased" = "Nic není zakoupeno";
+"NoRepoSupportsPayment" = "Žádný tvůj repozitář nepodporuje přihlášení";
+"Payment_GetHelp" = "Nahlásit problém";
+"PackageOperation_PaymentInvalid" = "Vendor information was broken, no operation available.";
+"PackageOperation_RequiredLogin" = "Pro tuto operaci je nutné se přihlásit";
+"PackageOperation_PurchaseHint" = "Zakoupit?";
+"PackageOperation_PaymentSuccess" = "Nákup dokončen";
+"RandomDeviceInfoMustBeTurnOff" = "Pro pokračování musíš vypnout funkci náhodné informace o zařízení";
  
 
 

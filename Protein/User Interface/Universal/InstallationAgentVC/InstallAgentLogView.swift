@@ -120,7 +120,7 @@ class InstallAgentLogView: UIViewController {
         dropdownAnchor.snp.makeConstraints { (x) in
             x.bottom.equalTo(self.view.snp.bottom).offset(-25 - 21 + 8)
             x.right.equalTo(self.view.snp.right).offset(-25 - 21)
-            x.width.equalTo(233)
+            x.width.equalTo(250)
             x.height.equalTo(2)
         }
     }

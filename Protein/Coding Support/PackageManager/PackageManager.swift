@@ -104,7 +104,7 @@ final class PackageManager {
         updateInstalledFromDpkgStatus()
         updateUpdateCandidate() // setter wont be called duing start up
         syncUpdateMetaUpdateRecords()
-        let _ = SearchIndexManager.shared.getFakeIndex()
+        SearchIndexManager.shared.reBuildIndexSync()
     }
 
     private let indexQueue = DispatchQueue(label: "wiki.qaq.Protein.PackageManager.indexQueue")
@@ -134,7 +134,7 @@ final class PackageManager {
             }
             self.updateMetaUpdateRecords()
             self.updateUpdateCandidate()
-            let _ = SearchIndexManager.shared.getFakeIndex()
+            SearchIndexManager.shared.reBuildIndexSync()
         }
     }
     

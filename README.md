@@ -1,12 +1,17 @@
 # Saily
 ### Modern. Fast. Beautiful.
 
-Saily is a package manager for jailbroken device on iOS 13 and above with APT support. We are planing to bring support of rootless jailbreak in the future along with the watchOS jailbreak which is still in an early status in my lab.
-
 [![Pipeline Status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 
-- [x] Import all your repos from Cydia, Zebra, Installer, Sileo and also clipboard
+![Preview](./Attachments/main.jpeg)
+
+Description: Saily is a modern APT package manager for jailbroken devices running iPadOS 13 and up.
+
+## Features
+
+- [x] Import all your repos from Cydia, Sileo, Zebra, and Installer
+- [x] Add and manage repositories without limitation
 - [x] Smart update depends on the time gap between last refresh
 - [x] Only refresh selected repo(s) and keep every record right
 - [x] All package depictions, Native/Json Depiction, Web Depiction(with dark mode exists), Zebra Depiction
@@ -18,33 +23,43 @@ Saily is a package manager for jailbroken device on iOS 13 and above with APT su
 - [x] Random device info available from Settings for free packages
 - [x] Tested to work with all your jailbreaks and lives with all your package managers together
 - [x] Build and packaged by CI machine, clean and stable as it should be
-- [ ] Unique iPhone UI design in progress... (when ETA: by the end of October this year)
+- [ ] Unique iPhone UI design in progress... (ETA: end of October)
+- [ ] Full support for rootlessJB (ETA: end of October)
+- [ ] Full support for watchOS (ETA: Unavailable at this time)
 
-![Preview](./Attachments/main.jpeg)
 
-## Acknowledgment
 
-Project Leader: 
-- [@Lakr233](https://www.twitter.com/Lakr233)
+## Credits
 
-Code Level Contributor:
-- [@Lakr233](https://www.twitter.com/Lakr233)
+We would like to akgnowledge everyone who has contibuted to this project. Some of the contributors may not be listed in the git history.
+
+### Project Leader: 
+- [@Lakr233](https://twitter.com/Lakr233)
+
+### Marketing Director:
+- [@BreckenLusk](https://twitter.com/BreckenLusk)
+
+### Code Level Contributors:
+- [@Lakr233](https://twitter.com/Lakr233)
+- [@BreckenLusk](https://twitter.com/BreckenLusk)
 - [@Sou1ghost](https://twitter.com/Sou1gh0st)
 - [@jkpang2](https://twitter.com/jkpang2)
 - [@mx_yolande](https://twitter.com/mx_yolande)
 - [@u0x01](https://twitter.com/u0x01)
 
-Translator:
+### Translators:
+- [@BreckenLusk](https://twitter.com/BreckenLusk)
 - [@Litteeen](https://twitter.com/Litteeen)
 - [@fahlnbg](https://twitter.com/fahlnbg)
 - [@lamtaodotstore](https://twitter.com/lamtaodotstore)
 - [@vondrck](https://twitter.com/vondrck)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 
-Official Social Account:
-- [@TrySaily](https://twitter.com/TrySaily)
+### Official Twitter Accounts:
+- [Main - @TrySaily](https://twitter.com/TrySaily)
+- [Support - @SailySupport](https://twitter.com/SailySupport)
 
-Ps. The account is hold by [@BreckenLusk](https://twitter.com/BreckenLusk)
+Both Twitter accounts are held and run by the marketing director, [@BreckenLusk](https://twitter.com/BreckenLusk).
 
 ## Boarding Instructions
 
@@ -58,7 +73,7 @@ Ps. The account is hold by [@BreckenLusk](https://twitter.com/BreckenLusk)
 
 Our GitLab CI runner will package our stuff automatically. Contact master@233owo.com for more information. Besides, there is no porting plan for GitHub actions. The release will be made available on GitHub after CI passed all tests.
 
-## Bug Report
+## Bug Reporting
 
 If you are experience any issue, please file a report on issue page.
 
@@ -71,12 +86,11 @@ We need following information about an error:
 - the APT report if the bug is related with installation
 - the /Library/dpkg folder if is related with installed section
 
-There is bug all around the world. Be sure to check around if there is any duplicated otherwise we would close yours.
+Please be sure to check around if the issue your experiencing has already been reportet. Duplicated issues will be closed.
 
 - Your next bug is not a bug, it is a feature. cc/ Apple
 
-----
-> While the world sleep, we dream.
-----
+#### "While the world sleeps, we dream."
+#### Copyright © 2020 Saily Team. All rights reserved. Licensed under the MIT License.
 
-Lakr Aream 2020.4.17 - MIT License
+

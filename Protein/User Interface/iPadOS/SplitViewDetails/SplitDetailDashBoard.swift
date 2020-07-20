@@ -151,7 +151,7 @@ fileprivate class SplitDetailDashBoard: UIViewController {
                         hud?.show(in: view)
                     }
                     DispatchQueue.global(qos: .background).async {
-                        let _ = SearchIndexManager.shared.getFakeIndex()
+                        SearchIndexManager.shared.waitUntilIndexingFinished()
                         DispatchQueue.main.async {
                             hud?.dismiss()
                             let vc = SearchViewController()

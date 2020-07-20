@@ -28,6 +28,7 @@ Project Leader:
 Code Level Contributor:
 - [@Lakr233](https://www.twitter.com/Lakr233)
 - [@Sou1ghost](https://twitter.com/Sou1gh0st)
+- [@jkpang2](https://twitter.com/jkpang2)
 - [@mx_yolande](https://twitter.com/mx_yolande)
 - [@u0x01](https://twitter.com/u0x01)
 

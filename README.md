@@ -59,24 +59,18 @@ Our GitLab CI runner will package our stuff automatically. Contact master@233owo
 
 ## Bug Report
 
-### Critical/Fatal Issue
+If you are experience any issue, please file a report on issue page.
 
-If you are experience critical issue such as boot looped your device or system file missing issue:
-
-- write email to master@233owo.com ASAP
-
-We need following information about a fatal error:
+We need following information about an error:
 
 - your device identify: iPhone/iPad X,X
 - your network condition: WiFi, Mobile Network, Ethernet...
 - the version of our app you installed
 - the system version of your device
+- the APT report if the bug is related with installation
+- the /Library/dpkg folder if is related with installed section
 
-We will cancel the matching release immediately until its proved safe to work.
-
-### General Issue/Feature Request
-
-There is bug all around the world. Feel free to open an issue. Be sure to check around if there is any duplicated otherwise we would close yours.
+There is bug all around the world. Be sure to check around if there is any duplicated otherwise we would close yours.
 
 - Your next bug is not a bug, it is a feature. cc/ Apple
 

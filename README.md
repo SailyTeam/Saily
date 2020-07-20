@@ -7,6 +7,7 @@ Saily is a package manager for jailbroken device on iOS 13 and above with APT su
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 
 - [x] Import all your repos from Cydia, Zebra, Installer, Sileo and also clipboard
+- [x] Manage repos with no limitation on add nor delete
 - [x] Smart update depends on the time gap between last refresh
 - [x] Only refresh selected repo(s) and keep every record right
 - [x] All package depictions, Native/Json Depiction, Web Depiction(with dark mode exists), Zebra Depiction

@@ -5,7 +5,8 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 
 ![Preview](./Attachments/main.jpeg)
-Saily is an APT package manager for jailbroken devices running iPadOS 13 and up.
+
+Description: Saily is a modern APT package manager for jailbroken devices running iPadOS 13 and up.
 
 ## Features
 

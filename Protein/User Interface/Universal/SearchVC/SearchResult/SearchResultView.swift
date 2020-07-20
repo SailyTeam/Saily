@@ -98,10 +98,10 @@ class SearchResultView : UIView {
         let mySequence = searchSequence
         let packages = searchManager!.searchInSnapshotWith(keywords: content)
         var models: [SearchResultCellModel] = []
-        for package in packages {
+        for (package, tokens) in packages {
             let desc = package.obtainAuthorIfExists() + ": " + package.obtainDescriptionIfExistsOrVersion()
             let model = SearchResultCellModel(withPackageRef: package, andDescriptionShownInResultView: desc)
-            model.keyword = content
+            model.keywords = tokens
             model.setup()
             models.append(model)
         }

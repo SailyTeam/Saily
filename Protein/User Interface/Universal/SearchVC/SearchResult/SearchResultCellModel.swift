@@ -17,7 +17,7 @@ class SearchResultCellModel {
     var name: String
     var author: String
     var desc: String
-    var keyword: String?
+    var keywords: [String]?
     
     // calculated
     var title: NSAttributedString?
@@ -32,7 +32,7 @@ class SearchResultCellModel {
     }
     
     func setup() {
-        let keywords = self.keyword ?? ""
+        let keywords = self.keywords ?? []
         
         let titleString = name
         let attributedTitle = NSMutableAttributedString.init(string: titleString, attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .semibold), .foregroundColor: UIColor(named: "G-TextTitle")!])
@@ -45,12 +45,12 @@ class SearchResultCellModel {
         self.subtitle = attributedSubtitle.copy() as? NSAttributedString
     }
     
-    func makeHighlight(_ content: NSMutableAttributedString, keywords: String) {
-        for range in content.string.lowercased().ranges(of: keywords.lowercased()) {
-            let stringRange = NSRange(range, in: content.string)
-            if stringRange.location + stringRange.length <= content.string.count {
-                content.addAttribute(.foregroundColor, value: UIColor(named: "G-TextHighlight")!, range: stringRange)
-            }
+    func makeHighlight(_ content: NSMutableAttributedString, keywords: [String]) {
+        for keyword in keywords {
+            let contentOCString = NSString(string: content.string.lowercased())
+            let range = contentOCString.range(of: keyword);
+            content.addAttribute(.foregroundColor, value: UIColor(named: "G-TextHighlight")!, range: range)
+            break
         }
     }
     

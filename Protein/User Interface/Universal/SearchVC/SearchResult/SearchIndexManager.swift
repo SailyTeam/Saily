@@ -9,7 +9,8 @@
 import Foundation
 
 class SearchEntity : Hashable {
-    var key: String = ""
+    var key: String
+    var tokens: Set<String>
     var priority: Int
     
     static func == (lhs: SearchEntity, rhs: SearchEntity) -> Bool {
@@ -30,12 +31,17 @@ class SearchEntity : Hashable {
         hasher.combine(key)
     }
     
-    init(key: String, priority: Int) {
+    init(key: String, tokens: Set<String>, priority: Int) {
         self.key = key
+        self.tokens = tokens
         self.priority = priority
     }
     
-    
+    init(key: String, priority: Int) {
+        self.key = key
+        self.tokens = []
+        self.priority = priority
+    }
 }
 
 class SearchIndexManager {
@@ -55,19 +61,24 @@ class SearchIndexManager {
     private var indices: [String: PackageStruct]?
     private var packageMap: [String : PackageStruct]?
     private var tokenMap: [String: Set<SearchEntity>]?
-    var fakeIndex: [PackageStruct]?
-    private var indexLock: NSRecursiveLock?
+    private var indexLock: NSRecursiveLock
     private var indexQueue: DispatchQueue?
     private var indexing: Bool
+    
+    // sync
+    private var tokenLock: NSRecursiveLock
+    private var indexingToken: Int
     
     init() {
         indexing = false
         indexLock = NSRecursiveLock()
+        tokenLock = NSRecursiveLock()
+        indexingToken = 0
         indexQueue = DispatchQueue.init(label: "wiki.qaq.Protein.SearchIndexManager.IndexingQueue", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
         
         indexSaveDir = ConfigManager.shared.documentString + "/cached_index"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(cleanFakeIndex), name: .RecentUpdateShouldUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIndexAndReload), name: .RecentUpdateShouldUpdate, object: nil)
     }
     
     deinit {
@@ -75,46 +86,46 @@ class SearchIndexManager {
     }
     
     @objc private
-    func cleanFakeIndex() {
-        self.fakeIndex = nil
+    func invalidateIndexAndReload() {
+        self.tokenMap = nil
+        reBuildIndexSync()
     }
     
-    func getFakeIndex() -> [PackageStruct] {
-        buildIndexV1()
-        return []
+    var isIndexValid: Bool {
+        return !self.indexing && self.tokenMap != nil
     }
     
-    func buildIndexAsync() {
-        var packages = [PackageStruct]()
-        let copy = RepoManager.shared.repos // thread safe
-        for repo in copy {
-            packages.append(contentsOf: repo.metaPackage.map({ (object) -> PackageStruct in
-                return object.value
-            }))
-        }
-        packages.sort { (A, B) -> Bool in
-            return A.obtainNameIfExists() < B.obtainNameIfExists() ? true : false
-        }
-        
-        indexLock?.lock()
-        indexing = true
-        indexQueue?.async(execute: {
-            defer {
-                self.indexLock?.unlock()
-                self.indexing = false
-            }
-            
-            // FIXME: the real index
-            self.fakeIndex = packages
-        })
-    }
-    
-    func buildIndexV1() {
-        // hit mem cache
-        if tokenMap != nil {
+    func waitUntilIndexingFinished() {
+        if self.isIndexValid {
             return
         }
         
+        if self.indexing {
+            // wait for indexing release the lock
+            self.indexLock.lock()
+            self.indexLock.unlock()
+            return
+        }
+        
+        reBuildIndexSync()
+    }
+    
+    func reBuildIndexSync() {
+        // update current token
+        tokenLock.lock()
+        indexingToken += 1
+        tokenLock.unlock()
+        
+        defer {
+            indexLock.unlock()
+        }
+        
+        indexLock.lock()
+        buildIndexV1(currentToken: indexingToken)
+    }
+    
+    private func buildIndexV1(currentToken: Int) {
+        // set indexing token
         // FIXME: index update
 //        if let indexPath = indexSavePath, FileManager.default.fileExists(atPath: indexPath) {
 //            do {
@@ -124,6 +135,7 @@ class SearchIndexManager {
 //                
 //            }
 //        }
+        tokenMap = nil
         
         // Step 1. cache id->repo map
         var packageMap: [String : PackageStruct] = [:]
@@ -133,20 +145,24 @@ class SearchIndexManager {
         }
         self.packageMap = packageMap
         
-        // hit file cache
-//        if tokenMap != nil {
-//            return
-//        }
-        
         // Step 2. tokenize and save
         // token -> [key]
+        enum SearchState {
+            case Invalid;
+            case Alnum;
+            case Chinese;
+            case Others;
+        };
+        var lastState: SearchState = .Invalid;
         var tokenMap: [String: Set<SearchEntity>] = [:]
         for (key, pkg) in packageMap {
             autoreleasepool {
+                if (currentToken != indexingToken) {
+                    Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+                    return
+                }
+                
                 let name = pkg.obtainNameIfExists().lowercased()
-                // let author = pkg.obtainAuthorIfExists().lowercased()
-                // let desc = pkg.obtainDescriptionIfExistsOrVersion().lowercased()
-                            
                 // every part in name is token
                 var parts: Set<SearchEntity> = []
                 var word = ""
@@ -157,10 +173,11 @@ class SearchIndexManager {
                     title += token
                     
                     // insert word entity (split by space chars)
-                    parts.insert(SearchEntity(key: word, priority: word.count))
+                    let wordEntity = SearchEntity(key: word, tokens: [word], priority: word.count)
+                    parts.insert(wordEntity)
                 
                     // insert title entity (full match)
-                    let titleEntity = SearchEntity(key: title, priority: title.count)
+                    let titleEntity = SearchEntity(key: title, tokens: [title], priority: title.count)
                     // mark full name as high priority
                     if titleEntity.key == name {
                         titleEntity.priority *= 10
@@ -168,14 +185,32 @@ class SearchIndexManager {
                     parts.insert(titleEntity)
                     
                     // break word if needed
-                    if token.lengthOfBytes(using: .utf8) == 0 {
-                        word = ""
+                    var curState: SearchState
+                    if (token.isAlnumOnly) {
+                        curState = .Alnum
+                    } else if (token.isChineseOnly) {
+                        curState = .Chinese
+                    } else {
+                        curState = .Others
                     }
+                    
+                    if lastState != .Invalid && curState != lastState {
+                        word = String(c)
+                        // insert single word
+                        let wordEntity = SearchEntity(key: word, tokens: [word], priority: word.count)
+                        parts.insert(wordEntity)
+                    }
+                    lastState = curState;
                 }
                 for part in parts.reversed() {
                     insertToTokenMap(tokenMap: &tokenMap, entity: part, packageKey: key)
                 }
             }
+        }
+        
+        if (currentToken != indexingToken) {
+            Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+            return
         }
         
         // Step 3. save
@@ -191,7 +226,7 @@ class SearchIndexManager {
     }
     
     func tokenize(_ str: String) -> [String] {
-        var tokens: [String] = []
+        var tokens: [String] = [str]
         let descOCStr = NSString.init(string: str.lowercased())
         let tokenizer = CFStringTokenizerCreate(nil, descOCStr, CFRangeMake(0, descOCStr.length), kCFStringTokenizerUnitWordBoundary, nil)
         while true {
@@ -210,15 +245,20 @@ class SearchIndexManager {
         if tokenMap.keys.contains(entity.key) {
             // conver token priority to tokenMap priority
             // token -> key priority
-            tokenMap[entity.key]!.insert(SearchEntity(key: packageKey, priority: entity.priority))
+            tokenMap[entity.key]!.insert(SearchEntity(key: packageKey, tokens: entity.tokens, priority: entity.priority))
         } else {
-            tokenMap[entity.key] = [SearchEntity(key: packageKey, priority: entity.priority)]
+            tokenMap[entity.key] = [SearchEntity(key: packageKey, tokens: entity.tokens, priority: entity.priority)]
         }
     }
     
-    func searchInSnapshotWith(keywords: String) -> [PackageStruct] {
+    func searchInSnapshotWith(keywords: String) -> [(PackageStruct, [String])] {
         guard tokenMap != nil && packageMap != nil else {
             return []
+        }
+        
+        self.indexLock.lock()
+        defer {
+            self.indexLock.unlock()
         }
         
         let tokens = tokenize(keywords)
@@ -231,19 +271,13 @@ class SearchIndexManager {
             }
         }
         
-        var hitPackages: [PackageStruct] = []
+        var hitPackages: [(PackageStruct, [String])] = []
         for entity in hitEntities.sorted(by: { !($0 < $1) }) {
             if let package = packageMap![entity.key] {
-                hitPackages.append(package)
+                hitPackages.append((package, Array(entity.tokens)))
             }
         }
+        
         return hitPackages
-//        let indices = self.fakeIndex
-//        let matcher = keywords.lowercased()
-//        return indices?.filter {
-//            $0.obtainNameIfExists().lowercased().contains(matcher)   ||
-//                $0.obtainAuthorIfExists().lowercased().contains(matcher) ||
-//                $0.obtainDescriptionIfExistsOrVersion().lowercased().contains(matcher)
-//            } ?? []
     }
 }

@@ -183,10 +183,24 @@ extension String {
         return indices
     }
     
-    func ranges(of searchString: String) -> [Range<String.Index>] {
-        let _indices = indices(of: searchString)
-        let count = searchString.count
-        return _indices.map({ index(startIndex, offsetBy: $0)..<index(startIndex, offsetBy: $0+count) })
+//    func ranges(of searchString: String) -> [Range<String.Index>] {
+//        let range = NSRange(location: 0, length: searchString.utf8.count)
+//        if let regex = try? NSRegularExpression(pattern: "[\(searchString)]", options: .caseInsensitive) {
+//            let results = regex.matches(in: self, options: [], range: range)
+//            return results.map({index(startIndex, offsetBy: $0.range.location)..<index(startIndex, offsetBy: $0.range.length)})
+//        }
+//        return []
+////        let _indices = indices(of: searchString)
+////        let count = searchString.count
+////        return _indices.map({ index(startIndex, offsetBy: $0)..<index(startIndex, offsetBy: $0+count) })
+//    }
+    
+    var isAlnumOnly: Bool {
+        return !isEmpty && range(of: "[^a-zA-Z0-9]", options: .regularExpression) == nil
+    }
+    
+    var isChineseOnly: Bool {
+        return !isEmpty && range(of: "[^\\p{Han}]", options: .regularExpression) == nil
     }
     
     func widthOfString(usingFont font: UIFont) -> CGFloat {
@@ -279,5 +293,39 @@ extension StringProtocol {
     }
     var htmlDataToString: String? {
         return htmlToAttributedString?.string
+    }
+    
+    func index<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> Index? {
+        range(of: string, options: options)?.lowerBound
+    }
+    
+    func endIndex<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> Index? {
+        range(of: string, options: options)?.upperBound
+    }
+    
+    func indices<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> [Index] {
+        var indices: [Index] = []
+        var startIndex = self.startIndex
+        while startIndex < endIndex,
+            let range = self[startIndex...]
+                .range(of: string, options: options) {
+                indices.append(range.lowerBound)
+                startIndex = range.lowerBound < range.upperBound ? range.upperBound :
+                    index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+        return indices
+    }
+    
+    func ranges<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> [Range<Index>] {
+        var result: [Range<Index>] = []
+        var startIndex = self.startIndex
+        while startIndex < endIndex,
+            let range = self[startIndex...]
+                .range(of: string, options: options) {
+                result.append(range)
+                startIndex = range.lowerBound < range.upperBound ? range.upperBound :
+                    index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+        return result
     }
 }

@@ -17,6 +17,7 @@ pod install
 
 # patching pods
 patch -N ./Pods/WCDBOptimizedSQLCipher/src/os_unix.c ./Attachments/patch-sql-osunix.c.patch
+patch -N ./Pods/LTMorphingLabel/LTMorphingLabel/LTEasing.swift ./Attachments/patch-LTMorphingLabel-LTEasing.patch
 
 # packing CI elemetns
 rm ./CI-Pods.tar

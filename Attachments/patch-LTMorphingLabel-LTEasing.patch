@@ -1,0 +1,12 @@
+--- LTEasing.swift	2020-07-22 12:27:13.000000000 +0800
++++ LTEasingPatched.swift	2020-07-22 12:25:37.000000000 +0800
+@@ -24,7 +24,8 @@
+     
+     public static func easeInQuint(_ t: Float, _ b: Float, _ c: Float, _ d: Float = 1.0) -> Float {
+         return {
+-            return c * $0 * $0 * $0 * $0 * $0 + b
++            let foo: Float = c * $0 * $0 * $0
++            return foo * $0 * $0 + b
+             }(t / d)
+     }
+     

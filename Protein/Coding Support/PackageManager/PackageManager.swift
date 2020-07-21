@@ -102,7 +102,7 @@ final class PackageManager {
         }
         
         updateInstalledFromDpkgStatus()
-        updateUpdateCandidate() // setter wont be called duing start up
+        updateUpdateCandidate(true) // setter wont be called duing start up
         syncUpdateMetaUpdateRecords()
         SearchIndexManager.shared.reBuildIndexSync()
     }
@@ -113,16 +113,8 @@ final class PackageManager {
         let timeTicket = Date().timeIntervalSince1970
         latestIndexRequest = timeTicket
         indexQueue.async {
-            if self.latestIndexRequest != timeTicket {
-                return
-            }
-            self.indexInProgress = true
-            DispatchQueue.global(qos: .background).async {
-                NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
-            }
-            let ticket = UUID().uuidString
-            Tools.rprint("[PackageManager] updateIndexes begin with ticket [" + ticket + "]")
             let begin = Date().timeIntervalSince1970
+            let ticket = UUID().uuidString
             defer {
                 let end = Date().timeIntervalSince1970
                 let str = Double(Int((end - begin) * 100)) / 100
@@ -132,6 +124,14 @@ final class PackageManager {
                     NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
                 }
             }
+            if self.latestIndexRequest != timeTicket {
+                return
+            }
+            self.indexInProgress = true
+            DispatchQueue.global(qos: .background).async {
+                NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
+            }
+            Tools.rprint("[PackageManager] updateIndexes begin with ticket [" + ticket + "]")
             self.updateMetaUpdateRecords()
             self.updateUpdateCandidate()
             SearchIndexManager.shared.reBuildIndexSync()
@@ -347,7 +347,7 @@ final class PackageManager {
         }
     }
     
-    func updateUpdateCandidate() {
+    func updateUpdateCandidate(_ initSkipValid: Bool = false) {
         let installed = niceInstalled
         let repos = RepoManager.shared.repos
         var candidate = [(PackageStruct, PackageStruct)]()
@@ -367,15 +367,28 @@ final class PackageManager {
                 }
             }
             if let update = update {
-                Tools.rprint("[PackageManager] Update candidate [" + each.identity + "] " + each.newestVersion() + " -> " + update.newestVersion() + " #" + (update.fromRepoUrlRef ?? "???"))
                 candidate.append((each, update))
             }
         }
-        installedUpdateCandidate = candidate
         
-        // may crash the app if our task manager didn't finish init
-        // but 3 sec should make it done other wise...... I turn the switcher off
-        // todo here
+        if initSkipValid || !StartUpVC.booted {
+//            installedUpdateCandidate = candidate
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 6) {
+                self.updateUpdateCandidate()
+            }
+        } else {
+            var validCandidate = [(PackageStruct, PackageStruct)]()
+            for pkg in candidate {
+                if TaskManager.shared.testAddInstallIfIsValidated(with: pkg.1) {
+                    Tools.rprint("[PackageManager] Update candidate [" + pkg.0.identity + "] " + pkg.0.newestVersion() + " -> " + pkg.1.newestVersion() + " #" + (pkg.1.fromRepoUrlRef ?? "???"))
+                    validCandidate.append(pkg)
+                } else {
+                    Tools.rprint("[PackageManager] Invalid update candidate [" + pkg.0.identity + "] " + pkg.0.newestVersion() + " -> " + pkg.1.newestVersion() + " #" + (pkg.1.fromRepoUrlRef ?? "???"))
+                }
+            }
+            installedUpdateCandidate = validCandidate
+        }
+        
         if ConfigManager.shared.Application.shouldAutoUpdateWhenAppLaunch {
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 3) {
                 for (_, new) in PackageManager.shared.installedUpdateCandidate {

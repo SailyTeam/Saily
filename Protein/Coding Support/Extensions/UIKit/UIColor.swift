@@ -20,8 +20,22 @@ extension UIColor {
     
     /// SwifterSwift: Random color.
     static var randomAsPudding: UIColor {
-        let color: [UIColor] = [#colorLiteral(red: 0.9586862922, green: 0.660125792, blue: 0.8447988033, alpha: 1), #colorLiteral(red: 0.8714533448, green: 0.723166883, blue: 0.9342088699, alpha: 1), #colorLiteral(red: 0.7458761334, green: 0.7851135731, blue: 0.9899476171, alpha: 1), #colorLiteral(red: 0.595767796, green: 0.8494840264, blue: 1, alpha: 1), #colorLiteral(red: 0.4398113191, green: 0.8953480721, blue: 0.9796616435, alpha: 1), #colorLiteral(red: 0.3484552801, green: 0.933657825, blue: 0.9058339596, alpha: 1), #colorLiteral(red: 0.4113925397, green: 0.9645707011, blue: 0.8110389113, alpha: 1), #colorLiteral(red: 0.5567936897, green: 0.9780793786, blue: 0.6893508434, alpha: 1), #colorLiteral(red: 0.8850132227, green: 0.9840424657, blue: 0.4586077332, alpha: 1)]
+        let color: [UIColor] = [#colorLiteral(red: 0.9586862922, green: 0.660125792, blue: 0.8447988033, alpha: 1), #colorLiteral(red: 0.8714533448, green: 0.723166883, blue: 0.9342088699, alpha: 1), #colorLiteral(red: 0.7458761334, green: 0.7851135731, blue: 0.9899476171, alpha: 1), #colorLiteral(red: 0.4398113191, green: 0.8953480721, blue: 0.9796616435, alpha: 1), #colorLiteral(red: 0.3484552801, green: 0.933657825, blue: 0.9058339596, alpha: 1), #colorLiteral(red: 0.5567936897, green: 0.9780793786, blue: 0.6893508434, alpha: 1), #colorLiteral(red: 0.8850132227, green: 0.9840424657, blue: 0.4586077332, alpha: 1)]
+//        let color: [UIColor] = [#colorLiteral(red: 0.9586862922, green: 0.660125792, blue: 0.8447988033, alpha: 1), #colorLiteral(red: 0.8714533448, green: 0.723166883, blue: 0.9342088699, alpha: 1), #colorLiteral(red: 0.7458761334, green: 0.7851135731, blue: 0.9899476171, alpha: 1), #colorLiteral(red: 0.595767796, green: 0.8494840264, blue: 1, alpha: 1), #colorLiteral(red: 0.4398113191, green: 0.8953480721, blue: 0.9796616435, alpha: 1), #colorLiteral(red: 0.3484552801, green: 0.933657825, blue: 0.9058339596, alpha: 1), #colorLiteral(red: 0.4113925397, green: 0.9645707011, blue: 0.8110389113, alpha: 1), #colorLiteral(red: 0.5567936897, green: 0.9780793786, blue: 0.6893508434, alpha: 1), #colorLiteral(red: 0.8850132227, green: 0.9840424657, blue: 0.4586077332, alpha: 1)]
         return color.randomElement()!
+    }
+    
+    /// SwifterSwift: Random color.
+    static var randomWithHighContrast: UIColor {
+        let hexList = [
+            0xef475d, 0xbf3553, 0xeb507e, 0xeb507e, 0xcc5595, 0x7e1671, 0xE16C96, // red
+            0x2b73af, 0x126bae, 0x1677b3, 0x158bb8, 0x29b7cb, 0x51c4d3, 0x10aec2, // blue
+            0x45b787, 0x20a162, 0x5dbe8a, 0x5dbe8a, 0x41b349, 0x41b349, 0x5bae23, // green
+            0xfbb929, 0xfeba07, 0xfccb16, 0xfbda41, 0xfcc515, 0xfca106, 0xf9a633, // yellow
+        ]
+        return hexList.map({ (val) -> UIColor in
+            return UIColor(hex: val) ?? UIColor.randomAsPudding
+        }).randomElement()!
     }
     
     /// SwifterSwift: Create Color from RGB values with optional transparency.

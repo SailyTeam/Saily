@@ -80,7 +80,7 @@
 "SearchBar_SearchPackageOrRepo" = "Search Here";
 
 "HomeCard_Welcome" = "Welcome to Saily";
-"HomeCard_Desc" = "We dream, while the world sleeps";
+"HomeCard_Desc" = "While the world sleeps, we dream"; // From Apple, dont touch it!
 
 "DashBoardNavigatorCard_DashBoard" = "DashBoard";
 "DashBoardNavigatorCard_Setting" = "Settings";

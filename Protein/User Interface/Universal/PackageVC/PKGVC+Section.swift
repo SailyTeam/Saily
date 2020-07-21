@@ -279,8 +279,11 @@ class PackageViewControllerSectionView: UIView {
                                 FileManager.default.createFile(atPath: "/private/var/root/Documents/wiki.qaq.protein.update.reopen", contents: nil, attributes: nil)
                             }
                             script += "echo ****INSTALL****\n"
-                            script += "apt install --assume-yes --reinstall " + realLocation
+                            script += "mv /etc/apt/sources.list.d /etc/apt/sources.list.d.locked\n"
+                            script += "mkdir /etc/apt/sources.list.d\n"
+                            script += "apt install --assume-yes --reinstall --allow-downgrades -oquiet::NoUpdate=true -oApt::Get::HideAutoRemove=true -oquiet::NoProgress=true -oquiet::NoStatistic=true -oAPT::Get::Show-User-Simulation-Note=False " + realLocation
                             script += "\n"
+                            script += "mv /etc/apt/sources.list.d.locked /etc/apt/sources.list.d\n"
                             script += "echo ***DONE***\n"
                             let ret = Tools.spawnCommandAndWriteToFileReturnFileLocationAndSignalFileLocation(script)
                             let pop = InstallAgentLogView()
@@ -291,7 +294,7 @@ class PackageViewControllerSectionView: UIView {
                             let window = self.window
                             self.obtainParentViewController?.dismiss(animated: true, completion: {
                                 DispatchQueue.main.async {
-                                    window?.rootViewController?.present(pop, animated: true, completion: nil)
+                                    window?.topMostViewController?.present(pop, animated: true, completion: nil)
                                 }
                             })
                         }

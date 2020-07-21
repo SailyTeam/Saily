@@ -38,8 +38,8 @@ struct RepoStruct: Equatable, Codable {
     
     func obtainIconLink() -> String {
         switch url.urlString {
-        case "https://apt.bingner.com", "http://apt.bingner.com":
-            return "https://apt.bingner.com/CydiaIcon.png"
+//        case "https://apt.bingner.com", "http://apt.bingner.com":
+//            return "https://apt.bingner.com/CydiaIcon.png"
         case "https://apt.saurik.com", "http://apt.saurik.com":
             return "http://apt.saurik.com/dists/ios/CydiaIcon.png"
         case "https://apt.thebigboss.org", "http://apt.thebigboss.org",
@@ -53,8 +53,8 @@ struct RepoStruct: Equatable, Codable {
     
     func obtainReleaseLink() -> String {
         switch url.urlString {
-        case "https://apt.bingner.com", "http://apt.bingner.com":
-            return "https://apt.bingner.com/ios/1443.00/Release"
+//        case "https://apt.bingner.com", "http://apt.bingner.com":
+//            return "https://apt.bingner.com/ios/1443.00/Release"
         case "https://apt.saurik.com", "http://apt.saurik.com":
             return "http://apt.saurik.com/dists/ios/Release"
         case "https://apt.thebigboss.org", "http://apt.thebigboss.org",
@@ -68,8 +68,8 @@ struct RepoStruct: Equatable, Codable {
     
     func obtainPackageLink() -> String {
         switch url.urlString {
-        case "https://apt.bingner.com", "http://apt.bingner.com":
-            return "https://apt.bingner.com/ios/1443.00/main/binary-iphoneos-arm/Packages"
+//        case "https://apt.bingner.com", "http://apt.bingner.com":
+//            return "https://apt.bingner.com/ios/1443.00/main/binary-iphoneos-arm/Packages"
         case "https://apt.saurik.com", "http://apt.saurik.com":
             return "http://apt.saurik.com/dists/ios/main/binary-iphoneos-arm/Packages"
         case "https://apt.thebigboss.org", "http://apt.thebigboss.org",

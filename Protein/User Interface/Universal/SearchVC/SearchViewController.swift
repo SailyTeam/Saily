@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
         searchBar?.snp.makeConstraints({ (x) in
             x.left.equalTo(self.view.snp.left).offset(18)
             x.right.equalTo(self.view.snp.right).offset(-18)
-            x.height.equalTo(40)
+//            x.height.equalTo(40)
 //            x.centerY.equalTo(goBackButton.snp.centerY)
             x.top.equalTo(goBackButton.snp.bottom).offset(20)
         })

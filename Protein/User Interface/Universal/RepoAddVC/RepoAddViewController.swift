@@ -86,7 +86,13 @@ class RepoAddViewController: UIViewController {
                         if let tryRead = line.components(separatedBy: " ").last {
                             if tryRead.hasPrefix("https://") || tryRead.hasPrefix("http://"),
                                 let url = URL(string: tryRead) {
-                                APTRepos.append(url.urlString)
+                                var found = false
+                                for search in alread where search.url.urlString == url.urlString {
+                                    found = true
+                                }
+                                if !found {
+                                    APTRepos.append(url.urlString)
+                                }
                             }
                         }
                     }

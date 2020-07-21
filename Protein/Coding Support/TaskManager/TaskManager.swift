@@ -253,6 +253,14 @@ final class TaskManager {
         return ([], resolveAll)
     }
     
+    func testAddInstallIfIsValidated(with package: PackageStruct) -> Bool {
+        let ret = addInstallGetList(with: package, andContainer: ownTaskContainer, shouldPrint: false)
+        if ret.1.failed.count < 1 {
+            return true
+        }
+        return false
+    }
+    
     func addInstall(with package: PackageStruct) -> PackageTaskModificationReturn {
         
         if inSystemTask {

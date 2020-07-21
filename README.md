@@ -52,7 +52,7 @@ We would like to akgnowledge everyone who has contibuted to this project. Some o
 - [@Litteeen](https://twitter.com/Litteeen)
 - [@fahlnbg](https://twitter.com/fahlnbg)
 - [@lamtaodotstore](https://twitter.com/lamtaodotstore)
-- [@vondrck](https://twitter.com/Amachik2)
+- [@Amachik](https://twitter.com/Amachik2)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 
 ### Official Twitter Accounts:

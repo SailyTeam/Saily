@@ -100,51 +100,53 @@ class PackageViewControllerSectionView: UIView {
     @objc
     public func reloadData() {
         reloadToken = UUID().uuidString
-        if let item = 📦 {
-            item.setIconImage(withUIImageView: icon)
-            name.text = item.obtainNameIfExists()
-            auth.text = item.obtainAuthorIfExists()
-            
-            let stauts = PackageManager.shared.packageStatusLookup(identity: item.identity, version: item.newestVersion())
-            packageStatusCache = stauts
-            var tint = ""
-            switch stauts {
-            case .outdated:
-                tint = "UPDATE".localized()
-            case .installed:
-                tint = "MODIFY".localized()
-            default:
-                tint = "GET".localized()
-            }
-            if TaskManager.shared.packageIsInQueue(identity: item.identity) {
-                tint = "MODIFY".localized()
-            }
-            button.setTitle(tint, for: .normal)
-            let width = tint.sizeOfString(usingFont: button.titleLabel!.font).width
-            button.snp.updateConstraints { (x) in
-                x.width.equalTo(width + 22)
-            }
-            let get = reloadToken
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                if self.reloadToken == get {
-                    UIView.transition(with: self.auth,
-                                      duration: 0.5,
-                                      options: .transitionCrossDissolve,
-                                      animations: {
-                                        self.auth.text = item.newestVersion()
-                    }, completion: nil)
+        DispatchQueue.main.async {
+            if let item = self.📦 {
+                item.setIconImage(withUIImageView: self.icon)
+                self.name.text = item.obtainNameIfExists()
+                self.auth.text = item.obtainAuthorIfExists()
+                
+                let stauts = PackageManager.shared.packageStatusLookup(identity: item.identity, version: item.newestVersion())
+                self.packageStatusCache = stauts
+                var tint = ""
+                switch stauts {
+                case .outdated:
+                    tint = "UPDATE".localized()
+                case .installed:
+                    tint = "MODIFY".localized()
+                default:
+                    tint = "GET".localized()
                 }
-            }
-        } else {
-            icon.image = nil
-            name.text = nil
-            auth.text = nil
-            let tint = "Unavailable".localized()
-            packageStatusCache = nil
-            button.setTitle(tint, for: .normal)
-            let width = tint.sizeOfString(usingFont: button.titleLabel!.font).width
-            button.snp.updateConstraints { (x) in
-                x.width.equalTo(width + 22)
+                if TaskManager.shared.packageIsInQueue(identity: item.identity) {
+                    tint = "MODIFY".localized()
+                }
+                self.button.setTitle(tint, for: .normal)
+                let width = tint.sizeOfString(usingFont: self.button.titleLabel!.font).width
+                self.button.snp.updateConstraints { (x) in
+                    x.width.equalTo(width + 22)
+                }
+                let get = self.reloadToken
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    if self.reloadToken == get {
+                        UIView.transition(with: self.auth,
+                                          duration: 0.5,
+                                          options: .transitionCrossDissolve,
+                                          animations: {
+                                            self.auth.text = item.newestVersion()
+                        }, completion: nil)
+                    }
+                }
+            } else {
+                self.icon.image = nil
+                self.name.text = nil
+                self.auth.text = nil
+                let tint = "Unavailable".localized()
+                self.packageStatusCache = nil
+                self.button.setTitle(tint, for: .normal)
+                let width = tint.sizeOfString(usingFont: self.button.titleLabel!.font).width
+                self.button.snp.updateConstraints { (x) in
+                    x.width.equalTo(width + 22)
+                }
             }
         }
     }
@@ -250,6 +252,7 @@ class PackageViewControllerSectionView: UIView {
                 return
             }
         }
+        source.append("Cancel")
         
         let rawOperationList = source
         let text = source.map { (str) -> String in
@@ -341,6 +344,8 @@ class PackageViewControllerSectionView: UIView {
                     let alert = UIAlertController(title: "Error".localized(), message: "Advanced package operation submenu is not supported in this beta", preferredStyle:  .alert)
                     alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
                     self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                case "Cancel":
+                    break
                 default:
                     print("[Package] Operation not understood: " + operationString)
                 }

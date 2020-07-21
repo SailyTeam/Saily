@@ -225,19 +225,25 @@ extension RepoCard {
     func eventEmitterAdd(){
         btnCoverAdd.shineAnimation()
         let pop = RepoAddViewController()
-        pop.modalPresentationStyle = .formSheet;
-        pop.modalTransitionStyle = .coverVertical;
+        pop.modalPresentationStyle = .formSheet
+        pop.modalTransitionStyle = .coverVertical
         self.obtainParentViewController?.present(pop, animated: true, completion: nil)
     }
     
     @objc
     func eventEmitterScan() {
         btnCoverScan.shineAnimation()
-        let alert = UIAlertController(title: "Error".localized(), message: "Scan QR code is not available in this beta", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .default, handler: { (_) in
-            
-        }))
-        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "Error".localized(), message: "Scan QR code is not available in this beta", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .default, handler: { (_) in
+//
+//        }))
+//        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+        
+        let pop = QRScanViewController()
+        pop.modalPresentationStyle = .formSheet
+        pop.modalTransitionStyle = .coverVertical
+        self.obtainParentViewController?.present(pop, animated: true, completion: nil)
+        
     }
     
     @objc //  0 = refresh everything if all updated, 1 = force smart update, -1 = force everything

@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 import DropDown
+import LTMorphingLabel
 
 class SplitDetailTask: UIViewController {
     
@@ -322,7 +323,7 @@ fileprivate class TaskCell: UITableViewCell {
     private let titleLab = UILabel()
     private let descLab = UILabel()
     private let iconView = UIImageView()
-    private let progressLab = UILabel()
+    private let progressLab = LTMorphingLabel()
     private let optionBtn = UIButton()
     private let dropDownAnchor = UIView()
     
@@ -409,7 +410,7 @@ fileprivate class TaskCell: UITableViewCell {
         }
         
         progressLab.textAlignment = .right
-//        progressLab.morphingEffect = .evaporate
+        progressLab.morphingEffect = .evaporate
         progressLab.font = UIFont.roundedFont(ofSize: 18, weight: .bold).monospacedDigitFont
         progressLab.clipsToBounds = false
         progressLab.textColor = UIColor(named: "RepoTableViewCell.SubText")
@@ -546,8 +547,12 @@ fileprivate class TaskCell: UITableViewCell {
             let item = actionSource[index]
             switch item {
             case "Cancel":
-                if self.taskCache?.type == .downloadTask, let url = self.taskCache?.relatedObjects?["url"] as? String {
-                    TaskManager.shared.downloadManager.cancelDownload(withUrlAsKey: url)
+                if self.taskCache?.type == .downloadTask {
+                    if let url = self.taskCache?.relatedObjects?["url"] as? String {
+                        TaskManager.shared.downloadManager.cancelDownload(withUrlAsKey: url)
+                    } else if let url = self.taskCache?.relatedObjects?["url"] as? URL {
+                        TaskManager.shared.downloadManager.cancelDownload(withUrlAsKey: url.urlString)
+                    }
                 } else {
                     if let package = self.taskCache?.relatedObjects?["attach"] as? PackageStruct {
                         let ret = TaskManager.shared.removeQueuedPackage(withIdentity: [package.identity])

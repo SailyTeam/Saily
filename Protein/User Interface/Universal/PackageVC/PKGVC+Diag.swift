@@ -25,6 +25,8 @@ class PackageDiagViewController: UIViewControllerWithCustomizedNavBar {
             }
         }
         
+        isModalInPresentation = true
+        
         tableView.separatorColor = .clear
         tableView.backgroundColor = .clear
         tableView.delegate = self

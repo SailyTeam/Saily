@@ -53,6 +53,7 @@ class SearchIndexManager {
     //   }
     // }
 
+    static let mismatchNotifyThrottler = CommonThrottler(minimumDelay: 1)
     
     static let shared = SearchIndexManager()
     
@@ -158,7 +159,11 @@ class SearchIndexManager {
         for (key, pkg) in packageMap {
             autoreleasepool {
                 if (currentToken != indexingToken) {
-                    Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+                    #if DEBUG
+                    SearchIndexManager.mismatchNotifyThrottler.throttle {
+                        Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+                    }
+                    #endif
                     return
                 }
                 
@@ -209,7 +214,11 @@ class SearchIndexManager {
         }
         
         if (currentToken != indexingToken) {
-            Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+            #if DEBUG
+            SearchIndexManager.mismatchNotifyThrottler.throttle {
+                Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+            }
+            #endif
             return
         }
         

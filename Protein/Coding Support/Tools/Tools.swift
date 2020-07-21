@@ -21,7 +21,9 @@ class Tools {
 //        frame #4: 0x000000010090e970 Protein`Atomic.wrappedValue.getter(self=Protein.Atomic<Swift.String> @ 0x000000016f72d1e0) at Atomic.swift:20:20
 //        frame #5: 0x00000001009a0d58 Protein`static Tools.ramLogs.modify(self=Protein.Tools) at Tools.swift:0
 //        frame #6: 0x00000001009a0ff0 Protein`static Tools.rprint(str="      *       Package Objects: 10", self=Protein.Tools) at Tools.swift:21:9
-
+    
+    /// Print log to ram and make it available for users. Verbose log must not be printed here
+    /// - Parameter str: Log
     static func rprint(_ str: String) {
         var get = str
         print(str)

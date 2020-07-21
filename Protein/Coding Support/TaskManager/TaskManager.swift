@@ -591,18 +591,23 @@ final class TaskManager {
         return true
     }
     
+    private let downloadEverythingThrottler = CommonThrottler(minimumDelay: 0.4)
     @objc
     func downloadEverything() {
-        var targets = [URL : PackageStruct]()
-        let capture = ownTaskContainer
-        for item in capture where item.type == .packageTask {
-            if let pkg = item.relatedObjects?["attach"] as? PackageStruct, let url = pkg.obtainDownloadLocationFromNewestVersion() {
-                targets[url] = pkg
-            }
-        }
-        for item in targets {
-            downloadManager.sendToDownload(fromPackage: item.value, fromURL: item.key, withFileName: item.key.lastPathComponent) { (progress) in
-                NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : item.key.urlString, "progress" : progress])
+        downloadEverythingThrottler.throttle {
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
+                var targets = [URL : PackageStruct]()
+                let capture = self.ownTaskContainer
+                for item in capture where item.type == .packageTask {
+                    if let pkg = item.relatedObjects?["attach"] as? PackageStruct, let url = pkg.obtainDownloadLocationFromNewestVersion() {
+                        targets[url] = pkg
+                    }
+                }
+                for item in targets {
+                    self.downloadManager.sendToDownload(fromPackage: item.value, fromURL: item.key, withFileName: item.key.lastPathComponent) { (progress) in
+                        NotificationCenter.default.post(name: .DownloadProgressUpdated, object: nil, userInfo: ["key" : item.key.urlString, "progress" : progress])
+                    }
+                }
             }
         }
     }

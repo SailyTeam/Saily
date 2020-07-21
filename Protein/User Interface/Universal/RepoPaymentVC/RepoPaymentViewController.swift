@@ -329,9 +329,7 @@ fileprivate class RepoPaymentCell: UITableViewCell {
                                 UIView.animate(withDuration: 0.6) {
                                     self.button.alpha = 1
                                 }
-                                if (RepoPaymentManager.shared.obtainUserSignInfomation(forRepoUrlAsKey: repoUrl) != nil) {
-                                    self.button.setTitle("Option".localized(), for: .normal)
-                                }
+                                self.loginStatusUpdated()
                             }
                         }
                     }
@@ -422,9 +420,19 @@ fileprivate class RepoPaymentCell: UITableViewCell {
     
     func loginStatusUpdated() {
         if (RepoPaymentManager.shared.obtainUserSignInfomation(forRepoUrlAsKey: self.repoUrlAsKey) == nil) {
-            self.button.setTitle(self.buttonSignInText, for: .normal)
+            let title = self.buttonSignInText
+            let font = self.button.titleLabel?.font ?? UIFont.systemFont(ofSize: 16, weight: .semibold)
+            self.button.setTitle(title, for: .normal)
+            self.button.snp.updateConstraints { (x) in
+                x.width.equalTo(title.sizeOfString(usingFont: font).width + 24)
+            }
         } else {
-            self.button.setTitle("Option".localized(), for: .normal)
+            let title = "Option".localized()
+            let font = self.button.titleLabel?.font ?? UIFont.systemFont(ofSize: 16, weight: .semibold)
+            self.button.setTitle(title, for: .normal)
+            self.button.snp.updateConstraints { (x) in
+                x.width.equalTo(title.sizeOfString(usingFont: font).width + 24)
+            }
         }
     }
     

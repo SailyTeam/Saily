@@ -37,6 +37,12 @@ class WelcomeCard: UIView {
         layer.cornerRadius = 14
         dropShadow()
         
+        backgroundView.layer.cornerRadius = 14
+        addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { (x) in
+            x.edges.equalToSuperview()
+        }
+        
         // card touch
         touchHandlerCard.addTarget(self, action: #selector(whenTouched), for: .touchUpInside)
         addSubview(touchHandlerCard)

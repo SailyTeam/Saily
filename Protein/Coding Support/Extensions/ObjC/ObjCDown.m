@@ -233,7 +233,7 @@
         // 计算进度
         float prog = 1.0f * currentLenth / fullLenth;
         // 汇报进度
-        NSLog(@" -> %f\n", prog);
+//        NSLog(@" -> %f\n", prog);
         if (callProgress)
             callProgress(prog);
     }];

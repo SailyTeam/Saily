@@ -47,5 +47,7 @@ extension Notification.Name {
     static let DownloadFinished = Notification.Name("wiki.qaq.Protein.DownloadFinished")
     
     static let UserImportedPackage = Notification.Name("wiki.qaq.Protein.UserImportedPackage")
+ 
+    static let AppleCardColorViewDataUpdated = Notification.Name("wiki.qaq.Protein.AppleCardColorViewDataUpdated")
     
 }

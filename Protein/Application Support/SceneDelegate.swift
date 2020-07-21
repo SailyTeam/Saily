@@ -72,7 +72,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     sleep(1)
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if let rootVC = ((scene as? UIWindowScene)?.delegate as? UIWindowSceneDelegate)?.window??.rootViewController {
+                    if let rootVC = ((scene as? UIWindowScene)?.delegate as? UIWindowSceneDelegate)?.window??.topMostViewController {
                         let pop = ImportInstallViewController()
                         pop.modalPresentationStyle = .formSheet
                         pop.modalTransitionStyle = .coverVertical

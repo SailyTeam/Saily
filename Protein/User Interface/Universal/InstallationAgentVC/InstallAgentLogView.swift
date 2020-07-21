@@ -158,15 +158,18 @@ class InstallAgentLogView: UIViewController {
                         hud?.dismiss()
                         self.dismiss(animated: true, completion: nil)
                         NotificationCenter.default.post(name: .TaskSystemFinished, object: nil)
+                        AppleCardColorProvider.shared.addColor(withCount: 2)
                     }
                 }
                 return
             }
             if act == "ReloadSpringBoard" {
+                AppleCardColorProvider.shared.addColor(withCount: 2)
                 print(Tools.spawnCommandSycn("killall -9 backboardd"))
                 return
             }
             if act == "RebootUserSpace" {
+                AppleCardColorProvider.shared.addColor(withCount: 2)
                 print(Tools.spawnCommandSycn("launchctl reboot userspace"))
                 return
             }

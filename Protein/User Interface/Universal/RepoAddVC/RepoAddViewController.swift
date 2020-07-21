@@ -16,7 +16,7 @@ class RepoAddViewController: UIViewController {
     private var ClipRepos: [String] = []
     private var recordRepos: [String] = []
     
-    private let container = UIScrollView()
+    public let container = UIScrollView()
     
     private let tit = UILabel()
     private let titDes = UITextView()
@@ -34,7 +34,8 @@ class RepoAddViewController: UIViewController {
     private let recordSelectAll = UIButton()
     private let input = UILabel()
     private let inputDes = UITextView()
-    private let inputContext = UITextView()
+    
+    public let inputContext = UITextView()
     
     private let layoutEnd = UIView()
 

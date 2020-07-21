@@ -356,6 +356,7 @@ class InstallationAgent: UIViewController {
                     let alert = UIAlertController(title: "Warning".localized(), message: "InstallAgent_UpdateNotice".localized(), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .destructive) { (_) in
                         self.selfUpdateNotice = true
+                        AppleCardColorProvider.shared.addColor(withCount: 2)
                         self.sendToConfirm(sender: nil)
                     })
                     alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .default, handler: nil))

@@ -29,6 +29,8 @@ class InstallAgentLogView: UIViewController {
         
         TaskManager.shared.inSystemTask = true
         
+        AppleCardColorProvider.shared.addColor(withCount: Int.random(in: 2...6))
+        
         view.backgroundColor = UIColor(named: "G-ViewController-Background")
         let size = CGSize(width: 600, height: 600)
         preferredContentSize = size
@@ -158,18 +160,15 @@ class InstallAgentLogView: UIViewController {
                         hud?.dismiss()
                         self.dismiss(animated: true, completion: nil)
                         NotificationCenter.default.post(name: .TaskSystemFinished, object: nil)
-                        AppleCardColorProvider.shared.addColor(withCount: 2)
                     }
                 }
                 return
             }
             if act == "ReloadSpringBoard" {
-                AppleCardColorProvider.shared.addColor(withCount: 2)
                 print(Tools.spawnCommandSycn("killall -9 backboardd"))
                 return
             }
             if act == "RebootUserSpace" {
-                AppleCardColorProvider.shared.addColor(withCount: 2)
                 print(Tools.spawnCommandSycn("launchctl reboot userspace"))
                 return
             }

@@ -277,7 +277,6 @@ class PackageViewControllerSectionView: UIView {
                             script += "rm -f /var/lib/dpkg/lock*\n"
                             if self.📦?.identity.lowercased() == "wiki.qaq.Protein".lowercased() {
                                 FileManager.default.createFile(atPath: "/private/var/root/Documents/wiki.qaq.protein.update.reopen", contents: nil, attributes: nil)
-                                AppleCardColorProvider.shared.addColor(withCount: 2)
                             }
                             script += "echo ****INSTALL****\n"
                             script += "apt install --assume-yes --reinstall " + realLocation

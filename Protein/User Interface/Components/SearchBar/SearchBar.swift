@@ -92,10 +92,10 @@ class SearchBar: UIView, UITextViewDelegate {
         textView.font = .monospacedSystemFont(ofSize: 18, weight: .semibold)
         textView.isScrollEnabled = false
         textView.snp.makeConstraints { (x) in
-            x.centerY.equalTo(self.snp.centerY).offset(1)
+            x.top.equalTo(self.snp.top).offset(5)
             x.left.equalTo(iconView.snp.right).offset(gap)
-            x.height.equalTo(self.snp.height)
             x.right.equalTo(cancelButton.snp.left).offset(-gap)
+            x.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-5)
         }
         
         cancelButton.addTarget(self, action: #selector(finishInput), for: .touchUpInside)

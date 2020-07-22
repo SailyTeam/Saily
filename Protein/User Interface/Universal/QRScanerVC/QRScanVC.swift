@@ -60,14 +60,19 @@ class QRScanViewController: UIViewControllerWithCustomizedNavBar, AVCaptureMetad
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
 
-        switch  UIDevice.current.orientation {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, windowScene.activationState == .foregroundActive, let _ = windowScene.windows.first else {
+            captureSession.startRunning()
+            return
+        }
+        
+        switch windowScene.interfaceOrientation {
         case .landscapeLeft:
-            previewLayer.connection?.videoOrientation = .landscapeRight
-        case .landscapeRight:
             previewLayer.connection?.videoOrientation = .landscapeLeft
-        case .faceUp, .portrait:
+        case .landscapeRight:
+            previewLayer.connection?.videoOrientation = .landscapeRight
+        case .portrait:
             previewLayer.connection?.videoOrientation = .portrait
-        case .faceDown, .portraitUpsideDown:
+        case .portraitUpsideDown:
             previewLayer.connection?.videoOrientation = .portraitUpsideDown
         default:
             break

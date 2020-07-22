@@ -118,10 +118,12 @@ class SearchIndexManager {
         tokenLock.unlock()
         
         defer {
+            indexing = false
             indexLock.unlock()
         }
         
         indexLock.lock()
+        indexing = true
         buildIndexV1(currentToken: indexingToken)
     }
     
@@ -161,7 +163,7 @@ class SearchIndexManager {
                 if (currentToken != indexingToken) {
                     #if DEBUG
                     SearchIndexManager.mismatchNotifyThrottler.throttle {
-                        Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+                        Tools.rprint("[-] 😢 index token mismatch, cancel current index building")
                     }
                     #endif
                     return
@@ -216,7 +218,7 @@ class SearchIndexManager {
         if (currentToken != indexingToken) {
             #if DEBUG
             SearchIndexManager.mismatchNotifyThrottler.throttle {
-                Tools.rprint("[-] 😢  index token mismatch, cancel current index building")
+                Tools.rprint("[-] 😢 index token mismatch, cancel current index building")
             }
             #endif
             return

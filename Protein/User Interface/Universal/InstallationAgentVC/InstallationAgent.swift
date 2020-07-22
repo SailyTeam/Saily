@@ -335,7 +335,6 @@ class InstallationAgent: UIViewController {
         script += "rm -f /var/lib/apt/lists/lock\n"
         script += "rm -f /var/cache/apt/archives/lock\n"
         script += "rm -f /var/lib/dpkg/lock*\n"
-        
         if delete.count > 0 {
             script += "echo ****REMOVE****\n"
             script += "apt remove --allow-remove-essential --assume-yes --purge "
@@ -381,11 +380,14 @@ class InstallationAgent: UIViewController {
                 }
             }
             
-            script += "apt install --assume-yes --reinstall "
+            script += "mv /etc/apt/sources.list.d /etc/apt/sources.list.d.locked\n"
+            script += "mkdir /etc/apt/sources.list.d\n"
+            script += "apt install --assume-yes --reinstall --allow-downgrades -oquiet::NoUpdate=true -oApt::Get::HideAutoRemove=true -oquiet::NoProgress=true -oquiet::NoStatistic=true -oAPT::Get::Show-User-Simulation-Note=False "
             for item in installFileLocation {
                 script += item + " "
             }
             script += "\n"
+            script += "mv /etc/apt/sources.list.d.locked /etc/apt/sources.list.d\n"
         }
         
         script += "echo ***DONE***\n"

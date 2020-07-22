@@ -104,6 +104,16 @@ final class ConfigManager {
         loadFromDatabase()
         writeToDatabase()
         NotificationCenter.default.addObserver(self, selector: #selector(writeToDatabase), name: .SettingsUpdated, object: nil)
+        
+        // use export http_proxy=0.0.0.0 instead
+//        if FileManager.default.fileExists(atPath: "/etc/apt/preferences.d/") {
+//            if !FileManager.default.fileExists(atPath: "/etc/apt/preferences.d/local") {
+//                FileManager.default.createFile(atPath: "/etc/apt/preferences.d/local", contents: nil, attributes: nil)
+//                try? "Package: *\nPin: origin \"\"\nPin-Priority: 1001\n"
+//                    .write(toFile: "/etc/apt/preferences.d/local", atomically: true, encoding: .utf8)
+//            }
+//        }
+        
     }
     
     func readUDIDIfNeeded() {

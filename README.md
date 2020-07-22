@@ -8,38 +8,52 @@
 
 Description: Saily is a modern APT package manager for jailbroken devices running iPadOS 13 and up.
 
-## Features
+## Saily Features
 
 - [x] Import all your repos from Cydia, Sileo, Zebra, and Installer
+- [x] Built to work alongside all of your other package managers
+- [x] Support for Native and Web Depictions with Dark Mode
+- [x] Support for all jailbreaks (excluding rootlessJB)
 - [x] Add and manage repositories without limitation
-- [x] Smart update depends on the time gap between last refresh
-- [x] Only refresh selected repo(s) and keep every record right
-- [x] All package depictions, Native/Json Depiction, Web Depiction(with dark mode exists), Zebra Depiction
-- [x] Paid packages/Payment management
-- [x] Continue every package download breaking by anything
-- [x] Multiple window support for iPadOS
-- [x] Quick actions from Settings
-- [x] No hidden network traffic nor obfuscation, full open sourced under MIT License
-- [x] Random device info available from Settings for free packages
-- [x] Tested to work with all your jailbreaks and lives with all your package managers together
-- [x] Build and packaged by CI machine, clean and stable as it should be
-- [ ] Unique iPhone UI design in progress... (ETA: end of October)
-- [ ] Full support for rootlessJB (ETA: end of October, if rootlessJB supports iOS 13)
-- [ ] Full support for watchOS (ETA: Unavailable at this time)
+- [x] Clean and stable packaging using CI Machine
+- [x] Random Device Info for Free Packages
+- [x] Fully open-sourced under MIT Licence
+- [x] Quick Actions via Settings
+- [x] Paid Packages Support
+- [x] Stored Repo Records
+- [x] Smart Repo Refresh
+- [ ] Unique iPhone UI (ETA: October)
+- [ ] watchOS Support (ETA: ?)
 
-> iOS 12 support is dropped
+## Updates
+
+In case you're looking for updates, we have an [official Twitter page](https://twitter.com/TrySaily) which is updated regularly with teasers of upcoming features and more. Do not try to contact this account as it is not meant to respond to any messages or replies. If you need support regarding Saily, refer to the "Support" Section of this article.
+
+## Support
+
+In case you need support regarding Saily or anything associated with it, contact [Saily Support](https://twitter.com/SailySupport) on Twitter or tag us in your tweet and we will do our best to help you with your issue.
+
+## Bug Reports, Feature Requests, & Feedback
+
+If you are experiencing any issues regarding Saily, and would like to file a bug report, make a feature request, or provide any other feedback to be reviewed by our team, please do so using the [Saily Bug Tracker](https://github.com/SailyTeam/BugTracker/blob/master/README.md). Do not contact individual people personally because that will not work. Please be sure to check if the issue you're experiencing has already been reported. Duplicated issues will be closed.
+
+"Your next bug is not a bug, it's a feature." - Apple Inc.
+
+## Contributing
+
+If you want to contribute to the project, make a pull request with your changes and it will be reviewed by our team. Do not contact individual people personally in order to get your changes through because that will not work. Refer to [Onboarding](https://github.com/SailyTeam/Saily/blob/master/Onboarding.md) for more information.
 
 ## Credits
 
-We would like to akgnowledge everyone who has contibuted to this project. Some of the contributors may not be listed in the git history.
+We would like to thank and akgnowledge everyone who has contibuted to this project. Your contibutions have brought us a long way and we wouldn't be here without you. Some of the contributors may not be listed in the git history, but still played a part in Saily's development.
 
-### Project Leader: 
+#### Project Leader: 
 - [@Lakr233](https://twitter.com/Lakr233)
 
-### Marketing Director:
+#### Marketing Director:
 - [@BreckenLusk](https://twitter.com/BreckenLusk)
 
-### Code Level Contributors:
+#### Code Level Contributors:
 - [@Lakr233](https://twitter.com/Lakr233)
 - [@Sou1ghost](https://twitter.com/Sou1gh0st)
 - [@jkpang2](https://twitter.com/jkpang2)
@@ -47,7 +61,7 @@ We would like to akgnowledge everyone who has contibuted to this project. Some o
 - [@u0x01](https://twitter.com/u0x01)
 - [@BreckenLusk](https://twitter.com/BreckenLusk)
 
-### Translators:
+#### Translators:
 - [@BreckenLusk](https://twitter.com/BreckenLusk)
 - [@Litteeen](https://twitter.com/Litteeen)
 - [@fahlnbg](https://twitter.com/fahlnbg)
@@ -55,58 +69,12 @@ We would like to akgnowledge everyone who has contibuted to this project. Some o
 - [@Amachik](https://twitter.com/Amachik2)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 
-### Official Twitter Accounts:
+#### Official Twitter Accounts:
 - [Main - @TrySaily](https://twitter.com/TrySaily)
-- [Support - @SailySupport](https://twitter.com/SailySupport)
+- [Support - @SailySupport](https://twitter.com/SailySupport)  
 
-Both Twitter accounts are held and run by the marketing director, [@BreckenLusk](https://twitter.com/BreckenLusk).
+#### "While the world sleeps, we dream."
 
-## Boarding Instructions
-
-> Prerequisite
-
-- A mac running macOS 10.15 and above
-- Xcode installed with Catalyst support(if you want to run on macOS)
-- Install dpkg, xcpretty, cocoapods, ldid
-- Execute ./Attachments/boarding.sh to bootsrtap pods and patches
-
-> Development & Debug
-
-- Change bundle identity for each target also watchKit app
-- Check User-Define settings
-- Select Generic iOS Device to build deb on debug build
-- Install docker to build a local repo with port 900 for nginx server
-
-> In house release
-
-- Open ./Attachments/bake.command
-- Check out temps folder for packages
-
-## Packaging
-
-Our GitLab CI runner will package our stuff automatically. Any question should be asked here [Discord Group](https://discord.gg/2DkKsFd). Besides, there is no porting plan for GitHub actions. The release will be made available on GitHub after CI passed all tests.
-
-## Bug Reporting
-
-If you are experience any issue, please file a report on issue page.
-
-We need following information about an error:
-
-- your device identify: iPhone/iPad X,X
-- your network condition: WiFi, Mobile Network, Ethernet...
-- the version of our app you installed
-- the system version of your device
-- the APT report if the bug is related with installation
-- the /Library/dpkg folder if is related with installed section
-
-Please be sure to check around if the issue your experiencing has already been reportet. Duplicated issues will be closed.
-
-- Your next bug is not a bug, it is a feature. cc/ Apple
-
-> While the world sleeps, we dream.
-
----
-
-Copyright © 2020 Saily Team All rights reserved
+Copyright © 2020 Saily Team. All Rights Reserved.
 
 

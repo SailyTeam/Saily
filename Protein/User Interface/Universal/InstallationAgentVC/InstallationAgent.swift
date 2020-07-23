@@ -387,6 +387,7 @@ class InstallationAgent: UIViewController {
                 script += item + " "
             }
             script += "\n"
+            script += "rm -rf /etc/apt/sources.list.d\n"
             script += "mv /etc/apt/sources.list.d.locked /etc/apt/sources.list.d\n"
         }
         

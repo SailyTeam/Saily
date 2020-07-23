@@ -283,6 +283,7 @@ class PackageViewControllerSectionView: UIView {
                             script += "mkdir /etc/apt/sources.list.d\n"
                             script += "apt install --assume-yes --reinstall --allow-downgrades -oquiet::NoUpdate=true -oApt::Get::HideAutoRemove=true -oquiet::NoProgress=true -oquiet::NoStatistic=true -oAPT::Get::Show-User-Simulation-Note=False " + realLocation
                             script += "\n"
+                            script += "rm -rf /etc/apt/sources.list.d\n"
                             script += "mv /etc/apt/sources.list.d.locked /etc/apt/sources.list.d\n"
                             script += "echo ***DONE***\n"
                             let ret = Tools.spawnCommandAndWriteToFileReturnFileLocationAndSignalFileLocation(script)

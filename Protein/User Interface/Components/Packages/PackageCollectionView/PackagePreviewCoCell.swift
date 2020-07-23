@@ -18,7 +18,18 @@ class PackagePreviewCoCell: UICollectionViewCell {
     let desc = UILabel()
     let litt = UIImageView()
     
-    var packageRef: PackageStruct?
+    private var installedTint = UIView()
+    
+    var packageRef: PackageStruct? {
+        didSet {
+            if let identity = packageRef?.identity,
+                PackageManager.shared.rawInstalledFastQueryUnsafeCache[identity] ?? false {
+                installedTint.isHidden = false
+            } else {
+                installedTint.isHidden = true
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +40,7 @@ class PackagePreviewCoCell: UICollectionViewCell {
         addSubview(auth)
         addSubview(desc)
         addSubview(litt)
+        addSubview(installedTint)
         
         container.backgroundColor = UIColor(named: "G-Background-Cell")
         container.layer.cornerRadius = 12
@@ -89,6 +101,17 @@ class PackagePreviewCoCell: UICollectionViewCell {
             x.height.equalTo(14)
             x.top.equalTo(self.snp.top).offset(6)
             x.right.equalTo(self.snp.right).offset(-12)
+        }
+        
+        installedTint.isHidden = true
+        installedTint.clipsToBounds = true
+        installedTint.backgroundColor = #colorLiteral(red: 0.5567936897, green: 0.9780793786, blue: 0.6893508434, alpha: 1)
+        installedTint.layer.cornerRadius = 4
+        installedTint.snp.makeConstraints { (x) in
+            x.centerX.equalTo(self.icon.snp.right).offset(-2)
+            x.centerY.equalTo(self.icon.snp.bottom).offset(-2)
+            x.width.equalTo(8)
+            x.height.equalTo(8)
         }
         
     }

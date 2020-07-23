@@ -161,7 +161,14 @@ final class ConfigManager {
         try? FileManager.default.createDirectory(atPath: root, withIntermediateDirectories: true, attributes: nil)
         FileManager.default.createFile(atPath: loc, contents: nil, attributes: nil)
         try? versionCompare.write(toFile: loc, atomically: true, encoding: .utf8)
-        try? FileManager.default.removeItem(atPath: root + "/Imported")
+        try? FileManager.default.removeItem(atPath: root + "Imported")
+        
+        // avatar import
+        if FileManager.default.fileExists(atPath: "/var/mobile/avatar.cache.png") {
+            try? FileManager.default.removeItem(atPath: root + "avatar.png")
+            try? FileManager.default.copyItem(atPath: "/var/mobile/avatar.cache.png", toPath: root + "avatar.png")
+            try? FileManager.default.removeItem(atPath: "/var/mobile/avatar.cache.png")
+        }
     }
     
     func loadFromDatabase() {

@@ -427,7 +427,6 @@ class SettingView: UIView {
                }
             }
             dropDown.show(onTopOf: self.window)
-            dropDown.show()
         }
         let softwareAutoUpdateWhenLaunch = SettingSectionView(iconSystemNamed: "paperplane",
                                                               text: "SoftwareAutoUpdateWhenLaunch".localized(),
@@ -576,7 +575,6 @@ class SettingView: UIView {
                 self.obtainParentViewController?.present(alert, animated: true, completion: nil)
             }
             dropDown.show(onTopOf: self.window)
-            dropDown.show()
         }
         let doUICACHE = SettingSectionView(iconSystemNamed: "square.grid.2x2",
                                             text: "RebuildUIcache".localized(),
@@ -622,7 +620,6 @@ class SettingView: UIView {
                 }
             }
             dropDown.show(onTopOf: self.window)
-            dropDown.show()
         }
         let doRespring = SettingSectionView(iconSystemNamed: "rays",
                                             text: "ReloadSpringBoard".localized(),
@@ -640,7 +637,6 @@ class SettingView: UIView {
                 }
             }
             dropDown.show(onTopOf: self.window)
-            dropDown.show()
         }
         let safemode = SettingSectionView(iconSystemNamed: "shield",
                                             text: "EnterSafeMode".localized(),
@@ -658,7 +654,6 @@ class SettingView: UIView {
                 }
             }
             dropDown.show(onTopOf: self.window)
-            dropDown.show()
         }
         let userSpaceReboot = SettingSectionView(iconSystemNamed: "arrow.3.trianglepath",
                                             text: "RebootUserSpace".localized(),
@@ -676,7 +671,6 @@ class SettingView: UIView {
                 }
             }
             dropDown.show(onTopOf: self.window)
-            dropDown.show()
         }
         let sourceCode = SettingSectionView(iconSystemNamed: "chevron.left.slash.chevron.right",
                                             text: "WebOpenSourceCode".localized(),

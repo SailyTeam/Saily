@@ -250,6 +250,7 @@
 "Option" = "选项";
 "RepoLoginTitle" = "登录软件源";
 "RepoSignInBlockedHint" = "无法获取设备信息，登录被禁止。";
+"SignIn" = "登录";
 "SignOut" = "注销账号";
 "ListPurchased" = "已购项目";
 "LoginFailedLeadingHint" = "登录失败: ";

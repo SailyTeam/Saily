@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4C4-y7-2z4">
-    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4C4-y7-2z4">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,14 +10,13 @@
         <!-- -->
         <scene sceneID="rPK-jm-cEx">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fmn-hG-dsz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <viewController title=" " id="ARp-ML-cQi" customClass="MasterView" customModule="Protein" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title=" " id="ARp-ML-cQi" customClass="MasterView" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xzc-Cp-9Rd">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iPhone UI Disabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQB-X0-09g">
-                                <rect key="frame" x="311.5" y="501.5" width="145" height="21"/>
+                                <rect key="frame" x="115" y="323" width="145" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -32,19 +31,20 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 2" id="NRW-kr-nqA"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fmn-hG-dsz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-516" y="-816"/>
         </scene>
         <!--Start UpVC-->
         <scene sceneID="Y7I-aJ-pq4">
             <objects>
-                <viewController id="4C4-y7-2z4" customClass="StartUpVC" customModule="Protein" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4C4-y7-2z4" customClass="StartUpVC" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XXG-Lh-qbf">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="83m-JJ-Ugg">
-                                <rect key="frame" x="374" y="502" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -62,7 +62,7 @@
         <!-- -->
         <scene sceneID="3jd-jq-Dle">
             <objects>
-                <tabBarController storyboardIdentifier="UIEntery" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="DPs-4B-Ml5" customClass="UIEntery" customModule="Protein" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="UIEntery" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="DPs-4B-Ml5" customClass="UIEntery" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" hidden="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="M3T-AP-dNz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -82,7 +82,7 @@
             <objects>
                 <viewController title=" " id="AIz-xs-inE" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CW8-ol-1ya">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="fP2-Gb-LxB"/>
@@ -97,7 +97,6 @@
             <objects>
                 <navigationController title=" " navigationBarHidden="YES" id="rip-B3-Xta" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pVi-Ti-ocO">
-                        <rect key="frame" x="0.31999999999999318" y="0.0" width="0.0" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -111,9 +110,9 @@
         <!-- -->
         <scene sceneID="cW9-Bf-z3z">
             <objects>
-                <viewController storyboardIdentifier="SplitBoardingDash" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="agw-oI-30G" customClass="SplitBoardingDash" customModule="Protein" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplitBoardingDash" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="agw-oI-30G" customClass="SplitBoardingDash" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kl1-cP-MvL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="1q7-o0-2PG"/>
@@ -127,7 +126,7 @@
         <!-- -->
         <scene sceneID="bje-P5-69S">
             <objects>
-                <splitViewController title=" " id="j7h-jB-Egi" customClass="MasterViewX" customModule="Protein" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController title=" " id="j7h-jB-Egi" customClass="MasterViewX" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="gbL-UZ-XWc"/>
                     <connections>
                         <segue destination="rip-B3-Xta" kind="relationship" relationship="masterViewController" id="5UR-2O-DuX"/>

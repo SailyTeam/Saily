@@ -251,6 +251,7 @@
 "Option" = "Option";
 "RepoLoginTitle" = "Software Source Login";
 "RepoSignInBlockedHint" = "Failed to obtain real device identity, sign in blocked";
+"SignIn" = "Sign In";
 "SignOut" = "Sign Out";
 "ListPurchased" = "Purchased";
 "LoginFailedLeadingHint" = "Login Failed: ";

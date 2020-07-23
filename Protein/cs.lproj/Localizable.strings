@@ -251,6 +251,7 @@
 "Option" = "Nastavení";
 "RepoLoginTitle" = "Přihlášení do repositářů";
 "RepoSignInBlockedHint" = "Nepovedlo se získat pravou identitu zařízení, přihlášení zablokováno.";
+"SignIn" = "Sign In";
 "SignOut" = "Odhlásit";
 "ListPurchased" = "Zakoupeno";
 "LoginFailedLeadingHint" = "Přihlášení selhalo: ";

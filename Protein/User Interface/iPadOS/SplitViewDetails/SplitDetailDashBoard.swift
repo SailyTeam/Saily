@@ -199,7 +199,7 @@ fileprivate class SplitDetailDashBoard: UIViewController {
                 }) { (_) in
                     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
                     }) { (_) in
-                        self.container.contentSize.height = self.bottom.center.y + 250
+                        self.container.contentSize.height = self.bottom.center.y + 66
                     }
                 }
             }

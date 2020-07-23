@@ -34,20 +34,24 @@ final class PackageManager {
         didSet {
             let copy = rawInstalled
             var new = [PackageStruct]()
+            var cache: [String : Bool] = [:]
             copy.withUnsafeBufferPointer { (p) -> () in
                 for i in p {
                     if !i.isCydiaGSCPackage() {
                         new.append(i)
                     }
+                    cache[i.identity] = true
                 }
             }
             niceInstalled = new
+            rawInstalledFastQueryUnsafeCache = cache
             updateUpdateCandidate()
             DispatchQueue.global(qos: .background).async {
                 NotificationCenter.default.post(name: .rawInstalledShouldUpdate, object: nil)
             }
         }
     }
+    @Atomic var rawInstalledFastQueryUnsafeCache: [String : Bool] = [:]
     @Atomic var niceInstalled: [PackageStruct] = [] {
         didSet {
             DispatchQueue.global(qos: .background).async {

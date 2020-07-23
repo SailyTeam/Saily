@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import LTMorphingLabel
 import DropDown
+import MobileCoreServices
+import WCDBSwift
 
 // MARK: Views
 class SplitBoardingDash: UIViewController, UINavigationControllerDelegate {
@@ -32,6 +34,8 @@ class SplitBoardingDash: UIViewController, UINavigationControllerDelegate {
             container.contentSize = CGSize(width: 0, height: 640 + contentLenthOfRepoCard)
         }
     }
+    
+    private let avatarPickerFromDocumentsDelegate = AvatarPickerFromDocumentsDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -254,20 +258,66 @@ extension SplitBoardingDash: UIImagePickerControllerDelegate {
                 return
             }
             if actions[index] == "SetAvatar" {
+                
+//
+//                let documentPickerController = UIDocumentPickerViewController(documentTypes: [
+//                    String(kUTTypeImage)
+//                    ],
+//                                                                              in: .import)
+//                documentPickerController.delegate = self.avatarPickerFromDocumentsDelegate
+//                self.present(documentPickerController, animated: true, completion: nil)
+                
                 if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                
+                    try? FileManager.default.removeItem(atPath: "/var/mobile/avatar.cache.png")
+                    
+                    var script = "echo waiting for avatar cache\n"
+                       script += "while ! test -f \"/var/mobile/avatar.cache.png\"; do\n"
+                       script += "  sleep 1\n"
+                       script += "done\n"
+                       script += "sleep 1\n"
+                       script += "killall -9 Saily\n"
+                       script += "openApplication wiki.qaq.Protein\n"
+                    
+                    let _ = Tools.spawnCommandAndWriteToFileReturnFileLocationAndSignalFileLocation(script)
+                    
+                    usleep(23333)
+                    
+                    ConfigManager.shared.database.blockade()
+                    PackageManager.shared.database.blockade()
+                    RepoManager.shared.database.blockade()
+                    
+                    if getuid() == 0 || getgid() == 0 {
+                        setuid(501)
+                        setgid(501)
+                    }
+                    
                     let picker = UIImagePickerController()
-                    picker.modalPresentationStyle = .formSheet
-                    picker.modalTransitionStyle = .coverVertical
                     picker.delegate = self
                     picker.sourceType = .photoLibrary
                     picker.allowsEditing = true
-                    picker.preferredContentSize = CGSize(width: 700, height: 555)
-                    self.present(picker, animated: true, completion: nil)
+                    picker.isModalInPresentation = true
+                    picker.modalPresentationStyle = .fullScreen
+                    
+                    let selfWindow = self.view.window
+                    
+                    for item in UIApplication.shared.connectedScenes {
+                        let target = ((item as? UIWindowScene)?.delegate as? UIWindowSceneDelegate)?.window
+                        if target != selfWindow {
+                            target??.rootViewController = nil
+                        }
+                    }
+                    
+                    self.view.window?.rootViewController = picker
+                    
+//                    self.present(picker, animated: true) { }
+                    
                 } else {
                     let alert = UIAlertController(title: "Error".localized(), message: "PhotoLibraryUnavailableHint".localized(), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
+                
                 return
             }
             if actions[index] == "Accounts" {
@@ -277,16 +327,37 @@ extension SplitBoardingDash: UIImagePickerControllerDelegate {
             }
         }
         dropDown.anchorView = welcomeCard
-        dropDown.show()
+        dropDown.show(onTopOf: self.view.window)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: { () -> Void in
+            
         })
         if let refUrl = info[.imageURL] as? URL {
             let img = UIImage(contentsOfFile: refUrl.fileString)
-            try? img?.pngData()?.write(to: ConfigManager.shared.documentURL.appendingPathComponent("avatar.png"))
+            try? img?.pngData()?.write(to: URL(fileURLWithPath: "/var/mobile/avatar.cache.png"))
             NotificationCenter.default.post(name: .AvatarUpdated, object: nil)
+        }
+        
+        if !FileManager.default.fileExists(atPath: "/var/mobile/avatar.cache.png") {
+            FileManager.default.createFile(atPath: "/var/mobile/avatar.cache.png", contents: nil, attributes: nil)
+        }
+        
+        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (timer) in
+            exit(0)
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        if !FileManager.default.fileExists(atPath: "/var/mobile/avatar.cache.png") {
+            FileManager.default.createFile(atPath: "/var/mobile/avatar.cache.png", contents: nil, attributes: nil)
+        }
+        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (timer) in
+            exit(0)
         }
     }
     
@@ -368,6 +439,21 @@ extension SplitBoardingDash: UIImagePickerControllerDelegate {
             self.contentLenthOfRepoCard = self.repoCard.suggestHeight
             self.repoCard.superview?.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+}
+
+fileprivate class AvatarPickerFromDocumentsDelegate: NSObject, UIDocumentPickerDelegate {
+
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        for item in urls {
+            if let img = UIImage(contentsOfFile: item.fileString),
+                let data = img.pngData() {
+                try? data.write(to: ConfigManager.shared.documentURL.appendingPathComponent("avatar.png"))
+                NotificationCenter.default.post(name: .AvatarUpdated, object: nil)
+                return
+            }
+        }
     }
     
 }

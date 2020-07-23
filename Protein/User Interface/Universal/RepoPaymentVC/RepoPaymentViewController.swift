@@ -311,11 +311,6 @@ fileprivate class RepoPaymentCell: UITableViewCell {
                         }
                         if let raw = json["icon"] as? String, let iconUrl = URL(string: raw) {
                             self.icon.sd_setImage(with: iconUrl) { (img, _, _, _) in
-                                /*
-                                if let img = img {
-                                    self.button.backgroundColor = img.areaAverage()
-                                }
-                                 */
                             }
                         }
                         if let payload = json["authentication_banner"] as? [String : String] {
@@ -330,13 +325,30 @@ fileprivate class RepoPaymentCell: UITableViewCell {
                                     self.button.alpha = 1
                                 }
                                 self.loginStatusUpdated()
+                                return
                             }
                         }
+                        self.buttonSignInText = "SignIn".localized()
+                        self.button.setTitle(self.buttonSignInText, for: .normal)
+                        self.button.isHidden = false
+                        UIView.animate(withDuration: 0.6) {
+                            self.button.alpha = 1
+                        }
+                        self.loginStatusUpdated()
+                        return
                     }
                 } else {
                     DispatchQueue.main.async {
+                        self.buttonSignInText = "SignIn".localized()
+                        self.button.setTitle(self.buttonSignInText, for: .normal)
+                        self.button.isHidden = false
+                        UIView.animate(withDuration: 0.6) {
+                            self.button.alpha = 1
+                        }
+                        self.loginStatusUpdated()
                         self.active.stopAnimating()
                     }
+                    return
                 }
             }
         }

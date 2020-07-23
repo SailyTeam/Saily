@@ -206,8 +206,8 @@ class InstallAgentLogView: UIViewController {
                 return
             }
         }
-        dropDown.show()
-        
+        dropDown.show(onTopOf: self.view.window)
+
         return
     }
     

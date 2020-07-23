@@ -252,19 +252,22 @@ final class RepoManager {
         return ret
     }
     
+    private var sendEverythingToUpdateTot = CommonThrottler(minimumDelay: 1)
     func sendEverythingToUpdate() {
-        let copy = repos
-        var newQ = self.updateQueue
-        for item in copy {
-            if !newQ.contains(item.url) {
-                newQ.append(item.url)
+        sendEverythingToUpdateTot.throttle {
+            let copy = self.repos
+            var newQ = self.updateQueue
+            for item in copy {
+                if !newQ.contains(item.url) {
+                    newQ.append(item.url)
+                }
             }
+            self.updateQueue = newQ
+            DispatchQueue.global(qos: .background).async {
+                NotificationCenter.default.post(name: .RepoManagerUpdatedAllMeta, object: nil)
+            }
+            self.doUpdateIfNeeded()
         }
-        updateQueue = newQ
-        DispatchQueue.global(qos: .background).async {
-            NotificationCenter.default.post(name: .RepoManagerUpdatedAllMeta, object: nil)
-        }
-        self.doUpdateIfNeeded()
     }
     
     @objc private

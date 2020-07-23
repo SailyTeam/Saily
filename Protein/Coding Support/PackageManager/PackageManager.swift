@@ -96,7 +96,9 @@ final class PackageManager {
         if let hi: [PackageRecordUniqueIdentity] = try? database.getObjects(fromTable: tableNameWichList) {
             var newList = [PackageStruct]()
             for i in hi {
-                newList.append(i.obtainPackageStruct())
+                if let pkg = i.obtainPackageStruct() {
+                    newList.append(pkg)
+                }
             }
             wishList = newList
         }
@@ -134,7 +136,9 @@ final class PackageManager {
             Tools.rprint("[PackageManager] updateIndexes begin with ticket [" + ticket + "]")
             self.updateMetaUpdateRecords()
             self.updateUpdateCandidate()
-            SearchIndexManager.shared.reBuildIndexSync()
+            Tools.rprint("[PackageManager] SearchIndexManager bootstrap with ticket [" + ticket + "]")
+            
+            SearchIndexManager.shared.reBuildIndexSyncWithNewTokenMap()
         }
     }
     
@@ -283,9 +287,11 @@ final class PackageManager {
                 // find if any record in databse
                 var lookup: PackageRecordUniqueIdentity?
                 databaseRecord.withUnsafeBufferPointer { (void) -> () in
-                    for foo in void where foo.uniqueIdentity! == key && foo.obtainPackageStruct().newestVersion() == val.newestVersion() {
-                        lookup = foo
-                        return
+                    for foo in void {
+                        if foo.uniqueIdentity! == key && foo.obtainPackageStruct()?.newestVersion() == val.newestVersion() {
+                            lookup = foo
+                            return
+                        }
                     }
                 }
 //                #if targetEnvironment(simulator)
@@ -293,7 +299,7 @@ final class PackageManager {
 //                    fatalError("[Databse Record] Invalid Record")
 //                }
 //                #endif
-                if let lu = lookup, lu.obtainPackageStruct().newestVersion() == val.newestVersion() {
+                if let lu = lookup, lu.obtainPackageStruct()?.newestVersion() == val.newestVersion() {
                     write.append(lu)
                 } else {
                     write.append(PackageRecordUniqueIdentity(withPkg: val, andTimeStamp: batch))
@@ -322,13 +328,15 @@ final class PackageManager {
             var newInstalled = [PackageStruct]()
             lookups: for obj in databaseRecord {
                 guard let unid = obj.uniqueIdentity else {
-                    newInstalled.append(obj.obtainPackageStruct())
+                    if let foo = obj.obtainPackageStruct() {
+                        newInstalled.append(foo)
+                    }
                     continue lookups
                 }
                 var get: PackageStruct?
                 repoCopy.withUnsafeBufferPointer { (repos) -> () in
                     for r in repos {
-                        if let pkg = r.metaPackage[unid]?.truncateMetaDataBy(version: obj.obtainPackageStruct().newestVersion()) {
+                        if let ver = obj.obtainPackageStruct()?.newestVersion(), let pkg = r.metaPackage[unid]?.truncateMetaDataBy(version: ver) {
                             get = pkg
                             return
                         }
@@ -339,7 +347,9 @@ final class PackageManager {
                     continue lookups
                 }
                 // local packages
-                newInstalled.append(obj.obtainPackageStruct())
+                if let foo = obj.obtainPackageStruct() {
+                    newInstalled.append(foo)
+                }
             }
             rawInstalled = newInstalled
         } else {
@@ -347,7 +357,7 @@ final class PackageManager {
         }
     }
     
-    func updateUpdateCandidate(_ initSkipValid: Bool = false) {
+    func updateUpdateCandidate(_ fromInitQueue: Bool = false) {
         let installed = niceInstalled
         let repos = RepoManager.shared.repos
         var candidate = [(PackageStruct, PackageStruct)]()
@@ -371,10 +381,11 @@ final class PackageManager {
             }
         }
         
-        if initSkipValid || !StartUpVC.booted {
-//            installedUpdateCandidate = candidate
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 6) {
-                self.updateUpdateCandidate()
+        if !StartUpVC.booted {
+            if fromInitQueue {
+                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 6) {
+                    self.updateUpdateCandidate()
+                }
             }
         } else {
             var validCandidate = [(PackageStruct, PackageStruct)]()

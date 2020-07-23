@@ -79,7 +79,7 @@ class SearchIndexManager {
         
         indexSaveDir = ConfigManager.shared.documentString + "/cached_index"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIndexAndReload), name: .RecentUpdateShouldUpdate, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIndexAndReload), name: .RecentUpdateShouldUpdate, object: nil)
     }
     
     deinit {
@@ -108,6 +108,11 @@ class SearchIndexManager {
             return
         }
         
+        reBuildIndexSync()
+    }
+    
+    func reBuildIndexSyncWithNewTokenMap() {
+        tokenMap = nil
         reBuildIndexSync()
     }
     

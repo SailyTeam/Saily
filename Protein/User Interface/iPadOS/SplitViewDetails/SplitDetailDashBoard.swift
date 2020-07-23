@@ -180,24 +180,27 @@ fileprivate class SplitDetailDashBoard: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
+    private let layoutTot = CommonThrottler(minimumDelay: 0.2)
     @objc func updateContainerHeight() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.tableView.beginUpdates()
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
-                self.tableView.endUpdates()
-                var calc: CGFloat = 0
-                let obt = self.obtainHeightForEachRow()
-                obt.forEach { (i) in
-                    calc += i
-                }
-                self.tableView.snp.updateConstraints { (x) in
-                    x.height.equalTo(calc)
-                }
-                self.tableView.layoutSubviews()
-            }) { (_) in
+        layoutTot.throttle {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.tableView.beginUpdates()
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
+                    self.tableView.endUpdates()
+                    var calc: CGFloat = 0
+                    let obt = self.obtainHeightForEachRow()
+                    obt.forEach { (i) in
+                        calc += i
+                    }
+                    self.tableView.snp.updateConstraints { (x) in
+                        x.height.equalTo(calc)
+                    }
+                    self.tableView.layoutSubviews()
                 }) { (_) in
-                    self.container.contentSize.height = self.bottom.center.y
+                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
+                    }) { (_) in
+                        self.container.contentSize.height = self.bottom.center.y
+                    }
                 }
             }
         }

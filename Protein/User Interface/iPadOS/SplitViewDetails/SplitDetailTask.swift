@@ -641,7 +641,10 @@ fileprivate class TaskCell: UITableViewCell {
                     self.progressLab.text = "Suspended".localized()
                 }
             }
-            
+        } else {
+            DispatchQueue.main.async {
+                self.progressLab.text = ""
+            }
         }
         return false
     }

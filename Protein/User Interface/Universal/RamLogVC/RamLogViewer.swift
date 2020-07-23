@@ -32,6 +32,7 @@ class RamLogViewer: UIViewController {
             preferredContentSize = CGSize(width: 700, height: 555)
         #endif
         
+        textView.isEditable = false
         view.addSubview(textView)
         textView.snp.makeConstraints { (x) in
             x.top.equalTo(self.view.snp.top).offset(28)

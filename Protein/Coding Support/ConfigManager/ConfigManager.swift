@@ -136,7 +136,7 @@ final class ConfigManager {
     }
     
     func resetContainerIfNeeded() {
-        let versionCompare = "00000024"
+        let versionCompare = "00000025"
         Tools.rprint("Starting Application With Version Control Code [" + versionCompare + "] 👋")
         var root = documentString
         if root.count < 8 { // at least /var/root
@@ -161,6 +161,7 @@ final class ConfigManager {
         try? FileManager.default.createDirectory(atPath: root, withIntermediateDirectories: true, attributes: nil)
         FileManager.default.createFile(atPath: loc, contents: nil, attributes: nil)
         try? versionCompare.write(toFile: loc, atomically: true, encoding: .utf8)
+        try? FileManager.default.removeItem(atPath: root + "/Imported")
     }
     
     func loadFromDatabase() {

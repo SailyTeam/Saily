@@ -54,6 +54,7 @@ class InstallAgentLogView: UIViewController {
         textView.clipsToBounds = true
         textView.textColor = UIColor(named: "G-TextSubTitle")
         textView.backgroundColor = .clear
+        textView.isEditable = false
         
         #if targetEnvironment(macCatalyst)
             textView.font = .monospacedSystemFont(ofSize: 20, weight: .bold)

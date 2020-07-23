@@ -97,8 +97,14 @@ class PackageRecordUniqueIdentity: WCDBSwift.TableCodable {
         sortName = withPkg.obtainNameIfExists()
     }
     
-    func obtainPackageStruct() -> PackageStruct {
-        return attach![0]!
+    func obtainPackageStruct() -> PackageStruct? {
+        let ret = attach?[0]
+        #if DEBUG
+        if ret == nil {
+            fatalError("there cant be nil")
+        }
+        #endif
+        return ret
     }
     
     enum CodingKeys: String, CodingTableKey {

@@ -34,7 +34,7 @@ final class TaskManager {
         
         // Repos
         let lookup = RepoManager.shared.repos
-        let inupdates = RepoManager.shared.inUpdate.map { (url) -> Task in
+        let inupdates = RepoManager.shared.inUpdate.map { (url) -> Task? in
             var repo: RepoStruct? = nil
             lk0: for item in lookup {
                 if item.url.urlString == url.urlString {
@@ -42,18 +42,21 @@ final class TaskManager {
                     break lk0
                 }
             }
-            if let repo = repo, let url = URL(string: repo.obtainIconLink()) {
-                if let image = SDImageCache.shared.imageFromCache(forKey: url.absoluteString) {
-                    return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: ["icon" : image])
-                } else if let icon = UIImage(data: repo.icon) {
-                    return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: ["icon" : icon])
-                } else {
-                    return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: nil)
+            if let repo = repo {
+                if let url = URL(string: repo.obtainIconLink()) {
+                    if let image = SDImageCache.shared.imageFromCache(forKey: url.absoluteString) {
+                        return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: ["icon" : image])
+                    } else if let icon = UIImage(data: repo.icon) {
+                        return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: ["icon" : icon])
+                    } else {
+                        return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: nil)
+                    }
                 }
+                return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized(), description: "-> " + url.urlString, status: .activated, relatedObjects: nil)
             }
-            return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized(), description: "-> " + url.urlString, status: .activated, relatedObjects: nil)
+            return nil
         }
-        let queuedUpdate = RepoManager.shared.updateQueue.map { (url) -> Task in
+        let queuedUpdate = RepoManager.shared.updateQueue.map { (url) -> Task? in
             var repo: RepoStruct? = nil
             lk0: for item in lookup {
                 if item.url.urlString == url.urlString {
@@ -61,19 +64,32 @@ final class TaskManager {
                     break lk0
                 }
             }
-            if let repo = repo, let url = URL(string: repo.obtainIconLink()) {
-                if let image = SDImageCache.shared.imageFromCache(forKey: url.absoluteString) {
-                    return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .pending, relatedObjects: ["icon" : image])
-                } else if let icon = UIImage(data: repo.icon) {
-                    return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .pending, relatedObjects: ["icon" : icon])
-                } else {
-                    return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .pending, relatedObjects: nil)
+            if let repo = repo {
+                if let url = URL(string: repo.obtainIconLink()) {
+                    if let image = SDImageCache.shared.imageFromCache(forKey: url.absoluteString) {
+                        return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: ["icon" : image])
+                    } else if let icon = UIImage(data: repo.icon) {
+                        return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: ["icon" : icon])
+                    } else {
+                        return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized() + repo.obtainPossibleName(), description: "-> " + repo.url.urlString, status: .activated, relatedObjects: nil)
+                    }
                 }
+                return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized(), description: "-> " + url.urlString, status: .activated, relatedObjects: nil)
             }
-            return Task(type: .unownedTask, name: "TaskOperationName_RepoUpdate".localized(), description: "-> " + url.urlString, status: .pending, relatedObjects: nil)
+            return nil
         }
-        newUnownedTaskContainer.append(contentsOf: inupdates)
-        newUnownedTaskContainer.append(contentsOf: queuedUpdate)
+        
+        for task in inupdates {
+            if let foo = task {
+                newUnownedTaskContainer.append(foo)
+            }
+        }
+        for task in queuedUpdate {
+            if let foo = task {
+                newUnownedTaskContainer.append(foo)
+            }
+        }
+        
         if inupdates.count + queuedUpdate.count > 0 {
             newUnownedTaskContainer.append(Task(type: .unownedTask, name: "TaskOperationName_Index".localized(), description: "TaskOperationName_IndexDescription".localized(), status: .pending, relatedObjects: nil))
         } else {

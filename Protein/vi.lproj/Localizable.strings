@@ -215,6 +215,7 @@
 "WebOpenSourceCode" = "Nhận mã nguồn";
 "PhotoLibraryUnavailableHint" = "Thư viện ảnh không có sẵn, kiểm tra cài đặt quyền riêng tư của bạn";
 "SetAvatar" = "Chọn Avatar";
+"SetAvatarHint" = "Enter URL for your image, or an email for Gravatar";
 "RemoveAvatar" = "Xoá Avatar";
 "Accounts" = "Tài khoản";
 "ShowAPTReportSection" = "Enable APT Report";

@@ -209,6 +209,7 @@
 "PhotoLibraryUnavailableHint" = "照片图库不可用，请检查隐私设置";
 "SetAvatar" = "设置头像";
 "RemoveAvatar" = "删除头像";
+"SetAvatarHint" = "填写图片链接或与Gravatar关联的邮箱";
 "Accounts" = "管理账号";
 "ShowAPTReportSection" = "启用APT报告";
 

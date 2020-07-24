@@ -210,6 +210,7 @@
 "PhotoLibraryUnavailableHint" = "Photo library unavailable, check your privacy settings";
 "SetAvatar" = "Pick Avatar";
 "RemoveAvatar" = "Remove Avatar";
+"SetAvatarHint" = "Enter URL for your image, or an email for Gravatar";
 "Accounts" = "Accounts";
 "ShowAPTReportSection" = "Enable APT Report";
 

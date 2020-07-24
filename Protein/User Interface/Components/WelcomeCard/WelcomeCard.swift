@@ -114,10 +114,12 @@ class WelcomeCard: UIView {
     
     @objc
     func updateAvatar() {
-        if let img = UIImage(contentsOfFile: ConfigManager.shared.documentURL.appendingPathComponent("avatar.png").fileString) {
-            headIconView.image = img
-        } else {
-            headIconView.image = UIImage(named: "AppStoreIcon")
+        DispatchQueue.main.async {
+            if let img = UIImage(contentsOfFile: ConfigManager.shared.documentURL.appendingPathComponent("avatar.png").fileString) {
+                self.headIconView.image = img
+            } else {
+                self.headIconView.image = UIImage(named: "AppStoreIcon")
+            }
         }
     }
     

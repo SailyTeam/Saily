@@ -116,7 +116,7 @@ extension UIDevice {
         if !UIDevice.isiPad {
             return false
         }
-        if !(currentView.frame.width > 720 && currentView.frame.height > 720) {
+        if !(currentView.frame.width > 600 && currentView.frame.height > 600) {
 //        if !(currentView.frame.width > 500 && currentView.frame.height > 500) {
             return false
         }

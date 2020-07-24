@@ -208,6 +208,7 @@
 "WebOpenSourceCode" = "Get Source Code";
 "PhotoLibraryUnavailableHint" = "Photo library is inaccessible, please check your privacy settings";
 "SetAvatar" = "Pick Avatar";
+"SetAvatarHint" = "Enter URL for your image, or an email for Gravatar";
 "RemoveAvatar" = "Remove Avatar";
 "Accounts" = "Accounts";
 "ShowAPTReportSection" = "Enable APT Report";

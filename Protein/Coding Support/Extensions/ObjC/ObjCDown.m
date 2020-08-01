@@ -183,6 +183,7 @@
     __block NSInteger currentLenth = [cacheData length];
     __block NSInteger fullLenth = -1; // 如果没有预计长度大概就是需要重新下载的
     __block NSFileHandle* handler;
+    __block BOOL completed = false;
     NSString *range = [NSString stringWithFormat:@"bytes=%zd-", currentLenth];
     [request setValue:range forHTTPHeaderField:@"Range"];
     // 请求数据 在写入block写入 在完成block拷贝文件到目的地
@@ -196,7 +197,7 @@
         
         // 关闭文件句柄
         [handler closeFile];
-        
+        completed = true;
         // 这里是下载完成的回掉
         if (error) {
             NSLog(@"Task to: %@ failed!\n    -> %@\n", url, [error localizedDescription]);
@@ -225,19 +226,28 @@
         handler = [NSFileHandle fileHandleForWritingAtPath:downloadCacheLocationString];
         return NSURLSessionResponseAllow;
     }];
+    
+    __block float progCache = 0;
+    
     [manager setDataTaskDidReceiveDataBlock:^(NSURLSession * _Nonnull session, NSURLSessionDataTask * _Nonnull dataTask, NSData * _Nonnull data) {
         // 写入数据并且汇报进度
         [handler seekToEndOfFile];
         [handler writeData:data];
         currentLenth += [data length];
         // 计算进度
-        float prog = 1.0f * currentLenth / fullLenth;
+        progCache = 1.0f * currentLenth / fullLenth;
         // 汇报进度
 //        NSLog(@" -> %f\n", prog);
-        if (callProgress)
-            callProgress(prog);
     }];
     [task resume];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        while (!completed) {
+            if (callProgress)
+                callProgress(progCache);
+        }
+    });
+    
     return task;
 }
 

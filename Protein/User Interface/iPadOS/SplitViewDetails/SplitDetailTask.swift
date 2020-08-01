@@ -217,12 +217,22 @@ extension SplitDetailTask: UITableViewDelegate, UITableViewDataSource {
             let label = UILabel()
             label.font = .systemFont(ofSize: 22, weight: .semibold)
             label.text = "Download Tasks".localized()
+            let button = UIButton()
+            button.setImage(UIImage(systemName: "bell"), for: .normal)
+            button.addTarget(self, action: #selector(openDownloadRecord(sender:)), for: .touchUpInside)
             container.addSubview(label)
+            container.addSubview(button)
             label.snp.makeConstraints { (x) in
                 x.left.equalToSuperview().offset(28)
                 x.height.equalToSuperview()
                 x.bottom.equalToSuperview()
                 x.width.equalTo(233)
+            }
+            button.snp.makeConstraints { (x) in
+                x.centerY.equalTo(label).offset(2)
+                x.right.equalToSuperview().offset(-30)
+                x.width.equalTo(50)
+                x.height.equalTo(50)
             }
             return container
         case 2:
@@ -267,6 +277,17 @@ extension SplitDetailTask: UITableViewDelegate, UITableViewDataSource {
         default:
             return UIView()
         }
+    }
+    
+    @objc
+    private func openDownloadRecord(sender: UIButton?) {
+        sender?.puddingAnimate()
+        
+        let pop = DownloadInfoViewController()
+        pop.modalPresentationStyle = .formSheet
+        pop.modalTransitionStyle = .coverVertical
+        self.present(pop, animated: true, completion: nil)
+        
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -323,7 +344,7 @@ fileprivate class TaskCell: UITableViewCell {
     private let titleLab = UILabel()
     private let descLab = UILabel()
     private let iconView = UIImageView()
-    private let progressLab = LTMorphingLabel()
+    private let progressLab = UILabel()
     private let optionBtn = UIButton()
     private let dropDownAnchor = UIView()
     
@@ -410,7 +431,7 @@ fileprivate class TaskCell: UITableViewCell {
         }
         
         progressLab.textAlignment = .right
-        progressLab.morphingEffect = .evaporate
+//        progressLab.morphingEffect = .evaporate
         progressLab.font = UIFont.roundedFont(ofSize: 18, weight: .bold).monospacedDigitFont
         progressLab.clipsToBounds = false
         progressLab.textColor = UIColor(named: "RepoTableViewCell.SubText")
@@ -598,14 +619,18 @@ fileprivate class TaskCell: UITableViewCell {
             let progress = object?.userInfo?["progress"] as? Float {
             let userFriendlyProgress = String(Int(progress * 100)) + " %"
             DispatchQueue.main.async {
-                self.progressLab.text = userFriendlyProgress
+                if self.progressLab.text != userFriendlyProgress {
+                    self.progressLab.text = userFriendlyProgress
+                }
             }
         } else if let task = taskCache, task.type == .downloadTask,
             let url = task.relatedObjects?["url"] as? String,
             let prog = TaskManager.shared.downloadManager.reportProgressOn(urlAsKey: url) {
             DispatchQueue.main.async {
                 let userFriendlyProgress = String(Int(prog * 100)) + " %"
-                self.progressLab.text = userFriendlyProgress
+                if self.progressLab.text != userFriendlyProgress {
+                    self.progressLab.text = userFriendlyProgress
+                }
             }
         } else if !downloadCheckIsDownloaded() {
             DispatchQueue.main.async {

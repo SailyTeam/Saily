@@ -63,6 +63,7 @@
 		507F1DD7247D493600E9BAE7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 507F1DD9247D493600E9BAE7 /* Localizable.strings */; };
 		507F3E2F24C6D5E4000F21F0 /* QRScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F3E2E24C6D5E4000F21F0 /* QRScanVC.swift */; };
 		507F3E3124C6E13C000F21F0 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F3E3024C6E13C000F21F0 /* UIWindow.swift */; };
+		5084A54024D550820099B612 /* DownloadInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5084A53F24D550820099B612 /* DownloadInfoViewController.swift */; };
 		5087162A244B365B003E0023 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50871622244B365B003E0023 /* Tools.swift */; };
 		5087162B244B365B003E0023 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50871623244B365B003E0023 /* UIColor.swift */; };
 		5087162C244B365B003E0023 /* PPShine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50871624244B365B003E0023 /* PPShine.swift */; };
@@ -307,6 +308,7 @@
 		507F1DDA247D493B00E9BAE7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		507F3E2E24C6D5E4000F21F0 /* QRScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanVC.swift; sourceTree = "<group>"; };
 		507F3E3024C6E13C000F21F0 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
+		5084A53F24D550820099B612 /* DownloadInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadInfoViewController.swift; sourceTree = "<group>"; };
 		50871622244B365B003E0023 /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		50871623244B365B003E0023 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		50871624244B365B003E0023 /* PPShine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPShine.swift; sourceTree = "<group>"; };
@@ -881,6 +883,14 @@
 			path = QRScanerVC;
 			sourceTree = "<group>";
 		};
+		5084A53E24D5506C0099B612 /* DownloadInfo */ = {
+			isa = PBXGroup;
+			children = (
+				5084A53F24D550820099B612 /* DownloadInfoViewController.swift */,
+			);
+			path = DownloadInfo;
+			sourceTree = "<group>";
+		};
 		5087161E244B345D003E0023 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -1037,6 +1047,7 @@
 				507F3E2D24C6D5CB000F21F0 /* QRScanerVC */,
 				50EB6C00245409D200D66F8A /* RamLogVC */,
 				50007C71245F0C0F00213615 /* PackageVC */,
+				5084A53E24D5506C0099B612 /* DownloadInfo */,
 				505DD3D524C2FD5800606E26 /* ImportInstallVC */,
 				504CBB2024C3456500A8AD89 /* RepoPaymentVC */,
 				50C117D324BF1DD0002B6368 /* InstallationAgentVC */,
@@ -1796,6 +1807,7 @@
 				50871641244B38BD003E0023 /* ConfigManager.swift in Sources */,
 				5040EEC02481721F00A6993F /* DepictionBaseView.swift in Sources */,
 				50871656244B586A003E0023 /* SplitBoardingDash.swift in Sources */,
+				5084A54024D550820099B612 /* DownloadInfoViewController.swift in Sources */,
 				5040EEAD2481721F00A6993F /* DepictionColorCollection.swift in Sources */,
 				5040EEAC2481721F00A6993F /* DepictionRatingView.swift in Sources */,
 				50212922245C9B82009EB570 /* RecentUpdate.swift in Sources */,

@@ -97,6 +97,30 @@ final class DownloadManager {
     private var downloadBroken = [String : Int]()
     private let thot = CommonThrottler(minimumDelay: 0.5)
     
+    struct reportElement {
+        var name: String
+        var from: String
+        var time: Double
+        var status: reportStatusElement
+        
+        init(name n: String, from f: String, status s: reportStatusElement) {
+            name = n
+            from = f
+            status = s
+            time = Date().timeIntervalSince1970
+        }
+        
+    }
+    enum reportStatusElement: String {
+        case invalid
+        case started
+        case succeed
+        case verifyFailed
+        case broken
+        case unknown
+    }
+    @Atomic private var reports = [reportElement]()
+    
     func sendToDownload(fromPackage: PackageStruct?, fromURL from: URL?, withFileName name: String, restart: Bool = false, onProgress: @escaping (Float) -> ()) {
 
         defer {
@@ -159,6 +183,8 @@ final class DownloadManager {
     
     private func doDownload(fromURL from: URL, withFileName name: String, onProgress: @escaping (Float) -> (), pkgRef: PackageStruct?) -> URLSessionTask {
         
+        reports.append(reportElement(name: name, from: from.urlString, status: .started))
+        
         if downloadFailed[from.urlString] != nil {
             downloadFailed.removeValue(forKey: from.urlString)
         }
@@ -189,14 +215,17 @@ final class DownloadManager {
                         print("[DownloadManager] Package broken, delete! " + pkg.obtainNameIfExists())
                         try? FileManager.default.removeItem(atPath: dest.fileString)
                         self.downloadFailed[from.urlString] = 1
+                        self.reports.append(reportElement(name: name, from: from.urlString, status: .broken))
                         return
                     }
                     NotificationCenter.default.post(name: .TaskNumberChanged, object: nil)
                     try? FileManager.default.moveItem(atPath: dest.fileString, toPath: self.downloadedContainerLocation + "/" + name)
                     self.saveDownloadedRecord(urlStringAsKey: from.urlString, andLocation: self.downloadedContainerLocation + "/" + name)
+                    self.reports.append(reportElement(name: name, from: from.urlString, status: .succeed))
                 } else {
                     print("[DownloadManager] Download task broken: " + from.urlString)
                     self.downloadBroken[from.urlString] = 1
+                    self.reports.append(reportElement(name: name, from: from.urlString, status: .broken))
                 }
                 NotificationCenter.default.post(name: .DownloadFinished, object: ["attach" : from])
                 self.inDownload.removeValue(forKey: from.urlString)
@@ -324,5 +353,22 @@ final class DownloadManager {
     func doesDownloadEverBroken(urlAsKey: String) -> Bool {
         return downloadBroken[urlAsKey] != nil
     }
+    
+    func reportDownloadLogsAndRecords() -> String {
+        var ret = ""
+        
+        for item in reports.sorted(by: { (a, b) -> Bool in
+            return a.time > b.time ? true : false
+        }) {
+            ret += "Download \(item.name)\n  from \(item.from) \n  reported status: \(item.status.rawValue)\n\n"
+        }
+        
+        if ret == "" {
+            ret = "Empty"
+        }
+        
+        return ret
+    }
+    
 }
 

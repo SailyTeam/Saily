@@ -227,7 +227,7 @@
         return NSURLSessionResponseAllow;
     }];
     
-    __block float progCache = 0;
+//    __block float progCache = 0;
     
     [manager setDataTaskDidReceiveDataBlock:^(NSURLSession * _Nonnull session, NSURLSessionDataTask * _Nonnull dataTask, NSData * _Nonnull data) {
         // 写入数据并且汇报进度
@@ -235,18 +235,20 @@
         [handler writeData:data];
         currentLenth += [data length];
         // 计算进度
-        progCache = 1.0f * currentLenth / fullLenth;
+//        progCache = 1.0f * currentLenth / fullLenth;
         // 汇报进度
 //        NSLog(@" -> %f\n", prog);
+        callProgress(1.0f * currentLenth / fullLenth);
     }];
     [task resume];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
-        while (!completed) {
-            if (callProgress)
-                callProgress(progCache);
-        }
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+//        while (!completed) {
+//            if (callProgress)
+//                callProgress(progCache);
+//            usleep(2333);
+//        }
+//    });
     
     return task;
 }

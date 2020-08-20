@@ -265,5 +265,10 @@
 "PackageOperation_PurchaseHint" = "Process to purchase?";
 "PackageOperation_PaymentSuccess" = "Purchase complete";
 "RandomDeviceInfoMustBeTurnOff" = "Random device info has been enabled, to process you must turn it off";
- 
 
+"DownloadStatusInvalid" = "Invalid";
+"DownloadStatusStarted" = "Started";
+"DownloadStatusSucceed" = "Succeed";
+"DownloadStatusVerifyFailed" = "File Damaged";
+"DownloadStatusBroken" = "Broken";
+"DownloadStatusUnknown" = "Unknown";

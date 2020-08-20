@@ -26,9 +26,12 @@ extension Tools {
     }
     
     static func obtainNewestVersion(versions: [String]) -> String {
-        return versions.sorted { (verA, verB) -> Bool in
+        // compiler error, lets break it down
+        let ver = versions
+        let sort = ver.sorted { (verA, verB) -> Bool in
             return Tools.dpkg.compareVersionA(verA, andB: verB) > 0 ? true : false
-        }.first ?? ""
+        }
+        return sort.first ?? ""
     }
     
     static func DEBVersionIsValid(_ what: String) -> Bool {

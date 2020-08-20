@@ -326,7 +326,7 @@ struct PackageStruct: Equatable, Encodable, Decodable {
     }
     
     func isPaid() -> Bool {
-        if newestMetaData()?["tag"]?.contains("cydia::commercial") ?? false {
+        if newestMetaData()?["tag"]?.lowercased().contains("cydia::commercial") ?? false {
             return true
         }
         return false

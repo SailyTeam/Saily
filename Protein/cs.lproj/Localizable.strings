@@ -266,5 +266,10 @@
 "PackageOperation_PaymentSuccess" = "Nákup dokončen";
 "RandomDeviceInfoMustBeTurnOff" = "Pro pokračování musíš vypnout funkci náhodné informace o zařízení";
  
-
+"DownloadStatusInvalid" = "Invalid";
+"DownloadStatusStarted" = "Started";
+"DownloadStatusSucceed" = "Succeed";
+"DownloadStatusVerifyFailed" = "File Damaged";
+"DownloadStatusBroken" = "Broken";
+"DownloadStatusUnknown" = "Unknown";
 

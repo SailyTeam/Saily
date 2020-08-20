@@ -264,3 +264,10 @@
 "PackageOperation_PurchaseHint" = "需要购买这个软件包吗？";
 "PackageOperation_PaymentSuccess" = "购买已完成";
 "RandomDeviceInfoMustBeTurnOff" = "保护设备信息选项已开启，如要继续，则必须将其关闭";
+
+"DownloadStatusInvalid" = "任务无效";
+"DownloadStatusStarted" = "已开始";
+"DownloadStatusSucceed" = "成功";
+"DownloadStatusVerifyFailed" = "数据损坏";
+"DownloadStatusBroken" = "被打断";
+"DownloadStatusUnknown" = "未知";

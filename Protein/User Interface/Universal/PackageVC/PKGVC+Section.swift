@@ -37,6 +37,7 @@ class PackageViewControllerSectionView: UIView {
         
         icon.clipsToBounds = true
         icon.layer.cornerRadius = 8
+        icon.contentMode = .scaleAspectFill
         name.textColor = UIColor(named: "G-TextTitle")
         name.font = .boldSystemFont(ofSize: 22)
         auth.textColor = UIColor(named: "G-TextSubTitle")

@@ -13,8 +13,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        #if DEBUG
         Tools.rprint("[setuid] returns " + String(setuid(0)))
         Tools.rprint("[setgid] returns " + String(setgid(0)))
+        #else
+        var failCount = 0
+        while getuid() != 0 && failCount < 100 {
+            setuid(0)
+            usleep(23)
+            failCount += 1
+        }
+        failCount = 0
+        while getgid() != 0 && failCount < 100 {
+            setgid(0)
+            usleep(23)
+            failCount += 1
+        }
+        Tools.rprint("*UID: \(getuid()) GID:\(getuid())")
+        #endif
+        
+        usleep(233); // wait for user doc path to be set to root
+        ConfigManager.initAllowed = true
         
         let _ = ConfigManager.shared
         

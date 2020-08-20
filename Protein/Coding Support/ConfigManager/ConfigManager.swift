@@ -39,6 +39,7 @@ final class ConfigManager {
     
     static let shared = ConfigManager("wiki.qaq.Protein.vender.ConfigManager")
     static let availableLanguage = ["zh-Hans", "en", "ja", "cs", "vi"]
+    static var initAllowed = false
     
     @Atomic public var CydiaConfig: __CydiaConfig
     @Atomic public var Application: __ApplicationConfig
@@ -60,7 +61,10 @@ final class ConfigManager {
             fatalError()
         }
         
-
+        if !ConfigManager.initAllowed {
+            fatalError("Application didn't finish init, bootstrap not allowed.")
+        }
+        
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!.appendingPathComponent("wiki.qaq.Protein")
         if (!FileManager.default.fileExists(atPath: url.fileString)) {
             try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)

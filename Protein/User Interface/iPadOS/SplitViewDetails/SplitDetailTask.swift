@@ -344,7 +344,7 @@ fileprivate class TaskCell: UITableViewCell {
     private let titleLab = UILabel()
     private let descLab = UILabel()
     private let iconView = UIImageView()
-    private let progressLab = UILabel()
+    private let progressLab = LTMorphingLabel()
     private let optionBtn = UIButton()
     private let dropDownAnchor = UIView()
     
@@ -431,7 +431,7 @@ fileprivate class TaskCell: UITableViewCell {
         }
         
         progressLab.textAlignment = .right
-//        progressLab.morphingEffect = .evaporate
+        progressLab.morphingEffect = .evaporate
         progressLab.font = UIFont.roundedFont(ofSize: 18, weight: .bold).monospacedDigitFont
         progressLab.clipsToBounds = false
         progressLab.textColor = UIColor(named: "RepoTableViewCell.SubText")
@@ -666,7 +666,7 @@ fileprivate class TaskCell: UITableViewCell {
                     self.progressLab.text = "Suspended".localized()
                 }
             }
-        } else {
+        } else if let task = taskCache, task.type != .downloadTask {
             DispatchQueue.main.async {
                 self.progressLab.text = ""
             }

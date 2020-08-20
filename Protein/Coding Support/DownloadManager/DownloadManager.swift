@@ -91,7 +91,13 @@ final class DownloadManager {
         
     }
     
-    @Atomic private var inDownload = [String : (Float, URLSessionTask, PackageStruct?)]()
+    struct downloadElement {
+        var prog: Float
+        var task: URLSessionTask
+        var pakg: PackageStruct?
+    }
+    @Atomic // Fuck Swift compiler error crashed my app! ...
+    private var inDownload = [String : downloadElement]()
     private var queueItem = [(URL, String, ((Float) -> ()), PackageStruct?)]()
     private var downloadFailed = [String : Int]()
     private var downloadBroken = [String : Int]()
@@ -112,12 +118,12 @@ final class DownloadManager {
         
     }
     enum reportStatusElement: String {
-        case invalid
-        case started
-        case succeed
-        case verifyFailed
-        case broken
-        case unknown
+        case invalid = "DownloadStatusInvalid"
+        case started = "DownloadStatusStarted"
+        case succeed = "DownloadStatusSucceed"
+        case verifyFailed = "DownloadStatusVerifyFailed"
+        case broken = "DownloadStatusBroken"
+        case unknown = "DownloadStatusUnknown"
     }
     @Atomic private var reports = [reportElement]()
     
@@ -175,12 +181,13 @@ final class DownloadManager {
                     let object = capture.removeFirst()
                     self.queueItem = capture
                     let task = self.doDownload(fromURL: object.0, withFileName: object.1, onProgress: object.2, pkgRef: object.3)
-                    self.inDownload[object.0.urlString] = (0, task, object.3)
+                    self.inDownload[object.0.urlString] = downloadElement(prog: 0, task: task, pakg: object.3)
                 }
             }
         }
     }
     
+    let progressFoo = CommonThrottler(minimumDelay: 0.2)
     private func doDownload(fromURL from: URL, withFileName name: String, onProgress: @escaping (Float) -> (), pkgRef: PackageStruct?) -> URLSessionTask {
         
         reports.append(reportElement(name: name, from: from.urlString, status: .started))
@@ -200,9 +207,12 @@ final class DownloadManager {
         }
         let task = down.downlod(from: from, toLocation: dest, withHeaders: Tools.createCydiaHeaders(), onProgress: { (float) in
             onProgress(float)
-            if let object = self.inDownload[from.urlString] {
-                self.inDownload[from.urlString] = (float, object.1, object.2)
+            self.progressFoo.throttle {
+                if self.inDownload[from.urlString] != nil  {
+                    self.inDownload[from.urlString]?.prog = float
+                }
             }
+            // Saily(32546,0x700005346000) malloc: *** error for object 0x7f7f32091000: pointer being freed was not allocated
             }) { () in
                 defer {
                     DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) {
@@ -286,7 +296,7 @@ final class DownloadManager {
     func generateTaskReport() -> [TaskManager.Task] {
         var list = [TaskManager.Task]()
         for item in inDownload {
-            if let pkg = item.value.2 {
+            if let pkg = item.value.pakg {
                 let task = TaskManager.Task(id: UUID().uuidString,
                                             type: .downloadTask, name: "TaskOperationName_Download".localized() + pkg.obtainNameIfExists(),
                                             description: item.key,
@@ -320,7 +330,7 @@ final class DownloadManager {
     
     func cancelDownload(withUrlAsKey key: String) {
         if let object = inDownload[key] {
-            object.1.cancel()
+            object.task.cancel()
         }
     }
     
@@ -343,7 +353,7 @@ final class DownloadManager {
     }
     
     func reportProgressOn(urlAsKey: String) -> Float? {
-        return inDownload[urlAsKey]?.0
+        return inDownload[urlAsKey]?.prog
     }
     
     func doesDownloadEverFailed(urlAsKey: String) -> Bool {
@@ -360,11 +370,11 @@ final class DownloadManager {
         for item in reports.sorted(by: { (a, b) -> Bool in
             return a.time > b.time ? true : false
         }) {
-            ret += "Download \(item.name)\n  from \(item.from) \n  reported status: \(item.status.rawValue)\n\n"
+            ret += "+ \(item.name)\n  -> \(item.from) \n  -> \(item.status.rawValue.localized())\n\n"
         }
         
         if ret == "" {
-            ret = "Empty"
+            ret = "NoTaskAvailable".localized()
         }
         
         return ret

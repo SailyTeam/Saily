@@ -444,18 +444,22 @@ class PackageViewControllerSectionView: UIView {
                                                 }
                                                 let ret = RepoPaymentManager.shared.initPurchase(withUrlAsKey: url, withPkgIdentity: item.identity, withWindow: window)
                                                 if ret == .fails {
-                                                    let alert = UIAlertController(title: "Error".localized(),
-                                                                                  message: "PackageOperation_PaymentInvalid".localized(),
-                                                                                  preferredStyle: .alert)
-                                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-                                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                    DispatchQueue.main.async {
+                                                        let alert = UIAlertController(title: "Error".localized(),
+                                                                                      message: "PackageOperation_PaymentInvalid".localized(),
+                                                                                      preferredStyle: .alert)
+                                                        alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                                        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                    }
                                                 }
                                                 if ret == .succeed {
-                                                    let alert = UIAlertController(title: "Done".localized(),
-                                                                                  message: "PackageOperation_PaymentSuccess".localized(),
-                                                                                  preferredStyle: .alert)
-                                                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
-                                                    self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                    DispatchQueue.main.async {
+                                                        let alert = UIAlertController(title: "Done".localized(),
+                                                                                      message: "PackageOperation_PaymentSuccess".localized(),
+                                                                                      preferredStyle: .alert)
+                                                        alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .default, handler: nil))
+                                                        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
+                                                    }
                                                 }
                                             }
                                         }))

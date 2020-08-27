@@ -1,8 +1,8 @@
 #!/bin/bash
 
-chown -R root:wheel /Applications/Saily.app
-chmod -R 755 /Applications/Saily.app
-chmod +s /Applications/Saily.app/Saily
+# chown -R root:wheel /Applications/Saily.app
+# chmod -R 755 /Applications/Saily.app
+# chmod +s /Applications/Saily.app/Saily
 
 # Fix keyboard behave
 #ln -sf /var/mobile/Library/Preferences/com.apple.keyboard.plist /var/root/Library/Preferences/com.apple.keyboard.plist
@@ -31,8 +31,7 @@ else
 fi
 
 sleep 1
-
-chmod +x /bin/openApplication
+# chmod +x /bin/openApplication
 
 FILE=/private/var/root/Documents/wiki.qaq.protein.update.reopen
 if test -f "$FILE"; then

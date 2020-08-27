@@ -3,7 +3,7 @@ Name: Saily
 Description: Modern. Fast. Beautiful.
 Author: Saily Team <master@233owo.com>
 Maintainer: Saily Team <master@233owo.com>
-Version: 1.0-1
+Version: 1.0-2
 Section: Applications
 Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt
 Conflicts: com.lakr233.SailyTest, com.lakr233.jw.SailyPackageManager, com.lakr233.jw.SailyStartupDaemon

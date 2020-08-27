@@ -19,20 +19,23 @@ cp -r $SAFELOCATION/temps/Protein.xcarchive/Products/Applications/$APP_NAME.app 
 cp -f $SAFELOCATION/Protein/CodeSign.AfterJailbreak.plist ./Applications/$APP_NAME.app/CodeSign.AfterJailbreak.plist
 
 echo "* Sending timestamp..."
-ORIG_VERSION=$(grep -i "^Version: " ./DEBIAN/control)
-NEW_VERSION="${ORIG_VERSION:9}-$TIMESTAMP"
-echo $NEW_VERSION
-awk "!/^Version: /" ./DEBIAN/control | tee ./DEBIAN/control
-printf "Version: ${NEW_VERSION}\n" >> ./DEBIAN/control
-echo -en '\n' >> ./DEBIAN/control
-chmod 0775 ./DEBIAN/* 
+chmod +x $SAFELOCATION/Attachments/timingVersion
+rm ./DEBIAN/control
+$SAFELOCATION/Attachments/timingVersion $SAFELOCATION/DEBIAN/control ./DEBIAN/control ./timestamp
+TIMESTAMP=$(cat ./timestamp)
+rm ./timestamp
+chmod 0775 ./DEBIAN/*
 
 echo "* Code sign..."
 ldid -SApplications/$APP_NAME.app/CodeSign.AfterJailbreak.plist ./Applications/$APP_NAME.app/$APP_NAME
 find ./Applications/$APP_NAME.app/Frameworks -exec ldid -S {} &> /dev/null + || true
 
 echo "* Building..."
-dpkg-deb -Zgzip -b . ./$APP_NAME-Baker-$TIMESTAMP.deb
+export BUILDNAME=$APP_NAME-Baker-$TIMESTAMP.deb
+cp $SAFELOCATION/Attachments/fakeroot.sh .
+chmod +x ./fakeroot.sh
+fakeroot ./fakeroot.sh
+
 mkdir $SAFELOCATION/temps/build/
 cp ./*.deb $SAFELOCATION/temps/build/
 dpkg -I $SAFELOCATION/temps/build/$APP_NAME-Baker-$TIMESTAMP.deb

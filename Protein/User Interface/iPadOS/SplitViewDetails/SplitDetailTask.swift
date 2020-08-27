@@ -68,6 +68,7 @@ class SplitDetailTask: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWithThrottler), name: .TaskNumberChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWithThrottler), name: .TaskListUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWithThrottler), name: .TaskSystemFinished, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cleanTaskCellCacheInfo), name: .TaskSystemFinished, object: nil)
     }
     
     @Atomic private var taskSummary = [[TaskManager.Task]]()
@@ -84,6 +85,16 @@ class SplitDetailTask: UIViewController {
         }))
         taskSummary.append(new[2])
         return old
+    }
+    
+    @objc
+    func cleanTaskCellCacheInfo() {
+        for cell in tableView.visibleCells {
+            if let c = cell as? TaskCell {
+                c.taskCache = nil
+                c.downloadProgressUpdated()
+            }
+        }
     }
     
     @objc
@@ -612,29 +623,32 @@ fileprivate class TaskCell: UITableViewCell {
         dropDown.show(onTopOf: self.window)
     }
     
+    private let limiter = CommonThrottler(minimumDelay: 0.1)
     @objc
     func downloadProgressUpdated(object: Notification? = nil) {
-        if let url = (taskCache?.relatedObjects?["url"] as? URL)?.urlString,
-            let urlString = object?.userInfo?["key"] as? String, url == urlString,
-            let progress = object?.userInfo?["progress"] as? Float {
-            let userFriendlyProgress = String(Int(progress * 100)) + " %"
-            DispatchQueue.main.async {
-                if self.progressLab.text != userFriendlyProgress {
-                    self.progressLab.text = userFriendlyProgress
+        limiter.throttle {
+            if let url = (self.taskCache?.relatedObjects?["url"] as? URL)?.urlString,
+                let urlString = object?.userInfo?["key"] as? String, url == urlString,
+                let progress = object?.userInfo?["progress"] as? Float {
+                let userFriendlyProgress = String(Int(progress * 100)) + " %"
+                DispatchQueue.main.async {
+                    if self.progressLab.text != userFriendlyProgress {
+                        self.progressLab.text = userFriendlyProgress
+                    }
                 }
-            }
-        } else if let task = taskCache, task.type == .downloadTask,
-            let url = task.relatedObjects?["url"] as? String,
-            let prog = TaskManager.shared.downloadManager.reportProgressOn(urlAsKey: url) {
-            DispatchQueue.main.async {
-                let userFriendlyProgress = String(Int(prog * 100)) + " %"
-                if self.progressLab.text != userFriendlyProgress {
-                    self.progressLab.text = userFriendlyProgress
+            } else if let task = self.taskCache, task.type == .downloadTask,
+                let url = task.relatedObjects?["url"] as? String,
+                let prog = TaskManager.shared.downloadManager.reportProgressOn(urlAsKey: url) {
+                DispatchQueue.main.async {
+                    let userFriendlyProgress = String(Int(prog * 100)) + " %"
+                    if self.progressLab.text != userFriendlyProgress {
+                        self.progressLab.text = userFriendlyProgress
+                    }
                 }
-            }
-        } else if !downloadCheckIsDownloaded() {
-            DispatchQueue.main.async {
-                self.progressLab.text = ""
+            } else if !self.downloadCheckIsDownloaded() {
+                DispatchQueue.main.async {
+                    self.progressLab.text = ""
+                }
             }
         }
     }

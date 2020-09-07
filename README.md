@@ -39,6 +39,10 @@ If you are experiencing any issues regarding Saily, and would like to file a bug
 
 "Your next bug is not a bug, it's a feature." - Apple Inc.
 
+<img src="./Attachments/bugsnag.png" alt="" width="100"/>
+
+Additionally, we are using [bugsnag](https://www.bugsnag.com/) for bug/crash tracking in application. It is disabled by default and can only be enabled in setting page by yourself. Privacy licenses are additionally applied there, TL;DR, the diagnostic data is anonymous and will not be able to trace you back.
+
 ## Contributing
 
 If you want to contribute to the project, make a pull request with your changes and it will be reviewed by our team. Do not contact individual people personally in order to get your changes through because that will not work. Refer to [Onboarding](https://github.com/SailyTeam/Saily/blob/master/Onboarding.md) for more information.
@@ -76,5 +80,3 @@ We would like to thank and akgnowledge everyone who has contibuted to this proje
 #### "While the world sleeps, we dream."
 
 Copyright © 2020 Saily Team. All Rights Reserved.
-
-

@@ -279,7 +279,27 @@ final class PackageManager {
                 meta[foo.value.newestVersion()] = payloads
                 placeHolder[foo.key] = PackageStruct(identity: foo.key, versions: meta, fromRepoUrlRef: nil)
             }
+            if placeHolder["firmware"] == nil {
+                    let firmware = Tools.invokeDebianMeta(context: """
+Package: firmware
+Essential: yes
+Status: install ok installed
+Priority: required
+Section: System
+Installed-Size: 0
+Maintainer: Hayden Seay <me@diatr.us>
+Architecture: iphoneos-arm
+Version: \(UIDevice.current.systemVersion)
+Description: almost impressive Apple frameworks
+Tag: role::cydia
+Name: iOS Firmware
+
+"""
+                    )
+                    placeHolder["firmware"] = PackageStruct(identity: "firmware", versions: [UIDevice.current.systemVersion : firmware], fromRepoUrlRef: nil)
+            }
         }
+        
         if placeHolder.count < 1 {
             return
         }

@@ -84,24 +84,31 @@ class SearchResultCell: UITableViewCell {
         
     }
     
+    private var iconLoadID = UUID().uuidString
     private func setup() {
+        let this = UUID().uuidString
+        iconLoadID = this
+        
         let iconEntity = viewModel?.iconEntity
         if let img = iconEntity?.1 {
             iconView?.image = img
         } else {
+            iconView?.image = nil
             if let il = iconEntity?.0, il.hasPrefix("http") {
                 iconView?.sd_setImage(with: URL(string: il), placeholderImage:  UIImage(named: "mod"), options: .avoidAutoSetImage, context: nil, progress: nil) { (image, err, _, url) in
-                    if let img = image {
+                    if self.iconLoadID == this, let img = image {
                         self.iconView?.image = img
                     }
                 }
             } else if let il = iconEntity?.0, il.hasPrefix("file://") {
-                if let img = UIImage(contentsOfFile: String(il.dropFirst("file://".count))) {
+                if let img = UIImage(contentsOfFile: String(il.dropFirst("file://".count))), self.iconLoadID == this {
                     iconView?.image = img
                 }
             }
         }
-        
+        if iconView?.image == nil {
+            iconView?.image = UIImage(named: "mod")
+        }
         titleLabel?.attributedText = viewModel?.title
         subtitleLabel?.attributedText = viewModel?.subtitle
     }

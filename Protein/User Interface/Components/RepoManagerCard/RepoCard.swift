@@ -39,6 +39,8 @@ class RepoCard: UIView {
     private let cellidentity = "wiki.qaq.RepoCard.tableView.cellidentity"
     private let cellHeight: CGFloat = 52
     
+    private let detailPushAsFormSheet: Bool
+    
     func repoCount() -> Int { return RepoManager.shared.repos.count }
     
     public var suggestHeight: CGFloat {
@@ -51,7 +53,9 @@ class RepoCard: UIView {
         fatalError()
     }
     
-    required init() {
+    required init(pushAsFormSheet: Bool = true) {
+        
+        detailPushAsFormSheet = pushAsFormSheet
         
         super.init(frame: CGRect())
         
@@ -225,9 +229,14 @@ extension RepoCard {
     func eventEmitterAdd(){
         btnCoverAdd.shineAnimation()
         let pop = RepoAddViewController()
-        pop.modalPresentationStyle = .formSheet
-        pop.modalTransitionStyle = .coverVertical
-        self.obtainParentViewController?.present(pop, animated: true, completion: nil)
+        if detailPushAsFormSheet {
+            pop.modalPresentationStyle = .formSheet
+            pop.modalTransitionStyle = .coverVertical
+            self.obtainParentViewController?.present(pop, animated: true, completion: nil)
+        } else {
+            pop.useNavigationBar = true
+            self.obtainParentViewController?.navigationController?.pushViewController(pop)
+        }
     }
     
     @objc
@@ -239,11 +248,17 @@ extension RepoCard {
 //        }))
 //        self.obtainParentViewController?.present(alert, animated: true, completion: nil)
         
+        
         let pop = QRScanViewController()
         pop.modalPresentationStyle = .formSheet
         pop.modalTransitionStyle = .coverVertical
-        self.obtainParentViewController?.present(pop, animated: true, completion: nil)
-        
+        if detailPushAsFormSheet {
+            pop.modalPresentationStyle = .formSheet
+            pop.modalTransitionStyle = .coverVertical
+            self.obtainParentViewController?.present(pop, animated: true, completion: nil)
+        } else {
+            self.obtainParentViewController?.navigationController?.pushViewController(pop)
+        }
     }
     
     @objc //  0 = refresh everything if all updated, 1 = force smart update, -1 = force everything
@@ -288,9 +303,13 @@ extension RepoCard {
 //            UIApplication.shared.openURL(url)
 //        }
         let pop = RamLogViewer()
-        pop.modalPresentationStyle = .formSheet;
-        pop.modalTransitionStyle = .coverVertical;
-        self.obtainParentViewController?.present(pop, animated: true, completion: nil)
+        if detailPushAsFormSheet {
+            pop.modalPresentationStyle = .formSheet
+            pop.modalTransitionStyle = .coverVertical
+            self.obtainParentViewController?.present(pop, animated: true, completion: nil)
+        } else {
+            self.obtainParentViewController?.navigationController?.pushViewController(pop)
+        }
     }
     
 }

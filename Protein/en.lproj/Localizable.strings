@@ -206,6 +206,7 @@
 "UnknownSize" = "Unknown Size";
 "DownloadSizeCalculateTimeout" = "Calculation Failed";
 "WebOpenSourceCode" = "Get Source Code";
+"AllowBugReport" = "Upload Crash Report";
 "PhotoLibraryUnavailableHint" = "Photo library is inaccessible, please check your privacy settings";
 "SetAvatar" = "Pick Avatar";
 "SetAvatarHint" = "Enter URL for your image, or an email for Gravatar";

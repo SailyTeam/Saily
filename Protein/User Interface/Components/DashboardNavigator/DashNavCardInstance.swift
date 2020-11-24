@@ -137,4 +137,8 @@ class DashNavCardInstance: UIView {
         return v1.title == v2.title
     }
     
+    func cancelAllShadow() {
+        dropShadow(opacity: 0)
+    }
+    
 }

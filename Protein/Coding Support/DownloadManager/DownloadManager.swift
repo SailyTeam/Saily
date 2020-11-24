@@ -58,37 +58,6 @@ final class DownloadManager {
         try? FileManager.default.removeItem(atPath: downloadedRecordLocation)
         try? write.write(toFile: downloadedRecordLocation, atomically: true, encoding: .utf8)
         
-        // MOCK
-        
-//        let mock = URL(string: "http://mirror.filearena.net/pub/speed/SpeedTest_256MB.dat")!
-//        let mock2 = URL(string: "http://mirror.filearena.net/pub/speed/SpeedTest_256MB.md5")!
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//            print("send")
-//            self.sendToDownload(fromURL: mock, withFileName: "test.bin") { (f) in
-//                print(f)
-//            }
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-//            print("cancel")
-//            self.cancelDownload(withUrlAsKey: mock.urlString)
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
-//            print("resend")
-//            self.sendToDownload(fromURL: mock, withFileName: "test.bin") { (f) in
-//                print(f)
-//            }
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
-//            print("send2")
-//            self.sendToDownload(fromURL: mock2, withFileName: "test.bin2") { (f) in
-//                print(f)
-//            }
-//        }
-        
     }
     
     struct downloadElement {

@@ -208,6 +208,7 @@
 "DownloadSizeCalculateTimeout" = "Výpočet selhal";
 "WebOpenSourceCode" = "Získat zdrojový kód";
 "PhotoLibraryUnavailableHint" = "Knihovna fotek je nedostupná, zkontrolujte své nastavení soukromí";
+"AllowBugReport";
 "SetAvatar" = "Vybrat Avatara";
 "SetAvatarHint" = "Enter URL for your image, or an email for Gravatar";
 "RemoveAvatar" = "Odstranit Avatara";

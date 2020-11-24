@@ -12,7 +12,9 @@ extension PackageViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // image height - nav bar height
-        if scrollView.contentOffset.y <= preferredBannerImageHeight - 80 {
+        
+//        if scrollView.contentOffset.y <= preferredBannerImageHeight - SimpleNavBar.frame.maxY {
+        if PackageSection.frame.minY - container.contentOffset.y > SimpleNavBar.frame.maxY {
             if preferredGoBackButtonStyleLight == true {
                 makeSimpleNavBarButtonLight()
             } else if preferredGoBackButtonStyleLight == false {

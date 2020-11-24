@@ -11,8 +11,8 @@ rm -rf /var/root/Documents/wiki.qaq.Protein/SystemEvents
 
 # if in update, skip double uicache that will cause trobule
 FILE=/private/var/root/Documents/wiki.qaq.protein.update.reopen
-if test -f "$FILE"; then
-    echo "* Skipping uicache due to update!"
+if test -f "$FILE" || "$1" == "upgrade"; then
+    echo "* Skipping uicache due to upgrade!"
 else
     UN=/.installed_unc0ver
     if test -f "$UN"; then
@@ -29,4 +29,3 @@ else
         fi
     fi
 fi
-

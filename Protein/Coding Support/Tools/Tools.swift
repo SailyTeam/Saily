@@ -15,30 +15,24 @@ class Tools {
     }
     
     @Atomic static var ramLogs = ""
-    fileprivate static var logQueue = DispatchQueue(label: "wiki.qaq.Protein.RamLogs") // because it ever crashed
-//* thread #12, queue = 'com.apple.root.background-qos', stop reason = EXC_BAD_ACCESS (code=1, address=0x10eb00008)
-//        frame #3: 0x000000010090ed48 Protein`Atomic.load(self=Protein.Atomic<Swift.String> @ 0x000000016f72d1e0) at Atomic.swift:27:16
-//        frame #4: 0x000000010090e970 Protein`Atomic.wrappedValue.getter(self=Protein.Atomic<Swift.String> @ 0x000000016f72d1e0) at Atomic.swift:20:20
-//        frame #5: 0x00000001009a0d58 Protein`static Tools.ramLogs.modify(self=Protein.Tools) at Tools.swift:0
-//        frame #6: 0x00000001009a0ff0 Protein`static Tools.rprint(str="      *       Package Objects: 10", self=Protein.Tools) at Tools.swift:21:9
+    @Atomic static var ramLogLock = NSLock()
     
     /// Print log to ram and make it available for users. Verbose log must not be printed here
     /// - Parameter str: Log
     static func rprint(_ str: String) {
-        var get = str
+        ramLogLock.lock()
+        defer { ramLogLock.unlock() }
         print(str)
-        if !get.hasSuffix("\n") {
-            get.append("\n")
+        var str = str
+        if !str.hasSuffix("\n") {
+            str.append("\n")
         }
-        Tools.logQueue.async {
-            ramLogs.append(get)
-        }
+        ramLogs.append(str)
     }
     
     static func createCydiaHeaders() -> [String : String] {
         
         var ret = [String : String]()
-        
         if ConfigManager.shared.CydiaConfig.mess || ConfigManager.shared.CydiaConfig.machine == "x86_64" {
             ret["X-Machine"] = [
             "iPhone6,1", "iPhone6,2", "iPhone7,2", "iPhone7,1", "iPhone8,1", "iPhone8,2", "iPhone9,1", "iPhone9,3", "iPhone9,2", "iPhone9,4", "iPhone8,4", "iPhone10,1", "iPhone10,4", "iPhone10,2", "iPhone10,5", "iPhone10,3", "iPhone10,6", "iPhone11,2", "iPhone11,4", "iPhone11,6", "iPhone11,8", "iPhone12,1", "iPhone12,3", "iPhone12,5", "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4", "iPad3,1", "iPad3,2", "iPad3,3", "iPad3,4", "iPad3,5", "iPad3,6", "iPad6,11", "iPad6,12", "iPad7,5", "iPad7,6", "iPad7,11", "iPad7,12", "iPad4,1", "iPad4,2", "iPad4,3", "iPad5,3", "iPad5,4", "iPad11,4", "iPad11,5", "iPad2,5", "iPad2,6", "iPad2,7", "iPad4,4", "iPad4,5", "iPad4,6", "iPad4,7", "iPad4,8", "iPad4,9", "iPad5,1", "iPad5,2", "iPad11,1", "iPad11,2", "iPad6,3", "iPad6,4", "iPad7,3", "iPad7,4", "iPad8,1", "iPad8,2", "iPad8,3", "iPad8,4", "iPad8,9", "iPad8,10", "iPad6,7", "iPad6,8", "iPad7,1", "iPad7,2", "iPad8,5", "iPad8,6", "iPad8,7", "iPad8,8", "iPad8,11", "iPad8,12"
@@ -94,7 +88,6 @@ class Tools {
         }
         if gap < 3600 {
             let min = Int(gap / 60)
-//            return String(min) + "TimeGap_MinBefore".localized()
             return String(format: "%dTimeGap_MinBefore".localized(), min)
         }
         if gap < 86400 {

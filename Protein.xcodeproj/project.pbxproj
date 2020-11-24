@@ -54,8 +54,10 @@
 		5040EEC62481721F00A6993F /* DepictionSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEA72481721F00A6993F /* DepictionSeparatorView.swift */; };
 		5040EEC72481721F00A6993F /* DepictionMinVersionForceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEA92481721F00A6993F /* DepictionMinVersionForceView.swift */; };
 		5040EEC82481721F00A6993F /* CSTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5040EEAA2481721F00A6993F /* CSTextView.swift */; };
-		504CBB1F24C3455700A8AD89 /* RepoPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBB1E24C3455700A8AD89 /* RepoPaymentViewController.swift */; };
+		504CBB1F24C3455700A8AD89 /* RepoPaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBB1E24C3455700A8AD89 /* RepoPaymentVC.swift */; };
 		504CBB2224C3466700A8AD89 /* RepoPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBB2124C3466700A8AD89 /* RepoPaymentManager.swift */; };
+		50525BAF2566441100040660 /* SettingViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50525BAE2566441100040660 /* SettingViewC.swift */; };
+		50525C262566699100040660 /* InstalledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50525C252566699100040660 /* InstalledVC.swift */; };
 		5054B8442467FA9A0046F6C2 /* UIWindowSceneUnlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054B8432467FA9A0046F6C2 /* UIWindowSceneUnlock.m */; };
 		505C89CC2468237500B992C8 /* NowUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505C89CB2468237500B992C8 /* NowUpdateView.swift */; };
 		505DD3D424C2FD5100606E26 /* ImportInstall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DD3D324C2FD5100606E26 /* ImportInstall.swift */; };
@@ -118,10 +120,11 @@
 		509FFDFD24BE07590017A417 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 509FFDF524BE07590017A417 /* AFNetworkReachabilityManager.m */; };
 		509FFDFE24BE07590017A417 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 509FFDF624BE07590017A417 /* AFSecurityPolicy.m */; };
 		509FFE0124BE07760017A417 /* ObjCDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 509FFE0024BE07760017A417 /* ObjCDown.m */; };
+		50A1DCBC2566848200D5FA8C /* TaskViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1DCBB2566848200D5FA8C /* TaskViewC.swift */; };
 		50ACA3B52470119900A80F46 /* BZipCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACA3B42470119900A80F46 /* BZipCompression.m */; };
 		50ACA3B72470125200A80F46 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ACA3B62470124600A80F46 /* libbz2.tbd */; };
 		50AE29422476B77600139A4B /* WishListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AE29412476B77600139A4B /* WishListView.swift */; };
-		50B7EE8C2454923800E3548E /* MasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7EE8B2454923800E3548E /* MasterView.swift */; };
+		50B7EE8C2454923800E3548E /* MasterViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7EE8B2454923800E3548E /* MasterViewC.swift */; };
 		50B958772483DBEC002D0675 /* PKGVC+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B958762483DBEC002D0675 /* PKGVC+Delegate.swift */; };
 		50B958792483DC89002D0675 /* PKGVC+Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B958782483DC89002D0675 /* PKGVC+Section.swift */; };
 		50B9587B2483E82C002D0675 /* PKGVC.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50B9587A2483E82C002D0675 /* PKGVC.xcassets */; };
@@ -156,6 +159,8 @@
 		50DB19932455CCD700457ABD /* PackageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB19922455CCD700457ABD /* PackageCollectionViewController.swift */; };
 		50DE39BC2478621D00332FB7 /* libarchive.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DE39BB2478621100332FB7 /* libarchive.tbd */; };
 		50DE39BE2478627600332FB7 /* libArchiveObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DE39BD2478627600332FB7 /* libArchiveObjc.m */; };
+		50E60DE225656428002D402F /* MasterViewC+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E60DE125656428002D402F /* MasterViewC+Layout.swift */; };
+		50E60DE925656481002D402F /* MasterViewC+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E60DE825656481002D402F /* MasterViewC+Events.swift */; };
 		50EB6BFF245409C900D66F8A /* RamLogViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB6BFE245409C800D66F8A /* RamLogViewer.swift */; };
 		50F0B90B244F58B10098BCF7 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0B90A244F58B10098BCF7 /* GradientView.swift */; };
 		50FD62EC244C0F4C00F8F25B /* RepoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62EB244C0F4C00F8F25B /* RepoTableViewCell.swift */; };
@@ -164,7 +169,7 @@
 		50FD62F6244C306A00F8F25B /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62F5244C306A00F8F25B /* URL.swift */; };
 		50FD62F9244C3C2A00F8F25B /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62F8244C3C2A00F8F25B /* TaskManager.swift */; };
 		50FD62FB244C3C3000F8F25B /* TaskTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62FA244C3C3000F8F25B /* TaskTypes.swift */; };
-		50FD62FE244C3D8700F8F25B /* RepoAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62FD244C3D8700F8F25B /* RepoAddViewController.swift */; };
+		50FD62FE244C3D8700F8F25B /* RepoAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62FD244C3D8700F8F25B /* RepoAddVC.swift */; };
 		50FD6300244C3DA400F8F25B /* RepoAddViewController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50FD62FF244C3DA400F8F25B /* RepoAddViewController.xcassets */; };
 		50FD6302244C55A200F8F25B /* RepoAddSectionInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD6301244C55A200F8F25B /* RepoAddSectionInput.swift */; };
 		56D22938B05228481338DE12 /* Pods_Protein_WatchKit_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5C69A59A256E4D13D8B037 /* Pods_Protein_WatchKit_Extension.framework */; };
@@ -292,8 +297,10 @@
 		5040EEA72481721F00A6993F /* DepictionSeparatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepictionSeparatorView.swift; sourceTree = "<group>"; };
 		5040EEA92481721F00A6993F /* DepictionMinVersionForceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepictionMinVersionForceView.swift; sourceTree = "<group>"; };
 		5040EEAA2481721F00A6993F /* CSTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSTextView.swift; sourceTree = "<group>"; };
-		504CBB1E24C3455700A8AD89 /* RepoPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoPaymentViewController.swift; sourceTree = "<group>"; };
+		504CBB1E24C3455700A8AD89 /* RepoPaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoPaymentVC.swift; sourceTree = "<group>"; };
 		504CBB2124C3466700A8AD89 /* RepoPaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoPaymentManager.swift; sourceTree = "<group>"; };
+		50525BAE2566441100040660 /* SettingViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewC.swift; sourceTree = "<group>"; };
+		50525C252566699100040660 /* InstalledVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledVC.swift; sourceTree = "<group>"; };
 		5054B8432467FA9A0046F6C2 /* UIWindowSceneUnlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIWindowSceneUnlock.m; sourceTree = "<group>"; };
 		5054B8452467FAA20046F6C2 /* UIWindowSceneUnlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIWindowSceneUnlock.h; sourceTree = "<group>"; };
 		505C89CB2468237500B992C8 /* NowUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowUpdateView.swift; sourceTree = "<group>"; };
@@ -375,12 +382,13 @@
 		509FFDF824BE07590017A417 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		509FFDFF24BE07760017A417 /* ObjCDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCDown.h; sourceTree = "<group>"; };
 		509FFE0024BE07760017A417 /* ObjCDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCDown.m; sourceTree = "<group>"; };
+		50A1DCBB2566848200D5FA8C /* TaskViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewC.swift; sourceTree = "<group>"; };
 		50AA060024C1F20E006EF85B /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50ACA3B32470119900A80F46 /* BZipCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BZipCompression.h; sourceTree = "<group>"; };
 		50ACA3B42470119900A80F46 /* BZipCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BZipCompression.m; sourceTree = "<group>"; };
 		50ACA3B62470124600A80F46 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libbz2.tbd; sourceTree = DEVELOPER_DIR; };
 		50AE29412476B77600139A4B /* WishListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListView.swift; sourceTree = "<group>"; };
-		50B7EE8B2454923800E3548E /* MasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterView.swift; sourceTree = "<group>"; };
+		50B7EE8B2454923800E3548E /* MasterViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewC.swift; sourceTree = "<group>"; };
 		50B958762483DBEC002D0675 /* PKGVC+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKGVC+Delegate.swift"; sourceTree = "<group>"; };
 		50B958782483DC89002D0675 /* PKGVC+Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKGVC+Section.swift"; sourceTree = "<group>"; };
 		50B9587A2483E82C002D0675 /* PKGVC.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PKGVC.xcassets; sourceTree = "<group>"; };
@@ -428,6 +436,8 @@
 		50DE39BD2478627600332FB7 /* libArchiveObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libArchiveObjc.m; sourceTree = "<group>"; };
 		50DE39BF2478627F00332FB7 /* libArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libArchive.h; sourceTree = "<group>"; };
 		50DE39C02478628900332FB7 /* libArchiveObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libArchiveObjc.h; sourceTree = "<group>"; };
+		50E60DE125656428002D402F /* MasterViewC+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MasterViewC+Layout.swift"; sourceTree = "<group>"; };
+		50E60DE825656481002D402F /* MasterViewC+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MasterViewC+Events.swift"; sourceTree = "<group>"; };
 		50EB6BFE245409C800D66F8A /* RamLogViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamLogViewer.swift; sourceTree = "<group>"; };
 		50F0B90A244F58B10098BCF7 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		50FD62EB244C0F4C00F8F25B /* RepoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoTableViewCell.swift; sourceTree = "<group>"; };
@@ -436,7 +446,7 @@
 		50FD62F5244C306A00F8F25B /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		50FD62F8244C3C2A00F8F25B /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		50FD62FA244C3C3000F8F25B /* TaskTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTypes.swift; sourceTree = "<group>"; };
-		50FD62FD244C3D8700F8F25B /* RepoAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoAddViewController.swift; sourceTree = "<group>"; };
+		50FD62FD244C3D8700F8F25B /* RepoAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoAddVC.swift; sourceTree = "<group>"; };
 		50FD62FF244C3DA400F8F25B /* RepoAddViewController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RepoAddViewController.xcassets; sourceTree = "<group>"; };
 		50FD6301244C55A200F8F25B /* RepoAddSectionInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoAddSectionInput.swift; sourceTree = "<group>"; };
 		63BBEA3DF924921E3AD156F1 /* Pods-ProteinTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProteinTests.release.xcconfig"; path = "Target Support Files/Pods-ProteinTests/Pods-ProteinTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -822,9 +832,25 @@
 		504CBB2024C3456500A8AD89 /* RepoPaymentVC */ = {
 			isa = PBXGroup;
 			children = (
-				504CBB1E24C3455700A8AD89 /* RepoPaymentViewController.swift */,
+				504CBB1E24C3455700A8AD89 /* RepoPaymentVC.swift */,
 			);
 			path = RepoPaymentVC;
+			sourceTree = "<group>";
+		};
+		50525BB52566441400040660 /* SettingViewC */ = {
+			isa = PBXGroup;
+			children = (
+				50525BAE2566441100040660 /* SettingViewC.swift */,
+			);
+			path = SettingViewC;
+			sourceTree = "<group>";
+		};
+		50525C2C2566699400040660 /* InstalledVC */ = {
+			isa = PBXGroup;
+			children = (
+				50525C252566699100040660 /* InstalledVC.swift */,
+			);
+			path = InstalledVC;
 			sourceTree = "<group>";
 		};
 		5054B8422467FA7F0046F6C2 /* ObjC */ = {
@@ -1052,6 +1078,7 @@
 				504CBB2024C3456500A8AD89 /* RepoPaymentVC */,
 				50C117D324BF1DD0002B6368 /* InstallationAgentVC */,
 				50DB19942455CCDD00457ABD /* PackageCollectionVC */,
+				50525C2C2566699400040660 /* InstalledVC */,
 			);
 			path = Universal;
 			sourceTree = "<group>";
@@ -1115,6 +1142,14 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		50A1DCC22566848B00D5FA8C /* TaskViewC */ = {
+			isa = PBXGroup;
+			children = (
+				50A1DCBB2566848200D5FA8C /* TaskViewC.swift */,
+			);
+			path = TaskViewC;
+			sourceTree = "<group>";
+		};
 		50AE29402476B76800139A4B /* WishListView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1126,7 +1161,9 @@
 		50B7EE8A2454921400E3548E /* iPhoneOS */ = {
 			isa = PBXGroup;
 			children = (
-				50B7EE8B2454923800E3548E /* MasterView.swift */,
+				50E60DDB2565640D002D402F /* MasterViewC */,
+				50525BB52566441400040660 /* SettingViewC */,
+				50A1DCC22566848B00D5FA8C /* TaskViewC */,
 			);
 			path = iPhoneOS;
 			sourceTree = "<group>";
@@ -1266,6 +1303,16 @@
 			path = SplitViewDetails;
 			sourceTree = "<group>";
 		};
+		50E60DDB2565640D002D402F /* MasterViewC */ = {
+			isa = PBXGroup;
+			children = (
+				50B7EE8B2454923800E3548E /* MasterViewC.swift */,
+				50E60DE825656481002D402F /* MasterViewC+Events.swift */,
+				50E60DE125656428002D402F /* MasterViewC+Layout.swift */,
+			);
+			path = MasterViewC;
+			sourceTree = "<group>";
+		};
 		50EB6C00245409D200D66F8A /* RamLogVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1305,7 +1352,7 @@
 			isa = PBXGroup;
 			children = (
 				50FD6301244C55A200F8F25B /* RepoAddSectionInput.swift */,
-				50FD62FD244C3D8700F8F25B /* RepoAddViewController.swift */,
+				50FD62FD244C3D8700F8F25B /* RepoAddVC.swift */,
 				50FD62FF244C3DA400F8F25B /* RepoAddViewController.xcassets */,
 			);
 			path = RepoAddVC;
@@ -1788,7 +1835,7 @@
 				5040EEC62481721F00A6993F /* DepictionSeparatorView.swift in Sources */,
 				50871659244B590A003E0023 /* WelcomeCard.swift in Sources */,
 				50EB6BFF245409C900D66F8A /* RamLogViewer.swift in Sources */,
-				50FD62FE244C3D8700F8F25B /* RepoAddViewController.swift in Sources */,
+				50FD62FE244C3D8700F8F25B /* RepoAddVC.swift in Sources */,
 				5054B8442467FA9A0046F6C2 /* UIWindowSceneUnlock.m in Sources */,
 				5018A0AF2466BE43006BBAB7 /* PackageCollectionView.swift in Sources */,
 				509F1C98244DD12600E8577D /* SplitDetailSetting.swift in Sources */,
@@ -1811,9 +1858,11 @@
 				5040EEAD2481721F00A6993F /* DepictionColorCollection.swift in Sources */,
 				5040EEAC2481721F00A6993F /* DepictionRatingView.swift in Sources */,
 				50212922245C9B82009EB570 /* RecentUpdate.swift in Sources */,
+				50A1DCBC2566848200D5FA8C /* TaskViewC.swift in Sources */,
 				50FD62F6244C306A00F8F25B /* URL.swift in Sources */,
 				509BD867245DABE7003F60D8 /* Tools+UI.swift in Sources */,
 				50DE39BE2478627600332FB7 /* libArchiveObjc.m in Sources */,
+				50E60DE225656428002D402F /* MasterViewC+Layout.swift in Sources */,
 				5040EEC72481721F00A6993F /* DepictionMinVersionForceView.swift in Sources */,
 				5040EEB72481721F00A6993F /* DepictionTableTextView.swift in Sources */,
 				5087162A244B365B003E0023 /* Tools.swift in Sources */,
@@ -1833,7 +1882,7 @@
 				50D0A1D8246866B20064C5CB /* ForceFree.m in Sources */,
 				50871639244B36FD003E0023 /* UIFont.swift in Sources */,
 				50871649244B3DF9003E0023 /* DataBase1.swift in Sources */,
-				504CBB1F24C3455700A8AD89 /* RepoPaymentViewController.swift in Sources */,
+				504CBB1F24C3455700A8AD89 /* RepoPaymentVC.swift in Sources */,
 				505C89CC2468237500B992C8 /* NowUpdateView.swift in Sources */,
 				5040EEC22481721F00A6993F /* DepictionButton.swift in Sources */,
 				503C6DD02472E89C00D42791 /* PKGVC.swift in Sources */,
@@ -1858,10 +1907,11 @@
 				50871637244B36E4003E0023 /* UIView.swift in Sources */,
 				5040EEAF2481721F00A6993F /* DepictionFontCollection.swift in Sources */,
 				509F1CA1244DDDE400E8577D /* SearchBar.swift in Sources */,
+				50525BAF2566441100040660 /* SettingViewC.swift in Sources */,
 				5087162B244B365B003E0023 /* UIColor.swift in Sources */,
 				6857B82424829A0100CB1325 /* SGNetworkConfigurationModifier.m in Sources */,
 				5040EEC82481721F00A6993F /* CSTextView.swift in Sources */,
-				50B7EE8C2454923800E3548E /* MasterView.swift in Sources */,
+				50B7EE8C2454923800E3548E /* MasterViewC.swift in Sources */,
 				50FD62F9244C3C2A00F8F25B /* TaskManager.swift in Sources */,
 				509FFDFD24BE07590017A417 /* AFNetworkReachabilityManager.m in Sources */,
 				50212925245C9CC2009EB570 /* PackagePreviewCoCell.swift in Sources */,
@@ -1895,6 +1945,8 @@
 				6865D58124684F690073EF2A /* SearchResultView.swift in Sources */,
 				5040EEC32481721F00A6993F /* DepictionButtonView.swift in Sources */,
 				507F3E2F24C6D5E4000F21F0 /* QRScanVC.swift in Sources */,
+				50525C262566699100040660 /* InstalledVC.swift in Sources */,
+				50E60DE925656481002D402F /* MasterViewC+Events.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2301,7 +2353,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3A279863A119CF76E29E395F /* Pods-Protein-ProteinUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ2J5N72GP;
 				INFOPLIST_FILE = ProteinUITests/Info.plist;
@@ -2322,7 +2374,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 64BCD1DD1F05F85BF4892208 /* Pods-Protein-ProteinUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ2J5N72GP;
 				INFOPLIST_FILE = ProteinUITests/Info.plist;

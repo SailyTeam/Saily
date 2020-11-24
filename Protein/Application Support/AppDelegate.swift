@@ -13,10 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        #if DEBUG
-        Tools.rprint("[setuid] returns " + String(setuid(0)))
-        Tools.rprint("[setgid] returns " + String(setgid(0)))
-        #else
         var failCount = 0
         while getuid() != 0 && failCount < 100 {
             setuid(0)
@@ -30,12 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             failCount += 1
         }
         Tools.rprint("*UID: \(getuid()) GID:\(getuid())")
-        #endif
-        
         usleep(233); // wait for user doc path to be set to root
-        ConfigManager.initAllowed = true
         
-        let _ = ConfigManager.shared
+        ConfigManager.environmentSetupFinished = true
         
         return true
     }
@@ -55,11 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        print("\n\n------ bye bye ------\n")
-        let a = Date().timeIntervalSince1970
         RepoManager.shared.database.close()
         PackageManager.shared.database.close()
-        print(Date().timeIntervalSince1970 - a)
     }
 
 }

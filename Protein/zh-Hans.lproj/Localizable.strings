@@ -161,7 +161,7 @@
 "PackageOperation_InstantInstallHint" = "立即安装不会检查软件包的任何依赖、冲突、来源、安全性等属性，请悉知。";
 
 "TaskOperationName_RepoUpdate" = "刷新 ";
-"TaskOperationName_IndexDescription" = "这个任务这需要一些时间";
+"TaskOperationName_IndexDescription" = "这需要一些时间";
 "TaskOperationName_Index" = "构建索引";
 "TaskOperationName_PackageInstall" = "安装 ";
 "TaskOperationName_PackageInstall_SelectedInstall" = "您要求安装 ";
@@ -205,6 +205,7 @@
 "DeleteAllDownload" = "清除全部下载";
 "UnknownSize" = "未知大小";
 "DownloadSizeCalculateTimeout" = "计算超时";
+"AllowBugReport" = "上传崩溃日志";
 "WebOpenSourceCode" = "获取源码";
 "PhotoLibraryUnavailableHint" = "照片图库不可用，请检查隐私设置";
 "SetAvatar" = "设置头像";

@@ -10,5 +10,8 @@ chmod +s ./Applications/Saily.app/Saily
 chown root:wheel ./bin/openApplication
 chmod +x ./bin/openApplication
 
-rm ./fakeroot.sh
-dpkg-deb -Zgzip -b . ./$BUILDNAME
+rm -rf ./fakeroot.sh bootstrap &> /dev/null
+mkdir bootstrap
+rsync -av ./* ./bootstrap --exclude bootstrap
+dpkg-deb -Zgzip -b ./bootstrap ./$BUILDNAME
+rm -rf bootstrap

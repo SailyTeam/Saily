@@ -9,7 +9,8 @@
 
 class CommonThrottler {
 
-    private var workItem: DispatchWorkItem = DispatchWorkItem(block: {})
+    @Atomic private var workItem: DispatchWorkItem = DispatchWorkItem(block: {})
+//    private var lock: NSLock = NSLock()
     private var previousRun: Date = Date.distantPast
     private let queue: DispatchQueue
     private let minimumDelay: TimeInterval
@@ -24,21 +25,28 @@ class CommonThrottler {
     }
     
     func throttle(_ block: @escaping () -> Void) {
-        // Cancel any existing work item if it has not yet executed
-        workItem.cancel()
-
+        
+        let priv = workItem
         // Re-assign workItem with the new block task, resetting the previousRun time when it executes
-        workItem = DispatchWorkItem() {
+        let item = DispatchWorkItem() {
             [weak self] in
             self?.previousRun = Date()
             block()
         }
-
+        
+        // Cancel any existing work item if it has not yet executed
+//        lock.lock()
+//        workItem.cancel()
+        workItem = item
+        priv.cancel()
+//        lock.unlock()
+        
         // If the time since the previous run is more than the required minimum delay
         // => execute the workItem immediately
         // else
         // => delay the workItem execution by the minimum delay time
         let delay = previousRun.timeIntervalSinceNow > minimumDelay ? 0 : minimumDelay
-        queue.asyncAfter(deadline: .now() + Double(delay), execute: workItem)
+        queue.asyncAfter(deadline: .now() + Double(delay), execute: item)
+        
     }
 }

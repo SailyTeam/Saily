@@ -9,17 +9,18 @@
 import UIKit
 import SnapKit
 import DropDown
-//import LTMorphingLabel
+import Bugsnag
 
 class StartUpVC: UIViewController {
     
     static var booted = false
     @Atomic static var bootInProgress = false
     
-//    var label = LTMorphingLabel()
     var label = UILabel()
     
     override func viewDidLoad() {
+        
+        super.viewDidLoad()
         
         view.addSubview(label)
         label.snp.makeConstraints { (x) in
@@ -29,8 +30,28 @@ class StartUpVC: UIViewController {
         
         label.textColor = .gray
         label.font = .boldSystemFont(ofSize: 12)
-//        label.morphingEffect = .evaporate
         label.font = UIFont.roundedFont(ofSize: 12, weight: .bold).monospacedDigitFont
+        
+        if Bugsnag.appDidCrashLastLaunch() && !StartUpVC.booted {
+            let alert = UIAlertController(title: "⚠️", message: "AllowBugReport".localized(), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (_) in
+                self.boot()
+            }))
+            alert.addAction(UIAlertAction(title: "Confirm".localized(), style: .default, handler: { (_) in
+                Bugsnag.start()
+                DispatchQueue.global(qos: .background).async {
+                    Bugsnag.notify(NSException(name: NSExceptionName(rawValue: "appDidCrashLastLaunch"), reason: nil, userInfo: nil))
+                }
+                self.boot()
+            }))
+            present(alert, animated: true, completion: nil)
+        } else {
+            boot()
+        }
+        
+    }
+    
+    func boot() {
         DispatchQueue.global().async {
             
             if StartUpVC.bootInProgress {
@@ -109,17 +130,14 @@ class StartUpVC: UIViewController {
             let time = Double(Int((endsAt -  beginAt) * 100)) / 100
             Tools.rprint("AppDelegate_BootstrapTime".localized() + " " + String(time) + "s")
             
-            DispatchQueue.main.async {
-                
-//                self.present(vc!, animated: false, completion: nil)
-                self.view.window?.rootViewController = vc
-                if !UIDevice.isiPad && !FileManager.default.fileExists(atPath: ConfigManager.shared.documentString + "/disableiPhoneUIWarning") {
-                    let alert = UIAlertController(title: "Warning".localized(), message: "This beta does not have an iPhone capable interface, if you experienced any error with UI, do not report.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .destructive, handler: nil))
-                    vc?.present(alert, animated: true, completion: nil)
+            if ConfigManager.shared.Application.bugReportEnabled {
+                DispatchQueue.main.async {
+                    Bugsnag.start()
                 }
-
-                
+            }
+            
+            DispatchQueue.main.async {
+                self.view.window?.rootViewController = vc
             }
             
         }

@@ -34,6 +34,14 @@ class UIViewControllerWithCustomizedNavBar: UIViewController  {
         preferredContentSize = CGSize(width: 700, height: 555)
         hideKeyboardWhenTappedAround()
         view.insetsLayoutMarginsFromSafeArea = false
+        
+        let window = UIApplication.shared.windows[0]
+        var topPadding = window.safeAreaInsets.top
+        if modalPresentationStyle == .formSheet {
+            topPadding = 0
+        }
+        
+        let withHeight = withHeight + topPadding * 0.7
 
         let effect = UIBlurEffect(style: .systemChromeMaterial)
         SimpleNavEffectView.effect = effect
@@ -89,6 +97,10 @@ class UIViewControllerWithCustomizedNavBar: UIViewController  {
         goBackButton.setTitleColor(.black, for: .normal)
     }
     
+    func makeSimpleNavBarButtonBlue() {
+        goBackButton.setTitleColor(UIColor(named: "G-Button-Normal"), for: .normal)
+    }
+    
     deinit {
         print("[ARC] UIViewControllerWithCustomizedNavBar has been deinited")
     }
@@ -103,3 +115,4 @@ class UIViewControllerWithCustomizedNavBar: UIViewController  {
     }
     
 }
+

@@ -27,13 +27,13 @@ static bool hooked_boolForPreferenceKey(__unsafe_unretained id self, SEL cmd, NS
     
     Class clazz = objc_getClass("TIPreferencesController");
     if (!clazz) {
-        assert(false);
+        NSLog(@"[KeyboardTrick] TIPreferencesController failed to load");
         return;
     }
     
     Method orig = class_getInstanceMethod(clazz, NSSelectorFromString(@"boolForPreferenceKey:"));
     if (!orig) {
-        assert(false);
+        NSLog(@"[KeyboardTrick] TIPreferencesController boolForPreferenceKey failed to load");
         return;
     }
     

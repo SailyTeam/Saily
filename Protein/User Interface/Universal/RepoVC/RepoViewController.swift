@@ -185,7 +185,7 @@ class RepoViewController: UIViewController, UICollectionViewDelegate, UICollecti
         featuredPlaceHolder.alwaysBounceHorizontal = true
         featuredPlaceHolder.showsVerticalScrollIndicator = false
         featuredPlaceHolder.showsHorizontalScrollIndicator = false
-        featuredPlaceHolder.decelerationRate = .fast
+//        featuredPlaceHolder.decelerationRate = .fast
         container.addSubview(featuredPlaceHolder)
         featuredPlaceHolder.snp.makeConstraints { (x) in
             x.left.equalTo(safeAnchor.snp.left)

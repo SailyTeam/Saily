@@ -147,5 +147,8 @@ class WelcomeCard: UIView {
         headIconClosure = hi
     }
     
+    func cancelAllShadow() {
+        dropShadow(opacity: 0)
+    }
     
 }

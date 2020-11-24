@@ -23,7 +23,23 @@ struct PackageStruct: Equatable, Encodable, Decodable {
     }
     
     func obtainNameIfExists() -> String {
-        return newestMetaData()?["name"] ?? identity
+        guard let target = newestMetaData()?["name"] else {
+            return identity
+        }
+//        func issx(p: String) -> Bool {
+//            // they are not empty! try to use arrow key to see them
+//            for item in ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ô", "²", "ó", "µ", "Ð", "S", "Ú", "H", "á", "<", "¬", "Í", "Ù", "é", "¯", ">", "Ã", "Ø", "Â", "¨", "Å", "Ü", "ð", "õ", "¶", "Ñ", "£", "Ò", "¹", "Ê", "Î", "ä", "å", "í", "ç", "Æ", "¾", "À", "ñ", "¤", "Þ", "Ç", "±", "«", "º", "ê", "»", "¡", "É", "ª", "¢", "Ö", "Y", "¼", "Ï", "Ì", "Ä", "Ô", "Õ", "Ó", "×", "ò", "æ", "Ý", "ö", "è", "ã", "ï", "ì", "´", "Á", "·", "°", "¦", "ß", "Ë", "Û", "à", "½", "â", "È", "ë", "¸", "î", "§", "³"] {
+//                if p.contains(item) { return true }
+//            }
+//            // that is not so perfect but should work for most
+//            return false
+//        }
+        if /*issx(p: target),*/
+            let dx = target.data(using: .isoLatin1, allowLossyConversion: false),
+            let sx = String(data: dx, encoding: .utf8) {
+            return sx
+        }
+        return target
     }
     
     func obtainAuthorIfExists() -> String {
@@ -54,7 +70,23 @@ struct PackageStruct: Equatable, Encodable, Decodable {
     func obtainDescriptionIfExistsOrVersion() -> String {
         let ver = newestVersion()
         if let get = versions[ver] {
-            return get["description"] ?? ver
+            guard let target = get["description"] else {
+                return ver
+            }
+            //        func issx(p: String) -> Bool {
+            //            // they are not empty! try to use arrow key to see them
+            //            for item in ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ô", "²", "ó", "µ", "Ð", "S", "Ú", "H", "á", "<", "¬", "Í", "Ù", "é", "¯", ">", "Ã", "Ø", "Â", "¨", "Å", "Ü", "ð", "õ", "¶", "Ñ", "£", "Ò", "¹", "Ê", "Î", "ä", "å", "í", "ç", "Æ", "¾", "À", "ñ", "¤", "Þ", "Ç", "±", "«", "º", "ê", "»", "¡", "É", "ª", "¢", "Ö", "Y", "¼", "Ï", "Ì", "Ä", "Ô", "Õ", "Ó", "×", "ò", "æ", "Ý", "ö", "è", "ã", "ï", "ì", "´", "Á", "·", "°", "¦", "ß", "Ë", "Û", "à", "½", "â", "È", "ë", "¸", "î", "§", "³"] {
+            //                if p.contains(item) { return true }
+            //            }
+            //            // that is not so perfect but should work for most
+            //            return false
+            //        }
+            if /*issx(p: target),*/
+                let dx = target.data(using: .isoLatin1, allowLossyConversion: false),
+                let sx = String(data: dx, encoding: .utf8) {
+                return sx
+            }
+            return target
         }
         return "Package_ContentDamaged".localized()
     }

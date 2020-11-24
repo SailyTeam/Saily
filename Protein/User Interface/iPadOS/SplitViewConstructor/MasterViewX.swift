@@ -29,28 +29,6 @@ class MasterViewX: UISplitViewController, UISplitViewControllerDelegate {
         super.viewWillTransition(to: size, with: coordinator)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-//            if self.isCollapsed {
-//                if let nav = self.viewControllers[0] as? UINavigationController {
-//                    nav.popToRootViewController(animated: true)
-//                    if let b = nav.viewControllers.first as? SplitBoardingDash {
-//                        b.showShadowView()
-//                    }
-//                } else {
-//                    self.preferredDisplayMode = .allVisible
-//                }
-//            } else {
-//                if let nav = self.viewControllers[0] as? UINavigationController {
-//                    if let b = nav.viewControllers.first as? SplitBoardingDash {
-//                        b.hidesShadowView()
-//                    }
-//                }
-//            }
-//        }
-    }
-    
     func applySplitWidth() {
   
         preferredPrimaryColumnWidthFraction = 0.36

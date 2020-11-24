@@ -16,7 +16,10 @@ class QRScanViewController: UIViewControllerWithCustomizedNavBar, AVCaptureMetad
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        defer { setupNavigationBar() }
+        defer {
+            setupNavigationBar()
+            makeSimpleNavBarButtonBlue()
+        }
         
         view.backgroundColor = UIColor(named: "G-ViewController-Background")
         let size = CGSize(width: 600, height: 600)
@@ -121,7 +124,18 @@ class QRScanViewController: UIViewControllerWithCustomizedNavBar, AVCaptureMetad
     func found(code: String) {
         Tools.rprint("[QRScan] Found code: " + code)
         let target = self.parent ?? view.window?.rootViewController ?? UIViewController()
-        self.dismiss(animated: true) {
+        if let nav = navigationController {
+            let pop = RepoAddViewController()
+            pop.useNavigationBar = true
+            pop.modalPresentationStyle = .formSheet;
+            pop.modalTransitionStyle = .coverVertical
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                pop.inputContext.text = code
+            }
+            nav.popViewController(animated: true)
+            nav.pushViewController(pop)
+        } else {
+            dismiss(animated: true, completion: nil)
             let pop = RepoAddViewController()
             pop.modalPresentationStyle = .formSheet;
             pop.modalTransitionStyle = .coverVertical
@@ -130,6 +144,7 @@ class QRScanViewController: UIViewControllerWithCustomizedNavBar, AVCaptureMetad
                 pop.inputContext.text = code
             }
         }
+        
     }
 
     override var prefersStatusBarHidden: Bool {

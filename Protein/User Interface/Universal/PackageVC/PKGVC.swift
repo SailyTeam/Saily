@@ -24,12 +24,12 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
     
     private let leftAndRightInsert: CGFloat = 22
     
-    private let container: UIScrollView = UIScrollView()
-    private var containerSizeRecord: CGRect = CGRect()
-    private let placeHolder: UIImageView = UIImageView(image: UIImage(named: "PKGVC.PlaceHolder"))
-    private var PackageThemeColor: UIColor? = nil
-    private let PackageBannerImage: UIImageView = UIImageView()
-    private let PackageSection: PackageViewControllerSectionView = PackageViewControllerSectionView(insert: 18)
+    let container: UIScrollView = UIScrollView()
+    var containerSizeRecord: CGRect = CGRect()
+    let placeHolder: UIImageView = UIImageView(image: UIImage(named: "PKGVC.PlaceHolder"))
+    var PackageThemeColor: UIColor? = nil
+    let PackageBannerImage: UIImageView = UIImageView()
+    let PackageSection: PackageViewControllerSectionView = PackageViewControllerSectionView(insert: 18)
     
     private let WebViewDelegate = PackageViewControllerWebViewScroolViewDelegate()
     
@@ -55,11 +55,29 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
     public  var preferredGoBackButtonStyleLight: Bool? = nil
     
     private var presentedUnderVisibleNavigationBar: Bool = false
+    private var simpleNavBarLocationPoster = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        defer { setupNavigationBar() }
+        defer {
+            setupNavigationBar()
+            makeSimpleNavBarButtonBlue()
+            view.addSubview(simpleNavBarLocationPoster)
+            simpleNavBarLocationPoster.isUserInteractionEnabled = false
+            simpleNavBarLocationPoster.snp.makeConstraints { (x) in
+                x.left.equalToSuperview()
+                x.right.equalToSuperview()
+                x.top.equalTo(self.view.snp.top)
+                x.bottom.equalTo(self.SimpleNavBar.snp.bottom)
+            }
+            makeSimpleNavBarButtonBlue()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                self.PackageBannerImage.snp.updateConstraints { (x) in
+                    x.bottom.equalTo(self.container.snp.top).offset(self.SimpleNavBar.frame.maxY)
+                }
+            }
+        }
         
         if let navhidden = navigationController?.isNavigationBarHidden {
             if !navhidden {
@@ -74,7 +92,7 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
         container.showsVerticalScrollIndicator = false
         container.showsHorizontalScrollIndicator = false
         container.alwaysBounceVertical = true
-        container.decelerationRate = .fast
+//        container.decelerationRate = .fast
         container.delegate = self
         container.snp.makeConstraints { (x) in
             x.edges.equalTo(self.view)
@@ -89,7 +107,7 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
             x.right.equalTo(self.view.snp.right)
             x.height.lessThanOrEqualTo(80)
             x.height.equalTo(80)
-            x.bottom.equalTo(self.container.snp.top).offset(80)
+            x.bottom.equalTo(self.container.snp.top).offset(self.SimpleNavBar.frame.maxY)
         }
         
         PackageSection.snp.makeConstraints { (x) in
@@ -211,11 +229,16 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
             let width = img.size.width
             let ratio = width / height
             var preferredHeight = after0 / ratio
-            if preferredHeight < 250 {
-                preferredHeight = 250
+            
+            let decision = view.frame.width < view.frame.height ? view.frame.width : view.frame.height
+            let minHeight = decision * 0.5
+            let maxHeight = decision * 1.5
+            
+            if preferredHeight < minHeight {
+                preferredHeight = minHeight
             }
-            if preferredHeight > 666 {
-                preferredHeight = 666
+            if preferredHeight > maxHeight {
+                preferredHeight = maxHeight
             }
             preferredBannerImageHeight = preferredHeight
             if img.isLight() ?? false {
@@ -225,18 +248,35 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
             }
         }
         
-        if preferredBannerImageHeight < 80 {
-            preferredBannerImageHeight = 80
-        }
-        PackageBannerImage.snp.updateConstraints { (x) in
-            x.height.lessThanOrEqualTo(self.preferredBannerImageHeight)
-            x.height.equalTo(self.preferredBannerImageHeight)
-            x.bottom.equalTo(self.container.snp.top).offset(self.preferredBannerImageHeight)
+        if preferredBannerImageHeight < simpleNavBarLocationPoster.frame.height + simpleNavBarLocationPoster.frame.minY {
+            preferredBannerImageHeight = simpleNavBarLocationPoster.frame.height + simpleNavBarLocationPoster.frame.minY
+            PackageBannerImage.snp.remakeConstraints { (x) in
+                x.top.lessThanOrEqualTo(self.container.snp.top)
+                x.top.lessThanOrEqualTo(self.view.snp.top)
+                x.left.equalTo(self.view.snp.left)
+                x.right.equalTo(self.view.snp.right)
+                x.height.lessThanOrEqualTo(80)
+                x.height.equalTo(80)
+                x.bottom.equalTo(self.SimpleNavBar.snp.bottom)
+            }
+        } else {
+            PackageBannerImage.snp.remakeConstraints { (x) in
+                x.top.lessThanOrEqualTo(self.container.snp.top)
+                x.top.lessThanOrEqualTo(self.view.snp.top)
+                x.left.equalTo(self.view.snp.left)
+                x.right.equalTo(self.view.snp.right)
+                x.height.lessThanOrEqualTo(self.preferredBannerImageHeight)
+                x.height.equalTo(self.preferredBannerImageHeight)
+                x.bottom.equalTo(self.container.snp.top).offset(self.preferredBannerImageHeight)
+            }
         }
         
         scrollViewDidScroll(container)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.scrollViewDidScroll(self.container)
+        }
         
-        container.contentSize = CGSize(width: 0, height: PackageDepictionContainerPreferredHeight + preferredBannerImageHeight + 120)
+        container.contentSize = CGSize(width: 0, height: PackageDepictionContainerPreferredHeight + preferredBannerImageHeight + 200 + SimpleNavBar.frame.maxY)
         
     }
     

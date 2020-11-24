@@ -20,8 +20,8 @@ patch -N ./Pods/WCDBOptimizedSQLCipher/src/os_unix.c ./Attachments/patch-sql-osu
 patch -N ./Pods/LTMorphingLabel/LTMorphingLabel/LTEasing.swift ./Attachments/patch-LTMorphingLabel-LTEasing.patch
 
 # packing CI elemetns
-rm ./CI-Pods.tar
-tar -cvf ./CI-Pods.tar ./Pods
+#rm ./CI-Pods.tar
+#tar -cvf ./CI-Pods.tar ./Pods
 
 # open
 open ./*.xcworkspace

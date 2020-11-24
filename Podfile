@@ -7,16 +7,21 @@ install! 'cocoapods', :disable_input_output_paths => true
 target 'Protein' do
   use_frameworks!
 
+  pod 'FLEX', :configurations => ['Debug']
+  pod 'LookinServer', :configurations => ['Debug']
+
   # Pods for Protein
+
+  pod 'Bugsnag'
 
   pod 'WCDB.swift'
 #  pod 'HWPanModal'
   pod 'SnapKit'
   pod 'SDWebImage'
   pod 'LTMorphingLabel'
-  
+
   pod 'DropDown'
-  
+
   pod 'JGProgressHUD'
 #  pod 'ActivityIndicatorView' # Replace should be greate
 
@@ -25,7 +30,7 @@ target 'Protein' do
   pod 'Down'
   pod 'Cosmos'
   pod 'FLAnimatedImage'
-  
+
 # pod 'FanMenu' # may be used later in download
 # pod 'StepProgressView' # may be used later in tasks https://github.com/yonat/StepProgressView
 # pod 'RadioGroup' # may be used later in installed view controller https://github.com/yonat/RadioGroup

@@ -10,10 +10,15 @@ import UIKit
 import LTMorphingLabel
 import DropDown
 import JGProgressHUD
+import Bugsnag
+
+#if DEBUG
+import FLEX
+#endif
 
 class SettingView: UIView {
 
-    private let container = UIScrollView()
+    let container = UIScrollView()
     private let safeAnchor = UIView()
     private var lastAnchor: UIView?
     
@@ -21,7 +26,7 @@ class SettingView: UIView {
         fatalError()
     }
     
-    required init() {
+    required init(addTitle: Bool = true, addHeaderSpacer: Bool = true) {
         super.init(frame: CGRect())
         
         addSubview(container)
@@ -31,28 +36,33 @@ class SettingView: UIView {
         
         container.showsVerticalScrollIndicator = false
         container.showsHorizontalScrollIndicator = false
-        container.decelerationRate = .fast
         
         container.addSubview(safeAnchor)
         safeAnchor.snp.makeConstraints { (x) in
             x.left.equalTo(self).offset(28)
             x.right.equalTo(self).offset(-28)
-            x.top.equalTo(self.container.snp.top).offset(80)
+            if addHeaderSpacer {
+                x.top.equalTo(self.container.snp.top).offset(40)
+            } else {
+                x.top.equalTo(self.container.snp.top).offset(0)
+            }
             x.height.equalTo(1)
         }
         var anchor = safeAnchor
         
-        let label00 = UILabel(frame: CGRect())
-        label00.font = .systemFont(ofSize: 26, weight: .bold)
-        label00.text = "Settings".localized()
-        container.addSubview(label00)
-        label00.snp.makeConstraints { (x) in
-            x.left.equalTo(self.safeAnchor)
-            x.right.equalTo(self.safeAnchor)
-            x.top.equalTo(anchor.snp.bottom)
-            x.height.equalTo(60)
+        if addTitle {
+            let label00 = UILabel(frame: CGRect())
+            label00.font = .systemFont(ofSize: 26, weight: .bold)
+            label00.text = "Settings".localized()
+            container.addSubview(label00)
+            label00.snp.makeConstraints { (x) in
+                x.left.equalTo(self.safeAnchor)
+                x.right.equalTo(self.safeAnchor)
+                x.top.equalTo(anchor.snp.bottom)
+                x.height.equalTo(60)
+            }
+            anchor = label00
         }
-        anchor = label00
         
 // MARK: DEVICE INFO
         
@@ -672,6 +682,17 @@ class SettingView: UIView {
             }
             dropDown.show(onTopOf: self.window)
         }
+        let allowBugReport = SettingSectionView(iconSystemNamed: "text.badge.xmark",
+                                            text: "AllowBugReport".localized(),
+                                            dataType: .switcher,
+                                            initData: {
+                                                return ConfigManager.shared.Application.bugReportEnabled ? "1" : "0"
+        }) { (isOn, _) in
+            if let val = isOn {
+                ConfigManager.shared.Application.bugReportEnabled = val
+                NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
+            }
+        }
         let sourceCode = SettingSectionView(iconSystemNamed: "chevron.left.slash.chevron.right",
                                             text: "WebOpenSourceCode".localized(),
                                             dataType: .submenuWithAction,
@@ -681,13 +702,25 @@ class SettingView: UIView {
                                                     UIApplication.shared.open(url, options: [:]) { (_) in }
                                                 }
         }
+        #if DEBUG
+        let debug = SettingSectionView(iconSystemNamed: "ladybug.fill",
+                                            text: "> FLEX".localized(),
+                                            dataType: .submenuWithAction,
+                                            initData: nil) { (_, dropDownAnchor) in
+            FLEXManager.shared.showExplorer()
+        }
+        #endif
         container.addSubview(groupEffect3)
         container.addSubview(doUICACHE)
         container.addSubview(appLanguage)
         container.addSubview(safemode)
         container.addSubview(userSpaceReboot)
         container.addSubview(doRespring)
+        container.addSubview(allowBugReport)
         container.addSubview(sourceCode)
+        #if DEBUG
+        container.addSubview(debug)
+        #endif
         appLanguage.snp.makeConstraints { (x) in
             x.left.equalTo(self.safeAnchor.snp.left).offset(8)
             x.right.equalTo(self.safeAnchor.snp.right).offset(-8)
@@ -725,6 +758,13 @@ class SettingView: UIView {
             }
             anchor = userSpaceReboot
         }
+        allowBugReport.snp.makeConstraints { (x) in
+            x.left.equalTo(self.safeAnchor.snp.left).offset(8)
+            x.right.equalTo(self.safeAnchor.snp.right).offset(-8)
+            x.top.equalTo(anchor.snp.bottom).offset(18)
+            x.height.equalTo(28)
+        }
+        anchor = allowBugReport
         sourceCode.snp.makeConstraints { (x) in
             x.left.equalTo(self.safeAnchor.snp.left).offset(8)
             x.right.equalTo(self.safeAnchor.snp.right).offset(-8)
@@ -732,6 +772,15 @@ class SettingView: UIView {
             x.height.equalTo(28)
         }
         anchor = sourceCode
+        #if DEBUG
+        debug.snp.makeConstraints { (x) in
+            x.left.equalTo(self.safeAnchor.snp.left).offset(8)
+            x.right.equalTo(self.safeAnchor.snp.right).offset(-8)
+            x.top.equalTo(anchor.snp.bottom).offset(18)
+            x.height.equalTo(28)
+        }
+        anchor = debug
+        #endif
         groupEffect3.snp.makeConstraints { (x) in
             x.left.equalTo(self.safeAnchor.snp.left)
             x.right.equalTo(self.safeAnchor.snp.right)

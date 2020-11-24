@@ -173,9 +173,17 @@ final class RepoManager {
         return ret
     }
     
-    func appendNewRepos(withURLs urls: [URL],
-                        andSync: Bool = true) {
-        for item in urls {
+    func appendNewRepos(withURLs urls: [URL], andReload: Bool = true, forceRewrite: Bool = false) {
+        let reposCapture = RepoManager.shared.repos
+        lo0: for item in urls {
+            var lookup = false
+            for repo in reposCapture where repo.url.urlString == item.urlString {
+                lookup = true
+                break
+            }
+            if lookup && !forceRewrite {
+                continue lo0
+            }
             var create = RepoStruct(url: item)
             var temp = create.obtainPossibleName()
             let a = temp.first ?? "-"
@@ -186,7 +194,7 @@ final class RepoManager {
             }
             writeToDataBase(withObject: create, andSync: false)
         }
-        if andSync {
+        if andReload {
             reloadReposFromDataBase(silent: true)
         }
         DispatchQueue.global(qos: .background).async {
@@ -199,15 +207,9 @@ final class RepoManager {
         var temp = [URL]()
         let v1 = inUpdate
         var v2 = updateQueue
-        for item in withURL {
-            let mapper1 = v1.map { (url) -> String in
-                return url.urlString
-            }
-            let mapper2 = v2.map { (url) -> String in
-                return url.urlString
-            }
-            if mapper1.contains(item.urlString) || mapper2.contains(item.urlString) {
-                continue
+        lo0: for item in withURL {
+            if v1.contains(item) || v2.contains(item) {
+                continue lo0
             }
             temp.append(item)
         }

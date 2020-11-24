@@ -208,6 +208,7 @@
 "RepoRefreshTimeGapMinMax" = "Làm mới thông minh đòi hỏi một khoảng thời gian từ 0,5 đến 240 giờ";
 "EnterSafeMode" = "Vào chế độ an toàn";
 "OpenDownload" = "Mở Tải xuống";
+"AllowBugReport";
 "FilzaRequiredAlert" = "Filza chưa được cài đặt";
 "DeleteAllDownload" = "Xoá các mục đã tải";
 "UnknownSize" = "Kích thước không xác định";

@@ -34,28 +34,35 @@ class DashNavCard: UIView {
                                                unselectIconName: "DashNAV.InstalledUnselected",
                                                defaultSelected: false)
     
-    private var _SplitBoardingDash = SplitDetailDashBoardNAV()
-    private var _SplitDetailSetting = SplitDetailSetting()
-    private var _SplitDetailTask = SplitDetailTask()
-    private var _SplitDetailInstalled = SplitDetailInstalledNAV()
+    private var _SplitBoardingDash: UIViewController? = SplitDetailDashBoardNAV()
+    private var _SplitDetailSetting: UIViewController? = SplitDetailSetting()
+    private var _SplitDetailTask: UIViewController? = SplitDetailTask()
+    private var _SplitDetailInstalled: UIViewController? = SplitDetailInstalledNAV()
     
-    private var cardClosureDash: (SplitDetailDashBoardNAV) -> () = { (_) in }
-    private var cardClosureSett: (SplitDetailSetting) -> () = { (_) in }
-    private var cardClosureTask: (SplitDetailTask) -> () = { (_) in }
-    private var cardClosureInst: (SplitDetailInstalledNAV) -> () = { (_) in }
+    private var cardClosureDash: (UIViewController) -> () = { (_) in }
+    private var cardClosureSett: (UIViewController) -> () = { (_) in }
+    private var cardClosureTask: (UIViewController) -> () = { (_) in }
+    private var cardClosureInst: (UIViewController) -> () = { (_) in }
     
-    func setCardClosureDash(_ hi: @escaping (SplitDetailDashBoardNAV) -> ()) { cardClosureDash = hi }
-    func setCardClosureSett(_ hi: @escaping (SplitDetailSetting) -> ()) { cardClosureSett = hi }
-    func setCardClosureTask(_ hi: @escaping (SplitDetailTask) -> ()) { cardClosureTask = hi }
-    func setCardClosureInst(_ hi: @escaping (SplitDetailInstalledNAV) -> ()) { cardClosureInst = hi }
+    func setCardClosureDash(_ hi: @escaping (UIViewController) -> ()) { cardClosureDash = hi }
+    func setCardClosureSett(_ hi: @escaping (UIViewController) -> ()) { cardClosureSett = hi }
+    func setCardClosureTask(_ hi: @escaping (UIViewController) -> ()) { cardClosureTask = hi }
+    func setCardClosureInst(_ hi: @escaping (UIViewController) -> ()) { cardClosureInst = hi }
 
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    required init() {
+    required init(requiresViewController: Bool = true) {
         super.init(frame: CGRect())
      
+        if requiresViewController {
+            _SplitBoardingDash = SplitDetailDashBoardNAV()
+            _SplitDetailSetting = SplitDetailSetting()
+            _SplitDetailTask = SplitDetailTask()
+            _SplitDetailInstalled = SplitDetailInstalledNAV()
+        }
+        
         addSubview(dashCard)
         dashCard.setTouchEvent {
             self.selectDash()
@@ -100,10 +107,10 @@ class DashNavCard: UIView {
             x.right.equalTo(self.snp.right)
         }
         
-        _SplitBoardingDash.assignedDashCard = self
+        (_SplitBoardingDash as? SplitDetailDashBoardNAV)?.assignedDashCard = self
 //        _SplitDetailSetting.assignedDashCard = self
 //        _SplitDetailTask.assignedDashCard = self
-        _SplitDetailInstalled.assignedDashCard = self
+        (_SplitDetailInstalled as? SplitDetailInstalledNAV)?.assignedDashCard = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateTaskCardBadgeText), name: .TaskNumberChanged, object: nil)
 
@@ -118,7 +125,9 @@ class DashNavCard: UIView {
         settCard.deselecte()
         taskCard.deselecte()
         instCard.deselecte()
-        cardClosureDash(_SplitBoardingDash)
+        if let get = _SplitBoardingDash {
+            cardClosureDash(get)
+        }
     }
     
     func selectSetting() {
@@ -126,7 +135,9 @@ class DashNavCard: UIView {
         settCard.select()
         taskCard.deselecte()
         instCard.deselecte()
-        cardClosureSett(_SplitDetailSetting)
+        if let get = _SplitDetailSetting {
+            cardClosureSett(get)
+        }
         NotificationCenter.default.post(name: .SettingsUpdated, object: nil)
     }
     
@@ -135,7 +146,9 @@ class DashNavCard: UIView {
         settCard.deselecte()
         taskCard.select()
         instCard.deselecte()
-        cardClosureTask(_SplitDetailTask)
+        if let get = _SplitDetailTask {
+            cardClosureTask(get)
+        }
     }
     
     func selectInstalled() {
@@ -143,7 +156,9 @@ class DashNavCard: UIView {
         settCard.deselecte()
         taskCard.deselecte()
         instCard.select()
-        cardClosureInst(_SplitDetailInstalled)
+        if let get = _SplitDetailInstalled {
+            cardClosureInst(get)
+        }
     }
     
     @objc private
@@ -153,6 +168,13 @@ class DashNavCard: UIView {
         DispatchQueue.main.async {
             self.taskCard.badgeText = String(count)
         }
+    }
+    
+    func cancelAllShadow() {
+        dashCard.cancelAllShadow()
+        settCard.cancelAllShadow()
+        taskCard.cancelAllShadow()
+        instCard.cancelAllShadow()
     }
     
 }

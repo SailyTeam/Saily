@@ -1,14 +1,17 @@
 PODS:
-  - Cosmos (22.1.0)
-  - Down (0.9.3)
+  - Bugsnag (6.2.2)
+  - Cosmos (23.0.0)
+  - Down (0.9.4)
   - DropDown (2.3.13)
   - FLAnimatedImage (1.0.12)
-  - JGProgressHUD (2.1)
+  - FLEX (4.2.2)
+  - JGProgressHUD (2.2)
   - JJFloatingActionButton (2.5.0)
-  - LTMorphingLabel (0.8.0)
-  - SDWebImage (5.8.3):
-    - SDWebImage/Core (= 5.8.3)
-  - SDWebImage/Core (5.8.3)
+  - LookinServer (1.0.0)
+  - LTMorphingLabel (0.9.2)
+  - SDWebImage (5.9.4):
+    - SDWebImage/Core (= 5.9.4)
+  - SDWebImage/Core (5.9.4)
   - SnapKit (5.0.1)
   - SQLiteRepairKit (1.2.2):
     - WCDBOptimizedSQLCipher (~> 1.2.0)
@@ -21,12 +24,15 @@ PODS:
   - WCDBOptimizedSQLCipher (1.2.1)
 
 DEPENDENCIES:
+  - Bugsnag
   - Cosmos
   - Down
   - DropDown
   - FLAnimatedImage
+  - FLEX
   - JGProgressHUD
   - JJFloatingActionButton
+  - LookinServer
   - LTMorphingLabel
   - SDWebImage
   - SnapKit
@@ -35,12 +41,15 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Bugsnag
     - Cosmos
     - Down
     - DropDown
     - FLAnimatedImage
+    - FLEX
     - JGProgressHUD
     - JJFloatingActionButton
+    - LookinServer
     - LTMorphingLabel
     - SDWebImage
     - SnapKit
@@ -50,20 +59,23 @@ SPEC REPOS:
     - WCDBOptimizedSQLCipher
 
 SPEC CHECKSUMS:
-  Cosmos: 2795b36ad4bbea1af3050d6d65576ed63875f86a
-  Down: 4553b984236807e384fa0ef7c7e360ef9f7c425d
+  Bugsnag: b8674e86a1ff08dd8be1475851d36707500ac2af
+  Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
+  Down: 276f2c3eeeaf30345873bdad25f44b2640fcfa3a
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
+  FLEX: dbd68ae9c67fcc872c79c9e5a728f38243dfaa78
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   JJFloatingActionButton: fdc3aefb0f28f04d0f988fa25d5fac97028a9ea7
-  LTMorphingLabel: 1ada1cb5c046ae4ce5c66b428cf2e05e227e8e4f
-  SDWebImage: 112503ec94a5a2a41869503844a15e8d8f1ead5c
+  LookinServer: 0002891cd3cec5e082a910e897dfe71b4f06b89e
+  LTMorphingLabel: cdd338db82477d9ee80893b813cbbd7989f97b06
+  SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SQLiteRepairKit: 35aaae5a8838adb85f5b1eb4d796055be6060a4b
   WCDB: 8e90babdeb7784c569353a4bd22a66c0a175a882
   WCDB.swift: 05d509d7a0e60fb6e11c34eb7e4027c0fab5849f
   WCDBOptimizedSQLCipher: baf44493b0c7a3d49e97bc5b64a3856f6428ddd1
 
-PODFILE CHECKSUM: ee27bc5e47d3f1e4e017062a0894143d3d5b56f1
+PODFILE CHECKSUM: 0101961e22d46cc7d2bdbd30b0853817407fa7bd
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

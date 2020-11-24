@@ -22,6 +22,7 @@ struct __ApplicationConfig: Encodable, Decodable {
     var smartRefreshTimeGapInMin: Int = 720             // ✅
     var homeScreenShouldShowTips: Bool = true
     var usedLanguage: String = ""                       // ✅
+    var bugReportEnabled: Bool = false                  // ✅
     
     var shouldUploadRepoAnalysis: Bool = false          // ✅
     var shouldAutoUpdateWhenAppLaunch: Bool = false     // ✅
@@ -39,7 +40,11 @@ final class ConfigManager {
     
     static let shared = ConfigManager("wiki.qaq.Protein.vender.ConfigManager")
     static let availableLanguage = ["zh-Hans", "en", "ja", "cs", "vi"]
-    static var initAllowed = false
+    static var environmentSetupFinished = false {
+        didSet {
+            let _ = ConfigManager.shared
+        }
+    }
     
     @Atomic public var CydiaConfig: __CydiaConfig
     @Atomic public var Application: __ApplicationConfig
@@ -49,6 +54,11 @@ final class ConfigManager {
     public var documentString: String {
         get {
             return documentURL.fileString
+        }
+    }
+    public var journeyLocation: String {
+        get {
+            return documentString + "/journey.log"
         }
     }
     
@@ -61,7 +71,7 @@ final class ConfigManager {
             fatalError()
         }
         
-        if !ConfigManager.initAllowed {
+        if !ConfigManager.environmentSetupFinished {
             fatalError("Application didn't finish init, bootstrap not allowed.")
         }
         
@@ -108,15 +118,6 @@ final class ConfigManager {
         loadFromDatabase()
         writeToDatabase()
         NotificationCenter.default.addObserver(self, selector: #selector(writeToDatabase), name: .SettingsUpdated, object: nil)
-        
-        // use export http_proxy=0.0.0.0 instead
-//        if FileManager.default.fileExists(atPath: "/etc/apt/preferences.d/") {
-//            if !FileManager.default.fileExists(atPath: "/etc/apt/preferences.d/local") {
-//                FileManager.default.createFile(atPath: "/etc/apt/preferences.d/local", contents: nil, attributes: nil)
-//                try? "Package: *\nPin: origin \"\"\nPin-Priority: 1001\n"
-//                    .write(toFile: "/etc/apt/preferences.d/local", atomically: true, encoding: .utf8)
-//            }
-//        }
         
     }
     
@@ -167,12 +168,6 @@ final class ConfigManager {
         try? versionCompare.write(toFile: loc, atomically: true, encoding: .utf8)
         try? FileManager.default.removeItem(atPath: root + "Imported")
         
-//        // avatar import
-//        if FileManager.default.fileExists(atPath: "/var/mobile/avatar.cache.png") {
-//            try? FileManager.default.removeItem(atPath: root + "avatar.png")
-//            try? FileManager.default.copyItem(atPath: "/var/mobile/avatar.cache.png", toPath: root + "avatar.png")
-//            try? FileManager.default.removeItem(atPath: "/var/mobile/avatar.cache.png")
-//        }
     }
     
     func loadFromDatabase() {
@@ -249,6 +244,13 @@ final class ConfigManager {
             if let item = get.attach["ApplicationConfig.usedLanguage"] {
                 Application.usedLanguage = item
             }
+            if let item = get.attach["ApplicationConfig.bugReportEnabled"] {
+                if item == "1" {
+                    Application.bugReportEnabled = true
+                } else {
+                    Application.bugReportEnabled = false
+                }
+            }
             
             
         } else {
@@ -271,7 +273,7 @@ final class ConfigManager {
         store.attach["ApplicationConfig.shouldSaveRepoRecord"] = Application.shouldSaveRepoRecord == true ? "1" : "0"
         store.attach["ApplicationConfig.smartRefreshTimeGapInMin"] = String(Application.smartRefreshTimeGapInMin)
         store.attach["ApplicationConfig.usedLanguage"] = Application.usedLanguage
-        
+        store.attach["ApplicationConfig.bugReportEnabled"] = Application.bugReportEnabled == true ? "1" : "0"
         try! database.drop(table: tableName)
         try! database.create(table: tableName, of: RepoStore.self)
         try! database.insert(objects: [store], intoTable: tableName)

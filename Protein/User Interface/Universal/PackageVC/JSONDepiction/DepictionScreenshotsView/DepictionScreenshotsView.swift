@@ -60,7 +60,7 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
         super.init(dictionary: dictionary, viewController: viewController, tintColor: tintColor)
 
         scrollView.delegate = self
-        scrollView.decelerationRate = .fast
+//        scrollView.decelerationRate = .fast
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = isPaging

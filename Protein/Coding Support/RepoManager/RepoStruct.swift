@@ -14,9 +14,11 @@ struct RepoStruct: Equatable, Codable {
     var url: URL {
         didSet {
             let str = url.urlString
+            #if DEBUG
             if str.hasSuffix("/") {
                 fatalError()
             }
+            #endif
         }
     }
     

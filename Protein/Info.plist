@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>bugsnag</key>
+	<dict>
+		<key>apiKey</key>
+		<string>ade3c27ea754a7dcf86d238c0773c97e</string>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>= =</string>
 	<key>CFBundleDocumentTypes</key>

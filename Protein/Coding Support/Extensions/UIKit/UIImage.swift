@@ -89,8 +89,6 @@ extension UIImage {
             let end = mainColor.lighterColor(removeSaturation: -0.1, resultAlpha: -1)
             view.setGradientColor(from: start, to: end)
             view.clipsToBounds = true
-//                  let name = String(objcet.url?.absoluteString.split(separator: ".").dropFirst().first ?? "--")
-//                  let text = String(name.first?.description ?? "-") + (name.dropFirst().first?.description ?? "-")
             let text = (String(charA) + String(charB)).uppercased()
             label.text = text.uppercased()
             label.textColor = UIColor(hex: 0xffffff)

@@ -44,7 +44,7 @@ class PackageCollectionViewController: UIViewControllerWithCustomizedNavBar, UIC
         collectionView.clipsToBounds = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.decelerationRate = .fast
+//        collectionView.decelerationRate = .fast
         collectionView.snp.remakeConstraints { (x) in
             x.top.equalTo(self.SimpleNavBar.snp.bottom).offset(20)
             x.left.equalTo(self.view.snp.left)//.offset(2)

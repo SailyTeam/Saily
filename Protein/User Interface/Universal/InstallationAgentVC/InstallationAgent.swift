@@ -45,7 +45,7 @@ class InstallationAgent: UIViewController {
         view.insetsLayoutMarginsFromSafeArea = false
         isModalInPresentation = true
         
-        container.decelerationRate = .fast
+//        container.decelerationRate = .fast
         view.addSubview(container)
         container.snp.makeConstraints { (x) in
             x.edges.equalTo(self.view.snp.edges)
@@ -56,7 +56,7 @@ class InstallationAgent: UIViewController {
         container.addSubview(safeAnchor)
         container.showsVerticalScrollIndicator = false
         container.showsHorizontalScrollIndicator = false
-        container.decelerationRate = .fast
+//        container.decelerationRate = .fast
         safeAnchor.snp.makeConstraints { (x) in
             x.left.equalTo(self.view.snp.left).offset(gap)
             x.right.equalTo(self.view.snp.right).offset(-gap)

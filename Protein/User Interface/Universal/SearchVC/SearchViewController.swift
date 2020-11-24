@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewControllerWithCustomizedNavBar {
     
     private var searchBar: SearchBar?
     private var searchResultView: SearchResultView?
@@ -18,43 +18,31 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "SplitDetail-G-Background")
-
-        let goBackButton = UIButton(frame: CGRect())
-        goBackButton.setTitle("Navigation_GoBack".localized(), for: .normal)
-        goBackButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .black)
-        goBackButton.contentHorizontalAlignment = .left
-        goBackButton.contentVerticalAlignment = .bottom
-        goBackButton.addTarget(self, action: #selector(dismissAction), for: .touchUpInside)
-        goBackButton.setTitleColor(UIColor(named: "G-Button-Normal"), for: .normal)
-        goBackButton.setTitleColor(UIColor(named: "G-Button-Highlighted"), for: .highlighted)
-        view.addSubview(goBackButton)
-        goBackButton.snp.makeConstraints { (x) in
-            x.left.equalTo(self.view).offset(18)
-            x.top.equalTo(self.view).offset(38)
-            x.width.equalTo(80)
-            x.height.equalTo(40)
+        defer {
+            setupNavigationBar()
+            makeSimpleNavBarBackgorundTransparency()
+            makeSimpleNavBarButtonBlue()
+            searchBar?.snp.makeConstraints({ (x) in
+                x.left.equalTo(self.view.snp.left).offset(18)
+                x.right.equalTo(self.view.snp.right).offset(-18)
+                x.top.equalTo(SimpleNavBar.snp.bottom).offset(8)
+            })
+            searchResultView?.snp.makeConstraints({ (x) in
+                x.left.equalTo(self.view.snp.left)
+                x.right.equalTo(self.view.snp.right)
+                x.top.equalTo(searchBar!.snp.bottom).offset(30)
+                x.bottom.equalTo(self.view.snp.bottom).offset(-12)
+            })
         }
+        
+        view.backgroundColor = UIColor(named: "SplitDetail-G-Background")
         
         searchBar = SearchBar()
         view.addSubview(searchBar!);
-        searchBar?.snp.makeConstraints({ (x) in
-            x.left.equalTo(self.view.snp.left).offset(18)
-            x.right.equalTo(self.view.snp.right).offset(-18)
-//            x.height.equalTo(40)
-//            x.centerY.equalTo(goBackButton.snp.centerY)
-            x.top.equalTo(goBackButton.snp.bottom).offset(20)
-        })
         searchBar?.delegate = self
         
         searchResultView = SearchResultView()
         view.addSubview(searchResultView!)
-        searchResultView?.snp.makeConstraints({ (x) in
-            x.left.equalTo(self.view.snp.left)
-            x.right.equalTo(self.view.snp.right)
-            x.top.equalTo(searchBar!.snp.bottom).offset(30)
-            x.bottom.equalTo(self.view.snp.bottom).offset(-12)
-        })
         
     }
     
@@ -98,15 +86,6 @@ class SearchViewController: UIViewController {
 
 // MARK: Operations
 extension SearchViewController: SearchBarDelegate {
-    
-    @objc private
-    func dismissAction() {
-        if let nav = navigationController {
-            nav.popViewController()
-        } else {
-            dismiss(animated: true)
-        }
-    }
         
     func focused() {
         

@@ -50,8 +50,8 @@ class RamLogViewer: UIViewController {
         imgv.snp.makeConstraints { (x) in
             x.bottom.equalTo(self.view.snp.bottom).offset(-30)
             x.right.equalTo(self.view.snp.right).offset(-30)
-            x.width.equalTo(20)
-            x.height.equalTo(20)
+            x.width.equalTo(30)
+            x.height.equalTo(30)
         }
         closeButton.snp.makeConstraints { (x) in
             x.center.equalTo(imgv.snp.center)
@@ -80,7 +80,11 @@ class RamLogViewer: UIViewController {
     @objc
     func closeViewController(sender: UIButton) {
         sender.puddingAnimate()
-        dismiss(animated: true, completion: nil)
+        if let nav = navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
     
 }

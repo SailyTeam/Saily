@@ -62,7 +62,7 @@ fileprivate class SplitDetailDashBoard: UIViewController {
         container.backgroundColor = .clear
         container.showsVerticalScrollIndicator = false
         container.showsHorizontalScrollIndicator = false
-        container.decelerationRate = .fast
+//        container.decelerationRate = .fast
         container.alwaysBounceVertical = true
         view.addSubview(container)
         container.snp.makeConstraints { (x) in
@@ -158,7 +158,6 @@ fileprivate class SplitDetailDashBoard: UIViewController {
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
-
                 case 2:
                     sectionUpdate.touches(at: locationInCell)
                 case 3:

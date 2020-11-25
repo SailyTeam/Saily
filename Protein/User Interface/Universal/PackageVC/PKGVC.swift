@@ -52,6 +52,7 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
     public  var PackageDepictionContainerPreferredWidth: CGFloat = 0
     public  var PackageDepictionContainerPreferredHeight: CGFloat = 0
     public  var preferredBannerImageHeight: CGFloat = 0
+    public  var preferredBannerImageHeightUseable: Bool = false
     public  var preferredGoBackButtonStyleLight: Bool? = nil
     
     private var presentedUnderVisibleNavigationBar: Bool = false
@@ -73,8 +74,10 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
             }
             makeSimpleNavBarButtonBlue()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                self.PackageBannerImage.snp.updateConstraints { (x) in
-                    x.bottom.equalTo(self.container.snp.top).offset(self.SimpleNavBar.frame.maxY)
+                if self.preferredBannerImageHeightUseable {
+                    self.PackageBannerImage.snp.updateConstraints { (x) in
+                        x.bottom.equalTo(self.container.snp.top).offset(self.SimpleNavBar.frame.maxY)
+                    }
                 }
             }
         }
@@ -250,6 +253,7 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
         
         if preferredBannerImageHeight < simpleNavBarLocationPoster.frame.height + simpleNavBarLocationPoster.frame.minY {
             preferredBannerImageHeight = simpleNavBarLocationPoster.frame.height + simpleNavBarLocationPoster.frame.minY
+            preferredBannerImageHeightUseable = false
             PackageBannerImage.snp.remakeConstraints { (x) in
                 x.top.lessThanOrEqualTo(self.container.snp.top)
                 x.top.lessThanOrEqualTo(self.view.snp.top)
@@ -260,6 +264,7 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
                 x.bottom.equalTo(self.SimpleNavBar.snp.bottom)
             }
         } else {
+            preferredBannerImageHeightUseable = true
             PackageBannerImage.snp.remakeConstraints { (x) in
                 x.top.lessThanOrEqualTo(self.container.snp.top)
                 x.top.lessThanOrEqualTo(self.view.snp.top)

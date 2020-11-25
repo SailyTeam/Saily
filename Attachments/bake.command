@@ -6,7 +6,7 @@ cd ../
 echo "Starting build system for release"
 rm -rf ./temps/Protein.xcarchive
 mkdir ./temps
-xcodebuild clean
+# xcodebuild clean
 xcodebuild -workspace Protein.xcworkspace -list
 xcodebuild \
         clean archive \

@@ -52,7 +52,7 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
     public  var PackageDepictionContainerPreferredWidth: CGFloat = 0
     public  var PackageDepictionContainerPreferredHeight: CGFloat = 0
     public  var preferredBannerImageHeight: CGFloat = 0
-    public  var preferredBannerImageHeightUseable: Bool = false
+    public  var preferredBannerImageHeightUseable: Bool = true
     public  var preferredGoBackButtonStyleLight: Bool? = nil
     
     private var presentedUnderVisibleNavigationBar: Bool = false
@@ -191,14 +191,12 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
         }
     }
     
-    public func updateLayoutsIfNeeded() {
+    public func updateLayoutsIfNeeded(onBoot: Bool = false) {
         
         if PackageDepictionLayoutToken == PackageDepictionLayoutTokenChecker {
             return
         }
         PackageDepictionLayoutToken = PackageDepictionLayoutTokenChecker
-        
-//        print("[PackageViewController] Updating layouts " + String(Date().timeIntervalSince1970))
         
         guard let targetContainer = self.PackageDepictionContainer else {
             return
@@ -219,6 +217,9 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
                 x.bottom.equalTo(self.view.snp.bottom)
             }
         } else {
+            if PackageBannerImage.image == nil {
+                PackageBannerImage.image = UIImage(named: "PKGVC.PackageBannerImagePlaceholder")
+            }
             targetContainer.snp.remakeConstraints { (x) in
                 x.left.equalTo(self.view)
                 x.width.equalTo(self.PackageDepictionContainerPreferredWidth)
@@ -253,6 +254,9 @@ class PackageViewController: UIViewControllerWithCustomizedNavBar {
         
         if preferredBannerImageHeight < simpleNavBarLocationPoster.frame.height + simpleNavBarLocationPoster.frame.minY {
             preferredBannerImageHeight = simpleNavBarLocationPoster.frame.height + simpleNavBarLocationPoster.frame.minY
+        }
+        
+        if PackageBannerImage.image == nil {
             preferredBannerImageHeightUseable = false
             PackageBannerImage.snp.remakeConstraints { (x) in
                 x.top.lessThanOrEqualTo(self.container.snp.top)

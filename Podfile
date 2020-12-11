@@ -1,8 +1,10 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '12.0'
+platform :ios, '13.0'
 
 inhibit_all_warnings!
 install! 'cocoapods', :disable_input_output_paths => true
+
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
 target 'Protein' do
   use_frameworks!
@@ -37,31 +39,5 @@ target 'Protein' do
 # source 'https://github.com/CocoaPods/Specs.git'
 # pod 'TVButton', '~> 1.0' # may be used later in home news
 # pod "Macaw", "0.9.6" # may be used later in data drawing https://github.com/exyte/Macaw-Examples
-
-  target 'ProteinTests' do
-    inherit! :search_paths
-
-  end
-
-  target 'ProteinUITests' do
-
-  end
-
-end
-
-target 'Protein WatchKit App' do
-  use_frameworks!
-  platform :watchos, '4.0'
-
-	pod 'WCDB'
-
-
-end
-
-target 'Protein WatchKit Extension' do
-  use_frameworks!
-  platform :watchos, '4.0'
-
-	pod 'WCDB'
 
 end

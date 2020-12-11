@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -141,17 +141,6 @@
 		50D528C32449B11300F4A483 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50D528C12449B11300F4A483 /* Main.storyboard */; };
 		50D528C52449B11400F4A483 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50D528C42449B11400F4A483 /* Assets.xcassets */; };
 		50D528C82449B11400F4A483 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50D528C62449B11400F4A483 /* LaunchScreen.storyboard */; };
-		50D528D32449B11500F4A483 /* ProteinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528D22449B11500F4A483 /* ProteinTests.swift */; };
-		50D528DE2449B11500F4A483 /* ProteinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528DD2449B11500F4A483 /* ProteinUITests.swift */; };
-		50D528E32449B11500F4A483 /* Protein WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 50D528E22449B11500F4A483 /* Protein WatchKit App.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		50D528E92449B11500F4A483 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50D528E72449B11500F4A483 /* Interface.storyboard */; };
-		50D528EB2449B11500F4A483 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50D528EA2449B11500F4A483 /* Assets.xcassets */; };
-		50D528F22449B11500F4A483 /* Protein WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 50D528F12449B11500F4A483 /* Protein WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		50D528F72449B11500F4A483 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528F62449B11500F4A483 /* InterfaceController.swift */; };
-		50D528F92449B11500F4A483 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528F82449B11500F4A483 /* ExtensionDelegate.swift */; };
-		50D528FB2449B11500F4A483 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528FA2449B11500F4A483 /* NotificationController.swift */; };
-		50D528FD2449B11500F4A483 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528FC2449B11500F4A483 /* ComplicationController.swift */; };
-		50D528FF2449B11600F4A483 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50D528FE2449B11600F4A483 /* Assets.xcassets */; };
 		50DB19882455874700457ABD /* RepoViewController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50DB19872455874700457ABD /* RepoViewController.xcassets */; };
 		50DB198C24559D4100457ABD /* RepoStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB198B24559D4100457ABD /* RepoStruct.swift */; };
 		50DB198E24559D7D00457ABD /* PackageStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB198D24559D7D00457ABD /* PackageStruct.swift */; };
@@ -172,7 +161,6 @@
 		50FD62FE244C3D8700F8F25B /* RepoAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD62FD244C3D8700F8F25B /* RepoAddVC.swift */; };
 		50FD6300244C3DA400F8F25B /* RepoAddViewController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50FD62FF244C3DA400F8F25B /* RepoAddViewController.xcassets */; };
 		50FD6302244C55A200F8F25B /* RepoAddSectionInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD6301244C55A200F8F25B /* RepoAddSectionInput.swift */; };
-		56D22938B05228481338DE12 /* Pods_Protein_WatchKit_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5C69A59A256E4D13D8B037 /* Pods_Protein_WatchKit_Extension.framework */; };
 		6857B7EE2469A20500CB1325 /* SearchIndexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6857B7ED2469A20500CB1325 /* SearchIndexManager.swift */; };
 		6857B8212482949000CB1325 /* CellularNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6857B8202482949000CB1325 /* CellularNetworkTool.swift */; };
 		6857B82424829A0100CB1325 /* SGNetworkConfigurationModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6857B82324829A0100CB1325 /* SGNetworkConfigurationModifier.m */; };
@@ -182,62 +170,16 @@
 		6865D588246856E20073EF2A /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6865D587246856E20073EF2A /* Throttler.swift */; };
 		6865D58A246857F30073EF2A /* SearchResultView+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6865D589246857F30073EF2A /* SearchResultView+Data.swift */; };
 		688A0DE624BB22E9008E43D9 /* ProteinKeyboardTrick.m in Sources */ = {isa = PBXBuildFile; fileRef = 688A0DE424BB22E9008E43D9 /* ProteinKeyboardTrick.m */; };
-		85E5A1DF9B1F355B444B923B /* Pods_Protein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF4DF453E72FED5BE8FBBE1 /* Pods_Protein.framework */; };
-		9CF6B1361D6EE7764249EA05 /* Pods_Protein_ProteinUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1DF46B665D040401FF32675 /* Pods_Protein_ProteinUITests.framework */; };
-		B4FB1F5BE2B3E34163D7D9EC /* Pods_ProteinTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0051BCAD879AE8E81B466C /* Pods_ProteinTests.framework */; };
-		FF2863A8161A195D25C03D10 /* Pods_Protein_WatchKit_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF9F45F69C8420E1BE2B2734 /* Pods_Protein_WatchKit_App.framework */; };
+		CCF313A2ADE0EFA9F184A13C /* Pods_Protein.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 990FC70A7A489DC439D71223 /* Pods_Protein.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		50D528CF2449B11500F4A483 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 50D528B02449B11300F4A483 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 50D528B72449B11300F4A483;
-			remoteInfo = Protein;
-		};
-		50D528DA2449B11500F4A483 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 50D528B02449B11300F4A483 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 50D528B72449B11300F4A483;
-			remoteInfo = Protein;
-		};
-		50D528E42449B11500F4A483 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 50D528B02449B11300F4A483 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 50D528E12449B11500F4A483;
-			remoteInfo = "Protein WatchKit App";
-		};
-		50D528F32449B11500F4A483 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 50D528B02449B11300F4A483 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 50D528F02449B11500F4A483;
-			remoteInfo = "Protein WatchKit Extension";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
-		50D529072449B11600F4A483 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				50D528F22449B11500F4A483 /* Protein WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		50D5290B2449B11600F4A483 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				50D528E32449B11500F4A483 /* Protein WatchKit App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,10 +187,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		393F8CA8CCBC010F32B2FABC /* Pods-Protein WatchKit App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein WatchKit App.debug.xcconfig"; path = "Target Support Files/Pods-Protein WatchKit App/Pods-Protein WatchKit App.debug.xcconfig"; sourceTree = "<group>"; };
-		39BED2463576DA0F11B4B713 /* Pods-Protein WatchKit Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein WatchKit Extension.debug.xcconfig"; path = "Target Support Files/Pods-Protein WatchKit Extension/Pods-Protein WatchKit Extension.debug.xcconfig"; sourceTree = "<group>"; };
-		3A279863A119CF76E29E395F /* Pods-Protein-ProteinUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein-ProteinUITests.debug.xcconfig"; path = "Target Support Files/Pods-Protein-ProteinUITests/Pods-Protein-ProteinUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3D0051BCAD879AE8E81B466C /* Pods_ProteinTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProteinTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37CF9804DB204BBEB61F3729 /* Pods-Protein.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein.release.xcconfig"; path = "Target Support Files/Pods-Protein/Pods-Protein.release.xcconfig"; sourceTree = "<group>"; };
 		5000347F2469765800890951 /* Sections.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sections.xcassets; sourceTree = "<group>"; };
 		500034852469822100890951 /* error.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = error.html; sourceTree = "<group>"; };
 		50028E91245416780084DBFB /* DEFINE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEFINE.swift; sourceTree = "<group>"; };
@@ -310,7 +249,6 @@
 		50772D44247D7FD1006859C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		507F1DD4247D48F300E9BAE7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		507F1DD5247D48F300E9BAE7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		507F1DD6247D48F300E9BAE7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Interface.strings"; sourceTree = "<group>"; };
 		507F1DD8247D493600E9BAE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		507F1DDA247D493B00E9BAE7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		507F3E2E24C6D5E4000F21F0 /* QRScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanVC.swift; sourceTree = "<group>"; };
@@ -409,24 +347,6 @@
 		50D528C42449B11400F4A483 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50D528C72449B11400F4A483 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50D528C92449B11400F4A483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50D528CE2449B11500F4A483 /* ProteinTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProteinTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		50D528D22449B11500F4A483 /* ProteinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinTests.swift; sourceTree = "<group>"; };
-		50D528D42449B11500F4A483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50D528D92449B11500F4A483 /* ProteinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProteinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		50D528DD2449B11500F4A483 /* ProteinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinUITests.swift; sourceTree = "<group>"; };
-		50D528DF2449B11500F4A483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50D528E22449B11500F4A483 /* Protein WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Protein WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		50D528E82449B11500F4A483 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		50D528EA2449B11500F4A483 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		50D528EC2449B11500F4A483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50D528F12449B11500F4A483 /* Protein WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Protein WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		50D528F62449B11500F4A483 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
-		50D528F82449B11500F4A483 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		50D528FA2449B11500F4A483 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		50D528FC2449B11500F4A483 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
-		50D528FE2449B11600F4A483 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		50D529002449B11600F4A483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50D529012449B11600F4A483 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		50DB19872455874700457ABD /* RepoViewController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RepoViewController.xcassets; sourceTree = "<group>"; };
 		50DB198B24559D4100457ABD /* RepoStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoStruct.swift; sourceTree = "<group>"; };
 		50DB198D24559D7D00457ABD /* PackageStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageStruct.swift; sourceTree = "<group>"; };
@@ -449,8 +369,6 @@
 		50FD62FD244C3D8700F8F25B /* RepoAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoAddVC.swift; sourceTree = "<group>"; };
 		50FD62FF244C3DA400F8F25B /* RepoAddViewController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RepoAddViewController.xcassets; sourceTree = "<group>"; };
 		50FD6301244C55A200F8F25B /* RepoAddSectionInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoAddSectionInput.swift; sourceTree = "<group>"; };
-		63BBEA3DF924921E3AD156F1 /* Pods-ProteinTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProteinTests.release.xcconfig"; path = "Target Support Files/Pods-ProteinTests/Pods-ProteinTests.release.xcconfig"; sourceTree = "<group>"; };
-		64BCD1DD1F05F85BF4892208 /* Pods-Protein-ProteinUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein-ProteinUITests.release.xcconfig"; path = "Target Support Files/Pods-Protein-ProteinUITests/Pods-Protein-ProteinUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6857B7ED2469A20500CB1325 /* SearchIndexManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIndexManager.swift; sourceTree = "<group>"; };
 		6857B8202482949000CB1325 /* CellularNetworkTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellularNetworkTool.swift; sourceTree = "<group>"; };
 		6857B82224829A0100CB1325 /* SGNetworkConfigurationModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGNetworkConfigurationModifier.h; sourceTree = "<group>"; };
@@ -462,15 +380,8 @@
 		6865D589246857F30073EF2A /* SearchResultView+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResultView+Data.swift"; sourceTree = "<group>"; };
 		688A0DE424BB22E9008E43D9 /* ProteinKeyboardTrick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProteinKeyboardTrick.m; sourceTree = "<group>"; };
 		688A0DE524BB22E9008E43D9 /* ProteinKeyboardTrick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProteinKeyboardTrick.h; sourceTree = "<group>"; };
-		68F31FC7414938DA1D933675 /* Pods-Protein WatchKit Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein WatchKit Extension.release.xcconfig"; path = "Target Support Files/Pods-Protein WatchKit Extension/Pods-Protein WatchKit Extension.release.xcconfig"; sourceTree = "<group>"; };
-		8CF4DF453E72FED5BE8FBBE1 /* Pods_Protein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Protein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9558EFD460A496FBCEC3F9E1 /* Pods-ProteinTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProteinTests.debug.xcconfig"; path = "Target Support Files/Pods-ProteinTests/Pods-ProteinTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A1DF46B665D040401FF32675 /* Pods_Protein_ProteinUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Protein_ProteinUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6098CCCE1179E70C21A7B48 /* Pods-Protein WatchKit App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein WatchKit App.release.xcconfig"; path = "Target Support Files/Pods-Protein WatchKit App/Pods-Protein WatchKit App.release.xcconfig"; sourceTree = "<group>"; };
-		EDDB79D821220210C3235928 /* Pods-Protein.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein.debug.xcconfig"; path = "Target Support Files/Pods-Protein/Pods-Protein.debug.xcconfig"; sourceTree = "<group>"; };
-		EE5C69A59A256E4D13D8B037 /* Pods_Protein_WatchKit_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Protein_WatchKit_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE2F3855D48C00A1CDF6459A /* Pods-Protein.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein.release.xcconfig"; path = "Target Support Files/Pods-Protein/Pods-Protein.release.xcconfig"; sourceTree = "<group>"; };
-		FF9F45F69C8420E1BE2B2734 /* Pods_Protein_WatchKit_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Protein_WatchKit_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		990FC70A7A489DC439D71223 /* Pods_Protein.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Protein.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FE9E361AC99176C73CC05F5 /* Pods-Protein.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Protein.debug.xcconfig"; path = "Target Support Files/Pods-Protein/Pods-Protein.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,39 +391,7 @@
 			files = (
 				50DE39BC2478621D00332FB7 /* libarchive.tbd in Frameworks */,
 				50ACA3B72470125200A80F46 /* libbz2.tbd in Frameworks */,
-				85E5A1DF9B1F355B444B923B /* Pods_Protein.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528CB2449B11500F4A483 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B4FB1F5BE2B3E34163D7D9EC /* Pods_ProteinTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528D62449B11500F4A483 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9CF6B1361D6EE7764249EA05 /* Pods_Protein_ProteinUITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528EE2449B11500F4A483 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				56D22938B05228481338DE12 /* Pods_Protein_WatchKit_Extension.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4F7B87D46D92F2A6A381807 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FF2863A8161A195D25C03D10 /* Pods_Protein_WatchKit_App.framework in Frameworks */,
+				CCF313A2ADE0EFA9F184A13C /* Pods_Protein.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,11 +403,7 @@
 			children = (
 				50DE39BB2478621100332FB7 /* libarchive.tbd */,
 				50ACA3B62470124600A80F46 /* libbz2.tbd */,
-				8CF4DF453E72FED5BE8FBBE1 /* Pods_Protein.framework */,
-				FF9F45F69C8420E1BE2B2734 /* Pods_Protein_WatchKit_App.framework */,
-				EE5C69A59A256E4D13D8B037 /* Pods_Protein_WatchKit_Extension.framework */,
-				A1DF46B665D040401FF32675 /* Pods_Protein_ProteinUITests.framework */,
-				3D0051BCAD879AE8E81B466C /* Pods_ProteinTests.framework */,
+				990FC70A7A489DC439D71223 /* Pods_Protein.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1182,10 +1057,6 @@
 			isa = PBXGroup;
 			children = (
 				50D528BA2449B11300F4A483 /* Protein */,
-				50D528D12449B11500F4A483 /* ProteinTests */,
-				50D528DC2449B11500F4A483 /* ProteinUITests */,
-				50D528E62449B11500F4A483 /* Protein WatchKit App */,
-				50D528F52449B11500F4A483 /* Protein WatchKit Extension */,
 				50D528B92449B11300F4A483 /* Products */,
 				D79150432636AE1C0CFEEEB6 /* Pods */,
 				4ACFF96012EE325825716581 /* Frameworks */,
@@ -1196,10 +1067,6 @@
 			isa = PBXGroup;
 			children = (
 				50D528B82449B11300F4A483 /* Saily.app */,
-				50D528CE2449B11500F4A483 /* ProteinTests.xctest */,
-				50D528D92449B11500F4A483 /* ProteinUITests.xctest */,
-				50D528E22449B11500F4A483 /* Protein WatchKit App.app */,
-				50D528F12449B11500F4A483 /* Protein WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1221,48 +1088,6 @@
 				507F1DD9247D493600E9BAE7 /* Localizable.strings */,
 			);
 			path = Protein;
-			sourceTree = "<group>";
-		};
-		50D528D12449B11500F4A483 /* ProteinTests */ = {
-			isa = PBXGroup;
-			children = (
-				50D528D22449B11500F4A483 /* ProteinTests.swift */,
-				50D528D42449B11500F4A483 /* Info.plist */,
-			);
-			path = ProteinTests;
-			sourceTree = "<group>";
-		};
-		50D528DC2449B11500F4A483 /* ProteinUITests */ = {
-			isa = PBXGroup;
-			children = (
-				50D528DD2449B11500F4A483 /* ProteinUITests.swift */,
-				50D528DF2449B11500F4A483 /* Info.plist */,
-			);
-			path = ProteinUITests;
-			sourceTree = "<group>";
-		};
-		50D528E62449B11500F4A483 /* Protein WatchKit App */ = {
-			isa = PBXGroup;
-			children = (
-				50D528E72449B11500F4A483 /* Interface.storyboard */,
-				50D528EA2449B11500F4A483 /* Assets.xcassets */,
-				50D528EC2449B11500F4A483 /* Info.plist */,
-			);
-			path = "Protein WatchKit App";
-			sourceTree = "<group>";
-		};
-		50D528F52449B11500F4A483 /* Protein WatchKit Extension */ = {
-			isa = PBXGroup;
-			children = (
-				50D528F62449B11500F4A483 /* InterfaceController.swift */,
-				50D528F82449B11500F4A483 /* ExtensionDelegate.swift */,
-				50D528FA2449B11500F4A483 /* NotificationController.swift */,
-				50D528FC2449B11500F4A483 /* ComplicationController.swift */,
-				50D528FE2449B11600F4A483 /* Assets.xcassets */,
-				50D529002449B11600F4A483 /* Info.plist */,
-				50D529012449B11600F4A483 /* PushNotificationPayload.apns */,
-			);
-			path = "Protein WatchKit Extension";
 			sourceTree = "<group>";
 		};
 		50DB19912455CCAE00457ABD /* SearchVC */ = {
@@ -1393,16 +1218,8 @@
 		D79150432636AE1C0CFEEEB6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EDDB79D821220210C3235928 /* Pods-Protein.debug.xcconfig */,
-				FE2F3855D48C00A1CDF6459A /* Pods-Protein.release.xcconfig */,
-				393F8CA8CCBC010F32B2FABC /* Pods-Protein WatchKit App.debug.xcconfig */,
-				E6098CCCE1179E70C21A7B48 /* Pods-Protein WatchKit App.release.xcconfig */,
-				39BED2463576DA0F11B4B713 /* Pods-Protein WatchKit Extension.debug.xcconfig */,
-				68F31FC7414938DA1D933675 /* Pods-Protein WatchKit Extension.release.xcconfig */,
-				3A279863A119CF76E29E395F /* Pods-Protein-ProteinUITests.debug.xcconfig */,
-				64BCD1DD1F05F85BF4892208 /* Pods-Protein-ProteinUITests.release.xcconfig */,
-				9558EFD460A496FBCEC3F9E1 /* Pods-ProteinTests.debug.xcconfig */,
-				63BBEA3DF924921E3AD156F1 /* Pods-ProteinTests.release.xcconfig */,
+				9FE9E361AC99176C73CC05F5 /* Pods-Protein.debug.xcconfig */,
+				37CF9804DB204BBEB61F3729 /* Pods-Protein.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1414,100 +1231,22 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50D5290C2449B11600F4A483 /* Build configuration list for PBXNativeTarget "Protein" */;
 			buildPhases = (
-				9BFCB86F40911D339549B2D0 /* [CP] Check Pods Manifest.lock */,
+				6327EA640883B4C5A6BAE3F7 /* [CP] Check Pods Manifest.lock */,
 				50D528B42449B11300F4A483 /* Sources */,
 				50D528B52449B11300F4A483 /* Frameworks */,
 				50D528B62449B11300F4A483 /* Resources */,
 				50D5290B2449B11600F4A483 /* Embed Watch Content */,
 				5093A6EB246EC5690086C844 /* [Root] Package DEB And Send To Docker */,
-				13EF7E3AFE292164DAA4F5E7 /* [CP] Embed Pods Frameworks */,
+				DFA03838EE6270A5759155D7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				50D528E52449B11500F4A483 /* PBXTargetDependency */,
 			);
 			name = Protein;
 			productName = Protein;
 			productReference = 50D528B82449B11300F4A483 /* Saily.app */;
 			productType = "com.apple.product-type.application";
-		};
-		50D528CD2449B11500F4A483 /* ProteinTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 50D5290F2449B11600F4A483 /* Build configuration list for PBXNativeTarget "ProteinTests" */;
-			buildPhases = (
-				10FB5B8DC829B9A7204122FF /* [CP] Check Pods Manifest.lock */,
-				50D528CA2449B11500F4A483 /* Sources */,
-				50D528CB2449B11500F4A483 /* Frameworks */,
-				50D528CC2449B11500F4A483 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				50D528D02449B11500F4A483 /* PBXTargetDependency */,
-			);
-			name = ProteinTests;
-			productName = ProteinTests;
-			productReference = 50D528CE2449B11500F4A483 /* ProteinTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		50D528D82449B11500F4A483 /* ProteinUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 50D529122449B11600F4A483 /* Build configuration list for PBXNativeTarget "ProteinUITests" */;
-			buildPhases = (
-				DE28B7B07C7063D10E38D891 /* [CP] Check Pods Manifest.lock */,
-				50D528D52449B11500F4A483 /* Sources */,
-				50D528D62449B11500F4A483 /* Frameworks */,
-				50D528D72449B11500F4A483 /* Resources */,
-				588A26AEF77FD0A6308FD05B /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				50D528DB2449B11500F4A483 /* PBXTargetDependency */,
-			);
-			name = ProteinUITests;
-			productName = ProteinUITests;
-			productReference = 50D528D92449B11500F4A483 /* ProteinUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		50D528E12449B11500F4A483 /* Protein WatchKit App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 50D529082449B11600F4A483 /* Build configuration list for PBXNativeTarget "Protein WatchKit App" */;
-			buildPhases = (
-				47EF959F24B55C5B9EB8F6D4 /* [CP] Check Pods Manifest.lock */,
-				50D528E02449B11500F4A483 /* Resources */,
-				50D529072449B11600F4A483 /* Embed App Extensions */,
-				D4F7B87D46D92F2A6A381807 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				50D528F42449B11500F4A483 /* PBXTargetDependency */,
-			);
-			name = "Protein WatchKit App";
-			productName = "Protein WatchKit App";
-			productReference = 50D528E22449B11500F4A483 /* Protein WatchKit App.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		50D528F02449B11500F4A483 /* Protein WatchKit Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 50D529042449B11600F4A483 /* Build configuration list for PBXNativeTarget "Protein WatchKit Extension" */;
-			buildPhases = (
-				6E816B11A5988A32723F2EA7 /* [CP] Check Pods Manifest.lock */,
-				50D528ED2449B11500F4A483 /* Sources */,
-				50D528EE2449B11500F4A483 /* Frameworks */,
-				50D528EF2449B11500F4A483 /* Resources */,
-				B090906E795777F8689F3E80 /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Protein WatchKit Extension";
-			productName = "Protein WatchKit Extension";
-			productReference = 50D528F12449B11500F4A483 /* Protein WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1520,20 +1259,6 @@
 				ORGANIZATIONNAME = "Lakr Aream";
 				TargetAttributes = {
 					50D528B72449B11300F4A483 = {
-						CreatedOnToolsVersion = 11.3;
-					};
-					50D528CD2449B11500F4A483 = {
-						CreatedOnToolsVersion = 11.3;
-						TestTargetID = 50D528B72449B11300F4A483;
-					};
-					50D528D82449B11500F4A483 = {
-						CreatedOnToolsVersion = 11.3;
-						TestTargetID = 50D528B72449B11300F4A483;
-					};
-					50D528E12449B11500F4A483 = {
-						CreatedOnToolsVersion = 11.3;
-					};
-					50D528F02449B11500F4A483 = {
 						CreatedOnToolsVersion = 11.3;
 					};
 				};
@@ -1556,10 +1281,6 @@
 			projectRoot = "";
 			targets = (
 				50D528B72449B11300F4A483 /* Protein */,
-				50D528CD2449B11500F4A483 /* ProteinTests */,
-				50D528D82449B11500F4A483 /* ProteinUITests */,
-				50D528E12449B11500F4A483 /* Protein WatchKit App */,
-				50D528F02449B11500F4A483 /* Protein WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -1591,99 +1312,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		50D528CC2449B11500F4A483 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528D72449B11500F4A483 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528E02449B11500F4A483 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50D528EB2449B11500F4A483 /* Assets.xcassets in Resources */,
-				50D528E92449B11500F4A483 /* Interface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528EF2449B11500F4A483 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50D528FF2449B11600F4A483 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		10FB5B8DC829B9A7204122FF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ProteinTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		13EF7E3AFE292164DAA4F5E7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Protein/Pods-Protein-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		47EF959F24B55C5B9EB8F6D4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Protein WatchKit App-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		5093A6EB246EC5690086C844 /* [Root] Package DEB And Send To Docker */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1702,44 +1333,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$LK_DEBUG_ROOT\" == \"YES\" ] && [ \"$PLATFORM_NAME\" != \"iphonesimulator\" ] && [ \"$TARGET_DEVICE_IDENTIFIER\" == \"\" ]; then\n    echo \"Starting debug packaging\"\n    rm -rf \"$LOCROOT/temps/ixcbuild\"\n    mkdir -p \"$LOCROOT/temps/ixcbuild\"\n    cp -r \"$BUILT_PRODUCTS_DIR\"/* \"$LOCROOT/temps/ixcbuild\"\n    find \"$LOCROOT/temps/ixcbuild\" -exec codesign --remove-signature {} + || true\n    find \"$LOCROOT/temps/ixcbuild\" -exec ldid -S$LOCROOT/Protein/CodeSign.RootDebug.plist {} &> /dev/null + || true\n    TIME=$(date +%s)\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    mkdir -p \"$LOCROOT/temps/dpkg-build/$TIME/bin\"\n    cp \"$LOCROOT/Attachments/openApplication\" \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    chmod +x \"$LOCROOT/temps/dpkg-build/$TIME/bin/\"\n    cp -r \"$LOCROOT/temps/ixcbuild\"/*.app \"$LOCROOT/temps/dpkg-build/$TIME/Applications\"\n    cp -r \"$LOCROOT/DEBIAN\" \"$LOCROOT/temps/dpkg-build/$TIME\"\n    export ORIG_VERSION=$(grep -i \"^Version: \" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control)\n    export NEW_VERION=\"${ORIG_VERSION:9}-$TIME\"\n    echo $NEW_VERION\n    awk \"!/^Version: /\" $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control > $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new\n    mv $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control_new $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    cat $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    printf \"Version: ${NEW_VERION}\\n\" >> $LOCROOT/temps/dpkg-build/$TIME/DEBIAN/control\n    chmod -R 755 \"$LOCROOT/temps/dpkg-build/$TIME/DEBIAN\"\n    mkdir -p \"$LOCROOT/temps/dpkg\"\n    dpkg-deb -Zgzip -b \"$LOCROOT/temps/dpkg-build/$TIME\" \"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n    export DEB_LOCATION=\"$LOCROOT/temps/dpkg/Protein-iXC-$TIME.deb\"\n\n    echo \"Starting Docker Build Process\"\n    \n    if [ \"$DOCKER_SHOULD_BUILD\" == \"YES\" ]; then\n        mkdir -p \"$LOCROOT/Pipeline/Dockers/Buildtime/\"\n        bash \"$LOCROOT/Pipeline/Dockers/build.sh\" &> \"$LOCROOT/Pipeline/Dockers/Buildtime/logs.txt\"\n    fi\n    \nfi\n";
 		};
-		588A26AEF77FD0A6308FD05B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Protein-ProteinUITests/Pods-Protein-ProteinUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E816B11A5988A32723F2EA7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Protein WatchKit Extension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9BFCB86F40911D339549B2D0 /* [CP] Check Pods Manifest.lock */ = {
+		6327EA640883B4C5A6BAE3F7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1761,7 +1355,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B090906E795777F8689F3E80 /* [CP] Embed Pods Frameworks */ = {
+		DFA03838EE6270A5759155D7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1773,29 +1367,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Protein WatchKit Extension/Pods-Protein WatchKit Extension-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE28B7B07C7063D10E38D891 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Protein-ProteinUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Protein/Pods-Protein-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1950,58 +1522,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		50D528CA2449B11500F4A483 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50D528D32449B11500F4A483 /* ProteinTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528D52449B11500F4A483 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50D528DE2449B11500F4A483 /* ProteinUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		50D528ED2449B11500F4A483 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50D528FB2449B11500F4A483 /* NotificationController.swift in Sources */,
-				50D528FD2449B11500F4A483 /* ComplicationController.swift in Sources */,
-				50D528F92449B11500F4A483 /* ExtensionDelegate.swift in Sources */,
-				50D528F72449B11500F4A483 /* InterfaceController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		50D528D02449B11500F4A483 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 50D528B72449B11300F4A483 /* Protein */;
-			targetProxy = 50D528CF2449B11500F4A483 /* PBXContainerItemProxy */;
-		};
-		50D528DB2449B11500F4A483 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 50D528B72449B11300F4A483 /* Protein */;
-			targetProxy = 50D528DA2449B11500F4A483 /* PBXContainerItemProxy */;
-		};
-		50D528E52449B11500F4A483 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			platformFilter = ios;
-			target = 50D528E12449B11500F4A483 /* Protein WatchKit App */;
-			targetProxy = 50D528E42449B11500F4A483 /* PBXContainerItemProxy */;
-		};
-		50D528F42449B11500F4A483 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 50D528F02449B11500F4A483 /* Protein WatchKit Extension */;
-			targetProxy = 50D528F32449B11500F4A483 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		507F1DD9247D493600E9BAE7 /* Localizable.strings */ = {
@@ -2033,15 +1554,6 @@
 				507F1DD5247D48F300E9BAE7 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		50D528E72449B11500F4A483 /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				50D528E82449B11500F4A483 /* Base */,
-				507F1DD6247D48F300E9BAE7 /* zh-Hans */,
-			);
-			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -2163,99 +1675,13 @@
 			};
 			name = Release;
 		};
-		50D529052449B11600F4A483 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 39BED2463576DA0F11B4B713 /* Pods-Protein WatchKit Extension.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				INFOPLIST_FILE = "Protein WatchKit Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.Protein.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
-			};
-			name = Debug;
-		};
-		50D529062449B11600F4A483 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 68F31FC7414938DA1D933675 /* Pods-Protein WatchKit Extension.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				INFOPLIST_FILE = "Protein WatchKit Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.Protein.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
-			};
-			name = Release;
-		};
-		50D529092449B11600F4A483 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 393F8CA8CCBC010F32B2FABC /* Pods-Protein WatchKit App.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				IBSC_MODULE = Protein_WatchKit_Extension;
-				INFOPLIST_FILE = "Protein WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.Protein.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
-			};
-			name = Debug;
-		};
-		50D5290A2449B11600F4A483 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6098CCCE1179E70C21A7B48 /* Pods-Protein WatchKit App.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				IBSC_MODULE = Protein_WatchKit_Extension;
-				INFOPLIST_FILE = "Protein WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.Protein.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
-			};
-			name = Release;
-		};
 		50D5290D2449B11600F4A483 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDDB79D821220210C3235928 /* Pods-Protein.debug.xcconfig */;
+			baseConfigurationReference = 9FE9E361AC99176C73CC05F5 /* Pods-Protein.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Protein/Protein.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ2J5N72GP;
 				DOCKER_SHOULD_BUILD = NO;
@@ -2279,7 +1705,7 @@
 		};
 		50D5290E2449B11600F4A483 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE2F3855D48C00A1CDF6459A /* Pods-Protein.release.xcconfig */;
+			baseConfigurationReference = 37CF9804DB204BBEB61F3729 /* Pods-Protein.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Protein/Protein.entitlements;
@@ -2303,94 +1729,6 @@
 			};
 			name = Release;
 		};
-		50D529102449B11600F4A483 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9558EFD460A496FBCEC3F9E1 /* Pods-ProteinTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				INFOPLIST_FILE = ProteinTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.ProteinTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Protein.app/Protein";
-			};
-			name = Debug;
-		};
-		50D529112449B11600F4A483 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63BBEA3DF924921E3AD156F1 /* Pods-ProteinTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				INFOPLIST_FILE = ProteinTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.ProteinTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Protein.app/Protein";
-			};
-			name = Release;
-		};
-		50D529132449B11600F4A483 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A279863A119CF76E29E395F /* Pods-Protein-ProteinUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				INFOPLIST_FILE = ProteinUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.ProteinUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Protein;
-			};
-			name = Debug;
-		};
-		50D529142449B11600F4A483 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64BCD1DD1F05F85BF4892208 /* Pods-Protein-ProteinUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CQ2J5N72GP;
-				INFOPLIST_FILE = ProteinUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.ProteinUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Protein;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2403,47 +1741,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		50D529042449B11600F4A483 /* Build configuration list for PBXNativeTarget "Protein WatchKit Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				50D529052449B11600F4A483 /* Debug */,
-				50D529062449B11600F4A483 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		50D529082449B11600F4A483 /* Build configuration list for PBXNativeTarget "Protein WatchKit App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				50D529092449B11600F4A483 /* Debug */,
-				50D5290A2449B11600F4A483 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		50D5290C2449B11600F4A483 /* Build configuration list for PBXNativeTarget "Protein" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				50D5290D2449B11600F4A483 /* Debug */,
 				50D5290E2449B11600F4A483 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		50D5290F2449B11600F4A483 /* Build configuration list for PBXNativeTarget "ProteinTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				50D529102449B11600F4A483 /* Debug */,
-				50D529112449B11600F4A483 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		50D529122449B11600F4A483 /* Build configuration list for PBXNativeTarget "ProteinUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				50D529132449B11600F4A483 /* Debug */,
-				50D529142449B11600F4A483 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

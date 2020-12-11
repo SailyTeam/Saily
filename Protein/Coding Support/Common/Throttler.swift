@@ -9,44 +9,62 @@
 
 class CommonThrottler {
 
-    @Atomic private var workItem: DispatchWorkItem = DispatchWorkItem(block: {})
-//    private var lock: NSLock = NSLock()
-    private var previousRun: Date = Date.distantPast
-    private let queue: DispatchQueue
-    private let minimumDelay: TimeInterval
-
+    private var _assignment: (() -> ())? = nil
+    private var _assignmentLock = NSLock()
+    private var assignment:(() -> ())? {
+        set {
+            _assignmentLock.lock()
+            defer { _assignmentLock.unlock() }
+            _assignment = newValue
+        }
+        get {
+            _assignmentLock.lock()
+            defer { _assignmentLock.unlock() }
+            return _assignment
+        }
+    }
+    private var minimumDelay: TimeInterval
+    private var workingQueue: DispatchQueue
+    private var executeLock: NSLock = NSLock()
+    private var lastExecute: Date?
+    private var lastLoadBlocked: Bool = false
+    private var scheduled: Bool = false
+    
     init(minimumDelay: TimeInterval, queue: DispatchQueue = DispatchQueue.main) {
         self.minimumDelay = minimumDelay
-        self.queue = queue
-    }
-
-    deinit {
-        
+        self.workingQueue = queue
     }
     
-    func throttle(_ block: @escaping () -> Void) {
-        
-        let priv = workItem
-        // Re-assign workItem with the new block task, resetting the previousRun time when it executes
-        let item = DispatchWorkItem() {
-            [weak self] in
-            self?.previousRun = Date()
-            block()
+    func throttle(job: (() -> ())?) {
+        assignment = job
+        executeLock.lock()
+        defer { executeLock.unlock() }
+        guard let capture = job else {
+            return
         }
-        
-        // Cancel any existing work item if it has not yet executed
-//        lock.lock()
-//        workItem.cancel()
-        workItem = item
-        priv.cancel()
-//        lock.unlock()
-        
-        // If the time since the previous run is more than the required minimum delay
-        // => execute the workItem immediately
-        // else
-        // => delay the workItem execution by the minimum delay time
-        let delay = previousRun.timeIntervalSinceNow > minimumDelay ? 0 : minimumDelay
-        queue.asyncAfter(deadline: .now() + Double(delay), execute: item)
-        
+        if let lastExec = lastExecute {
+            let val = abs(lastExec.timeIntervalSinceNow)
+            if val < minimumDelay {
+                lastLoadBlocked = true
+                if !scheduled {
+                    scheduled = true
+                    workingQueue.asyncAfter(deadline: .now() + (minimumDelay - val)) {
+                        self.throttle(job: capture)
+                        self.scheduled = false
+                    }
+                }
+                return
+            }
+            lastExecute = Date()
+            workingQueue.async {
+                capture()
+            }
+        } else {
+            lastExecute = Date()
+            workingQueue.async {
+                capture()
+            }
+        }
     }
+    
 }

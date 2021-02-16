@@ -39,7 +39,7 @@ If you are experiencing any issues regarding Saily, and would like to file a bug
 
 "Your next bug is not a bug, it's a feature." - Apple Inc.
 
-<img src="./Attachments/bugsnag.png" alt="" width="100"/>
+<img src="./Attachments/bugsnag.png" alt="" width="980"/>
 
 Additionally, we are using [bugsnag](https://www.bugsnag.com/) for bug/crash tracking in application. It is disabled by default and can only be enabled in setting page by yourself. Privacy licenses are additionally applied there, TL;DR, the diagnostic data is anonymous and will not be able to trace you back.
 

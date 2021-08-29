@@ -1,0 +1,7 @@
+[update]
+tasks = ["code"]
+
+[update.code]
+codePaths = ["."]
+localizablePaths = ["."]
+

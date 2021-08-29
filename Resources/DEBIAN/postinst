@@ -1,0 +1,28 @@
+#!/bin/bash
+
+APP_PATH="/Applications/chromatic.app"
+
+if [ -d "$APP_PATH" ]; then
+    chown -R root:wheel /Applications/chromatic.app
+    chmod -R 755 /Applications/chromatic.app
+else
+    echo "Binary not found at $APP_PATH"
+fi
+
+ROOT_BINARY="/usr/sbin/chromaticspawn"
+if [ -f "$ROOT_BINARY" ]; then
+    chmod 755 "$ROOT_BINARY"
+    chown root:wheel "$ROOT_BINARY"
+    chmod +s "$ROOT_BINARY"
+else 
+    echo "Binary not found at $ROOT_BINARY"
+fi
+
+# if file exists at /tmp/.chromatic.update 
+if [ -f "/tmp/.chromatic.update" ]; then
+    echo "[*] skipping uicache"
+else
+    echo "[*] rebuilding home screen..."
+    uicache -p /Applications/chromatic.app
+    echo "[*] completed"
+fi

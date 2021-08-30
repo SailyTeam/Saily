@@ -212,7 +212,7 @@
 "INSTALLED" = "Installed";
 
 /* Last Modification */
-"LAST_MODIFICATION" = "Last Modification";
+"LAST_MODIFICATION" = "Last Modified";
 
 /* Last Update */
 "LAST_UPDATE" = "Last Update";
@@ -230,13 +230,13 @@
 "MAINTAINER" = "Maintainer";
 
 /* Manage Account Info */
-"MANAGE_ACCOUNT_INFO" = "Manage Account Info";
+"MANAGE_ACCOUNT_INFO" = "Manage Accounts";
 
 /* Manual Input */
 "MANUAL_INPUT" = "Manual Input";
 
 /* Enter the software source address manually here and use line feed to split multiple addresses */
-"MANUAL_INPUT_DESCRIPTION" = "Enter the software source address manually here and use line feed to split multiple addresses";
+"MANUAL_INPUT_DESCRIPTION" = "Enter the software source address manually here and use new lines for each address";
 
 /* Name */
 "NAME" = "Name";
@@ -276,7 +276,7 @@
 "NUMBER" = "Number";
 
 /* Open Download */
-"OPEN_DOWNLOAD" = "Open Download";
+"OPEN_DOWNLOAD" = "Open Downloads Folder";
 
 /* Operation */
 "OPERATION" = "Operation";
@@ -348,7 +348,7 @@
 "REBUILD_ICONS" = "Rebuild Icons";
 
 /* Recent Update */
-"RECENT_UPDATE" = "Recent Update";
+"RECENT_UPDATE" = "Recent Updates";
 
 /* Recover blockade resources */
 "RECOVER_BLOCKADE_RESOURCES" = "Recover blockade resources";
@@ -363,7 +363,7 @@
 "RELOAD_ALL_ICON_CACHE" = "Reload All Icon Cache";
 
 /* Reload Desktop */
-"RELOAD_DESKTOP" = "Reload Desktop";
+"RELOAD_DESKTOP" = "Reload Home Screen";
 
 /* Reload Home Screen */
 "RELOAD_HOMESCREEN" = "Reload Home Screen";
@@ -384,7 +384,7 @@
 "REMOVE_AVATAR" = "Remove Avatar";
 
 /* Repo Collections */
-"REPO_COLLECTIONS" = "Repo Collections";
+"REPO_COLLECTIONS" = "Repo Collection";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
 "REPO_DESCRIPTION" = "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe. They may damage your system or equipment, making it impossible to recover.";
@@ -393,7 +393,7 @@
 "REPOSITORY" = "Repository";
 
 /* Request Install */
-"REQUEST_INSTALL" = "Request Install";
+"REQUEST_INSTALL" = "Install Requests";
 
 /* Request Remove */
 "REQUEST_REMOVE" = "Request Removal";
@@ -408,7 +408,7 @@
 "SEARCH" = "Search";
 
 /* Search for everything by an author with name. */
-"SEARCH_GUIDE_AUTHOR" = "Search for everything by an author with name.";
+"SEARCH_GUIDE_AUTHOR" = "Search for everything by author.";
 
 /* Search in your favorite collection. */
 "SEARCH_GUIDE_FAVORITE" = "Search in your favorite collection.";
@@ -417,7 +417,7 @@
 "SEARCH_GUIDE_PACAKGE" = "Search for packages with name or description.";
 
 /* Search for a repository with url or description. */
-"SEARCH_GUIDE_REPO" = "Search for a repository with url or description.";
+"SEARCH_GUIDE_REPO" = "Search for repositories by url or description.";
 
 /* Search Installed */
 "SEARCH_INSTALLED" = "Search Installed";
@@ -429,7 +429,7 @@
 "SET_GRAVATAR" = "Set Gravatar";
 
 /* Setting */
-"SETTING" = "Setting";
+"SETTING" = "Settings";
 
 /* Settings */
 "SETTINGS" = "Settings";
@@ -438,7 +438,7 @@
 "SIGN_OUT" = "Sign Out";
 
 /* Signin Failed */
-"SIGNIN_FAILED" = "Sign in Failed";
+"SIGNIN_FAILED" = "Sign-in Failed";
 
 /* Smart Refresh */
 "SMART_REFRESH" = "Smart Refresh";
@@ -471,7 +471,7 @@
 "TASKS" = "Tasks";
 
 /* This operation cannot be undone */
-"THIS_OPERATION_CANNOT_BE_UNDONE" = "This operation cannot be undone";
+"THIS_OPERATION_CANNOT_BE_UNDONE" = "This operation cannot be undone.";
 
 /* This will delete all history */
 "THIS_WILL_DELETE_ALL_HISTORY" = "This will delete all history";
@@ -522,7 +522,7 @@
 "WARNING" = "Warning";
 
 /* While the world sleeps, we dream! */
-"WELCOME_CARD_DESC" = "While the world sleeps, we dream!";
+"WELCOME_CARD_DESC" = "While the world sleeps, we dream.";
 
 /* Welcome to Saily! */
 "WELCOME_CARD_TITLE" = "Welcome to Saily!";

@@ -11,25 +11,25 @@
 "ADD" = "Add";
 
 /* Additional Install */
-"ADDITIONAL_INSTALL" = "Additional Install";
+"ADDITIONAL_INSTALL" = "Dependencies";
 
 /* Additional operations are appointed by package vender. */
-"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "Additional operations are appointed by package vender.";
+"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "Additional operations are appointed by package vendor.";
 
 /* Additional Remove */
-"ADDITIONAL_REMOVE" = "Additional Remove";
+"ADDITIONAL_REMOVE" = "Conflicts";
 
 /* All Packages Up to Date */
 "ALL_PACKAGES_UP_TO_DATE" = "All Packages Up to Date";
 
 /* Allow Analysis */
-"ALLOW_ANALYSIS" = "Allow Analysis";
+"ALLOW_ANALYSIS" = "Allow Analytics";
 
 /* Apt Records */
-"APT_RECORDS" = "Apt Records";
+"APT_RECORDS" = "APT Records";
 
 /* Following software sources come from APT or other package managers */
-"APT_RECORDS_DESCRIPTION" = "Following software sources come from APT or other package managers";
+"APT_RECORDS_DESCRIPTION" = "The following software sources come from APT or other package managers";
 
 /* Author */
 "AUTHOR" = "Author";
@@ -38,7 +38,7 @@
 "AVAILABLE_VERSIONS" = "Available Versions";
 
 /* Begin install */
-"BEGIN_INSTALL" = "Begin install";
+"BEGIN_INSTALL" = "Begin installation";
 
 /* Begin uninstall */
 "BEGIN_UNINSTALL" = "Begin uninstall";
@@ -47,7 +47,7 @@
 "BLOCKADING_SYSTEM_APT_SOURCES" = "Blockading system apt sources";
 
 /* Broken Repo Removed */
-"BROKEN_REPO_REMOVED" = "Broken Repo Removed";
+"BROKEN_REPO_REMOVED" = "Broken Repos Removed";
 
 /* Broken Resource */
 "BROKEN_RESOURCE" = "Broken Resource";
@@ -68,7 +68,7 @@
 "CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "Change your keyword or refresh the repo.";
 
 /* Check Updates */
-"Check Updates" = "Check Updates";
+"Check Updates" = "Check For Updates";
 
 /* Clear */
 "CLEAR" = "Clear";
@@ -80,10 +80,10 @@
 "CLOSE" = "Close";
 
 /* Communicating with vender */
-"COMMUNICATING_WITH_VENDER" = "Communicating with vender";
+"COMMUNICATING_WITH_VENDER" = "Communicating with vendor";
 
 /* Concurrent Download */
-"CONCURRENT_DOWNLOAD" = "Concurrent Download";
+"CONCURRENT_DOWNLOAD" = "Concurrent Downloads";
 
 /* Configuring Application */
 "CONFIGURAING_APPLICATION" = "Configuring Application";
@@ -95,7 +95,7 @@
 "COPIED" = "Copied";
 
 /* Current Selected */
-"CURRENT_SELECTED" = "Current Selected";
+"CURRENT_SELECTED" = "Currently Selected";
 
 /* Dashboard */
 "DASHBOARD" = "Dashboard";
@@ -119,13 +119,13 @@
 "DIRECT_INSTALL" = "Direct Install";
 
 /* Disable history record will delete previous history records */
-"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "Disable history record will delete previous history records";
+"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "Disabling history record will delete previous history records";
 
 /* Dismiss */
 "DISMISS" = "Dismiss";
 
 /* Do again to force reload */
-"DO_AGAIN_TO_FORCE_RELOAD" = "Do again to force reload";
+"DO_AGAIN_TO_FORCE_RELOAD" = "Tap again to force reload";
 
 /* Done */
 "DONE" = "Done";
@@ -149,10 +149,10 @@
 "ENABLE_HISTORY" = "Enable History";
 
 /* Enable random device info will disable commercial operations */
-"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "Enable random device info will disable commercial operations";
+"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "Enabling random device info will disable commercial operations";
 
 /* Enable random device info will disable paid packages */
-"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_PAID_PACKAGES" = "Enable random device info will disable paid packages";
+"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_PAID_PACKAGES" = "Enabling random device info will disable paid packages";
 
 /* Enter a number */
 "ENTER_A_NUMBER" = "Enter a number";
@@ -282,7 +282,7 @@
 "OPERATION" = "Operation";
 
 /* Operation can not be complete with following reasons. */
-"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "Operation can not be complete with following reasons.";
+"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "Operation can not be completed for the following reasons.";
 
 /* Operation Queue */
 "OPERATION_QUEUE" = "Operation Queue";
@@ -306,7 +306,7 @@
 "PASTEBOARD_REPO_DESCRIPTION" = "We found these links in the clipboard, they may be the source of the software";
 
 /* Press add button above to add some */
-"PLEASE_ADD_REPO" = "Press add button above to add some";
+"PLEASE_ADD_REPO" = "Press the add button above to add some";
 
 /* Preparing Operations */
 "PREPARING_OPERATIONS" = "Preparing Operations";
@@ -387,7 +387,7 @@
 "REPO_COLLECTIONS" = "Repo Collections";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
-"REPO_DESCRIPTION" = "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover.";
+"REPO_DESCRIPTION" = "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe. They may damage your system or equipment, making it impossible to recover.";
 
 /* Repository */
 "REPOSITORY" = "Repository";
@@ -396,7 +396,7 @@
 "REQUEST_INSTALL" = "Request Install";
 
 /* Request Remove */
-"REQUEST_REMOVE" = "Request Remove";
+"REQUEST_REMOVE" = "Request Removal";
 
 /* Reset Colors */
 "RESET_COLORS" = "Reset Colors";
@@ -414,7 +414,7 @@
 "SEARCH_GUIDE_FAVORITE" = "Search in your favorite collection.";
 
 /* Search for a packages with name or description. */
-"SEARCH_GUIDE_PACAKGE" = "Search for a packages with name or description.";
+"SEARCH_GUIDE_PACAKGE" = "Search for packages with name or description.";
 
 /* Search for a repository with url or description. */
 "SEARCH_GUIDE_REPO" = "Search for a repository with url or description.";
@@ -438,7 +438,7 @@
 "SIGN_OUT" = "Sign Out";
 
 /* Signin Failed */
-"SIGNIN_FAILED" = "Signin Failed";
+"SIGNIN_FAILED" = "Sign in Failed";
 
 /* Smart Refresh */
 "SMART_REFRESH" = "Smart Refresh";
@@ -507,10 +507,10 @@
 "VALIDATING..." = "Validating...";
 
 /* verification failure occurred */
-"VERIFICATION_FAILURE_OCCURRED" = "verification failure occurred";
+"VERIFICATION_FAILURE_OCCURRED" = "Verification failure occurred";
 
 /* Package not available, contact vender for support */
-"VERNDER_PACKAGE_NOT_AVAILABLE" = "Package not available, contact vender for support";
+"VERNDER_PACKAGE_NOT_AVAILABLE" = "Package not available, contact vendor for support";
 
 /* Version */
 "VERSION" = "Version";

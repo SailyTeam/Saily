@@ -173,7 +173,7 @@
 "FAILED_VERIFY_PACKAGE" = "軟體驗證失敗";
 
 /* Features */
-"FEATURES" = "特色";
+"FEATURES" = "功能表";
 
 /* Files are hash verified before processing. */
 "FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "檔案處理前已經過哈希值驗證";

@@ -275,6 +275,7 @@
 		50FA2C6126BC3765003806D6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50FA2C6726BC383E003806D6 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		50FA2C6926BC398E003806D6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		B55BF87726E789C000BDD697 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -788,6 +789,7 @@
 				ja,
 				cs,
 				vi,
+				"zh-Hant",
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -975,6 +977,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5034020526BFE0EF00E8D02B /* en */,
+				B55BF87726E789C000BDD697 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

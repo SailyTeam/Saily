@@ -33,15 +33,10 @@ class TaskProcessor {
         internal init(install: [(String, URL)], remove: [String]) {
             self.install = install
             self.remove = remove
-            if install
+            requiresRestart = install
                 .map(\.0)
                 .contains(where: { $0.hasPrefix("wiki.qaq.chromatic") })
                 || remove.contains(where: { $0.hasPrefix("wiki.qaq.chromatic") })
-            {
-                requiresRestart = true
-            } else {
-                requiresRestart = false
-            }
         }
     }
 

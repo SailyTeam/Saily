@@ -10,10 +10,9 @@ import UIKit
 
 class LXDashboardController: DashboardController {
     override func viewDidLoad() {
+        super.viewDidLoad()
         navigationItem.hidesBackButton = true
         view.backgroundColor = cLXUIDefaultBackgroundColor
-
-        super.viewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {

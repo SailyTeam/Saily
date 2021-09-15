@@ -66,7 +66,7 @@ class DashboardController: UICollectionViewController, UICollectionViewDelegateF
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         collectionView.addSubview(refreshControl)
 
-        reloadDataSource()
+        reloadDataSource(wait: true)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadDataSource),

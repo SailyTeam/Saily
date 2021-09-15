@@ -24,8 +24,19 @@ extension DashboardController {
     }
 
     @objc
-    func reloadDataSource() {
-        dataSource = InterfaceBridge.dashbaordBuildDataSource(for: self)
-        collectionView.reloadData()
+    func reloadDataSource(wait: Bool = false) {
+        if wait {
+            let build = InterfaceBridge.dashbaordBuildDataSource(for: self)
+            dataSource = build
+            collectionView.reloadData()
+        } else {
+            DispatchQueue.global().async {
+                let build = InterfaceBridge.dashbaordBuildDataSource(for: self)
+                DispatchQueue.main.async {
+                    self.dataSource = build
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
 }

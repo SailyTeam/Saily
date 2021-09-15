@@ -131,6 +131,9 @@ public extension PackageCenter {
     ///   - current: current version
     /// - Returns: available updates
     func obtainUpdateForPackage(with identity: String, version current: String) -> [Package] {
+        if blockedUpdateTable.contains(identity) {
+            return []
+        }
         accessLock.lock()
         let fetch = summary[identity, default: [:]]
         accessLock.unlock()

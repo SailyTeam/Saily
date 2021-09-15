@@ -7,11 +7,17 @@
 //
 
 import Bugsnag
+import Dog
 import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Bugsnag.start()
+        if let userID = Bugsnag.user().id {
+            Dog.shared.join("Bugsnag", "user id: \(userID)")
+        } else {
+            Dog.shared.join("Bugsnag", "user id not available")
+        }
 
         // for pop up notifications
         prepareNotifications()

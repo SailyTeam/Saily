@@ -16,8 +16,7 @@ import UIKit
 class SearchController: UITableViewController {
     let cellId = UUID().uuidString
     let searchController = UISearchController()
-    let searchThrottle = Throttle(minimumDelay: 0.5, queue: .init(label: "wiki.qaq.search.serial"))
-    var previousSearchValue = "" {
+    @Atomic var previousSearchValue = "" {
         didSet {
             if previousSearchValue.count == 0 {
                 setSearchResult(with: [])
@@ -26,8 +25,9 @@ class SearchController: UITableViewController {
         }
     }
 
-    private var searchResults = [SearchResult]()
-    private let accessLock = NSLock()
+    @Atomic var searchToken: UUID? = nil
+
+    private var searchResults = [[SearchResult]]()
     let guider = SearchPlaceholder()
 
     @UserDefaultsWrapper(key: "wiki.qaq.chromatic.searchWithCaseSensitive", defaultValue: false)
@@ -58,8 +58,8 @@ class SearchController: UITableViewController {
         view.addSubview(guider)
         guider.snp.makeConstraints { x in
             x.centerX.equalToSuperview()
-            x.centerY.equalToSuperview().multipliedBy(0.5)
-            x.height.equalTo(200)
+            x.centerY.equalToSuperview().multipliedBy(0.6)
+            x.height.equalTo(300)
             x.width.equalTo(300)
         }
 
@@ -78,20 +78,71 @@ class SearchController: UITableViewController {
     }
 
     override func numberOfSections(in _: UITableView) -> Int {
-        1
+        let fetch = searchResults.count
+        if fetch > 0 { return fetch }
+        return 1
     }
 
     override func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        65
+        60
     }
 
-    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         if previousSearchValue.count > 0 {
-            let count = searchResults.count
-            return count > 0 ? count : 1
+            if section >= 0, section < searchResults.count {
+                return searchResults[section].count
+            }
+            if section == 0, searchResults.count == 0 {
+                return 1
+            }
+            return 0
         } else {
             return 0
         }
+    }
+
+    override func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section >= 0, section < searchResults.count {
+            let sectionData = searchResults[section]
+            guard sectionData.first != nil else { return 0 }
+            return 20
+        }
+        return 0
+    }
+
+    override func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section >= 0, section < searchResults.count {
+            let sectionData = searchResults[section]
+            guard let first = sectionData.first else { return nil }
+            let box = UIView()
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 12, weight: .semibold)
+            label.textColor = .gray.withAlphaComponent(0.5)
+            box.addSubview(label)
+            label.snp.makeConstraints { x in
+                x.leading.equalToSuperview().offset(15)
+                x.trailing.equalToSuperview().offset(-15)
+                x.centerY.equalToSuperview()
+            }
+            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+            box.addSubview(blurEffectView)
+            blurEffectView.snp.makeConstraints { x in
+                x.edges.equalToSuperview()
+            }
+            box.sendSubviewToBack(blurEffectView)
+            switch first.associatedValue {
+            case .author:
+                label.text = NSLocalizedString("AUTHOR", comment: "Author")
+            case .installed:
+                label.text = NSLocalizedString("INSTALLED", comment: "Installed")
+            case .package:
+                label.text = NSLocalizedString("PACKAGE", comment: "Package")
+            case .repository:
+                label.text = NSLocalizedString("REPOSITORY", comment: "Repository")
+            }
+            return box
+        }
+        return nil
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -100,7 +151,7 @@ class SearchController: UITableViewController {
         if searchResults.count == 0 {
             cell.makeEmptyHinter()
         } else {
-            cell.insertValue(with: searchResults[indexPath.row], token: token)
+            cell.insertValue(with: searchResults[indexPath.section][indexPath.row], token: token)
         }
         return cell
     }
@@ -108,8 +159,11 @@ class SearchController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if searchResults.count < 1 { return }
-        let object = searchResults[indexPath.row]
+        let object = searchResults[indexPath.section][indexPath.row]
         switch object.associatedValue {
+        case let .installed(package):
+            let target = PackageController(package: package)
+            present(next: target)
         case let .package(identity, repository):
             if let lookup = RepositoryCenter
                 .default
@@ -151,16 +205,14 @@ class SearchController: UITableViewController {
         }
     }
 
-    func setSearchResult(with value: [SearchResult]) {
+    private let reloadQueue = DispatchQueue(label: "wiki.qaq.tableView.realod.\(UUID())")
+    func setSearchResult(with value: [[SearchResult]]) {
         #if DEBUG
             Dog.shared.join(self, "\(value.count) result will be applied")
         #endif
-        accessLock.lock()
-        searchResults = value
         DispatchQueue.main.async { [self] in
-            tableView.reloadData { [self] in
-                accessLock.unlock()
-            }
+            self.searchResults = value // set it in main thread
+            tableView.reloadData()
         }
     }
 }
@@ -172,7 +224,7 @@ extension SearchController: UISearchControllerDelegate, UISearchResultsUpdating,
             .text?
             .trimmingCharacters(in: .whitespacesAndNewlines)
         {
-            searchThrottle.throttle {
+            DispatchQueue.global().async { [self] in
                 if self.previousSearchValue == text {
                     return
                 }
@@ -180,7 +232,9 @@ extension SearchController: UISearchControllerDelegate, UISearchResultsUpdating,
                 #if DEBUG
                     Dog.shared.join(self, "should search with text [\(text)]")
                 #endif
-                self.buildSearchResultWith(key: text)
+                let currentToken = UUID()
+                self.searchToken = currentToken
+                self.buildSearchResultWith(key: text, andToken: currentToken)
             }
         }
     }

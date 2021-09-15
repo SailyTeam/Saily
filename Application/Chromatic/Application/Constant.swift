@@ -13,6 +13,8 @@ let cWebLocationLicense = "https://raw.githubusercontent.com/SailyTeam/Saily/mas
 let cWebLocationDocs = "https://github.com/SailyTeam/Saily"
 let cWebLocationIssue = "https://github.com/SailyTeam/Saily/issues"
 
+let cLXUIDefaultBackgroundColor = UIColor(light: UIColor(red: 250, green: 250, blue: 250)!, dark: .black)
+
 let packageDefaultAvatar = UIImage(named: "mod")
 let preferredPopOverSize = CGSize(width: 700, height: 555)
 

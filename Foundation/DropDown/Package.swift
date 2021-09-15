@@ -19,7 +19,7 @@ let package = Package(
             path: "DropDown",
             exclude: ["Info.plist", "DropDown.h"],
             resources: [
-                .process("DropDown/resources"),
+                .process("resources"),
             ]
         ),
     ],

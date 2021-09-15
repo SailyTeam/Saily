@@ -37,6 +37,10 @@ import UIKit
      */
     @available(iOSApplicationExtension, unavailable)
     open class SPIndicatorView: UIView {
+        // MARK: - UIAppearance
+
+        @objc open dynamic var duration: TimeInterval = 1.5
+
         // MARK: - Properties
 
         /**
@@ -196,7 +200,11 @@ import UIKit
             return false
         }
 
-        open func present(duration: TimeInterval = SPIndicatorConfiguration.duration, haptic: SPIndicatorHaptic = .success, completion: (() -> Void)? = nil) {
+        open func present(haptic: SPIndicatorHaptic = .success, completion: (() -> Void)? = nil) {
+            present(duration: duration, haptic: haptic, completion: completion)
+        }
+
+        open func present(duration: TimeInterval, haptic: SPIndicatorHaptic = .success, completion: (() -> Void)? = nil) {
             if presentWindow == nil {
                 presentWindow = UIApplication.shared.keyWindow
             }

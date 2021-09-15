@@ -25,7 +25,7 @@ enum AppleAvatar {
             Dog.shared.join(self, "exec: \(str.trimmingCharacters(in: .whitespacesAndNewlines))", level: .verbose)
         }
         AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.chmod,
-                                   args: ["777", "\(toPath.path)"],
+                                   args: ["777", toPath.path],
                                    timeout: 3) { _ in }
     }
 }

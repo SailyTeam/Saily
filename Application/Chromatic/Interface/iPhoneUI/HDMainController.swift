@@ -29,83 +29,73 @@ class HDMainNavigator: UINavigationController {
     }
 }
 
-class HDMainController: UIViewController {
-    let container = UIScrollView()
-
-    let padding: CGFloat = 15
-
+class HDMainController: DashboardController {
+    var welcomeCard: WelcomeCard?
     let welcomeCardDropDownAnchor = UIView()
-    let recentUpdateView = RecentUpdateView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = cLXUIDefaultBackgroundColor
         title = NSLocalizedString("MAIN", comment: "Main")
-        view.backgroundColor = UIColor(light: .systemGray6, dark: .black)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .fluent(.settings24Regular),
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(rightButtonCall))
 
-        container.alwaysBounceVertical = true
-        view.addSubview(container)
-        container.snp.makeConstraints { x in
-            x.edges.equalToSuperview()
+        collectionView.contentInset = UIEdgeInsets(top: 200, left: 20, bottom: 50, right: 20)
+        searchBar.removeFromSuperview()
+
+        let welcome = WelcomeCard { [weak self] in
+            self?.onTouchAvatar()
+        } onTouchCard: { [weak self] in
+            self?.onTouchCard()
         }
 
-        var anchor = UIView()
-        container.addSubview(anchor)
-        anchor.snp.makeConstraints { x in
-            x.leading.equalTo(self.view).offset(padding)
-            x.trailing.equalTo(self.view).offset(-padding)
-            x.top.equalTo(container)
-            x.height.equalTo(0)
-        }
-        let safeAnchor = anchor
+        welcomeCard = welcome
 
-        // MARK: - APPLE CARD
-
-        let welcomeView = WelcomeCard(onTouchAvatar: { self.onTouchAvatar() },
-                                      onTouchCard: { self.onTouchCard() })
-        container.addSubview(welcomeView)
-        welcomeView.snp.makeConstraints { x in
-            x.leading.equalTo(safeAnchor)
-            x.trailing.equalTo(safeAnchor)
-            x.top.equalTo(anchor.snp.bottom)
-            x.height.equalTo(188)
+        collectionView.addSubview(welcome)
+        welcome.snp.makeConstraints { x in
+            x.left.equalTo(view).offset(20)
+            x.right.equalTo(view).offset(-20)
+            x.bottom.equalTo(collectionView.snp.top)
+            x.height.equalTo(200)
         }
-        anchor = welcomeView
-        container.addSubview(welcomeCardDropDownAnchor)
+
+        collectionView.addSubview(welcomeCardDropDownAnchor)
         welcomeCardDropDownAnchor.snp.makeConstraints { x in
-            x.leading.equalTo(safeAnchor)
-            x.width.equalTo(280)
-            x.top.equalTo(welcomeView.snp.bottom).offset(10)
-            x.height.equalTo(0)
+            x.left.equalTo(view).offset(20)
+            x.right.equalTo(view).offset(-20)
+            x.bottom.equalTo(collectionView.snp.top).offset(10)
+            x.height.equalTo(5)
         }
 
-        // MARK: - FEATURES
-
-        let recentUpdate = UILabel()
-        recentUpdate.text = NSLocalizedString("PACKAGES", comment: "Packages")
-        recentUpdate.font = .systemFont(ofSize: 18, weight: .semibold)
-        recentUpdate.textAlignment = .left
-        container.addSubview(recentUpdate)
-        recentUpdate.snp.makeConstraints { x in
-            x.leading.equalTo(safeAnchor.snp.leading)
-            x.width.equalTo(188)
-            x.height.equalTo(35)
-            x.top.equalTo(anchor.snp.bottom).offset(5)
+        DispatchQueue.main.async {
+            self.updateWelcomeCardHeight()
         }
-        anchor = recentUpdate
+    }
 
-        container.addSubview(recentUpdateView)
-        recentUpdateView.snp.makeConstraints { x in
-            x.leading.equalTo(safeAnchor)
-            x.trailing.equalTo(safeAnchor)
-            x.top.equalTo(anchor.snp.bottom).offset(5)
-            x.height.equalTo(60)
+    var updateDecision: CGSize?
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        DispatchQueue.main.async {
+            if self.updateDecision != self.view.frame.size {
+                self.updateDecision = self.view.frame.size
+                self.updateWelcomeCardHeight()
+            }
         }
-        anchor = recentUpdateView
+    }
+
+    func updateWelcomeCardHeight() {
+        var height: CGFloat = 200
+        let frame = view.frame.width - 30
+        height = frame * 0.55
+        if height < 150 { height = 150 }
+        if height > 250 { height = 250 }
+        welcomeCard?.snp.updateConstraints { x in
+            x.height.equalTo(height)
+        }
+        collectionView.contentInset = UIEdgeInsets(top: height, left: 20, bottom: 50, right: 20)
     }
 
     @objc
@@ -119,6 +109,15 @@ class HDMainController: UIViewController {
     }
 
     func onTouchCard() {
-        SharedFunction.appleCardTouched(dropDownAnchor: welcomeCardDropDownAnchor)
+        InterfaceBridge.appleCardTouched(dropDownAnchor: welcomeCardDropDownAnchor)
+    }
+
+    override func collectionView(_: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView
+            .dequeueReusableCell(withReuseIdentifier: packageCellID, for: indexPath)
+            as! PackageCollectionCell
+        cell.prepareForNewValue()
+        cell.loadValue(package: dataSource[indexPath.section].package[indexPath.row])
+        return cell
     }
 }

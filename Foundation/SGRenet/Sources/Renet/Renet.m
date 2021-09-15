@@ -12,7 +12,7 @@
 
 @implementation SGRenet
 
-+ (int)resolveNetworkProblmeForAppWithBundleId:(NSString *)bundleId {
++ (int)resolveNetworkProblemForAppWithBundleId:(NSString *)bundleId {
 	NSBundle *cellularBundle = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/SettingsCellular.framework"];
 	if (![cellularBundle load]) {
 		cellularBundle = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/Preferences.framework"];

@@ -52,7 +52,7 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
         }
     }
 
-    // MARK: SORT OPTION -
+    // MARK: - PROPERTY
 
     @UserDefaultsWrapper(key: "wiki.qaq.chromatic.searchWithCaseSensitive", defaultValue: false)
     var searchWithCaseSensitive: Bool
@@ -82,6 +82,7 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
 
     let refreshControl = UIRefreshControl()
 
+    var collectionViewFrameCache: CGSize?
     var collectionViewCellSizeCache = CGSize()
 
     init() {
@@ -98,7 +99,7 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
     @objc
     func justReload() {
         DispatchQueue.main.async { [self] in
-            updateSource()
+            updateSource(withSearchText: searchController.searchBar.searchTextField.text)
         }
     }
 
@@ -108,7 +109,7 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
             PackageCenter.default.realodLocalPackages()
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                updateSource()
+                updateSource(withSearchText: searchController.searchBar.searchTextField.text)
                 SPIndicator
                     .present(title: NSLocalizedString("INSTALLATION_INFO_REFRESHED", comment: "Installation Info Refreshed"),
                              message: "",
@@ -121,14 +122,7 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
 
     @objc
     func sendUpdate() {
-        let result = TaskManager.shared.updateEverything()
-        if result {
-            SPIndicator.present(title: NSLocalizedString("QUEUED", comment: "Queued"),
-                                preset: .done)
-        } else {
-            let target = PackageDiagnosticController()
-            present(next: target)
-        }
+        present(next: UpdateController())
     }
 
     @objc
@@ -141,8 +135,8 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
         let actions = SortOption.allCases
         dropDown.dataSource = actions
             .map { $0.convertToInterfaceString() }
-            // padding it 🥺
-            .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+
+            .invisibleSpacePadding()
         dropDown.selectionAction = { (index: Int, _: String) in
             guard index >= 0, index < actions.count else { return }
             let action = actions[index]

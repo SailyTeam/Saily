@@ -10,11 +10,17 @@ import AptRepository
 import UIKit
 
 extension InstalledController {
+    /// Update datasource in this routine
+    /// - Parameter withSearchText: search controller passed text
     func updateSource(withSearchText: String? = nil) {
-        var read = PackageCenter
+        let everything = PackageCenter
             .default
             .obtainInstalledPackageList()
-            .filter { !($0.latestMetadata?["tag"]?.contains("role::cydia") ?? false) }
+            .filter {
+                !($0.latestMetadata?["tag"]?.contains("role::cydia") ?? false)
+                    || (withSearchText?.hasPrefix("gsc") ?? false)
+            }
+        var read = everything
         if let search = withSearchText, search.count > 0 {
             searchFiltering(key: search, result: &read)
         }
@@ -57,7 +63,7 @@ extension InstalledController {
         }
         collectionView.reloadData()
         updateFound = false
-        updateLookup: for item in read {
+        updateLookup: for item in everything {
             guard let installInfo = PackageCenter
                 .default
                 .obtainPackageInstallationInfo(with: item.identity)

@@ -13,14 +13,14 @@ import UIKit
 extension SettingView {
     func setupPackages(anchor: inout UIView, safeAnchor: UIView) {
         let headline = UILabel()
-        headline.font = .systemFont(ofSize: 22, weight: .semibold)
+        headline.font = .systemFont(ofSize: 18, weight: .semibold)
         headline.text = NSLocalizedString("PACKAGES", comment: "Packages")
         addSubview(headline)
         headline.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor)
             x.right.equalTo(safeAnchor)
-            x.top.equalTo(anchor.snp.bottom).offset(12)
-            x.height.equalTo(60)
+            x.top.equalTo(anchor.snp.bottom).offset(10)
+            x.height.equalTo(40)
         }
         anchor = headline
 
@@ -93,10 +93,18 @@ extension SettingView {
                                                           }) { changeToOpen, _ in
             TaskManager.shared.automaticUpdateWhenAvailable = changeToOpen ?? false
         }
+        let blockedUpdate = SettingElement(iconSystemNamed: "hand.raised.fill",
+                                           text: NSLocalizedString("BLOCK_UPDATE", comment: "Block Update"),
+                                           dataType: .submenuWithAction,
+                                           initData: nil,
+                                           withAction: { _, _ in
+                                               self.parentViewController?.present(next: BlockUpdateController())
+                                           })
         addSubview(backgroundEffect)
         addSubview(openDownloadedPackages)
         addSubview(cleanAllDownload)
         addSubview(softwareAutoUpdateWhenLaunch)
+        addSubview(blockedUpdate)
         openDownloadedPackages.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left).offset(8)
             x.right.equalTo(safeAnchor.snp.right).offset(-8)
@@ -118,6 +126,13 @@ extension SettingView {
             x.height.equalTo(28)
         }
         anchor = softwareAutoUpdateWhenLaunch
+        blockedUpdate.snp.makeConstraints { x in
+            x.left.equalTo(safeAnchor.snp.left).offset(8)
+            x.right.equalTo(safeAnchor.snp.right).offset(-8)
+            x.top.equalTo(anchor.snp.bottom).offset(18)
+            x.height.equalTo(28)
+        }
+        anchor = blockedUpdate
         backgroundEffect.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left)
             x.right.equalTo(safeAnchor.snp.right)

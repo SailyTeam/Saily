@@ -38,6 +38,8 @@ class RepoAccountController: UIViewController {
             x.height.equalTo(0)
         }
 
+        var hasItem = false
+
         let repo = RepositoryCenter
             .default
             .obtainRepositoryUrls()
@@ -65,6 +67,7 @@ class RepoAccountController: UIViewController {
                 x.top.equalTo(anchor.snp.bottom).offset(10)
             }
             anchor = view
+            hasItem = true
         }
 
         container.addSubview(sizeControl)
@@ -77,6 +80,19 @@ class RepoAccountController: UIViewController {
         sizeControl.isHidden = true
         sizeControl.isUserInteractionEnabled = false
         updateContentSize()
+
+        if !hasItem {
+            let emptyIndicator = UIImageView()
+            emptyIndicator.tintColor = .gray.withAlphaComponent(0.2)
+            emptyIndicator.image = .init(systemName: "questionmark.circle.fill")
+            emptyIndicator.contentMode = .scaleAspectFit
+            view.addSubview(emptyIndicator)
+            emptyIndicator.snp.makeConstraints { x in
+                x.center.equalToSuperview()
+                x.width.equalTo(80)
+                x.height.equalTo(80)
+            }
+        }
     }
 
     override func viewDidLayoutSubviews() {

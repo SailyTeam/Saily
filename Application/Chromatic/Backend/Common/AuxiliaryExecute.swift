@@ -47,17 +47,20 @@ enum AuxiliaryExecute {
             let searchBegin = Date()
         #endif
 
-        searchPath.forEach { path in
-            guard let items = try? FileManager
-                .default
-                .contentsOfDirectory(atPath: path)
-            else {
-                return
-            }
-            for item in items {
-                let url = URL(fileURLWithPath: path)
-                    .appendingPathComponent(item)
-                allBinary[item] = url
+        do {
+            for path in searchPath {
+                // not forEach because of crash, but don't know if fixed.
+                guard let items = try? FileManager
+                    .default
+                    .contentsOfDirectory(atPath: path)
+                else {
+                    continue
+                }
+                for item in items {
+                    let url = URL(fileURLWithPath: path)
+                        .appendingPathComponent(item)
+                    allBinary[item] = url
+                }
             }
         }
 

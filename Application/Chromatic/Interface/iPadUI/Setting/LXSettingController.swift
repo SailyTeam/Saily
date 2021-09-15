@@ -11,7 +11,7 @@ import UIKit
 class LXSettingController: SettingController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(light: .white.withAlphaComponent(0.90), dark: .black)
+        view.backgroundColor = cLXUIDefaultBackgroundColor
         navigationItem.hidesBackButton = true
     }
 }

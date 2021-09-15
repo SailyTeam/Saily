@@ -2,32 +2,31 @@
 //  LXDashboardController.swift
 //  Chromatic
 //
-//  Created by Lakr Aream on 2021/8/10.
+//  Created by Lakr Aream on 2021/9/15.
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
 import UIKit
 
-class LXDashboardController: UIViewController {
+class LXDashboardController: DashboardController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        view.backgroundColor = UIColor(light: .white.withAlphaComponent(0.90), dark: .black)
-        title = NSLocalizedString("DASHBOARD", comment: "Dashboard")
-
-        setupSearchButton()
+        view.backgroundColor = cLXUIDefaultBackgroundColor
     }
 
-    func setupSearchButton() {
-        let item = UIBarButtonItem(image: UIImage.fluent(.search24Filled),
-                                   style: .plain,
-                                   target: self,
-                                   action: #selector(searchButton))
-        navigationItem.rightBarButtonItem = item
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationItem.largeTitleDisplayMode = .never
     }
 
-    @objc
-    func searchButton() {
-        navigationController?.pushViewController(SearchController())
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.shadowImage = nil
+        navigationItem.largeTitleDisplayMode = .always
     }
 }

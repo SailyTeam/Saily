@@ -33,15 +33,10 @@ class TaskProcessor {
         internal init(install: [(String, URL)], remove: [String]) {
             self.install = install
             self.remove = remove
-            if install
+            requiresRestart = install
                 .map(\.0)
                 .contains(where: { $0.hasPrefix("wiki.qaq.chromatic") })
                 || remove.contains(where: { $0.hasPrefix("wiki.qaq.chromatic") })
-            {
-                requiresRestart = true
-            } else {
-                requiresRestart = false
-            }
         }
     }
 
@@ -200,12 +195,22 @@ class TaskProcessor {
             for item in operation.install.map(\.0) {
                 if let path = lookup["\(item).list"] {
                     let full = "/Library/dpkg/info/\(path)"
+                    // get the content of the file which contains all the file installed by package
                     let read = (try? String(contentsOf: URL(fileURLWithPath: full))) ?? ""
                     read
+                        // separate by line
                         .components(separatedBy: "\n")
+                        // clean the line
                         .map { $0.trimmingCharacters(in: .whitespaces) }
+                        // check if is valid url
                         .map { URL(fileURLWithPath: $0) }
+                        // find if tweak install files into .app
                         .filter { $0.pathExtension == "app" }
+                        // check if it is in the right place
+                        // tweak may install file into SpringBoard.app etc etc
+                        // and cause problem if uicache bugged
+                        .filter { $0.path.hasPrefix("/Applications/") }
+                        // put them into the Set<String>
                         .forEach { modifiedAppList.insert($0.path) }
                 }
             }

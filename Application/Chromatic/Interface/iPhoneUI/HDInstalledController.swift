@@ -33,15 +33,7 @@ class HDInstalledNavigator: UINavigationController {
     @objc
     func updateAvailableUpdateBadge() {
         DispatchQueue.global().async {
-            let fetch = PackageCenter.default.obtainInstalledPackageList()
-            var count = 0
-            fetch.forEach { package in
-                guard let version = package.latestVersion else { return }
-                let candidates = PackageCenter
-                    .default
-                    .obtainUpdateForPackage(with: package.identity, version: version)
-                if candidates.count > 0 { count += 1 }
-            }
+            let count = InterfaceBridge.availableUpdateCount()
             DispatchQueue.main.async { [self] in
                 if count > 0 {
                     tabBarItem.badgeValue = String(count)

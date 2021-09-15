@@ -7,7 +7,6 @@
 //
 
 import AptRepository
-import SDWebImage
 import UIKit
 
 class PackageTableCell: UITableViewCell, PackageCellFunction {

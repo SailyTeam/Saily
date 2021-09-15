@@ -48,24 +48,34 @@ class LXMainController: UIViewController {
                                                name: .LXMainControllerSwitchInstalled,
                                                object: nil)
 
-        presentAsRoot(target: LXDashboardController())
+        presentAsRoot(target: dashboard)
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
+    private let dashboard = LXDashboardController()
+    private let setting = LXSettingController()
+    private let tasks = LXTaskController()
+    private let installed = LXInstalledController()
+
+    private var lastNotification: Notification?
+
     @objc
     func presentNewRootController(withNotification notification: Notification) {
+        lastNotification = notification
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.shadowImage = nil
         switch notification.name {
         case .LXMainControllerSwitchDashboard:
-            presentAsRoot(target: LXDashboardController())
+            presentAsRoot(target: dashboard)
         case .LXMainControllerSwitchSettings:
-            presentAsRoot(target: LXSettingController())
+            presentAsRoot(target: setting)
         case .LXMainControllerSwitchTasks:
-            presentAsRoot(target: LXTaskController())
+            presentAsRoot(target: tasks)
         case .LXMainControllerSwitchInstalled:
-            presentAsRoot(target: LXInstalledController())
+            presentAsRoot(target: installed)
         default:
             Dog.shared.join(self, "failed to obtain coordinated view controller, giving up with notification [\(notification.name)]", level: .error)
         }
@@ -75,6 +85,27 @@ class LXMainController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             self?.navigationController?.popToRootViewController(animated: false)
             self?.navigationController?.pushViewController(target, animated: false)
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // this is fix for
+        // https://github.com/SailyTeam/Saily/issues/40
+
+        debugPrint("\(#file) \(#function) \(#line)")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self = self else { return }
+            // check if there is no view controller exists
+            let top = self.navigationController?.topViewController
+            if top == self { // fatal if nil, don't handle it
+                if let notification = self.lastNotification {
+                    self.presentNewRootController(withNotification: notification)
+                } else {
+                    self.presentNewRootController(withNotification: Notification(name: .LXMainControllerSwitchDashboard))
+                }
+            }
         }
     }
 }

@@ -311,6 +311,7 @@ extension RepositoryCenter {
                         debugPrint("search path\(searchPath) with knockResult \(knockResult) getting \(builder.count)")
                         if builder.count > 0 {
                             packageStr = knockResult
+                            buildPackage = builder
                             completedSearchPath = searchPath
                             sem.signal()
                         }

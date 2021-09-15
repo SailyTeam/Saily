@@ -207,8 +207,8 @@ class OperationConsoleController: UIViewController {
         let actions = OperationConsoleController.allActions
         dropDown.dataSource = actions
             .map(\.text)
-            // padding it 🥺
-            .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+
+            .invisibleSpacePadding()
         dropDown.selectionAction = { [self] (index: Int, _: String) in
             guard index >= 0, index < actions.count else { return }
             let action = actions[index]

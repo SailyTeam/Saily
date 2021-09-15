@@ -10,12 +10,12 @@ import DropDown
 import SwiftMD5
 import UIKit
 
-extension SharedFunction {
+extension InterfaceBridge {
     static func appleCardTouched(dropDownAnchor: UIView) {
         let dropDown = DropDown()
         dropDown.dataSource = allCardOptions
             .map(\.text)
-            .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+            .invisibleSpacePadding()
         dropDown.anchorView = dropDownAnchor
         dropDown.selectionAction = { (index: Int, _: String) in
             allCardOptions[index].block(dropDownAnchor.parentViewController ?? UIViewController())
@@ -66,20 +66,20 @@ private let allCardOptions: [CardOptions] = [
         }))
         controller.present(alert, animated: true, completion: nil)
     }),
-    .init(text: NSLocalizedString("REMOVE_AVATAR", comment: "Remove Avatar"), block: { _ in
-        UserDefaults
-            .standard
-            .setValue(UIImage(named: "AppStoreIcon")!.pngData(),
-                      forKey: "wiki.qaq.chromatic.userAvatar")
-        NotificationCenter.default.post(name: .AppleCardAvatarUpdated,
-                                        object: nil,
-                                        userInfo: nil)
-    }),
     .init(text: NSLocalizedString("RELOAD_ICLOUD_AVATAR", comment: "Reload iCloud Avatar"), block: { _ in
         UserDefaults
             .standard
             .removeObject(forKey: "wiki.qaq.chromatic.userAvatar")
         AppleAvatar.prepareIconIfAvailable()
+        NotificationCenter.default.post(name: .AppleCardAvatarUpdated,
+                                        object: nil,
+                                        userInfo: nil)
+    }),
+    .init(text: NSLocalizedString("REMOVE_AVATAR", comment: "Remove Avatar"), block: { _ in
+        UserDefaults
+            .standard
+            .setValue(UIImage(named: "AppStoreIcon")!.pngData(),
+                      forKey: "wiki.qaq.chromatic.userAvatar")
         NotificationCenter.default.post(name: .AppleCardAvatarUpdated,
                                         object: nil,
                                         userInfo: nil)

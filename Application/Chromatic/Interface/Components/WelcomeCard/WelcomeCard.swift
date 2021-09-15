@@ -55,15 +55,13 @@ class WelcomeCard: UIView {
         }
 
         // headicon
-        headIconContainer.backgroundColor = .gray
-        headIconContainer.layer.cornerRadius = 34.5
-        headIconContainer.dropShadow(ofColor: .black, opacity: 0.16)
+        headIconContainer.layer.cornerRadius = 34
         addSubview(headIconContainer)
         headIconContainer.snp.makeConstraints { x in
             x.centerX.equalTo(self.snp.centerX)
             x.bottom.equalTo(self.snp.centerY).offset(20)
-            x.height.equalTo(69)
-            x.width.equalTo(69)
+            x.height.equalTo(68)
+            x.width.equalTo(68)
         }
 
         headIconView.contentMode = .scaleAspectFill

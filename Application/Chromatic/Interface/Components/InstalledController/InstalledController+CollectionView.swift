@@ -14,55 +14,24 @@ extension InstalledController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        if collectionView.size == collectionViewFrameCache {
+            return
+        }
+        collectionViewFrameCache = collectionView.size
         DispatchQueue.main.async {
             self.updateCellSize()
         }
     }
 
-    // MARK: - COLLECTION VIEW
-
     func updateCellSize() {
-        collectionViewCellSizeCache = collectionViewCalculatesCellSize()
+        let inset = collectionView.contentInset.left + collectionView.contentInset.right
+        collectionViewCellSizeCache = InterfaceBridge
+            .calculatesPackageCellSize(availableWidth: view.frame.width - inset)
+        debugPrint(collectionViewCellSizeCache)
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
-    func collectionViewCalculatesCellSize() -> CGSize {
-        let available = view.frame.width
-        var itemsPerRow: CGFloat = 1
-        let padding: CGFloat = 8
-        var result = CGSize()
-        result.width = 2000
-
-        // get me the itemsPerRow
-        let maximumWidth: CGFloat = 300 // soft limit
-        // | padding [minimalWidth] padding [minimalWidth] padding |
-        if available > maximumWidth * 2 + padding * 3 {
-            // just in case, dont loop forever
-            while result.width > maximumWidth, itemsPerRow <= 10 {
-                itemsPerRow += 1
-                // [minimalWidth] padding |
-                var recalculate = (available - padding) / itemsPerRow
-                // [minimalWidth]
-                recalculate -= padding
-                result.width = recalculate
-                result.height = result.width * 0.25
-            }
-        } else {
-            itemsPerRow = 1
-        }
-
-        // now, do the final math
-        var recalculate = (available - padding) / itemsPerRow
-        // [minimalWidth]
-        recalculate -= padding
-        result.width = recalculate
-        result.height = 50
-
-        // don't crash my app any how
-        if result.width < 0 { result.width = 0 }
-
-        return result
-    }
+    // MARK: - COLLECTION VIEW
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         collectionViewCellSizeCache
@@ -104,6 +73,7 @@ extension InstalledController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        debugPrint("\(#file) \(#function) \(indexPath)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PackageCollectionCell
         let fetch = dataSource[indexPath.section].package[indexPath.row]
         cell.prepareForNewValue()

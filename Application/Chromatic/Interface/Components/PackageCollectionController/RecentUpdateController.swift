@@ -9,30 +9,6 @@
 import AptRepository
 import UIKit
 
-class ReuseTimerHeaderView: UICollectionReusableView {
-    let label = UILabel()
-
-    override init(frame _: CGRect) {
-        super.init(frame: CGRect())
-        label.font = .roundedFont(ofSize: 12, weight: .semibold)
-        label.textColor = .gray
-        addSubview(label)
-        label.snp.makeConstraints { x in
-            x.leading.equalToSuperview().offset(10)
-            x.trailing.equalToSuperview().offset(-10)
-            x.centerY.equalToSuperview()
-            x.height.equalTo(20)
-        }
-    }
-
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) { fatalError() }
-
-    func loadText(_ str: String) {
-        label.text = str
-    }
-}
-
 class RecentUpdateController: PackageCollectionController {
     let formatter: DateFormatter = {
         var formatter = DateFormatter()
@@ -60,7 +36,9 @@ class RecentUpdateController: PackageCollectionController {
                                 withReuseIdentifier: headerIdentity)
     }
 
-    override func emptyItemBehavior() {}
+    override func updateGuiderOpacity() {
+        emptyElementGuider.isHidden = true
+    }
 
     func numberOfSections(in _: UICollectionView) -> Int {
         updateDataKeys.count
@@ -75,6 +53,7 @@ class RecentUpdateController: PackageCollectionController {
                                                                    withReuseIdentifier: headerIdentity,
                                                                    for: indexPath)
             as! ReuseTimerHeaderView
+        view.horizontalPadding = 5
         view.loadText(formatter.string(from: updateDataKeys[indexPath.section]))
         return view
     }

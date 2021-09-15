@@ -171,6 +171,8 @@ class RepoPaymentView: UIView {
                            let promoteTitle = authBanner["message"]
                         {
                             title.text = promoteTitle
+                        } else {
+                            title.text = repo.nickName
                         }
                         self.xjh.stopAnimating()
                         self.xjh.isHidden = true
@@ -220,7 +222,7 @@ class RepoPaymentView: UIView {
                                     },
                                     dataSource: paymentActions
                                         .map(\.text)
-                                        .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" })
+                                        .invisibleSpacePadding())
             dropDown.show(onTopOf: window)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 anchor.removeFromSuperview()

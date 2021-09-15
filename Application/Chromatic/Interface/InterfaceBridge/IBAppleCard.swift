@@ -10,12 +10,12 @@ import DropDown
 import SwiftMD5
 import UIKit
 
-extension SharedFunction {
+extension InterfaceBridge {
     static func appleCardTouched(dropDownAnchor: UIView) {
         let dropDown = DropDown()
         dropDown.dataSource = allCardOptions
             .map(\.text)
-            .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+            .invisibleSpacePadding()
         dropDown.anchorView = dropDownAnchor
         dropDown.selectionAction = { (index: Int, _: String) in
             allCardOptions[index].block(dropDownAnchor.parentViewController ?? UIViewController())

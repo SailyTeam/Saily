@@ -20,6 +20,8 @@ class PackageMenuAction {
         case remove
         case cancelQueue
         case versionControl
+        case blockUpdate
+        case unblockUpdate
 
         func describe() -> String {
             switch self {
@@ -39,6 +41,10 @@ class PackageMenuAction {
                 return NSLocalizedString("CANCEL_QUEUE", comment: "Cancel Queue")
             case .versionControl:
                 return NSLocalizedString("VERSION_CONTROL", comment: "Version Control")
+            case .blockUpdate:
+                return NSLocalizedString("BLOCK_UPDATE", comment: "Block Update")
+            case .unblockUpdate:
+                return NSLocalizedString("UNBLOCK_UPDATE", comment: "Unblock Update")
             }
         }
     }
@@ -350,6 +356,20 @@ class PackageMenuAction {
                   view.parentViewController?.present(next: target)
               },
               elegantForPerform: { _ in true }),
+
+        // MARK: - UPDATE CONTROL
+
+        .init(descriptor: .blockUpdate, block: { package, _ in
+            PackageCenter.default.blockedUpdateTable.append(package.identity)
+        }, elegantForPerform: { package in
+            !PackageCenter.default.blockedUpdateTable.contains(package.identity)
+        }),
+
+        .init(descriptor: .unblockUpdate, block: { package, _ in
+            PackageCenter.default.blockedUpdateTable.removeAll(package.identity)
+        }, elegantForPerform: { package in
+            PackageCenter.default.blockedUpdateTable.contains(package.identity)
+        }),
     ]
 
     // MARK: ACTIONS -

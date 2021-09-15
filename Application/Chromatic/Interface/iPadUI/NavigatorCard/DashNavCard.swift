@@ -6,6 +6,7 @@
 //  Copyright © 2020 Lakr Aream. All rights reserved.
 //
 
+import AptRepository
 import UIKit
 
 private let kCardSelectNotificationBlockDashboard = {
@@ -107,7 +108,14 @@ class DashNavCard: UIView {
                                                selector: #selector(updateTaskCardBadgeText),
                                                name: .TaskContainerChanged,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateAvailableUpdateBadge),
+                                               name: PackageCenter.packageRecordChanged,
+                                               object: nil)
+
         updateTaskCardBadgeText()
+        updateAvailableUpdateBadge()
     }
 
     deinit {
@@ -145,5 +153,19 @@ class DashNavCard: UIView {
     @objc private
     func updateTaskCardBadgeText() {
         taskCard.badgeText = String(TaskManager.shared.obtainTaskCount())
+    }
+
+    @objc private
+    func updateAvailableUpdateBadge() {
+        DispatchQueue.global().async {
+            let count = InterfaceBridge.availableUpdateCount()
+            DispatchQueue.main.async { [self] in
+                if count > 0 {
+                    instCard.badgeText = String(count)
+                } else {
+                    instCard.badgeText = "" // for animation
+                }
+            }
+        }
     }
 }

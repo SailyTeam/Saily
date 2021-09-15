@@ -1,5 +1,5 @@
 //
-//  SharedFunctionBase.swift
+//  IBBase.swift
 //  Chromatic
 //
 //  Created by Lakr Aream on 2021/8/29.
@@ -8,4 +8,4 @@
 
 import Foundation
 
-enum SharedFunction {}
+enum InterfaceBridge {}

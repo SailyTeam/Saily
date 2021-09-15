@@ -10,7 +10,12 @@ import AptRepository
 import UIKit
 
 class PackageCollectionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var dataSource: [Package] = []
+    var dataSource: [Package] = [] {
+        didSet {
+            updateGuiderOpacity()
+        }
+    }
+
     let cellId = UUID().uuidString
     var collectionViewCellSizeCache = CGSize()
 
@@ -24,6 +29,7 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
         return view
     }()
 
+    let emptyElementGuider = UIImageView()
     override func viewDidLoad() {
         super.viewDidLoad()
         if title?.count ?? 0 < 1 {
@@ -40,11 +46,10 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
         collectionView.snp.makeConstraints { x in
             x.edges.equalToSuperview()
         }
-        updateCellSize()
 
         if navigationController == nil {
             let bigTitle = UILabel()
-            bigTitle.text = NSLocalizedString("PACKAGES", comment: "Packages")
+            bigTitle.text = title ?? NSLocalizedString("PACKAGES", comment: "Packages")
             bigTitle.font = .systemFont(ofSize: 28, weight: .bold)
             view.addSubview(bigTitle)
             bigTitle.snp.makeConstraints { x in
@@ -55,29 +60,32 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
             }
             collectionView.snp.remakeConstraints { x in
                 x.top.equalTo(bigTitle.snp.bottom).offset(15)
-                x.leading.equalToSuperview().offset(15)
-                x.trailing.equalToSuperview().offset(-15)
+                x.leading.equalToSuperview().offset(10)
+                x.trailing.equalToSuperview().offset(-10)
                 x.bottom.equalToSuperview()
             }
         }
 
+        updateCellSize()
         collectionView.reloadData()
 
-        emptyItemBehavior()
+        emptyElementGuider.tintColor = .gray.withAlphaComponent(0.2)
+        emptyElementGuider.image = .init(systemName: "questionmark.circle.fill")
+        emptyElementGuider.contentMode = .scaleAspectFit
+        view.addSubview(emptyElementGuider)
+        emptyElementGuider.snp.makeConstraints { x in
+            x.center.equalToSuperview()
+            x.width.equalTo(80)
+            x.height.equalTo(80)
+        }
+        updateGuiderOpacity()
     }
 
-    func emptyItemBehavior() {
+    func updateGuiderOpacity() {
         if dataSource.count == 0 {
-            let imageView = UIImageView()
-            imageView.tintColor = .gray.withAlphaComponent(0.2)
-            imageView.image = .init(systemName: "questionmark.circle.fill")
-            imageView.contentMode = .scaleAspectFit
-            view.addSubview(imageView)
-            imageView.snp.makeConstraints { x in
-                x.center.equalToSuperview()
-                x.width.equalTo(80)
-                x.height.equalTo(80)
-            }
+            emptyElementGuider.isHidden = false
+        } else {
+            emptyElementGuider.isHidden = true
         }
     }
 
@@ -89,46 +97,14 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
     }
 
     func updateCellSize() {
-        collectionViewCellSizeCache = collectionViewCalculatesCellSize()
+        let inset: CGFloat = 15
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: inset, bottom: 10, right: inset)
+        collectionViewCellSizeCache = InterfaceBridge
+            // we are not inside UICollectionViewController
+            // so don't use collectionView.contentSize
+            // otherwise it will load all of the cells when boot
+            .calculatesPackageCellSize(availableWidth: view.frame.width - inset * 2)
         collectionView.collectionViewLayout.invalidateLayout()
-    }
-
-    func collectionViewCalculatesCellSize() -> CGSize {
-        let available = view.frame.width
-        var itemsPerRow: CGFloat = 1
-        let padding: CGFloat = 8
-        var result = CGSize()
-        result.width = 2000
-
-        // get me the itemsPerRow
-        let maximumWidth: CGFloat = 300 // soft limit
-        // | padding [minimalWidth] padding [minimalWidth] padding |
-        if available > maximumWidth * 2 + padding * 3 {
-            // just in case, dont loop forever
-            while result.width > maximumWidth, itemsPerRow <= 10 {
-                itemsPerRow += 1
-                // [minimalWidth] padding |
-                var recalculate = (available - padding) / itemsPerRow
-                // [minimalWidth]
-                recalculate -= padding
-                result.width = recalculate
-                result.height = result.width * 0.25
-            }
-        } else {
-            itemsPerRow = 1
-        }
-
-        // now, do the final math
-        var recalculate = (available - padding) / itemsPerRow
-        // [minimalWidth]
-        recalculate -= padding
-        result.width = recalculate
-        result.height = 50
-
-        // don't crash my app any how
-        if result.width < 0 { result.width = 0 }
-
-        return result
     }
 
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
@@ -136,6 +112,7 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        debugPrint("loading cell at \(indexPath)")
         let cell = collectionView
             .dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
             as! PackageCollectionCell

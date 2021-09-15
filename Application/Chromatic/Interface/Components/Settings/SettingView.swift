@@ -7,6 +7,7 @@
 //
 
 import AptRepository
+import Bugsnag
 import DropDown
 import MorphingLabel
 import UIKit
@@ -59,11 +60,12 @@ class SettingView: UIScrollView {
             let label = UILabel()
             label.font = .roundedFont(ofSize: 8, weight: .thin)
             label.textColor = .systemGray
-            label.numberOfLines = 4
+            label.numberOfLines = 5
             let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
             label.text =
                 """
                 \(Bundle.main.bundleIdentifier ?? "unknown bundle") - \(appVersion ?? "unknown bundle version")
+                BugsnagID <\(Bugsnag.user().id ?? "unknown user")>
                 [\(Bundle.main.bundleURL.path)]
                 [\(documentsDirectory.path)]
                 """
@@ -72,7 +74,7 @@ class SettingView: UIScrollView {
                 x.leading.equalTo(safeAnchor)
                 x.trailing.equalTo(safeAnchor)
                 x.top.equalTo(anchor.snp.bottom)
-                x.height.equalTo(50)
+                x.height.equalTo(65)
             }
         }
 
@@ -99,7 +101,7 @@ class SettingView: UIScrollView {
     func dropDownConfirm(anchor: UIView, text: String, confirm: @escaping () -> Void) {
         let dropDown = DropDown()
         let actionSource = [text, NSLocalizedString("CANCEL", comment: "Cancel")]
-        dropDown.dataSource = actionSource.map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+        dropDown.dataSource = actionSource.invisibleSpacePadding()
         dropDown.anchorView = anchor
         dropDown.selectionAction = { (index: Int, _: String) in
             if index == 0 {

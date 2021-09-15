@@ -44,14 +44,14 @@ private let timeoutAvailableOptions: [TimeIntervalDropDownOption] = [
 extension SettingView {
     func setupRepo(anchor: inout UIView, safeAnchor: UIView) {
         let label1 = UILabel()
-        label1.font = .systemFont(ofSize: 22, weight: .semibold)
+        label1.font = .systemFont(ofSize: 18, weight: .semibold)
         label1.text = NSLocalizedString("SOFTWARE_SOURCES", comment: "Software Sources")
         addSubview(label1)
         label1.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor)
             x.right.equalTo(safeAnchor)
-            x.top.equalTo(anchor.snp.bottom)
-            x.height.equalTo(60)
+            x.top.equalTo(anchor.snp.bottom).offset(10)
+            x.height.equalTo(40)
         }
         anchor = label1
 
@@ -93,7 +93,7 @@ extension SettingView {
             let actions = timeoutAvailableOptions
             dropDown.dataSource = actions
                 .map(\.text)
-                .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+                .invisibleSpacePadding()
             dropDown.anchorView = anchor
             dropDown.selectionAction = { (index: Int, _: String) in
                 RepositoryCenter.default.networkingTimeout = actions[index].interval
@@ -114,7 +114,7 @@ extension SettingView {
             let actions = smartUpdateAvailableOptions
             dropDown.dataSource = actions
                 .map(\.text)
-                .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+                .invisibleSpacePadding()
             dropDown.anchorView = anchor
             dropDown.selectionAction = { (index: Int, _: String) in
                 RepositoryCenter.default.smartUpdateTimeInterval = actions[index].interval

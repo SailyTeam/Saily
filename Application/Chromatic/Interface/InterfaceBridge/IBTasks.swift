@@ -13,7 +13,7 @@ private let kEssentialPackageIdentities = [
     "apt", "essential", "firmware", "bash", "coreutils", "dpkg",
 ]
 
-extension SharedFunction {
+extension InterfaceBridge {
     struct TaskDataSection {
         let label: String
         let content: [TaskManager.PackageAction]
@@ -124,5 +124,18 @@ extension SharedFunction {
         } else {
             confirmOperations()
         }
+    }
+
+    static func availableUpdateCount() -> Int {
+        let fetch = PackageCenter.default.obtainInstalledPackageList()
+        var count = 0
+        fetch.forEach { package in
+            guard let version = package.latestVersion else { return }
+            let candidates = PackageCenter
+                .default
+                .obtainUpdateForPackage(with: package.identity, version: version)
+            if candidates.count > 0 { count += 1 }
+        }
+        return count
     }
 }

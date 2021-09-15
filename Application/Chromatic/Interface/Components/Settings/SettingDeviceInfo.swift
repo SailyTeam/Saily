@@ -11,14 +11,14 @@ import UIKit
 extension SettingView {
     func setupDeviceInfoSection(anchor: inout UIView, safeAnchor: UIView) {
         let label0 = UILabel()
-        label0.font = .systemFont(ofSize: 22, weight: .semibold)
+        label0.font = .systemFont(ofSize: 18, weight: .semibold)
         label0.text = NSLocalizedString("DEVICE_INFORMATION", comment: "Device Information")
         addSubview(label0)
         label0.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor)
             x.right.equalTo(safeAnchor)
-            x.top.equalTo(anchor.snp.bottom)
-            x.height.equalTo(60)
+            x.top.equalTo(anchor.snp.bottom) // .offset(20)
+            x.height.equalTo(40)
         }
         anchor = label0
 

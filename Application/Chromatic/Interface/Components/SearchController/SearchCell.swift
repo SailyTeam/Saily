@@ -106,6 +106,11 @@ class SearchCell: UITableViewCell {
             subtitle.text = NSLocalizedString("FOUND_AUTHOR_WITH_NAME", comment: "Found author with this search key.")
             image.image = UIImage.fluent(.peopleSearch24Regular)
 
+        // MARK: - INSTALLED
+
+        case let .installed(package):
+            insertPackageValue(package, withToken: token)
+
         // MARK: - PACKAGE
 
         case let .package(identity, repository):
@@ -116,30 +121,7 @@ class SearchCell: UITableViewCell {
             else {
                 return
             }
-            if package.latestMetadata?["tag"]?.contains("cydia::commercial") ?? false {
-                title.textColor = .systemPink
-            }
-            title.text = PackageCenter.default.name(of: package)
-            let description = PackageCenter.default.description(of: package)
-            if let repoUrl = package.repoRef,
-               let repo = RepositoryCenter.default.obtainImmutableRepository(withUrl: repoUrl)
-            {
-                subtitle.text = "[\(repo.nickName)] \(description)"
-            } else {
-                subtitle.text = description
-            }
-            image.image = UIImage(named: "PackageDefaultIcon")
-            if let iconUrl = PackageCenter.default.avatarUrl(with: package) {
-                SDWebImageManager
-                    .shared
-                    .loadImage(with: iconUrl,
-                               options: .highPriority,
-                               progress: nil) { [weak self] img, _, _, _, _, _ in
-                        if let img = img, self?.displayToken == token {
-                            self?.image.image = img
-                        }
-                    }
-            }
+            insertPackageValue(package, withToken: token)
 
         // MARK: - REPO
 
@@ -165,5 +147,32 @@ class SearchCell: UITableViewCell {
             .first
         describe.text = description
         describe.limitedLeadingHighlight(text: result.underKey, color: .systemOrange)
+    }
+
+    private func insertPackageValue(_ package: Package, withToken token: UUID) {
+        if package.latestMetadata?["tag"]?.contains("cydia::commercial") ?? false {
+            title.textColor = .systemPink
+        }
+        title.text = PackageCenter.default.name(of: package)
+        let description = PackageCenter.default.description(of: package)
+        if let repoUrl = package.repoRef,
+           let repo = RepositoryCenter.default.obtainImmutableRepository(withUrl: repoUrl)
+        {
+            subtitle.text = "[\(repo.nickName)] \(description)"
+        } else {
+            subtitle.text = description
+        }
+        image.image = UIImage(named: "PackageDefaultIcon")
+        if let iconUrl = PackageCenter.default.avatarUrl(with: package) {
+            SDWebImageManager
+                .shared
+                .loadImage(with: iconUrl,
+                           options: .highPriority,
+                           progress: nil) { [weak self] img, _, _, _, _, _ in
+                    if let img = img, self?.displayToken == token {
+                        self?.image.image = img
+                    }
+                }
+        }
     }
 }

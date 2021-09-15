@@ -51,6 +51,6 @@ extension PackageBannerView {
         actions
             .map { $0.descriptor.describe() }
             // padding horizontal 🥺
-            .map { "⁠\u{200b}   " + $0 + "⁠   \u{200b}" }
+            .invisibleSpacePadding()
     }
 }

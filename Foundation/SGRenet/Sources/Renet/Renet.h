@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SGRenet : NSObject
 
-+ (int)resolveNetworkProblmeForAppWithBundleId:(NSString *)bundleId;
++ (int)resolveNetworkProblemForAppWithBundleId:(NSString *)bundleId;
 
 @end
 

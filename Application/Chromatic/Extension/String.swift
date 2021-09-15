@@ -76,3 +76,10 @@ extension StringProtocol {
         return result
     }
 }
+
+extension Array where Element == String {
+    func invisibleSpacePadding() -> Self {
+        // padding it 🥺
+        map { "⁠\u{200b}   \($0)⁠   \u{200b}" }
+    }
+}

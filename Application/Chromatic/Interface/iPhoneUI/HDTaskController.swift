@@ -12,7 +12,7 @@ import SPIndicator
 import UIKit
 
 class HDTaskController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var dataSource = [SharedFunction.TaskDataSection]()
+    var dataSource = [InterfaceBridge.TaskDataSection]()
     let padding: CGFloat = 15
     let cellId = UUID().uuidString
 
@@ -130,7 +130,7 @@ class HDTaskController: UIViewController, UITableViewDelegate, UITableViewDataSo
 
     @objc
     func reloadTaskActions() {
-        dataSource = SharedFunction.buildTaskDataSource()
+        dataSource = InterfaceBridge.buildTaskDataSource()
         tableView.reloadData()
 
         tableView.layoutIfNeeded()
@@ -159,9 +159,8 @@ class HDTaskController: UIViewController, UITableViewDelegate, UITableViewDataSo
         label.snp.makeConstraints { x in
             x.leading.equalToSuperview().offset(padding)
             x.trailing.equalToSuperview().offset(-padding)
-            x.bottom.equalToSuperview()
+            x.bottom.equalToSuperview().offset(-2)
         }
-        box.backgroundColor = .systemBackground
         return box
     }
 
@@ -221,6 +220,6 @@ class HDTaskController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
 
     @objc func confirmQueueActions(sender: UIButton) {
-        SharedFunction.processTaskButtonTapped(button: sender)
+        InterfaceBridge.processTaskButtonTapped(button: sender)
     }
 }

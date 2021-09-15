@@ -135,7 +135,9 @@ class PackageCell: UIView, PackageCellFunction {
         NotificationCenter.default.removeObserver(self, name: .DownloadProgress, object: nil)
         avatar.image = nil
         title.text = ""
+        title.textColor = UIColor(named: "RepoTableViewCell.Text")
         subtitle.text = ""
+        subtitle.textColor = UIColor(named: "RepoTableViewCell.SubText")
         describe.text = ""
         describe.textColor = UIColor(named: "RepoTableViewCell.SubText")
         progressView.tintColor = .systemYellow

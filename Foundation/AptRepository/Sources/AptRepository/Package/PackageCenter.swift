@@ -109,6 +109,14 @@ public final class PackageCenter {
         }
     }
 
+    // update blocker
+    @UserDefaultsWrapper(key: "\(kPackageCenterIdentity).blockedUpdateTable", defaultValue: [])
+    public var blockedUpdateTable: [String] {
+        didSet {
+            dispatchNotification()
+        }
+    }
+
     // MARK: - PERSIST ENGINE
 
     /// encoder

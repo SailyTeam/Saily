@@ -43,6 +43,9 @@
 /* Begin uninstall */
 "BEGIN_UNINSTALL" = "Begin uninstall";
 
+/* Block Update */
+"BLOCK_UPDATE" = "Block Update";
+
 /* Blockading system apt sources */
 "BLOCKADING_SYSTEM_APT_SOURCES" = "Blockading system apt sources";
 
@@ -60,6 +63,9 @@
 
 /* Cancel Queue */
 "CANCEL_QUEUE" = "Cancel Queue";
+
+/* Candidate */
+"CANDIDATE" = "Candidate";
 
 /* Cannot sign in without using real device identities, check your settings. */
 "CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "Cannot sign in without using real device identities, check your settings.";
@@ -93,6 +99,9 @@
 
 /* Copied */
 "COPIED" = "Copied";
+
+/* Current Installed */
+"CURRENT_INSTALLED" = "Current Installed";
 
 /* Current Selected */
 "CURRENT_SELECTED" = "Currently Selected";
@@ -293,6 +302,9 @@
 /* Other */
 "OTHER" = "Other";
 
+/* Package */
+"PACKAGE" = "Package";
+
 /* Package Detail */
 "PACKAGE_DETAIL" = "Package Detail";
 
@@ -352,6 +364,9 @@
 
 /* Recover blockade resources */
 "RECOVER_BLOCKADE_RESOURCES" = "Recover blockade resources";
+
+/* Refreshed */
+"REFRESHED" = "Refreshed";
 
 /* Registered */
 "REGISTERED" = "Registered";
@@ -485,6 +500,9 @@
 /* Unavailable */
 "UNAVAILABLE" = "Unavailable";
 
+/* Unblock Update */
+"UNBLOCK_UPDATE" = "Unblock Update";
+
 /* Unknown Error Occurred */
 "UNKNOWN_ERROR_OCCURRED" = "Unknown Error Occurred";
 
@@ -496,6 +514,12 @@
 
 /* Update */
 "UPDATE" = "Update";
+
+/* Update All */
+"UPDATE_ALL" = "Update All";
+
+/* Update Candidate */
+"UPDATE_CANDIDATE" = "Update Candidate";
 
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "Update When Available";
@@ -529,3 +553,9 @@
 
 /* Worldwide Search */
 "WORLDWIDE_SEARCH" = "Worldwide Search";
+
+/* Repo Featured */
+"REPO_FEATURED" = "Repo Featured";
+
+/* Recent Install */
+"RECENT_INSTALL" = "Recent Install";

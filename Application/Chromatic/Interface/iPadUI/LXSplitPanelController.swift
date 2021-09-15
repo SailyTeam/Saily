@@ -23,6 +23,7 @@ class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
     }()
 
     let welcomeCardDropDownAnchor = UIView()
+    let dashNavCard = DashNavCard()
 
     let repoCard = RepoCard()
     var repoCount: Int = RepositoryCenter.default.obtainRepositoryCount() {
@@ -52,7 +53,7 @@ class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
         let safeAnchor = anchor
         container.addSubview(anchor)
         anchor.snp.makeConstraints { x in
-            x.top.equalTo(container.snp.top).offset(30)
+            x.top.equalTo(container.snp.top).offset(20)
             x.height.equalTo(2)
             x.leading.equalTo(self.view.snp.leading).offset(20)
             x.trailing.equalTo(self.view.snp.trailing).offset(-20)
@@ -94,7 +95,6 @@ class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
         }
         anchor = dashNavCardTitle
 
-        let dashNavCard = DashNavCard()
         container.addSubview(dashNavCard)
         dashNavCard.snp.makeConstraints { x in
             x.leading.equalTo(safeAnchor.snp.leading)
@@ -186,6 +186,6 @@ class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
     }
 
     func welcomeCardTapped() {
-        SharedFunction.appleCardTouched(dropDownAnchor: welcomeCardDropDownAnchor)
+        InterfaceBridge.appleCardTouched(dropDownAnchor: welcomeCardDropDownAnchor)
     }
 }

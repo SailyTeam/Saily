@@ -119,6 +119,6 @@ class HDMainController: UIViewController {
     }
 
     func onTouchCard() {
-        SharedFunction.appleCardTouched(dropDownAnchor: welcomeCardDropDownAnchor)
+        InterfaceBridge.appleCardTouched(dropDownAnchor: welcomeCardDropDownAnchor)
     }
 }

@@ -46,6 +46,25 @@ class HandyTabBarController: UITabBarController, UIGestureRecognizerDelegate {
         NotificationCenter.default.removeObserver(self)
     }
 
+    private var privSelectIndex: Int?
+    override func tabBar(_: UITabBar, didSelect _: UITabBarItem) {
+        // double tap to select search bar
+        DispatchQueue.main.async { [self] in
+            debugPrint("selecting \(selectedIndex)")
+            if privSelectIndex == selectedIndex {
+                privSelectIndex = nil
+                if let controller = view.window?.topMostViewController as? SearchController {
+                    controller.searchController.searchBar.becomeFirstResponder()
+                }
+                if let controller = view.window?.topMostViewController as? HDInstalledController {
+                    controller.searchController.searchBar.becomeFirstResponder()
+                }
+            } else {
+                privSelectIndex = selectedIndex
+            }
+        }
+    }
+
     @objc
     func updatePopupElements() {
         let count = TaskManager.shared.obtainTaskCount()

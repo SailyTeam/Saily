@@ -11,7 +11,7 @@ import SPIndicator
 import UIKit
 
 class LXTaskController: UIViewController {
-    var dataSource = [SharedFunction.TaskDataSection]() {
+    var dataSource = [InterfaceBridge.TaskDataSection]() {
         didSet {
             updateGuiderOpacity()
         }
@@ -29,7 +29,7 @@ class LXTaskController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.hidesBackButton = true
-        view.backgroundColor = UIColor(light: .white.withAlphaComponent(0.90), dark: .black)
+        view.backgroundColor = cLXUIDefaultBackgroundColor
         title = NSLocalizedString("TASKS", comment: "Tasks")
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .fluent(.delete24Filled),
@@ -86,6 +86,7 @@ class LXTaskController: UIViewController {
             x.height.equalTo(200)
             x.width.equalTo(300)
         }
+        guider.alpha = 0
 
         reloadTaskActions()
     }
@@ -134,12 +135,12 @@ class LXTaskController: UIViewController {
 
     @objc
     func reloadTaskActions() {
-        dataSource = SharedFunction.buildTaskDataSource()
+        dataSource = InterfaceBridge.buildTaskDataSource()
         tableView.reloadData()
     }
 
     @objc func confirmQueueActions(sender: UIButton) {
-        SharedFunction.processTaskButtonTapped(button: sender)
+        InterfaceBridge.processTaskButtonTapped(button: sender)
     }
 }
 
@@ -162,9 +163,9 @@ extension LXTaskController: UITableViewDelegate, UITableViewDataSource {
         label.snp.makeConstraints { x in
             x.leading.equalToSuperview().offset(padding)
             x.trailing.equalToSuperview().offset(-padding)
-            x.bottom.equalToSuperview()
+            x.bottom.equalToSuperview().offset(-2)
         }
-        box.backgroundColor = parent?.view.backgroundColor
+        box.backgroundColor = view.backgroundColor // self.view
         return box
     }
 

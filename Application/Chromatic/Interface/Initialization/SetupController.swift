@@ -56,6 +56,10 @@ class SetupViewController: UIViewController {
     }
 
     func bootstrapApplication() {
+        #if !DEBUG
+            UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+        #endif
+
         // MARK: - CENTER
 
         do {
@@ -95,8 +99,8 @@ class SetupViewController: UIViewController {
         // MARK: - DOWNLOAD ENGINE
 
         if let bundleId = Bundle.main.bundleIdentifier {
-            let result = SGRenet.resolveNetworkProblmeForApp(withBundleId: bundleId)
-            Dog.shared.join("SGRenet", "resolveNetworkProblmeForApp withBundleId \(bundleId) returns \(result)")
+            let result = SGRenet.resolveNetworkProblemForApp(withBundleId: bundleId)
+            Dog.shared.join("SGRenet", "resolveNetworkProblemForApp withBundleId \(bundleId) returns \(result)")
         }
 
         DiggerManager.shared.allowsCellularAccess = true

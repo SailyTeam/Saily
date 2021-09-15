@@ -10,6 +10,39 @@ import AptRepository
 import SDWebImage
 import UIKit
 
+class ReuseTimerHeaderView: UICollectionReusableView {
+    let label = UILabel()
+    var horizontalPadding: CGFloat = 10 {
+        didSet {
+            updateSnapKitConstraints()
+        }
+    }
+
+    override init(frame _: CGRect) {
+        super.init(frame: CGRect())
+        label.font = .roundedFont(ofSize: 12, weight: .semibold)
+        label.textColor = .gray
+        addSubview(label)
+        updateSnapKitConstraints()
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) { fatalError() }
+
+    func loadText(_ str: String) {
+        label.text = str
+    }
+
+    func updateSnapKitConstraints() {
+        label.snp.remakeConstraints { x in
+            x.leading.equalToSuperview().offset(horizontalPadding)
+            x.trailing.equalToSuperview().offset(-horizontalPadding)
+            x.centerY.equalToSuperview()
+            x.height.equalTo(20)
+        }
+    }
+}
+
 class PackageCollectionCell: UICollectionViewCell, PackageCellFunction {
     let originalCell = PackageCell()
 

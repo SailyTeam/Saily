@@ -12,6 +12,7 @@ import Foundation
 
 struct SearchResult {
     enum RepresentTarget {
+        case installed(package: Package)
         case repository(url: URL)
         case package(identity: String, repository: URL)
         case author(name: String)
@@ -24,20 +25,80 @@ struct SearchResult {
 }
 
 extension SearchController {
-    func buildSearchResultWith(key: String) {
-        var result = [SearchResult]()
-        result.append(contentsOf: searchCollections(key: key))
-        result.append(contentsOf: searchPackages(key: key))
-        result.append(contentsOf: searchRepository(key: key))
-        result.append(contentsOf: searchAuthor(key: key))
+    func buildSearchResultWith(key: String, andToken current: UUID) {
+        var result = [[SearchResult]]()
+        result.append(searchInstalled(key: key, token: current))
+        if searchToken != current { return }
+        result.append(searchCollections(key: key, token: current))
+        if searchToken != current { return }
+        result.append(searchPackages(key: key, token: current))
+        if searchToken != current { return }
+        result.append(searchRepository(key: key, token: current))
+        if searchToken != current { return }
+        result.append(searchAuthor(key: key, token: current))
+        if searchToken != current { return }
+        result = result.filter { $0.count > 0 }
+        if searchToken != current { return }
         setSearchResult(with: result)
     }
 
-    private func searchCollections(key _: String) -> [SearchResult] {
+    private func searchInstalled(key: String, token: UUID) -> [SearchResult] {
+        var result = [(String, SearchResult)]()
+        var key = key
+        if !searchWithCaseSensitive { key = key.lowercased() }
+        autoreleasepool {
+            let packages = PackageCenter
+                .default
+                .obtainInstalledPackageList()
+                .filter {
+                    !($0.latestMetadata?["tag"]?.contains("role::cydia") ?? false)
+                        || (key.hasPrefix("gsc"))
+                }
+            for package in packages {
+                if token != self.searchToken { return }
+                var searchableContent = """
+                \(package.latestMetadata?["name"] ?? "")
+                \(package.latestMetadata?["author"] ?? "")
+                \(package.latestMetadata?["section"] ?? "")
+                \(package.latestMetadata?["description"] ?? "")
+                \(package.latestMetadata?["package"] ?? "")
+                """
+                if !searchWithCaseSensitive {
+                    searchableContent = searchableContent.lowercased()
+                }
+                if searchableContent.contains(key) {
+                    var ratio = 1.0
+                    var extraDecisions = [String]()
+                    extraDecisions.append(PackageCenter.default.name(of: package))
+                    extraDecisions.append(package.identity)
+                    if !searchWithCaseSensitive {
+                        extraDecisions = extraDecisions.map { $0.lowercased() }
+                    }
+                    extraDecisions.forEach { if $0.hasPrefix(key) { ratio += 1.0 } }
+                    let val = SearchResult.RepresentTarget.installed(package: package)
+                    let search = SearchResult(associatedValue: val,
+                                              searchText: searchableContent,
+                                              underKey: key,
+                                              ratio: ratio)
+                    let name = package
+                        .latestMetadata?["name"]
+                        ?? package.identity
+                    result.append((name, search))
+                }
+            }
+        }
+        return result
+            .sorted(by: \.0)
+            .sorted(by: \.0.count)
+            .sorted(by: \.1.ratio, with: >)
+            .map(\.1)
+    }
+
+    private func searchCollections(key _: String, token _: UUID) -> [SearchResult] {
         []
     }
 
-    private func searchRepository(key: String) -> [SearchResult] {
+    private func searchRepository(key: String, token: UUID) -> [SearchResult] {
         var result = [SearchResult]()
         var key = key
         if !searchWithCaseSensitive { key = key.lowercased() }
@@ -45,6 +106,7 @@ extension SearchController {
             .default
             .obtainRepositoryUrls()
             .forEach { url in
+                if token != self.searchToken { return }
                 guard let repo = RepositoryCenter
                     .default
                     .obtainImmutableRepository(withUrl: url)
@@ -71,50 +133,52 @@ extension SearchController {
         return result
     }
 
-    private func searchPackages(key: String) -> [SearchResult] {
+    private func searchPackages(key: String, token: UUID) -> [SearchResult] {
         var result = [(String, SearchResult)]()
         var key = key
         if !searchWithCaseSensitive { key = key.lowercased() }
         autoreleasepool {
-            PackageCenter
+            let compilers = PackageCenter
                 .default
                 .obtainAllPackageIdentity()
                 .map { PackageCenter.default.obtainPackageSummary(with: $0) }
                 .compactMap { $0 }
-                .forEach { compiler in
-                    compiler.forEach { url, package in
-                        var searchableContent = """
-                        \(package.latestMetadata?["name"] ?? "")
-                        \(package.latestMetadata?["author"] ?? "")
-                        \(package.latestMetadata?["section"] ?? "")
-                        \(package.latestMetadata?["description"] ?? "")
-                        \(package.latestMetadata?["package"] ?? "")
-                        """
+            for compiler in compilers {
+                if token != self.searchToken { return }
+                compiler.forEach { url, package in
+                    if token != self.searchToken { return }
+                    var searchableContent = """
+                    \(package.latestMetadata?["name"] ?? "")
+                    \(package.latestMetadata?["author"] ?? "")
+                    \(package.latestMetadata?["section"] ?? "")
+                    \(package.latestMetadata?["description"] ?? "")
+                    \(package.latestMetadata?["package"] ?? "")
+                    """
+                    if !searchWithCaseSensitive {
+                        searchableContent = searchableContent.lowercased()
+                    }
+                    if searchableContent.contains(key) {
+                        var ratio = 1.0
+                        var extraDecisions = [String]()
+                        extraDecisions.append(PackageCenter.default.name(of: package))
+                        extraDecisions.append(package.identity)
                         if !searchWithCaseSensitive {
-                            searchableContent = searchableContent.lowercased()
+                            extraDecisions = extraDecisions.map { $0.lowercased() }
                         }
-                        if searchableContent.contains(key) {
-                            var ratio = 1.0
-                            var extraDecisions = [String]()
-                            extraDecisions.append(PackageCenter.default.name(of: package))
-                            extraDecisions.append(package.identity)
-                            if !searchWithCaseSensitive {
-                                extraDecisions = extraDecisions.map { $0.lowercased() }
-                            }
-                            extraDecisions.forEach { if $0.hasPrefix(key) { ratio += 1.0 } }
-                            let val = SearchResult.RepresentTarget.package(identity: package.identity,
-                                                                           repository: url)
-                            let search = SearchResult(associatedValue: val,
-                                                      searchText: searchableContent,
-                                                      underKey: key,
-                                                      ratio: ratio)
-                            let name = package
-                                .latestMetadata?["name"]
-                                ?? package.identity
-                            result.append((name, search))
-                        }
+                        extraDecisions.forEach { if $0.hasPrefix(key) { ratio += 1.0 } }
+                        let val = SearchResult.RepresentTarget.package(identity: package.identity,
+                                                                       repository: url)
+                        let search = SearchResult(associatedValue: val,
+                                                  searchText: searchableContent,
+                                                  underKey: key,
+                                                  ratio: ratio)
+                        let name = package
+                            .latestMetadata?["name"]
+                            ?? package.identity
+                        result.append((name, search))
                     }
                 }
+            }
         }
         return result
             .sorted(by: \.0)
@@ -123,14 +187,16 @@ extension SearchController {
             .map(\.1)
     }
 
-    private func searchAuthor(key: String) -> [SearchResult] {
+    private func searchAuthor(key: String, token: UUID) -> [SearchResult] {
         var result = [SearchResult]()
         var key = key
         if !searchWithCaseSensitive { key = key.lowercased() }
-        PackageCenter
+        let authors = PackageCenter
             .default
             .obtainAuthorList()
-            .forEach { author in
+        autoreleasepool {
+            for author in authors {
+                if token != self.searchToken { return }
                 var searchableContent = author
                 if !searchWithCaseSensitive {
                     searchableContent = searchableContent.lowercased()
@@ -142,6 +208,7 @@ extension SearchController {
                                                ratio: 1.0))
                 }
             }
+        }
         return result
     }
 }

@@ -154,7 +154,6 @@ class PackageController: UIViewController {
         debugPrint("\(self) deinit")
     }
 
-    private var previousLargeTitle = false
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)

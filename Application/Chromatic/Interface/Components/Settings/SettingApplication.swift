@@ -6,23 +6,23 @@
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
+import Bugsnag
 import SPIndicator
 import UIKit
-import Bugsnag
 
 extension SettingView {
     func setupApplicationView(anchor: inout UIView, safeAnchor: UIView) {
         // MARK: - HEADLINE
 
         let headline = UILabel()
-        headline.font = .systemFont(ofSize: 22, weight: .semibold)
+        headline.font = .systemFont(ofSize: 18, weight: .semibold)
         headline.text = NSLocalizedString("ACTIONS", comment: "Actions")
         addSubview(headline)
         headline.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor)
             x.right.equalTo(safeAnchor)
-            x.top.equalTo(anchor.snp.bottom).offset(12)
-            x.height.equalTo(60)
+            x.top.equalTo(anchor.snp.bottom).offset(10)
+            x.height.equalTo(40)
         }
         anchor = headline
 

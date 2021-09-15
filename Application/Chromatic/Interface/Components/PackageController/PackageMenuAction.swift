@@ -22,6 +22,9 @@ class PackageMenuAction {
         case versionControl
         case blockUpdate
         case unblockUpdate
+        case collectAndSave
+        case collectAndOverwrite
+        case removeCollect
 
         func describe() -> String {
             switch self {
@@ -45,6 +48,12 @@ class PackageMenuAction {
                 return NSLocalizedString("BLOCK_UPDATE", comment: "Block Update")
             case .unblockUpdate:
                 return NSLocalizedString("UNBLOCK_UPDATE", comment: "Unblock Update")
+            case .collectAndSave:
+                return NSLocalizedString("COLLECT_AND_SAVE", comment: "Collect And Save")
+            case .collectAndOverwrite:
+                return NSLocalizedString("COLLECT_AND_OVERWRITE", comment: "Collect And Overwrite")
+            case .removeCollect:
+                return NSLocalizedString("REMOVE_COLLECT", comment: "Remove Collect")
             }
         }
     }
@@ -369,6 +378,44 @@ class PackageMenuAction {
             PackageCenter.default.blockedUpdateTable.removeAll(package.identity)
         }, elegantForPerform: { package in
             PackageCenter.default.blockedUpdateTable.contains(package.identity)
+        }),
+
+        // MARK: - COLLECT AND SAVE
+
+        .init(descriptor: .collectAndSave, block: { package, _ in
+            var fetch = InterfaceBridge
+                .collectedPackages
+                .filter { $0.identity != package.identity }
+            fetch.append(package)
+            InterfaceBridge.collectedPackages = fetch
+        }, elegantForPerform: { package in
+            !InterfaceBridge
+                .collectedPackages
+                .map(\.identity)
+                .contains(package.identity)
+        }),
+        .init(descriptor: .collectAndOverwrite, block: { package, _ in
+            var fetch = InterfaceBridge
+                .collectedPackages
+                .filter { $0.identity != package.identity }
+            fetch.append(package)
+            InterfaceBridge.collectedPackages = fetch
+        }, elegantForPerform: { package in
+            InterfaceBridge
+                .collectedPackages
+                .map(\.identity)
+                .contains(package.identity)
+        }),
+        .init(descriptor: .removeCollect, block: { package, _ in
+            var fetch = InterfaceBridge
+                .collectedPackages
+                .filter { $0.identity != package.identity }
+            InterfaceBridge.collectedPackages = fetch
+        }, elegantForPerform: { package in
+            InterfaceBridge
+                .collectedPackages
+                .map(\.identity)
+                .contains(package.identity)
         }),
     ]
 

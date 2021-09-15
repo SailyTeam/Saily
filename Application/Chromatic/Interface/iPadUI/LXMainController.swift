@@ -48,14 +48,14 @@ class LXMainController: UIViewController {
                                                name: .LXMainControllerSwitchInstalled,
                                                object: nil)
 
-        presentAsRoot(target: LXDashboardController())
+        presentAsRoot(target: DashboardController())
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
-    private let dashboard = LXDashboardController()
+    private let dashboard = DashboardController()
     private let setting = LXSettingController()
     private let tasks = LXTaskController()
     private let installed = LXInstalledController()

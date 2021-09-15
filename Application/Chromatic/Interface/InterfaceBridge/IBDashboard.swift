@@ -1,47 +1,47 @@
 //
-//  LXDashboardController+Data.swift
+//  IBDashboard.swift
 //  Chromatic
 //
-//  Created by Lakr Aream on 2021/9/14.
+//  Created by Lakr Aream on 2021/9/15.
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
 import AptRepository
-import SPIndicator
 import UIKit
 
-extension LXDashboardController {
-    @objc
-    func refresh() {
-        reloadDataSource()
-        refreshControl.endRefreshing()
-        SPIndicator.present(title: NSLocalizedString("REFRESHED", comment: "Refreshed"),
-                            message: nil,
-                            preset: .done,
-                            haptic: .success,
-                            from: .top,
-                            completion: nil)
+extension InterfaceBridge {
+    struct DashboardDataSection {
+        let title: String
+        let package: [Package]
+        let shouldLimit: Bool
+        let action: ((UIViewController?) -> Void)?
     }
 
-    @objc
-    func reloadDataSource() {
-        var builder = [DataSection?]()
+    static func dashbaordBuildDataSource(for _: UIViewController?) -> [DashboardDataSection] {
+        var builder = [DashboardDataSection?]()
         builder.append(buildCollections())
         builder.append(buildAvailableUpdate())
         builder.append(buildRepoFeatured())
         builder.append(buildRecentInstall())
         builder.append(buildRecentUpdate())
-        dataSource = builder
+        return builder
             .compactMap { $0 }
             .filter { $0.package.count > 0 }
-        collectionView.reloadData()
     }
 
-    private func buildCollections() -> DataSection? {
-        nil
+    private static func buildCollections() -> DashboardDataSection? {
+        DashboardDataSection(title: NSLocalizedString("COLLECTED_PACKAGES", comment: "Collected Packages"),
+                             package: collectedPackages.sorted { a, b in
+                                 PackageCenter.default.name(of: a)
+                                     < PackageCenter.default.name(of: b)
+                             },
+                             shouldLimit: false,
+                             action: { controller in
+                                 controller?.present(next: PackageSavedCollectionController())
+                             })
     }
 
-    private func buildAvailableUpdate() -> DataSection? {
+    private static func buildAvailableUpdate() -> DashboardDataSection? {
         let everything = PackageCenter
             .default
             .obtainInstalledPackageList()
@@ -67,20 +67,20 @@ extension LXDashboardController {
                 builder.append(loader)
             }
         }
-        return .init(title: NSLocalizedString("UPDATE_CANDIDATE", comment: "Update Candidate"),
-                     package: builder
-                         .map(\.1)
-                         .sorted { a, b in
-                             PackageCenter.default.name(of: a)
-                                 < PackageCenter.default.name(of: b)
-                         },
-                     shouldLimit: false,
-                     action: { [weak self] in
-                         self?.present(next: UpdateController())
-                     })
+        return DashboardDataSection(title: NSLocalizedString("UPDATE_CANDIDATE", comment: "Update Candidate"),
+                                    package: builder
+                                        .map(\.1)
+                                        .sorted { a, b in
+                                            PackageCenter.default.name(of: a)
+                                                < PackageCenter.default.name(of: b)
+                                        },
+                                    shouldLimit: false,
+                                    action: { controller in
+                                        controller?.present(next: UpdateController())
+                                    })
     }
 
-    private func buildRepoFeatured() -> DataSection? {
+    private static func buildRepoFeatured() -> DashboardDataSection? {
         var builder = [Package]()
         let repos = RepositoryCenter
             .default
@@ -105,16 +105,16 @@ extension LXDashboardController {
                 builder.append(package)
             }
         }
-        return .init(title: NSLocalizedString("REPO_FEATURED", comment: "Repo Featured"),
-                     package: builder.sorted { a, b in
-                         PackageCenter.default.name(of: a)
-                             < PackageCenter.default.name(of: b)
-                     },
-                     shouldLimit: true,
-                     action: nil)
+        return DashboardDataSection(title: NSLocalizedString("REPO_FEATURED", comment: "Repo Featured"),
+                                    package: builder.sorted { a, b in
+                                        PackageCenter.default.name(of: a)
+                                            < PackageCenter.default.name(of: b)
+                                    },
+                                    shouldLimit: true,
+                                    action: nil)
     }
 
-    private func buildRecentInstall() -> DataSection? {
+    private static func buildRecentInstall() -> DashboardDataSection? {
         let everything = PackageCenter
             .default
             .obtainInstalledPackageList()
@@ -146,13 +146,13 @@ extension LXDashboardController {
         var result = constructor.map(\.1)
         if let none = none { result.append(none) }
 
-        return DataSection(title: NSLocalizedString("RECENT_INSTALL", comment: "Recent Install"),
-                           package: result.flatMap { $0 },
-                           shouldLimit: true,
-                           action: nil)
+        return DashboardDataSection(title: NSLocalizedString("RECENT_INSTALL", comment: "Recent Install"),
+                                    package: result.flatMap { $0 },
+                                    shouldLimit: true,
+                                    action: nil)
     }
 
-    private func buildRecentUpdate() -> DataSection? {
+    private static func buildRecentUpdate() -> DashboardDataSection? {
         let list = PackageCenter
             .default
             .obtainRecentUpdatedList()
@@ -187,9 +187,9 @@ extension LXDashboardController {
                 }
             builder.append(contentsOf: compiler)
         }
-        return DataSection(title: NSLocalizedString("RECENT_UPDATE", comment: "Recent Update"),
-                           package: builder,
-                           shouldLimit: true) { [weak self] in
+        return DashboardDataSection(title: NSLocalizedString("RECENT_UPDATE", comment: "Recent Update"),
+                                    package: builder,
+                                    shouldLimit: true) { controller in
             var list = PackageCenter
                 .default
                 .obtainRecentUpdatedList()
@@ -201,7 +201,7 @@ extension LXDashboardController {
             }
             let target = RecentUpdateController()
             target.updateDataSource = list
-            self?.present(next: target)
+            controller?.present(next: target)
         }
     }
 }

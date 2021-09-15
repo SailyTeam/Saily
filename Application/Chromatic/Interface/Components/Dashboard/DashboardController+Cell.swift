@@ -1,5 +1,5 @@
 //
-//  LXDashboardController+Cell.swift
+//  DashboardController+Cell.swift
 //  Chromatic
 //
 //  Created by Lakr Aream on 2021/9/14.
@@ -33,9 +33,9 @@ class LXDashboardMoreCell: UICollectionViewCell {
 class LXDashboardSupplementHeaderCell: UICollectionReusableView {
     let label = UILabel()
     let button = UIButton()
-    var overrideButtonAction: (() -> Void)?
+    var overrideButtonAction: ((UIViewController?) -> Void)?
 
-    var representSection: LXDashboardController.DataSection?
+    var representSection: InterfaceBridge.DashboardDataSection?
     var horizontalPadding: CGFloat = 2 {
         didSet {
             updateLayout()
@@ -76,7 +76,7 @@ class LXDashboardSupplementHeaderCell: UICollectionReusableView {
         label.text = ""
     }
 
-    func loadSection(data: LXDashboardController.DataSection) {
+    func loadSection(data: InterfaceBridge.DashboardDataSection) {
         representSection = data
         label.text = data.title
     }
@@ -85,7 +85,7 @@ class LXDashboardSupplementHeaderCell: UICollectionReusableView {
     func presentFullPackage() {
         button.shineAnimation()
         if let override = overrideButtonAction {
-            override()
+            override(parentViewController)
             return
         }
         let target = PackageCollectionController()

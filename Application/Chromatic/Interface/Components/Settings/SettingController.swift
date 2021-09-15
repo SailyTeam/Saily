@@ -13,7 +13,7 @@ class SettingController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(light: .systemGray6, dark: .black)
+        view.backgroundColor = cLXUIDefaultBackgroundColor
         title = NSLocalizedString("SETTING", comment: "Setting")
 
         view.addSubview(setting)

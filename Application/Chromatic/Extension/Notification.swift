@@ -26,4 +26,6 @@ extension Notification.Name {
     static let LXMainControllerSwitchInstalled = Notification.Name("wiki.qaq.LXMainControllerSwitchInstalled")
 
     static let SettingReload = Notification.Name("wiki.qaq.SettingReload")
+
+    static let PackageCollectionChanged = Notification.Name("wiki.qaq.PackageCollectionChanged")
 }

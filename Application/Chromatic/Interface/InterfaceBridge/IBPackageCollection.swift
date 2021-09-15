@@ -18,7 +18,7 @@ extension InterfaceBridge {
         debugPrint("calculatesPackageCellSize \(available)")
 
         var itemsPerRow: Int = 1
-        let padding: CGFloat = 0
+        let padding: CGFloat = 8
         var result = CGSize()
         result.width = 2000
 

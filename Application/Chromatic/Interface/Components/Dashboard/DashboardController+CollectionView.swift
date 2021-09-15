@@ -1,5 +1,5 @@
 //
-//  LXDashboardController+CollectionView.swift
+//  DashboardController+CollectionView.swift
 //  Chromatic
 //
 //  Created by Lakr Aream on 2021/9/14.
@@ -10,7 +10,7 @@ import UIKit
 
 private let kCellLineLimit = 6
 
-extension LXDashboardController {
+extension DashboardController {
     // MARK: - CELL SIZE
 
     override func viewDidLayoutSubviews() {
@@ -96,7 +96,7 @@ extension LXDashboardController {
         collectionView.deselectItem(at: indexPath, animated: true)
         if collectionView.cellForItem(at: indexPath) is LXDashboardMoreCell {
             if let override = dataSource[safe: indexPath.section]?.action {
-                override()
+                override(self)
                 return
             }
             let target = PackageCollectionController()

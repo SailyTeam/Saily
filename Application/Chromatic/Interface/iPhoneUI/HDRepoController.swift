@@ -72,7 +72,7 @@ class HDRepoController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("REPOSITORY", comment: "Repository")
-        view.backgroundColor = UIColor(light: .systemGray6, dark: .black)
+        view.backgroundColor = cLXUIDefaultBackgroundColor
 
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         container.addSubview(refreshControl)
@@ -216,7 +216,6 @@ class HDRepoController: UIViewController {
     @objc
     func openAdd() {
         let target = RepoAddViewController()
-        target.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(target)
     }
 

@@ -85,6 +85,12 @@
 /* Close */
 "CLOSE" = "Close";
 
+/* Collect And Overwrite */
+"COLLECT_AND_OVERWRITE" = "Collect And Overwrite";
+
+/* Collect And Save */
+"COLLECT_AND_SAVE" = "Collect And Save";
+
 /* Communicating with vender */
 "COMMUNICATING_WITH_VENDER" = "Communicating with vendor";
 
@@ -359,6 +365,9 @@
 /* Rebuild Icons */
 "REBUILD_ICONS" = "Rebuild Icons";
 
+/* Recent Install */
+"RECENT_INSTALL" = "Recent Install";
+
 /* Recent Update */
 "RECENT_UPDATE" = "Recent Updates";
 
@@ -398,11 +407,17 @@
 /* Remove Avatar */
 "REMOVE_AVATAR" = "Remove Avatar";
 
+/* Remove Collect */
+"REMOVE_COLLECT" = "Remove Collect";
+
 /* Repo Collections */
 "REPO_COLLECTIONS" = "Repo Collection";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
 "REPO_DESCRIPTION" = "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe. They may damage your system or equipment, making it impossible to recover.";
+
+/* Repo Featured */
+"REPO_FEATURED" = "Repo Featured";
 
 /* Repository */
 "REPOSITORY" = "Repository";
@@ -554,8 +569,5 @@
 /* Worldwide Search */
 "WORLDWIDE_SEARCH" = "Worldwide Search";
 
-/* Repo Featured */
-"REPO_FEATURED" = "Repo Featured";
-
-/* Recent Install */
-"RECENT_INSTALL" = "Recent Install";
+/* Collected Packages */
+"COLLECTED_PACKAGES" = "Collected Packages";

@@ -139,6 +139,8 @@ class SearchController: UITableViewController {
                 label.text = NSLocalizedString("PACKAGE", comment: "Package")
             case .repository:
                 label.text = NSLocalizedString("REPOSITORY", comment: "Repository")
+            case .collection:
+                label.text = NSLocalizedString("Collection", comment: "Search Result: Collection")
             }
             return box
         }
@@ -161,7 +163,7 @@ class SearchController: UITableViewController {
         if searchResults.count < 1 { return }
         let object = searchResults[indexPath.section][indexPath.row]
         switch object.associatedValue {
-        case let .installed(package):
+        case let .installed(package), let .collection(package):
             let target = PackageController(package: package)
             present(next: target)
         case let .package(identity, repository):

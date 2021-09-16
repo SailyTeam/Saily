@@ -264,7 +264,7 @@ class TaskProcessor {
             }
         }
 
-        output("\n\n\nOperation Completed\n")
+        output("\n\n\n\(NSLocalizedString("OPERATION_COMPLETED", comment: "Operation Completed"))\n")
 
         if operation.requiresRestart {
             // do not run uicache in our self

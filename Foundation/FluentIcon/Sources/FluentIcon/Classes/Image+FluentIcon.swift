@@ -25,10 +25,14 @@
 #endif
 
 #if canImport(AppKit)
-    import AppKit
-    public extension NSImage {
-        static func fluent(_ icon: FluentIcon) -> NSImage {
-            Bundle.module.image(forResource: icon.resourceString) ?? NSImage()
+    #if targetEnvironment(macCatalyst)
+    // Use UIKit above instead.
+    #else
+        import AppKit
+        public extension NSImage {
+            static func fluent(_ icon: FluentIcon) -> NSImage {
+                Bundle.module.image(forResource: icon.resourceString) ?? NSImage()
+            }
         }
-    }
+    #endif
 #endif

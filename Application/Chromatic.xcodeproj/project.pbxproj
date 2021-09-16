@@ -225,6 +225,7 @@
 		50527FFA26CFE88100FD846D /* Chromatic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chromatic.entitlements; sourceTree = "<group>"; };
 		505BB6CA26D78182007F5B15 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		505E17AD26EE59AB00F32B88 /* IBPackageCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBPackageCollection.swift; sourceTree = "<group>"; };
+		5063746426F3142300B06BCC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		506E837C26BFC4E700C6C16E /* LXSplitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LXSplitController.swift; sourceTree = "<group>"; };
 		506E837E26BFC6CF00C6C16E /* LXSplitPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LXSplitPanelController.swift; sourceTree = "<group>"; };
 		506E838126BFC7EA00C6C16E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -828,9 +829,6 @@
 				en,
 				Base,
 				"zh-Hans",
-				ja,
-				cs,
-				vi,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1027,6 +1025,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5034020526BFE0EF00E8D02B /* en */,
+				5063746426F3142300B06BCC /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

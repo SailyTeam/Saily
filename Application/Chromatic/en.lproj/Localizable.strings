@@ -22,9 +22,6 @@
 /* All Packages Up to Date */
 "ALL_PACKAGES_UP_TO_DATE" = "All Packages Up to Date";
 
-/* Allow Analysis */
-"ALLOW_ANALYSIS" = "Allow Analytics";
-
 /* Apt Records */
 "APT_RECORDS" = "APT Records";
 
@@ -46,9 +43,6 @@
 /* Block Update */
 "BLOCK_UPDATE" = "Block Update";
 
-/* Blockading system apt sources */
-"BLOCKADING_SYSTEM_APT_SOURCES" = "Blockading system apt sources";
-
 /* Broken Repo Removed */
 "BROKEN_REPO_REMOVED" = "Broken Repos Removed";
 
@@ -64,20 +58,11 @@
 /* Cancel Queue */
 "CANCEL_QUEUE" = "Cancel Queue";
 
-/* Candidate */
-"CANDIDATE" = "Candidate";
-
 /* Cannot sign in without using real device identities, check your settings. */
 "CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "Cannot sign in without using real device identities, check your settings.";
 
 /* Change your keyword or refresh the repo. */
 "CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "Change your keyword or refresh the repo.";
-
-/* Check Updates */
-"Check Updates" = "Check For Updates";
-
-/* Clear */
-"CLEAR" = "Clear";
 
 /* Clear Tasks */
 "CLEAR_TASKS" = "Clear Tasks";
@@ -90,6 +75,9 @@
 
 /* Collect And Save */
 "COLLECT_AND_SAVE" = "Collect And Save";
+
+/* Collected Packages */
+"COLLECTED_PACKAGES" = "Collected Packages";
 
 /* Communicating with vender */
 "COMMUNICATING_WITH_VENDER" = "Communicating with vendor";
@@ -157,20 +145,11 @@
 /* Downloading */
 "DOWNLOADING" = "Downloading";
 
-/* Downloads */
-"DOWNLOADS" = "Downloads";
-
 /* Enable History */
 "ENABLE_HISTORY" = "Enable History";
 
 /* Enable random device info will disable commercial operations */
 "ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "Enabling random device info will disable commercial operations";
-
-/* Enable random device info will disable paid packages */
-"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_PAID_PACKAGES" = "Enabling random device info will disable paid packages";
-
-/* Enter a number */
-"ENTER_A_NUMBER" = "Enter a number";
 
 /* Enter Safe Mode */
 "ENTER_SAFE_MODE" = "Enter Safe Mode";
@@ -198,9 +177,6 @@
 
 /* Found author with this search key. */
 "FOUND_AUTHOR_WITH_NAME" = "Found author with this search key.";
-
-/* GET */
-"GET" = "GET";
 
 /* History Records */
 "HISTORY_RECORDS" = "History Records";
@@ -253,15 +229,11 @@
 /* Enter the software source address manually here and use line feed to split multiple addresses */
 "MANUAL_INPUT_DESCRIPTION" = "Enter the software source address manually here and use new lines for each address";
 
+/* missing or breaking */
+"MISSING_OR_BREAKING" = "missing or breaking";
+
 /* Name */
 "NAME" = "Name";
-
-/* Name Aa > Zz
-   Name Zz > Aa */
-"NAME_ATOZ" = "Name Aa to Zz";
-
-/* Name Zz > Aa */
-"NAME_ZTOA" = "Name Zz to Aa";
 
 /* Network Timeout */
 "NETWORK_TIMEOUT" = "Network Timeout";
@@ -284,12 +256,6 @@
 /* Not Modified */
 "NOT_MODIFIED" = "Not Modified";
 
-/* Nothing Updated */
-"NOTHING_UPDATED" = "Nothing Updated";
-
-/* Number */
-"NUMBER" = "Number";
-
 /* Open Download */
 "OPEN_DOWNLOAD" = "Open Downloads Folder";
 
@@ -304,9 +270,6 @@
 
 /* Option */
 "OPTION" = "Option";
-
-/* Other */
-"OTHER" = "Other";
 
 /* Package */
 "PACKAGE" = "Package";
@@ -338,9 +301,6 @@
 /* Purchased */
 "PURCHASED" = "Purchased";
 
-/* QR Code */
-"QRCODE" = "QR Code";
-
 /* Queue */
 "QUEUE" = "Queue";
 
@@ -349,9 +309,6 @@
 
 /* Queued */
 "QUEUED" = "Queued";
-
-/* Random Device Info Enabled */
-"RANDOM_DEVICE_INFO_ENABLED" = "Random Device Info Enabled";
 
 /* Random Info */
 "RANDOM_INDO" = "Random Info";
@@ -371,9 +328,6 @@
 /* Recent Update */
 "RECENT_UPDATE" = "Recent Updates";
 
-/* Recover blockade resources */
-"RECOVER_BLOCKADE_RESOURCES" = "Recover blockade resources";
-
 /* Refreshed */
 "REFRESHED" = "Refreshed";
 
@@ -382,9 +336,6 @@
 
 /* Reinstall */
 "REINSTALL" = "Reinstall";
-
-/* Reload All Icon Cache */
-"RELOAD_ALL_ICON_CACHE" = "Reload All Icon Cache";
 
 /* Reload Desktop */
 "RELOAD_DESKTOP" = "Reload Home Screen";
@@ -470,14 +421,8 @@
 /* Signin Failed */
 "SIGNIN_FAILED" = "Sign-in Failed";
 
-/* Smart Refresh */
-"SMART_REFRESH" = "Smart Refresh";
-
 /* Smart Update */
 "SMART_UPDATE" = "Smart Update";
-
-/* Software Behaves */
-"SOFTWARE_BEHAVES" = "Software Behaves";
 
 /* Software Sources */
 "SOFTWARE_SOURCES" = "Software Sources";
@@ -503,14 +448,8 @@
 /* This operation cannot be undone */
 "THIS_OPERATION_CANNOT_BE_UNDONE" = "This operation cannot be undone.";
 
-/* This will delete all history */
-"THIS_WILL_DELETE_ALL_HISTORY" = "This will delete all history";
-
 /* Toggle */
 "TOGGLE" = "Toggle";
-
-/* Toolbox */
-"TOOLBOX" = "Toolbox";
 
 /* Unavailable */
 "UNAVAILABLE" = "Unavailable";
@@ -539,9 +478,6 @@
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "Update When Available";
 
-/* Useful tools for managing repos. */
-"USEFUL_TOOL_SET_FOR_REPO_MANAGE" = "Useful tools for managing repos.";
-
 /* Validating... */
 "VALIDATING..." = "Validating...";
 
@@ -557,9 +493,6 @@
 /* Version Control */
 "VERSION_CONTROL" = "Version Control";
 
-/* Warning */
-"WARNING" = "Warning";
-
 /* While the world sleeps, we dream! */
 "WELCOME_CARD_DESC" = "While the world sleeps, we dream.";
 
@@ -568,6 +501,3 @@
 
 /* Worldwide Search */
 "WORLDWIDE_SEARCH" = "Worldwide Search";
-
-/* Collected Packages */
-"COLLECTED_PACKAGES" = "Collected Packages";

@@ -53,7 +53,7 @@ class DashboardController: UICollectionViewController, UICollectionViewDelegateF
                                 forCellWithReuseIdentifier: moreCellID)
 
         (searchBar as? SearchBarButton)?.onTouch = { [weak self] in
-            self?.present(next: SearchController())
+            self?.searchButton()
         }
         collectionView.addSubview(searchBar)
         searchBar.snp.makeConstraints { x in
@@ -94,7 +94,11 @@ class DashboardController: UICollectionViewController, UICollectionViewDelegateF
 
     @objc
     func searchButton() {
-        navigationController?.pushViewController(SearchController())
+        let target = SearchController()
+        present(next: target)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            target.searchController.searchBar.becomeFirstResponder()
+        }
     }
 }
 

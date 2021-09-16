@@ -30,8 +30,31 @@ class PackageController: UIViewController {
     let navigationBlurEffectView = UIView()
     var blurViewActivated: Bool = false
 
-    var depiction = UIView()
-    let endingControl = UIView()
+    var depictionView = UIView() {
+        didSet {
+            oldValue.removeFromSuperview()
+            container.addSubview(depictionView)
+            if let depictionView = depictionView as? DepictionBaseView {
+                depictionViewHeight = depictionView.depictionHeight(width: view.width)
+            } else {
+                /* else if let view = view as? ExpandedWebView */
+                // no need to do here, we do the math in it's block
+                depictionViewHeight = 1000
+            }
+            depictionView.snp.makeConstraints { x in
+                x.top.equalTo(self.bannerPackageView.snp.bottom)
+                x.left.equalTo(self.view)
+                x.right.equalTo(self.view)
+                x.height.equalTo(depictionViewHeight)
+            }
+        }
+    }
+
+    var depictionViewHeight: CGFloat = 1000 {
+        didSet {
+            updateContentSize()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,46 +127,20 @@ class PackageController: UIViewController {
             x.bottom.equalTo(bannerPackageView.snp.top)
         }
 
-        depiction = defaultDepiction()
-        container.addSubview(depiction)
-        depiction.snp.makeConstraints { x in
+        depictionView = defaultDepiction()
+        container.addSubview(depictionView)
+        depictionView.snp.makeConstraints { x in
             x.top.equalTo(bannerPackageView.snp.bottom)
             x.left.equalTo(self.view)
             x.right.equalTo(self.view)
-        }
-
-        endingControl.isUserInteractionEnabled = false
-        container.addSubview(endingControl)
-        endingControl.snp.makeConstraints { x in
-            x.top.equalTo(bannerPackageView).offset(10)
-            x.bottom.equalTo(depiction)
-            x.left.equalTo(self.view)
-            x.right.equalTo(self.view)
+            x.height.equalTo(depictionViewHeight)
         }
 
         downloadDepictionIfAvailable { [weak self] view in
             guard let self = self, let view = view else {
                 return
             }
-            self.depiction.removeFromSuperview()
-            self.depiction = view
-            self.container.addSubview(self.depiction)
-            var height: CGFloat = 1000
-            if let view = view as? DepictionBaseView {
-                height = view.depictionHeight(width: self.view.width)
-            }
-            self.depiction.snp.makeConstraints { x in
-                x.top.equalTo(self.bannerPackageView.snp.bottom)
-                x.left.equalTo(self.view)
-                x.right.equalTo(self.view)
-                x.height.equalTo(height)
-            }
-            self.endingControl.snp.remakeConstraints { x in
-                x.top.equalTo(self.bannerPackageView).offset(10)
-                x.bottom.equalTo(self.depiction)
-                x.left.equalTo(self.view)
-                x.right.equalTo(self.view)
-            }
+            self.depictionView = view
             self.updateContentSize()
         }
 
@@ -169,14 +166,20 @@ class PackageController: UIViewController {
 
     func updateContentSize() {
         DispatchQueue.main.async { [self] in
-            if let view = depiction as? DepictionBaseView {
-                let height = view.depictionHeight(width: self.view.width)
-                container.contentSize = CGSize(width: 10,
-                                               height: height + preferredBannerHeight + 150)
+            if depictionView is ExpandedWebView {
+                depictionView.snp.updateConstraints { x in
+                    // for web document background color
+                    x.height.equalTo(depictionViewHeight + 1000)
+                }
             } else {
-                container.contentSize = CGSize(width: 10,
-                                               height: endingControl.frame.height + preferredBannerHeight + 150)
+                depictionView.snp.updateConstraints { x in
+                    x.height.equalTo(depictionViewHeight)
+                }
             }
+            let size = CGSize(width: 10, height: depictionViewHeight
+                + preferredBannerHeight
+                + 150)
+            container.contentSize = size
         }
     }
 

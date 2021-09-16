@@ -84,10 +84,10 @@ extension TaskManager {
             }
             func returnHook(_ result: SearchResult) -> SearchResult {
                 if result.breaks.count > 0 {
-                    debugPrint("🔴 missing/breaking \(result.breaks.joined(separator: ", "))")
+                    debugPrint("🔴 \(NSLocalizedString("MISSING_OR_BREAKING", comment: "missing or breaking")) \(result.breaks.joined(separator: ", "))")
                 }
                 if result.missing.count > 0 {
-                    debugPrint("🔴 missing/breaking \(result.missing.joined(separator: ", "))")
+                    debugPrint("🔴 \(NSLocalizedString("MISSING_OR_BREAKING", comment: "missing or breaking")) \(result.missing.joined(separator: ", "))")
                 }
                 return result
             }

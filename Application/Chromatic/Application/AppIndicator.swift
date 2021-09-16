@@ -30,7 +30,7 @@ extension AppDelegate {
                let repo = RepositoryCenter.default.obtainImmutableRepository(withUrl: object.representedRepo)
             {
                 if !object.success {
-                    SPIndicator.present(title: "Error Occurred",
+                    SPIndicator.present(title: NSLocalizedString("ERROR_OCCURRED", comment: "Error Occurred"),
                                         message: repo.nickName,
                                         preset: .error,
                                         haptic: .error,
@@ -40,7 +40,7 @@ extension AppDelegate {
             }
             if object.queueLeft < 1 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // prevent hides another
-                    SPIndicator.present(title: "Update Tasks Completed",
+                    SPIndicator.present(title: NSLocalizedString("UPDATE_TASK_COMPLETED", comment: "Update Tasks Completed"),
                                         message: "", // dont remove this
                                         preset: .done,
                                         haptic: .success,

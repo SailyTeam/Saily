@@ -76,6 +76,7 @@
 		50759B4226F0379800EF39B5 /* PackageUpdateTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50759B4126F0379800EF39B5 /* PackageUpdateTableCell.swift */; };
 		50759B4626F04A0400EF39B5 /* UpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50759B4526F04A0400EF39B5 /* UpdateController.swift */; };
 		50759B4826F04A1000EF39B5 /* BlockUpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50759B4726F04A1000EF39B5 /* BlockUpdateController.swift */; };
+		507873E226F4091F0004A380 /* .bartycrouch.toml in Resources */ = {isa = PBXBuildFile; fileRef = 507873E126F4091F0004A380 /* .bartycrouch.toml */; };
 		507D1E7326BFA87D00E72E9B /* SwiftThrottle in Frameworks */ = {isa = PBXBuildFile; productRef = 507D1E7226BFA87D00E72E9B /* SwiftThrottle */; };
 		507D1E7526BFA88100E72E9B /* SwifterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 507D1E7426BFA88100E72E9B /* SwifterSwift */; };
 		507D1E7726BFA88500E72E9B /* SWCompression in Frameworks */ = {isa = PBXBuildFile; productRef = 507D1E7626BFA88500E72E9B /* SWCompression */; };
@@ -235,6 +236,7 @@
 		50759B4126F0379800EF39B5 /* PackageUpdateTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageUpdateTableCell.swift; sourceTree = "<group>"; };
 		50759B4526F04A0400EF39B5 /* UpdateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateController.swift; sourceTree = "<group>"; };
 		50759B4726F04A1000EF39B5 /* BlockUpdateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockUpdateController.swift; sourceTree = "<group>"; };
+		507873E126F4091F0004A380 /* .bartycrouch.toml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .bartycrouch.toml; sourceTree = "<group>"; };
 		507D1E9726BFACFF00E72E9B /* NavigatorEnter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatorEnter.swift; sourceTree = "<group>"; };
 		507D1E9A26BFB57500E72E9B /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		507D1E9C26BFB69A00E72E9B /* HandyTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandyTabBar.swift; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 				50FA2C6026BC3765003806D6 /* Info.plist */,
 				505BB6CA26D78182007F5B15 /* Entitlements.plist */,
 				50527FFA26CFE88100FD846D /* Chromatic.entitlements */,
+				507873E126F4091F0004A380 /* .bartycrouch.toml */,
 				5034020226BFE0D800E8D02B /* BartyCrouch.swift */,
 				5034020626BFE0EF00E8D02B /* Localizable.strings */,
 				5087161F244B3464003E0023 /* Application */,
@@ -861,6 +864,7 @@
 				508AF3F626CB9497000A2EC6 /* PackageController.xcassets in Resources */,
 				5011783826D27AB600AB123C /* Bundle in Resources */,
 				5034020B26BFE57B00E8D02B /* DashNavCard.xcassets in Resources */,
+				507873E226F4091F0004A380 /* .bartycrouch.toml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

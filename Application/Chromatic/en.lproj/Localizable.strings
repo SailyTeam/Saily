@@ -79,6 +79,9 @@
 /* Collected Packages */
 "COLLECTED_PACKAGES" = "Collected Packages";
 
+/* Search Result: Collection */
+"Collection" = "Collection";
+
 /* Communicating with vender */
 "COMMUNICATING_WITH_VENDER" = "Communicating with vendor";
 
@@ -264,6 +267,9 @@
 
 /* Operation can not be complete with following reasons. */
 "OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "Operation can not be completed for the following reasons.";
+
+/* Operation Completed */
+"OPERATION_COMPLETED" = "Operation Completed";
 
 /* Operation Queue */
 "OPERATION_QUEUE" = "Operation Queue";

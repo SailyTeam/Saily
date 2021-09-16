@@ -322,7 +322,7 @@ class PackageCell: UIView, PackageCellFunction {
         progressView.tintColor = .systemYellow
         describe.textColor = UIColor(named: "RepoTableViewCell.SubText")
         if info.completed {
-            progressView.progress = 1
+            progressView.setProgress(1, animated: false)
             if let error = info.error {
                 describe.text = error.localizedDescription
                 describe.textColor = .systemRed

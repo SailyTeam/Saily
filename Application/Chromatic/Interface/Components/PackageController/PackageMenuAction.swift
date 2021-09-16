@@ -370,12 +370,24 @@ class PackageMenuAction {
 
         .init(descriptor: .blockUpdate, block: { package, _ in
             PackageCenter.default.blockedUpdateTable.append(package.identity)
+            SPIndicator.present(title: NSLocalizedString("DONE", comment: "Done"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
         }, elegantForPerform: { package in
             !PackageCenter.default.blockedUpdateTable.contains(package.identity)
         }),
 
         .init(descriptor: .unblockUpdate, block: { package, _ in
             PackageCenter.default.blockedUpdateTable.removeAll(package.identity)
+            SPIndicator.present(title: NSLocalizedString("DONE", comment: "Done"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
         }, elegantForPerform: { package in
             PackageCenter.default.blockedUpdateTable.contains(package.identity)
         }),
@@ -388,6 +400,12 @@ class PackageMenuAction {
                 .filter { $0.identity != package.identity }
             fetch.append(package)
             InterfaceBridge.collectedPackages = fetch
+            SPIndicator.present(title: NSLocalizedString("DONE", comment: "Done"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
         }, elegantForPerform: { package in
             !InterfaceBridge
                 .collectedPackages
@@ -400,6 +418,12 @@ class PackageMenuAction {
                 .filter { $0.identity != package.identity }
             fetch.append(package)
             InterfaceBridge.collectedPackages = fetch
+            SPIndicator.present(title: NSLocalizedString("DONE", comment: "Done"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
         }, elegantForPerform: { package in
             InterfaceBridge
                 .collectedPackages
@@ -411,6 +435,12 @@ class PackageMenuAction {
                 .collectedPackages
                 .filter { $0.identity != package.identity }
             InterfaceBridge.collectedPackages = fetch
+            SPIndicator.present(title: NSLocalizedString("DONE", comment: "Done"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
         }, elegantForPerform: { package in
             InterfaceBridge
                 .collectedPackages

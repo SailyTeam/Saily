@@ -79,6 +79,9 @@
 /* Collected Packages */
 "COLLECTED_PACKAGES" = "保存的软件包";
 
+/* Search Result: Collection */
+"Collection" = "收藏";
+
 /* Communicating with vender */
 "COMMUNICATING_WITH_VENDER" = "正在联系软件包制造商";
 
@@ -264,6 +267,9 @@
 
 /* Operation can not be complete with following reasons. */
 "OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "这项操作无法完成，请参考下面的原因。";
+
+/* Operation Completed */
+"OPERATION_COMPLETED" = "操作已完成";
 
 /* Operation Queue */
 "OPERATION_QUEUE" = "操作队列";

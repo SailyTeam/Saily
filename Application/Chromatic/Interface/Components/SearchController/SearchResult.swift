@@ -13,6 +13,7 @@ import Foundation
 struct SearchResult {
     enum RepresentTarget {
         case installed(package: Package)
+        case collection(package: Package)
         case repository(url: URL)
         case package(identity: String, repository: URL)
         case author(name: String)
@@ -42,18 +43,11 @@ extension SearchController {
         setSearchResult(with: result)
     }
 
-    private func searchInstalled(key: String, token: UUID) -> [SearchResult] {
+    private func searchLookupInside(packages: [Package], key: String, token: UUID, compiler: (Package) -> (SearchResult.RepresentTarget)) -> [SearchResult] {
         var result = [(String, SearchResult)]()
         var key = key
         if !searchWithCaseSensitive { key = key.lowercased() }
         autoreleasepool {
-            let packages = PackageCenter
-                .default
-                .obtainInstalledPackageList()
-                .filter {
-                    !($0.latestMetadata?["tag"]?.contains("role::cydia") ?? false)
-                        || (key.hasPrefix("gsc"))
-                }
             for package in packages {
                 if token != self.searchToken { return }
                 var searchableContent = """
@@ -75,7 +69,7 @@ extension SearchController {
                         extraDecisions = extraDecisions.map { $0.lowercased() }
                     }
                     extraDecisions.forEach { if $0.hasPrefix(key) { ratio += 1.0 } }
-                    let val = SearchResult.RepresentTarget.installed(package: package)
+                    let val = compiler(package)
                     let search = SearchResult(associatedValue: val,
                                               searchText: searchableContent,
                                               underKey: key,
@@ -94,8 +88,29 @@ extension SearchController {
             .map(\.1)
     }
 
-    private func searchCollections(key _: String, token _: UUID) -> [SearchResult] {
-        []
+    private func searchInstalled(key: String, token: UUID) -> [SearchResult] {
+        let packages = PackageCenter
+            .default
+            .obtainInstalledPackageList()
+            .filter {
+                !($0.latestMetadata?["tag"]?.contains("role::cydia") ?? false)
+                    || (key.hasPrefix("gsc"))
+            }
+        return searchLookupInside(packages: packages, key: key, token: token) { package in
+            SearchResult.RepresentTarget.installed(package: package)
+        }
+    }
+
+    private func searchCollections(key: String, token: UUID) -> [SearchResult] {
+        let packages = InterfaceBridge
+            .collectedPackages
+            .sorted { a, b in
+                PackageCenter.default.name(of: a)
+                    < PackageCenter.default.name(of: b)
+            }
+        return searchLookupInside(packages: packages, key: key, token: token) { package in
+            SearchResult.RepresentTarget.collection(package: package)
+        }
     }
 
     private func searchRepository(key: String, token: UUID) -> [SearchResult] {

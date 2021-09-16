@@ -106,9 +106,9 @@ class SearchCell: UITableViewCell {
             subtitle.text = NSLocalizedString("FOUND_AUTHOR_WITH_NAME", comment: "Found author with this search key.")
             image.image = UIImage.fluent(.peopleSearch24Regular)
 
-        // MARK: - INSTALLED
+        // MARK: - INSTALLED & COLLECTION
 
-        case let .installed(package):
+        case let .installed(package), let .collection(package):
             insertPackageValue(package, withToken: token)
 
         // MARK: - PACKAGE

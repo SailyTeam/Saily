@@ -81,6 +81,18 @@ extension PackageController {
     func downloadDepictionIfAvailable(onComplete: @escaping (UIView?) -> Void) {
         DispatchQueue.global().async { [self] in
             switch PackageCenter.default.depiction(of: packageObject) {
+            case let .web(url: url):
+                DispatchQueue.main.async {
+                    let view = ExpandedWebView()
+                    view.load(url: url)
+                    view.onHeightUpdate = { [weak self] height in
+                        let decision = height + 100
+                        if self?.depictionViewHeight != decision {
+                            self?.depictionViewHeight = decision
+                        }
+                    }
+                    onComplete(view)
+                }
             case let .json(url):
                 URLSession
                     .shared

@@ -65,6 +65,7 @@
 		50443FB826F1D2C600F4EDED /* DashboardController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50443FB426F1D2C600F4EDED /* DashboardController+CollectionView.swift */; };
 		50443FB926F1D2C600F4EDED /* DashboardController+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50443FB526F1D2C600F4EDED /* DashboardController+Cell.swift */; };
 		50443FBB26F1D2E500F4EDED /* LXDashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50443FBA26F1D2E500F4EDED /* LXDashboardController.swift */; };
+		504678D826F3399600C4122A /* ExpandedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504678D726F3399600C4122A /* ExpandedWebView.swift */; };
 		50527FFC26CFF6A600FD846D /* FluentIcon in Frameworks */ = {isa = PBXBuildFile; productRef = 50527FFB26CFF6A600FD846D /* FluentIcon */; };
 		505BB6CD26D78235007F5B15 /* Renet in Frameworks */ = {isa = PBXBuildFile; productRef = 505BB6CC26D78235007F5B15 /* Renet */; };
 		505E17AE26EE59AB00F32B88 /* IBPackageCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505E17AD26EE59AB00F32B88 /* IBPackageCollection.swift */; };
@@ -222,6 +223,7 @@
 		50443FB426F1D2C600F4EDED /* DashboardController+CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DashboardController+CollectionView.swift"; sourceTree = "<group>"; };
 		50443FB526F1D2C600F4EDED /* DashboardController+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DashboardController+Cell.swift"; sourceTree = "<group>"; };
 		50443FBA26F1D2E500F4EDED /* LXDashboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LXDashboardController.swift; sourceTree = "<group>"; };
+		504678D726F3399600C4122A /* ExpandedWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedWebView.swift; sourceTree = "<group>"; };
 		50527FFA26CFE88100FD846D /* Chromatic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chromatic.entitlements; sourceTree = "<group>"; };
 		505BB6CA26D78182007F5B15 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		505E17AD26EE59AB00F32B88 /* IBPackageCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBPackageCollection.swift; sourceTree = "<group>"; };
@@ -294,7 +296,6 @@
 		50FA2C6126BC3765003806D6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50FA2C6726BC383E003806D6 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		50FA2C6926BC398E003806D6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		B5DD518126F351DE007EFF58 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -653,6 +654,7 @@
 				508AF3F526CB9497000A2EC6 /* PackageController.xcassets */,
 				508AF3F726CB94D9000A2EC6 /* PackageController.swift */,
 				508AF3FF26CBA8E1000A2EC6 /* PackageController+Depiction.swift */,
+				504678D726F3399600C4122A /* ExpandedWebView.swift */,
 				508AF3FD26CBA0E9000A2EC6 /* PackageBanner.swift */,
 				5021E31B26CF76FF00D57E51 /* PackageBanner+Actions.swift */,
 				508E475426D405ED00D0806F /* PackageMenuAction.swift */,
@@ -830,7 +832,6 @@
 				en,
 				Base,
 				"zh-Hans",
-				"zh-Hant",
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -925,6 +926,7 @@
 				50972E2426D5F727008BDCFE /* TaskProcessor.swift in Sources */,
 				50274CC026D68C29000EF6BB /* PaymentManager.swift in Sources */,
 				507D1E9D26BFB69A00E72E9B /* HandyTabBar.swift in Sources */,
+				504678D826F3399600C4122A /* ExpandedWebView.swift in Sources */,
 				500C978126DA537100B66AB3 /* SettingApplication.swift in Sources */,
 				5034021426BFF24000E8D02B /* RepoCard.swift in Sources */,
 				50D528BC2449B11300F4A483 /* AppDelegate.swift in Sources */,
@@ -1028,7 +1030,6 @@
 			children = (
 				5034020526BFE0EF00E8D02B /* en */,
 				5063746426F3142300B06BCC /* zh-Hans */,
-				B5DD518126F351DE007EFF58 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

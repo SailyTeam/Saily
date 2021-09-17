@@ -268,6 +268,7 @@
 		50A8052C26CB7D9300F8FB7D /* HDSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDSearchController.swift; sourceTree = "<group>"; };
 		50B0690326C7B5A000CD22AD /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		50B0690526C7BA7C00CD22AD /* SearchCell.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SearchCell.xcassets; sourceTree = "<group>"; };
+		50BB782126F4EC36003C31FD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50BED87626DB2FCA00DC01C7 /* IBTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBTasks.swift; sourceTree = "<group>"; };
 		50BED87826DB2FE700DC01C7 /* IBBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBBase.swift; sourceTree = "<group>"; };
 		50BED87A26DB380700DC01C7 /* IBAppleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBAppleCard.swift; sourceTree = "<group>"; };
@@ -657,13 +658,13 @@
 				508AF3F526CB9497000A2EC6 /* PackageController.xcassets */,
 				508AF3F726CB94D9000A2EC6 /* PackageController.swift */,
 				508AF3FF26CBA8E1000A2EC6 /* PackageController+Depiction.swift */,
-				504678D726F3399600C4122A /* ExpandedWebView.swift */,
 				508AF3FD26CBA0E9000A2EC6 /* PackageBanner.swift */,
 				5021E31B26CF76FF00D57E51 /* PackageBanner+Actions.swift */,
 				508E475426D405ED00D0806F /* PackageMenuAction.swift */,
 				50F2569E26CE3D130008646E /* PackageControllerProxy.swift */,
 				50C668A826CFB560005A68BE /* PackageVersionControlController.swift */,
 				501433FD26D0D61E0042A048 /* PackageDiagnosticController.swift */,
+				504678D726F3399600C4122A /* ExpandedWebView.swift */,
 				506FC0D326D8CD8800FB1668 /* DirectInstall.swift */,
 			);
 			path = PackageController;
@@ -834,9 +835,9 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 				"zh-Hans",
 				"zh-Hant",
+				es,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1037,6 +1038,7 @@
 				5034020526BFE0EF00E8D02B /* en */,
 				5063746426F3142300B06BCC /* zh-Hans */,
 				B5DD518226F358FD007EFF58 /* zh-Hant */,
+				50BB782126F4EC36003C31FD /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

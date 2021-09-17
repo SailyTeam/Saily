@@ -1,17 +1,10 @@
 # Saily
 
-## 2.0 Beta Notice
-
-This software is currently under beta for it's second generation release. We need a little bit more time for making it beautiful, like the dashboard isn't designed. Core features such as install or remove packages, search, version control are working. 
-
-Due to the special nature of the software, we reiterate the terms and conditions.
-
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
 ## Modern. Fast. Beautiful.
 
 [![Pipeline Status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
+[![Crowdin](https://badges.crowdin.net/saily/localized.svg)](https://crwd.in/saily)
 
 ![Preview](./Resources/main.jpeg)
 
@@ -19,6 +12,7 @@ Description: Saily is a modern APT package manager for jailbroken devices runnin
 
 ## Saily Features
 
+- [ ] i18n help wanted [https://crwd.in/saily](https://crwd.in/saily)
 - [x] Unique UI for Both iPhone and iPad
 - [x] Import all your repos from Cydia, Sileo, Zebra, and Installer
 - [x] Add and manage repositories without limitation
@@ -55,7 +49,7 @@ If you want to contribute to the project, make a pull request with your changes 
 
 ## Compiling Project
 
-For debugging with Xcode, there is nothing to setup for, just open the workspace and click run. Certifications and bundle identity are required to be changed in purpose of real device debugging. For releasing/jailbroken compile, exeucte command line inside resources folder. Make sure to install dpkg, for building the package, and python3, for license scanning. swiftlint and bartycrouch are optional.
+For debugging with Xcode, there is nothing to setup for, just open the workspace and click run. Certifications and bundle identity are required to be changed in purpose of real device debugging. For releasing/jailbroken compile, exeucte command line inside resources folder. Make sure to install dpkg, for building the package, and python3 for license scanning, xcpretty for a better output format.  swiftlint and bartycrouch are optional.
 
 ## Credits
 
@@ -82,6 +76,7 @@ We would like to thank and akgnowledge everyone who has contibuted to this proje
 - [@lamtaodotstore](https://twitter.com/lamtaodotstore)
 - [@Amachik](https://twitter.com/Amachik2)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
+- [@powen00hsiao](https://twitter.com/powen00hsiao)
 
 #### Official Twitter Accounts:
 - [Main - @TrySaily](https://twitter.com/TrySaily)

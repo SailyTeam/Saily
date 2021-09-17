@@ -86,7 +86,7 @@
 "COMMUNICATING_WITH_VENDER" = "與供應來源聯繫";
 
 /* Concurrent Download */
-"CONCURRENT_DOWNLOAD" = "同時下載";
+"CONCURRENT_DOWNLOAD" = "同時下載數";
 
 /* Configuring Application */
 "CONFIGURAING_APPLICATION" = "配置應用程式";
@@ -221,7 +221,7 @@
 "LICENSE_INFO" = "許可資訊";
 
 /* Main */
-"MAIN" = "主要";
+"MAIN" = "主頁面";
 
 /* Maintainer */
 "MAINTAINER" = "維護人員";
@@ -242,7 +242,7 @@
 "NAME" = "名稱";
 
 /* Network Timeout */
-"NETWORK_TIMEOUT" = "網路超時";
+"NETWORK_TIMEOUT" = "網路逾時";
 
 /* No Description Available */
 "NO_DESCRIPTION_AVAILABLE" = "沒有可用的描述";

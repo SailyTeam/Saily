@@ -1,0 +1,5 @@
+commit_message: '[Localization] Update %language% translations'
+append_commit_message: false
+files:
+  - source: Application/Chromatic/en.lproj/Localizable.strings
+    translation: Application/Chromatic/%osx_code%/Localizable.strings

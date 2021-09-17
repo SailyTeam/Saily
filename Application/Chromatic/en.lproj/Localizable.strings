@@ -160,6 +160,9 @@
 /* Error */
 "ERROR" = "Error";
 
+/* Error Occurred */
+"ERROR_OCCURRED" = "Error Occurred";
+
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Essential package in removal queue, this may brick your device.";
 
@@ -480,6 +483,9 @@
 
 /* Update Candidate */
 "UPDATE_CANDIDATE" = "Update Candidate";
+
+/* Update Tasks Completed */
+"UPDATE_TASK_COMPLETED" = "Update Tasks Completed";
 
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "Update When Available";

@@ -160,6 +160,9 @@
 /* Error */
 "ERROR" = "错误";
 
+/* Error Occurred */
+"ERROR_OCCURRED" = "遇到未知错误";
+
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在删除队列中检测到系统软件包，这可能会损坏你的设备。";
 
@@ -314,7 +317,7 @@
 "QUEUE_IS_EMPTY" = "空队列";
 
 /* Queued */
-"QUEUED" = "已加入队列";
+"QUEUED" = "队列中";
 
 /* Random Info */
 "RANDOM_INDO" = "随机信息";
@@ -480,6 +483,9 @@
 
 /* Update Candidate */
 "UPDATE_CANDIDATE" = "更新候选项";
+
+/* Update Tasks Completed */
+"UPDATE_TASK_COMPLETED" = "更新任务已完成";
 
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "自动更新";

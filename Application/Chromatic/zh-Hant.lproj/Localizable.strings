@@ -40,6 +40,9 @@
 /* Begin uninstall */
 "BEGIN_UNINSTALL" = "開始卸載";
 
+/* Block Update */
+"BLOCK_UPDATE" = "封鎖更新";
+
 /* Broken Repo Removed */
 "BROKEN_REPO_REMOVED" = "損壞的軟體源已移除";
 
@@ -67,6 +70,18 @@
 /* Close */
 "CLOSE" = "關閉";
 
+/* Collect And Overwrite */
+"COLLECT_AND_OVERWRITE" = "收藏並覆蓋";
+
+/* Collect And Save */
+"COLLECT_AND_SAVE" = "收藏並保存";
+
+/* Collected Packages */
+"COLLECTED_PACKAGES" = "已收藏軟體";
+
+/* Search Result: Collection */
+"Collection" = "收藏";
+
 /* Communicating with vender */
 "COMMUNICATING_WITH_VENDER" = "與供應來源聯繫";
 
@@ -81,6 +96,9 @@
 
 /* Copied */
 "COPIED" = "已複製";
+
+/* Current Installed */
+"CURRENT_INSTALLED" = "目前已安裝";
 
 /* Current Selected */
 "CURRENT_SELECTED" = "目前已選擇";
@@ -141,6 +159,9 @@
 
 /* Error */
 "ERROR" = "錯誤";
+
+/* Error Occurred */
+"ERROR_OCCURRED" = "發生未知錯誤";
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在移除隊列中有基本軟體，移除將可能導致設備變磚";
@@ -214,6 +235,9 @@
 /* Enter the software source address manually here and use line feed to split multiple addresses */
 "MANUAL_INPUT_DESCRIPTION" = "在這裡手動輸入軟件源地址，每個地址需分行";
 
+/* missing or breaking */
+"MISSING_OR_BREAKING" = "遺失或損壞";
+
 /* Name */
 "NAME" = "名稱";
 
@@ -247,11 +271,17 @@
 /* Operation can not be complete with following reasons. */
 "OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "因以下原因，作業無法完成";
 
+/* Operation Completed */
+"OPERATION_COMPLETED" = "操作已完成";
+
 /* Operation Queue */
 "OPERATION_QUEUE" = "作業隊列";
 
 /* Option */
 "OPTION" = "選項";
+
+/* Package */
+"PACKAGE" = "軟體";
 
 /* Package Detail */
 "PACKAGE_DETAIL" = "軟體詳細資訊";
@@ -287,7 +317,7 @@
 "QUEUE_IS_EMPTY" = "隊列是空的";
 
 /* Queued */
-"QUEUED" = "已加入隊列";
+"QUEUED" = "隊列中";
 
 /* Random Info */
 "RANDOM_INDO" = "隨機資訊";
@@ -301,8 +331,14 @@
 /* Rebuild Icons */
 "REBUILD_ICONS" = "重建圖標";
 
+/* Recent Install */
+"RECENT_INSTALL" = "近期安裝";
+
 /* Recent Update */
 "RECENT_UPDATE" = "近期更新";
+
+/* Refreshed */
+"REFRESHED" = "已刷新";
 
 /* Registered */
 "REGISTERED" = "已加入";
@@ -331,12 +367,18 @@
 /* Remove Avatar */
 "REMOVE_AVATAR" = "移除頭像";
 
+/* Remove Collect */
+"REMOVE_COLLECT" = "移除收藏";
+
 /* Repo Collections */
 "REPO_COLLECTIONS" = "軟體源收藏";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
 "REPO_DESCRIPTION" = "軟體源(存儲庫)包含各種插件、應用程式、主題和鈴聲，由官方或非官方或是個人維護，您可以添加任何軟體源而不受限制，但請注意，我們無法確認軟體源提供的數據或資訊是安全的，他們有可能損壞您的系統或設備，造成難以恢復的傷害
 ";
+
+/* Repo Featured */
+"REPO_FEATURED" = "精選軟體源";
 
 /* Repository */
 "REPOSITORY" = "軟體源";
@@ -422,6 +464,9 @@
 /* Unavailable */
 "UNAVAILABLE" = "不可用";
 
+/* Unblock Update */
+"UNBLOCK_UPDATE" = "關閉更新封鎖";
+
 /* Unknown Error Occurred */
 "UNKNOWN_ERROR_OCCURRED" = "發生未知錯誤";
 
@@ -433,6 +478,15 @@
 
 /* Update */
 "UPDATE" = "更新";
+
+/* Update All */
+"UPDATE_ALL" = "更新全部";
+
+/* Update Candidate */
+"UPDATE_CANDIDATE" = "更新候選";
+
+/* Update Tasks Completed */
+"UPDATE_TASK_COMPLETED" = "更新任務已完成";
 
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "有可用更新時自動更新";
@@ -453,52 +507,10 @@
 "VERSION_CONTROL" = "版本控制";
 
 /* While the world sleeps, we dream! */
-"WELCOME_CARD_DESC" = "當世界沉睡時，我們在做夢";
+"WELCOME_CARD_DESC" = "愛慕星雲的人穿梭在不為人知的天方夜譚";
 
 /* Welcome to Saily! */
 "WELCOME_CARD_TITLE" = "歡迎使用 Saily!";
 
 /* Worldwide Search */
 "WORLDWIDE_SEARCH" = "全球搜尋";
-
-/* Block Update */
-"BLOCK_UPDATE" = "封鎖更新";
-
-/* Collect And Overwrite */
-"COLLECT_AND_OVERWRITE" = "收藏並覆蓋";
-
-/* Collect And Save */
-"COLLECT_AND_SAVE" = "收藏並保存";
-
-/* Collected Packages */
-"COLLECTED_PACKAGES" = "已收藏軟體";
-
-/* Current Installed */
-"CURRENT_INSTALLED" = "目前已安裝";
-
-/* missing or breaking */
-"MISSING_OR_BREAKING" = "遺失或損壞";
-
-/* Package */
-"PACKAGE" = "軟體";
-
-/* Recent Install */
-"RECENT_INSTALL" = "近期安裝";
-
-/* Refreshed */
-"REFRESHED" = "已刷新";
-
-/* Remove Collect */
-"REMOVE_COLLECT" = "移除收藏";
-
-/* Repo Featured */
-"REPO_FEATURED" = "精選軟體源";
-
-/* Unblock Update */
-"UNBLOCK_UPDATE" = "關閉更新封鎖";
-
-/* Update All */
-"UPDATE_ALL" = "更新全部";
-
-/* Update Candidate */
-"UPDATE_CANDIDATE" = "更新候選";

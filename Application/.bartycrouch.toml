@@ -1,7 +1,1 @@
-[update]
-tasks = ["code"]
-
-[update.code]
-codePaths = ["."]
-localizablePaths = ["."]
-additive = false
+./Chromatic/.bartycrouch.toml

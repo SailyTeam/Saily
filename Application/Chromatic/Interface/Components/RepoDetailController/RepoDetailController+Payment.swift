@@ -212,20 +212,22 @@ class RepoPaymentView: UIView {
             addSubview(anchor)
             anchor.snp.makeConstraints { x in
                 x.leading.equalTo(self)
-                x.bottom.equalTo(self).offset(10)
+                x.bottom.equalTo(self).offset(5)
                 x.width.equalTo(250)
                 x.height.equalTo(0)
             }
-            let dropDown = DropDown(anchorView: anchor,
-                                    selectionAction: { index, _ in
-                                        paymentActions[index].block(self.parentViewController ?? UIViewController(), self.repo)
-                                    },
-                                    dataSource: paymentActions
-                                        .map(\.text)
-                                        .invisibleSpacePadding())
-            dropDown.show(onTopOf: window)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                anchor.removeFromSuperview()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                let dropDown = DropDown(anchorView: anchor,
+                                        selectionAction: { index, _ in
+                                            paymentActions[index].block(self.parentViewController ?? UIViewController(), self.repo)
+                                        },
+                                        dataSource: paymentActions
+                                            .map(\.text)
+                                            .invisibleSpacePadding())
+                dropDown.show(onTopOf: self.window)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    anchor.removeFromSuperview()
+                }
             }
         }
     }

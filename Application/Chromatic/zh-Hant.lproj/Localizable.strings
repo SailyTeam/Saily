@@ -317,7 +317,7 @@
 "QUEUE_IS_EMPTY" = "隊列是空的";
 
 /* Queued */
-"QUEUED" = "已加入隊列";
+"QUEUED" = "隊列中";
 
 /* Random Info */
 "RANDOM_INDO" = "隨機資訊";

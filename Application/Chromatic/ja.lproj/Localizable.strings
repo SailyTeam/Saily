@@ -1,0 +1,521 @@
+/* %d Operation */
+"%d_OPERATIONS" = "%d の操作";
+
+/* Accounts */
+"ACCOUNTS" = "アカウント";
+
+/* Actions */
+"ACTIONS" = "アクション";
+
+/* Add */
+"ADD" = "追加";
+
+/* Additional Install */
+"ADDITIONAL_INSTALL" = "依存関係";
+
+/* Additional operations are appointed by package vender. */
+"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "追加の操作は、パッケージベンダーによってされます。";
+
+/* Additional Remove */
+"ADDITIONAL_REMOVE" = "競合";
+
+/* All Packages Up to Date */
+"ALL_PACKAGES_UP_TO_DATE" = "すべてのパッケージは最新です";
+
+/* Apt Records */
+"APT_RECORDS" = "APTレコード";
+
+/* Following software sources come from APT or other package managers */
+"APT_RECORDS_DESCRIPTION" = "以下のソフトウェアソースは、APTまたは他のパッケージマネージャーから提供されます。";
+
+/* Author */
+"AUTHOR" = "著者";
+
+/* Available Versions */
+"AVAILABLE_VERSIONS" = "利用可能なバージョン";
+
+/* Begin install */
+"BEGIN_INSTALL" = "インストールを開始";
+
+/* Begin uninstall */
+"BEGIN_UNINSTALL" = "アンインストールを開始";
+
+/* Block Update */
+"BLOCK_UPDATE" = "アップデートをブロック";
+
+/* Broken Repo Removed */
+"BROKEN_REPO_REMOVED" = "破損したリポジトリが削除されました";
+
+/* Broken Resource */
+"BROKEN_RESOURCE" = "壊れたリソース";
+
+/* Buy */
+"BUY" = "購入";
+
+/* Cancel */
+"CANCEL" = "キャンセル";
+
+/* Cancel Queue */
+"CANCEL_QUEUE" = "キューをキャンセルする";
+
+/* Cannot sign in without using real device identities, check your settings. */
+"CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "実際のデバイスIDを使用せずにサインインできません。設定を確認してください。";
+
+/* Change your keyword or refresh the repo. */
+"CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "キーワードを変更するか、リポジトリをリフレッシュしてください。";
+
+/* Clear Tasks */
+"CLEAR_TASKS" = "タスクをクリア";
+
+/* Close */
+"CLOSE" = "閉じる";
+
+/* Collect And Overwrite */
+"COLLECT_AND_OVERWRITE" = "収集と上書き";
+
+/* Collect And Save */
+"COLLECT_AND_SAVE" = "収集して保存";
+
+/* Collected Packages */
+"COLLECTED_PACKAGES" = "収集されたパッケージ";
+
+/* Search Result: Collection */
+"Collection" = "コレクション";
+
+/* Communicating with vender */
+"COMMUNICATING_WITH_VENDER" = "ベンダーとの通信";
+
+/* Concurrent Download */
+"CONCURRENT_DOWNLOAD" = "同時ダウンロード";
+
+/* Configuring Application */
+"CONFIGURAING_APPLICATION" = "アプリケーションを設定する";
+
+/* Confirm */
+"CONFIRM" = "確認";
+
+/* Copied */
+"COPIED" = "コピーしました";
+
+/* Current Installed */
+"CURRENT_INSTALLED" = "インストール済み";
+
+/* Current Selected */
+"CURRENT_SELECTED" = "現在選択中";
+
+/* Dashboard */
+"DASHBOARD" = "ダッシュボード";
+
+/* Delete All Downloads */
+"DELETE_ALL_DOWNLOADS" = "全てのダウンロードを削除";
+
+/* Deleted */
+"DELETED" = "削除済み";
+
+/* Details */
+"DETAILS" = "詳細";
+
+/* Device Information */
+"DEVICE_INFORMATION" = "デバイス情報";
+
+/* Diagnostic */
+"DIAGNOSTIC" = "診断";
+
+/* Direct Install */
+"DIRECT_INSTALL" = "直接インストール";
+
+/* Disable history record will delete previous history records */
+"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "履歴レコードを無効にすると、以前の履歴レコードが削除されます";
+
+/* Dismiss */
+"DISMISS" = "無視";
+
+/* Do again to force reload */
+"DO_AGAIN_TO_FORCE_RELOAD" = "強制的に再読み込みするにはもう一度タップします";
+
+/* Done */
+"DONE" = "完了";
+
+/* Downgrade */
+"DOWNGRADE" = "ダウングレード";
+
+/* Your download can be resumed any time. */
+"DOWNLOAD_CAN_RESUME_ANY_TIME" = "ダウンロードはいつでも再開できます。";
+
+/* Downloaded file can be found in setting. */
+"DOWNLOADED_FILE_CAN_BE_FOUND_IN_SETTING" = "ダウンロードしたファイルは設定で見つけることができます。";
+
+/* Downloading */
+"DOWNLOADING" = "ダウンロード中";
+
+/* Enable History */
+"ENABLE_HISTORY" = "履歴を有効化";
+
+/* Enable random device info will disable commercial operations */
+"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "ランダムなデバイス情報を有効にすると商用操作が無効になります";
+
+/* Enable Share Sheet */
+"ENABLE_SHARE_SHEET" = "共有シートを有効化";
+
+/* Enable share sheet may crash the app */
+"ENABLE_SHARE_SHEET_MAY_CRASH_THE_APP" = "共有シートを有効にするとアプリがクラッシュする可能性があります";
+
+/* Enter Safe Mode */
+"ENTER_SAFE_MODE" = "セーフモードに入る";
+
+/* Error */
+"ERROR" = "エラー";
+
+/* Error Occurred */
+"ERROR_OCCURRED" = "エラーが発生しました";
+
+/* Essential package in removal queue, this may brick your device. */
+"ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "削除キューに不可欠なパッケージです。これによりデバイスに悪影響を及ぼす可能性があります。";
+
+/* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
+"FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "操作ペイロードの作成、不完全なダウンロードまたは壊れたリソースに失敗しました。後でもう一度やり直してください。";
+
+/* Failed to verify package */
+"FAILED_VERIFY_PACKAGE" = "パッケージの検証に失敗しました";
+
+/* Features */
+"FEATURES" = "機能";
+
+/* Files are hash verified before processing. */
+"FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "ファイルは処理前にハッシュ検証されます。";
+
+/* Filza is required for this operation */
+"FILZA_REQUIRED" = "この操作にはFilzaが必要です";
+
+/* Found author with this search key. */
+"FOUND_AUTHOR_WITH_NAME" = "この検索キーで著者が見つかりました。";
+
+/* History Records */
+"HISTORY_RECORDS" = "履歴の記録";
+
+/* You have added these software sources before. These records will be kept for two weeks until you manually turn off this function. */
+"HISTORY_RECORDS_DESCRIPTION" = "以前にこれらのソフトウェアソースを追加しました。これらのレコードは、手動でこの機能をオフにするまで2週間保持されます。";
+
+/* Initializing Packages Engine */
+"INITIALIZING_PACKAGES_ENGINE" = "パッケージエンジンを初期化中";
+
+/* Initializing Repository Engine */
+"INITIALIZING_REPOSITORY_ENGINE" = "リポジトリエンジンの初期化中";
+
+/* Input your email for gravatar */
+"INPUT_YOUR_EMAIL_FOR_GRAVATAR" = "グラバターのメールアドレスを入力してください";
+
+/* Install */
+"INSTALL" = "インストール";
+
+/* Installation Info Refreshed */
+"INSTALLATION_INFO_REFRESHED" = "インストール情報を更新しました";
+
+/* Installed */
+"INSTALLED" = "インストール済み";
+
+/* Last Modification */
+"LAST_MODIFICATION" = "最終変更日時";
+
+/* Last Update */
+"LAST_UPDATE" = "最終の更新";
+
+/* License */
+"LICENSE" = "ライセンス";
+
+/* License Info */
+"LICENSE_INFO" = "ライセンス情報";
+
+/* Main */
+"MAIN" = "メイン";
+
+/* Maintainer */
+"MAINTAINER" = "メンテナー";
+
+/* Manage Account Info */
+"MANAGE_ACCOUNT_INFO" = "アカウントの管理";
+
+/* Manual Input */
+"MANUAL_INPUT" = "手動入力";
+
+/* Enter the software source address manually here and use line feed to split multiple addresses */
+"MANUAL_INPUT_DESCRIPTION" = "ここでソフトウェアのソースアドレスを手動で入力し、アドレスごとに新しい行を使用します";
+
+/* missing or breaking */
+"MISSING_OR_BREAKING" = "見つからないか、壊れている";
+
+/* Name */
+"NAME" = "名前";
+
+/* Network Timeout */
+"NETWORK_TIMEOUT" = "ネットワークタイムアウト";
+
+/* No Description Available */
+"NO_DESCRIPTION_AVAILABLE" = "説明がありません";
+
+/* No Repository */
+"NO_REPO" = "リポジトリがありません";
+
+/* No Result Found */
+"NO_RESULT_FOUND" = "検索結果が見つかりませんでした。";
+
+/* No Update Required */
+"NO_UPDATE_REQUIRED" = "アップデートは必要ありません";
+
+/* Not Available */
+"NOT_AVAILABLE" = "利用できません";
+
+/* Not Modified */
+"NOT_MODIFIED" = "変更されていません";
+
+/* Open Download */
+"OPEN_DOWNLOAD" = "ダウンロードフォルダを開く";
+
+/* Operation */
+"OPERATION" = "操作";
+
+/* Operation can not be complete with following reasons. */
+"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "以下の理由で操作を完了することはできません。";
+
+/* Operation Completed */
+"OPERATION_COMPLETED" = "操作が完了しました";
+
+/* Operation Queue */
+"OPERATION_QUEUE" = "操作のキュー";
+
+/* Option */
+"OPTION" = "オプション";
+
+/* Package */
+"PACKAGE" = "パッケージ";
+
+/* Package Detail */
+"PACKAGE_DETAIL" = "パッケージの詳細";
+
+/* Packages */
+"PACKAGES" = "パッケージ";
+
+/* Pasteboard Records */
+"PASTEBOARD_REPO" = "ペーストボードの記録";
+
+/* We found these links in the clipboard, they may be the source of the software */
+"PASTEBOARD_REPO_DESCRIPTION" = "クリップボードでこれらのリンクを見つけました。それらはソフトウェアのソースかもしれません。";
+
+/* Press add button above to add some */
+"PLEASE_ADD_REPO" = "上の追加ボタンを押して追加します";
+
+/* Preparing Operations */
+"PREPARING_OPERATIONS" = "操作を準備中";
+
+/* Proceed */
+"PROCEED" = "続行";
+
+/* Preparing application upgrade, will exit after complete */
+"PROGRAM_UPGRADING_WILL_EXIT" = "アプリケーションのアップグレードを準備中、完了後に終了します";
+
+/* Purchased */
+"PURCHASED" = "購入済み";
+
+/* Queue */
+"QUEUE" = "キュー";
+
+/* Queue is empty */
+"QUEUE_IS_EMPTY" = "キューが空です";
+
+/* Queued */
+"QUEUED" = "キューに入っています。";
+
+/* Random Info */
+"RANDOM_INDO" = "ランダムな情報";
+
+/* Ready */
+"READY" = "準備完了";
+
+/* Rebuilding icon cache */
+"REBUILD_ICON_CACHE" = "アイコンキャッシュを再構築しています";
+
+/* Rebuild Icons */
+"REBUILD_ICONS" = "アイコンを再構築";
+
+/* Recent Install */
+"RECENT_INSTALL" = "最近のインストール";
+
+/* Recent Update */
+"RECENT_UPDATE" = "最近のアップデート";
+
+/* Refreshed */
+"REFRESHED" = "リフレッシュしました";
+
+/* Registered */
+"REGISTERED" = "登録済み";
+
+/* Reinstall */
+"REINSTALL" = "再インストール";
+
+/* Reload Desktop */
+"RELOAD_DESKTOP" = "ホーム画面を再読み込み";
+
+/* Reload Home Screen */
+"RELOAD_HOMESCREEN" = "ホーム画面を再読み込み";
+
+/* Reload iCloud Avatar */
+"RELOAD_ICLOUD_AVATAR" = "iCloud アバターを再読み込み";
+
+/* Reload Icon Cache */
+"RELOAD_ICON_CACHE" = "アイコンキャッシュを再読み込み";
+
+/* Reloading home screen icons will take some time */
+"RELOAD_ICON_CACHE_TASKES_TIME" = "ホーム画面のアイコンを再読み込みするには時間がかかります";
+
+/* Remove */
+"REMOVE" = "消去";
+
+/* Remove Avatar */
+"REMOVE_AVATAR" = "アイコンを削除";
+
+/* Remove Collect */
+"REMOVE_COLLECT" = "回収を削除";
+
+/* Repo Collections */
+"REPO_COLLECTIONS" = "リポジトリコレクション";
+
+/* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
+"REPO_DESCRIPTION" = "ソフトウェア・ソース(別名レポ) には、公式または非公式の組織または個人によって管理されているさまざまなプラグイン、アプリケーション、テーマ、および着信音が含まれています。 制限なしにソフトウェアソースを追加することはできますが、提供するデータや情報が安全であることを確認することはできませんのでご注意ください。 彼らはあなたのシステムや機器を損傷し、それを回復することが不可能になるかもしれません。";
+
+/* Repo Featured */
+"REPO_FEATURED" = "おすすめのリポジトリ";
+
+/* Repository */
+"REPOSITORY" = "リポジトリ";
+
+/* Request Install */
+"REQUEST_INSTALL" = "インストールリクエスト";
+
+/* Request Remove */
+"REQUEST_REMOVE" = "リクエストの削除";
+
+/* Reset Colors */
+"RESET_COLORS" = "色をリセットする";
+
+/* Resumed */
+"RESUMED" = "再開済み";
+
+/* Search */
+"SEARCH" = "検索";
+
+/* Search for everything by an author with name. */
+"SEARCH_GUIDE_AUTHOR" = "著者ですべてを検索します。";
+
+/* Search in your favorite collection. */
+"SEARCH_GUIDE_FAVORITE" = "お気に入りのコレクションを検索します。";
+
+/* Search for a packages with name or description. */
+"SEARCH_GUIDE_PACAKGE" = "名前または説明のあるパッケージを検索します。";
+
+/* Search for a repository with url or description. */
+"SEARCH_GUIDE_REPO" = "URLまたは説明でリポジトリを検索します。";
+
+/* Search Installed */
+"SEARCH_INSTALLED" = "インストール済みの検索";
+
+/* Section */
+"SECTION" = "セクション";
+
+/* Set Gravatar */
+"SET_GRAVATAR" = "グラバターをセット";
+
+/* Setting */
+"SETTING" = "設定";
+
+/* Settings */
+"SETTINGS" = "設定";
+
+/* Sign Out */
+"SIGN_OUT" = "サインアウト";
+
+/* Signin Failed */
+"SIGNIN_FAILED" = "サインインに失敗";
+
+/* Smart Update */
+"SMART_UPDATE" = "スマートアップデート";
+
+/* Software Sources */
+"SOFTWARE_SOURCES" = "ソフトウェアソース";
+
+/* Source Code */
+"SOURCE_CODE" = "ソースコード";
+
+/* Success */
+"SUCCESS" = "成功";
+
+/* Successfully Queued */
+"SUCCESSFULLY_QUEUED" = "キューに入りました";
+
+/* Task processor is busy processing another job */
+"TASK_PROCESSOR_BUSY_PROCESSING_ANOTHER_JOB" = "タスクプロセッサは別のジョブを処理中です";
+
+/* Task Queue */
+"TASK_QUEUE" = "タスクキュー";
+
+/* Tasks */
+"TASKS" = "タスク";
+
+/* This operation cannot be undone */
+"THIS_OPERATION_CANNOT_BE_UNDONE" = "この操作を元に戻すことはできません。";
+
+/* Toggle */
+"TOGGLE" = "切り替え";
+
+/* Unavailable */
+"UNAVAILABLE" = "使用不可";
+
+/* Unblock Update */
+"UNBLOCK_UPDATE" = "アップデートのブロックを解除";
+
+/* Unknown Error Occurred */
+"UNKNOWN_ERROR_OCCURRED" = "不明なエラーが発生しました。";
+
+/* Unlocking system */
+"UNLOCKING_SYSTEM" = "ロック解除システム";
+
+/* Unpacking Package */
+"UNPACKING_PACKAGE" = "パッケージを解凍中";
+
+/* Update */
+"UPDATE" = "アップデート";
+
+/* Update All */
+"UPDATE_ALL" = "一括更新";
+
+/* Update Candidate */
+"UPDATE_CANDIDATE" = "候補を更新";
+
+/* Update Tasks Completed */
+"UPDATE_TASK_COMPLETED" = "更新タスクが完了しました";
+
+/* Update When Available */
+"UPDATE_WHEN_AVAILABLE" = "利用可能な場合にアップデート";
+
+/* Validating... */
+"VALIDATING..." = "検証しています...";
+
+/* verification failure occurred */
+"VERIFICATION_FAILURE_OCCURRED" = "検証に失敗しました";
+
+/* Package not available, contact vender for support */
+"VERNDER_PACKAGE_NOT_AVAILABLE" = "パッケージが利用できません。サポートのベンダーにお問い合わせください";
+
+/* Version */
+"VERSION" = "バージョン";
+
+/* Version Control */
+"VERSION_CONTROL" = "バージョン管理";
+
+/* While the world sleeps, we dream! */
+"WELCOME_CARD_DESC" = "世界が眠っている間、私たちは夢を見る。";
+
+/* Welcome to Saily! */
+"WELCOME_CARD_TITLE" = "Sailyへようこそ！";
+
+/* Worldwide Search */
+"WORLDWIDE_SEARCH" = "ワールドワイド検索";

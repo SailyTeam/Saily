@@ -241,6 +241,8 @@
 		507D1E9A26BFB57500E72E9B /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		507D1E9C26BFB69A00E72E9B /* HandyTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandyTabBar.swift; sourceTree = "<group>"; };
 		507D1E9F26BFB85600E72E9B /* HDMainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDMainController.swift; sourceTree = "<group>"; };
+		5087445526F6397800DA9EC8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5087445626F6398200DA9EC8 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5088C80126F1E34500618B41 /* PackageSavedCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageSavedCollectionController.swift; sourceTree = "<group>"; };
 		508AF3F526CB9497000A2EC6 /* PackageController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PackageController.xcassets; sourceTree = "<group>"; };
 		508AF3F726CB94D9000A2EC6 /* PackageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageController.swift; sourceTree = "<group>"; };
@@ -838,6 +840,8 @@
 				"zh-Hans",
 				"zh-Hant",
 				es,
+				ja,
+				"pt-BR",
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1039,6 +1043,8 @@
 				5063746426F3142300B06BCC /* zh-Hans */,
 				B5DD518226F358FD007EFF58 /* zh-Hant */,
 				50BB782126F4EC36003C31FD /* es */,
+				5087445526F6397800DA9EC8 /* ja */,
+				5087445626F6398200DA9EC8 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

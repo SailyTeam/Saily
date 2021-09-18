@@ -104,7 +104,9 @@ internal extension RepositoryCenter {
         case "":
             resultBuilder = String(data: data, encoding: .utf8)
         case "bz", "bz2":
-            if let decompress = try? BZip2.decompress(data: data) {
+            if data.count > 0,
+               let decompress = try? BZip2.decompress(data: data)
+            {
                 if let str = String(data: decompress, encoding: .utf8) {
                     resultBuilder = str
                 } else if let str = String(data: decompress, encoding: .ascii) {
@@ -112,7 +114,9 @@ internal extension RepositoryCenter {
                 }
             }
         case "gz", "gz2":
-            if let decompress = try? GzipArchive.unarchive(archive: data) {
+            if data.count > 0,
+               let decompress = try? GzipArchive.unarchive(archive: data)
+            {
                 if let str = String(data: decompress, encoding: .utf8) {
                     resultBuilder = str
                 } else if let str = String(data: decompress, encoding: .ascii) {
@@ -120,7 +124,9 @@ internal extension RepositoryCenter {
                 }
             }
         case "lzma":
-            if let decompress = try? LZMA.decompress(data: data) {
+            if data.count > 0,
+               let decompress = try? LZMA.decompress(data: data)
+            {
                 if let str = String(data: decompress, encoding: .utf8) {
                     resultBuilder = str
                 } else if let str = String(data: decompress, encoding: .ascii) {
@@ -128,7 +134,9 @@ internal extension RepositoryCenter {
                 }
             }
         case "lzma2":
-            if let decompress = try? LZMA2.decompress(data: data) {
+            if data.count > 0,
+               let decompress = try? LZMA2.decompress(data: data)
+            {
                 if let str = String(data: decompress, encoding: .utf8) {
                     resultBuilder = str
                 } else if let str = String(data: decompress, encoding: .ascii) {
@@ -136,7 +144,9 @@ internal extension RepositoryCenter {
                 }
             }
         case "xz", "xz2":
-            if let decompress = try? XZArchive.unarchive(archive: data) {
+            if data.count > 0,
+               let decompress = try? XZArchive.unarchive(archive: data)
+            {
                 if let str = String(data: decompress, encoding: .utf8) {
                     resultBuilder = str
                 } else if let str = String(data: decompress, encoding: .ascii) {

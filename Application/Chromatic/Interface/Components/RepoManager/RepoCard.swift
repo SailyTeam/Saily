@@ -217,12 +217,23 @@ extension RepoCard {
             .joined(separator: "\n")
         var target: UIViewController
         if shareContent.count > 0 {
-            let activityViewController = UIActivityViewController(activityItems: [shareContent],
-                                                                  applicationActivities: nil)
-            activityViewController
-                .popoverPresentationController?
-                .sourceView = buttonShare
-            target = activityViewController
+            if InterfaceBridge.enableShareSheet {
+                let activityViewController = UIActivityViewController(activityItems: [shareContent],
+                                                                      applicationActivities: nil)
+                activityViewController
+                    .popoverPresentationController?
+                    .sourceView = buttonShare
+                target = activityViewController
+            } else {
+                UIPasteboard.general.string = shareContent
+                SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Cpoied"),
+                                    message: nil,
+                                    preset: .done,
+                                    haptic: .success,
+                                    from: .top,
+                                    completion: nil)
+                return
+            }
         } else {
             let alert = UIAlertController(title: "ヽ(*。>Д<)o゜", defaultActionButtonTitle: "✧(≖ ◡ ≖✿)")
             target = alert

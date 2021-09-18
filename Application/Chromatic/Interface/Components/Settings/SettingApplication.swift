@@ -32,6 +32,29 @@ extension SettingView {
         backgroundView.backgroundColor = UIColor(named: "CARD_BACKGROUND")
         backgroundView.layer.cornerRadius = 12
 //        backgroundView.dropShadow()
+        let enableShareSheet = SettingElement(iconSystemNamed: "square.and.arrow.up.on.square.fill",
+                                              text: NSLocalizedString("ENABLE_SHARE_SHEET", comment: "Enable Share Sheet"),
+                                              dataType: .switcher) {
+            InterfaceBridge.enableShareSheet ? "YES" : "NO"
+        } withAction: { changeValueTo, _ in
+            if changeValueTo ?? false {
+                let alert = UIAlertController(title: "⚠️",
+                                              message: NSLocalizedString("ENABLE_SHARE_SHEET_MAY_CRASH_THE_APP", comment: "Enable share sheet may crash the app"),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("CONFIRM", comment: "Confirm"),
+                                              style: .destructive,
+                                              handler: { _ in
+                                                  InterfaceBridge.enableShareSheet = true
+                                              }))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"),
+                                              style: .cancel, handler: { _ in
+                                                  self.dispatchValueUpdate()
+                                              }))
+                self.parentViewController?.present(alert, animated: true, completion: nil)
+            } else {
+                InterfaceBridge.enableShareSheet = false
+            }
+        }
         let doUicache = SettingElement(iconSystemNamed: "square.grid.2x2",
                                        text: NSLocalizedString("REBUILD_ICONS", comment: "Rebuild Icons"),
                                        dataType: .submenuWithAction,
@@ -88,10 +111,18 @@ extension SettingView {
                                       completionHandler: nil)
         }
         addSubview(backgroundView)
+        addSubview(enableShareSheet)
         addSubview(doUicache)
         addSubview(safemode)
         addSubview(doRespring)
         addSubview(sourceCode)
+        enableShareSheet.snp.makeConstraints { x in
+            x.left.equalTo(safeAnchor.snp.left).offset(8)
+            x.right.equalTo(safeAnchor.snp.right).offset(-8)
+            x.top.equalTo(anchor.snp.bottom).offset(18)
+            x.height.equalTo(28)
+        }
+        anchor = enableShareSheet
         doUicache.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left).offset(8)
             x.right.equalTo(safeAnchor.snp.right).offset(-8)
@@ -123,7 +154,7 @@ extension SettingView {
         backgroundView.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left)
             x.right.equalTo(safeAnchor.snp.right)
-            x.top.equalTo(doUicache.snp.top).offset(-12)
+            x.top.equalTo(enableShareSheet.snp.top).offset(-12)
             x.bottom.equalTo(anchor.snp.bottom).offset(16)
         }
         anchor = backgroundView

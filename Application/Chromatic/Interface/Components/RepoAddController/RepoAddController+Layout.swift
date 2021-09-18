@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension RepoAddViewController {
+extension RepoAddViewController: UITextViewDelegate {
     func layoutViews() {
         view.addSubview(container)
         container.snp.makeConstraints { x in
@@ -213,6 +213,7 @@ extension RepoAddViewController {
         userInputValues.autocorrectionType = .no
         userInputValues.textContainerInset = UIEdgeInsets(top: 20, left: 20, bottom: 18, right: 18)
         userInputValues.text = "https://"
+        userInputValues.delegate = self
         userInputValues.font = .monospacedSystemFont(ofSize: 14, weight: .bold)
         userInputValues.autocapitalizationType = .none
         userInputValues.textColor = UIColor(named: "BUTTON_NORMAL")
@@ -286,5 +287,13 @@ extension RepoAddViewController {
         container.showsVerticalScrollIndicator = true
         adjustDescriptionsSize()
         container.contentSize = CGSize(width: 0, height: layoutEnding.frame.height + 100)
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        if let text = textView.text,
+           text.hasPrefix("https://http")
+        {
+            textView.text = String(text.dropFirst("https://".count))
+        }
     }
 }

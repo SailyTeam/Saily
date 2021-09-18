@@ -8,6 +8,7 @@
 
 import AptRepository
 import Down
+import FluentIcon
 import JsonDepiction
 import UIKit
 import WebKit
@@ -24,6 +25,17 @@ class PackageController: UIViewController {
 
     let container = UIScrollView()
     let bannerImageView = UIImageView()
+    let bannerImageIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .white.withAlphaComponent(0.8)
+        imageView.dropShadow(ofColor: .black,
+                             radius: 8,
+                             offset: CGSize(width: 8, height: 8),
+                             opacity: 0.2)
+        imageView.image = .fluent(.extension24Filled)
+        return imageView
+    }()
+
     var bannerPackageView = PackageBannerView(package: Package(identity: ""))
     var preferredBannerHeight: CGFloat = 120
 
@@ -127,6 +139,13 @@ class PackageController: UIViewController {
             x.bottom.equalTo(bannerPackageView.snp.top)
         }
 
+        bannerImageView.addSubview(bannerImageIconView)
+        bannerImageIconView.snp.makeConstraints { x in
+            x.center.equalToSuperview()
+            x.width.equalTo(60)
+            x.height.equalTo(60)
+        }
+
         depictionView = defaultDepiction()
         container.addSubview(depictionView)
         depictionView.snp.makeConstraints { x in
@@ -213,8 +232,8 @@ class PackageController: UIViewController {
         preferredHeight -= topbarHeight
 
         let decision = view.frame.height
-        let minHeight = decision * 0.2
-        let maxHeight = decision * 0.4
+        let minHeight = decision * 0.15
+        let maxHeight = decision * 0.35
 
         if preferredHeight < minHeight {
             preferredHeight = minHeight

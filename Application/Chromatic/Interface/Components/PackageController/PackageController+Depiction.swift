@@ -112,6 +112,7 @@ extension PackageController {
                                             guard let self = self else { return }
                                             if let image = image {
                                                 self.bannerImageView.image = image
+                                                self.bannerImageIconView.isHidden = true
                                             }
                                         }
                                 }

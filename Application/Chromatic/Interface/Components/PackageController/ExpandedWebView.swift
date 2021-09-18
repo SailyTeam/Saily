@@ -6,11 +6,24 @@
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
+import AptRepository
 import UIKit
 import WebKit
 
+private let kMaxPageHeight: CGFloat = 7500
+
 class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
-    let webKitView = WKWebView()
+    let webKitView: WKWebView = {
+        let config = WKWebViewConfiguration()
+        config.allowsInlineMediaPlayback = true
+        config.allowsPictureInPictureMediaPlayback = true
+        config.allowsAirPlayForMediaPlayback = true
+        config.mediaTypesRequiringUserActionForPlayback = .audio
+        config.applicationNameForUserAgent = "Cydia/1.1.32"
+        let view = WKWebView(frame: CGRect(), configuration: config)
+        return view
+    }()
+
     var onHeightUpdate: ((CGFloat) -> Void)?
     var timer: Timer?
     var heightCache: CGFloat?
@@ -38,17 +51,7 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
         }
         let heightWatcher = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-            self
-                .webKitView
-                .evaluateJavaScript("document.body.scrollHeight") { height, _ in
-                    guard var height = height as? CGFloat else { return }
-                    if height > 5000 { height = 5000 }
-                    if self.heightCache != height {
-                        self.heightCache = height
-                        debugPrint("\(#file) \(#function) onHeightUpdate: \(height)")
-                        self.onHeightUpdate?(height)
-                    }
-                }
+            self.updateHeightIfNeeded()
         }
         RunLoop.main.add(heightWatcher, forMode: .common)
         timer = heightWatcher
@@ -77,11 +80,50 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
     }
 
     func load(url: URL) {
-        webKitView.load(URLRequest(url: url))
+        var request = URLRequest(url: url)
+        for (key, value) in RepositoryCenter.default.networkingHeaders {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        webKitView.load(request)
     }
 
     func webView(_: WKWebView, didFinish _: WKNavigation!) {
         restoreWebViewAlpha()
+        let scaleInjector = """
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'initial-scale=1, maximum-scale=1, user-scalable=0';
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(meta);
+        """
+        webKitView.evaluateJavaScript(scaleInjector, completionHandler: nil)
+    }
+
+    func updateHeightIfNeeded() {
+        /// https://stackoverflow.com/questions/41179264/how-to-find-the-height-of-the-entire-webpage
+        let queryHeight = """
+        var pageHeight = 0;
+        function findHighestNode(nodesList) {
+            for (var i = nodesList.length - 1; i >= 0; i--) {
+                if (nodesList[i].scrollHeight && nodesList[i].clientHeight) {
+                    var elHeight = Math.max(nodesList[i].scrollHeight, nodesList[i].clientHeight);
+                    pageHeight = Math.max(elHeight, pageHeight);
+                }
+                if (nodesList[i].childNodes.length) findHighestNode(nodesList[i].childNodes);
+            }
+        }
+        findHighestNode(document.documentElement.childNodes);
+        pageHeight;
+        """
+        webKitView.evaluateJavaScript(queryHeight) { height, _ in
+            guard var height = height as? CGFloat else { return }
+            if height > kMaxPageHeight { height = kMaxPageHeight }
+            if self.heightCache != height {
+                self.heightCache = height
+                debugPrint("\(#file) \(#function) onHeightUpdate: \(height)")
+                self.onHeightUpdate?(height)
+            }
+        }
     }
 
     func setWebViewAlphaIfNeeded() {

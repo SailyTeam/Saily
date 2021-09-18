@@ -7,8 +7,7 @@ Version: @@VERSION@@
 Section: Applications
 Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt
 Architecture: iphoneos-arm
-Homepage: https://github.com/SailyTeam/main/
-Website: https://github.com/SailyTeam/main/
-Depiction: https://github.com/SailyTeam/main/blob/master/README.md
-Nativedepiction: https://github.com/SailyTeam/main/raw/master/Attachments/nativeDepiction.json
-Icon: https://github.com/SailyTeam/main/raw/master/Protein/Assets.xcassets/AppIcon.appiconset/icon-83.5%402x.png
+Homepage: https://github.com/SailyTeam/Saily/
+Website: https://github.com/SailyTeam/Saily/
+Depiction: https://github.com/SailyTeam/Saily/blob/main-2.0/README.md
+Icon: https://github.com/SailyTeam/Saily/raw/main-2.0/Application/Chromatic/Assets.xcassets/AppIcon.appiconset/icon-83.5%402x.png

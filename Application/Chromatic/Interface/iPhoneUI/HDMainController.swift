@@ -70,6 +70,8 @@ class HDMainController: DashboardController {
             x.height.equalTo(5)
         }
 
+        refreshControl.alpha = 0
+
         DispatchQueue.main.async {
             self.updateWelcomeCardHeight()
         }

@@ -1,11 +1,11 @@
 /* %d Operation */
-"%d_OPERATIONS" = "%d 操作";
+"%d_OPERATIONS" = "%d 作業";
 
 /* Accounts */
 "ACCOUNTS" = "帳號";
 
 /* Actions */
-"ACTIONS" = "行動";
+"ACTIONS" = "操作";
 
 /* Add */
 "ADD" = "添加";
@@ -86,7 +86,7 @@
 "COMMUNICATING_WITH_VENDER" = "與供應來源聯繫";
 
 /* Concurrent Download */
-"CONCURRENT_DOWNLOAD" = "同時下載";
+"CONCURRENT_DOWNLOAD" = "同時下載數";
 
 /* Configuring Application */
 "CONFIGURAING_APPLICATION" = "配置應用程式";
@@ -179,7 +179,7 @@
 "FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "檔案處理前已經過哈希值驗證";
 
 /* Filza is required for this operation */
-"FILZA_REQUIRED" = "該操作需要 Filza";
+"FILZA_REQUIRED" = "此操作需要 Filza";
 
 /* Found author with this search key. */
 "FOUND_AUTHOR_WITH_NAME" = "使用此搜尋鍵尋找作者";
@@ -221,7 +221,7 @@
 "LICENSE_INFO" = "許可資訊";
 
 /* Main */
-"MAIN" = "主要";
+"MAIN" = "主頁面";
 
 /* Maintainer */
 "MAINTAINER" = "維護人員";
@@ -242,7 +242,7 @@
 "NAME" = "名稱";
 
 /* Network Timeout */
-"NETWORK_TIMEOUT" = "網路超時";
+"NETWORK_TIMEOUT" = "網路逾時";
 
 /* No Description Available */
 "NO_DESCRIPTION_AVAILABLE" = "沒有可用的描述";
@@ -272,7 +272,7 @@
 "OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "因以下原因，作業無法完成";
 
 /* Operation Completed */
-"OPERATION_COMPLETED" = "操作已完成";
+"OPERATION_COMPLETED" = "作業已完成";
 
 /* Operation Queue */
 "OPERATION_QUEUE" = "作業隊列";
@@ -299,7 +299,7 @@
 "PLEASE_ADD_REPO" = "按上面的添加按鈕添加";
 
 /* Preparing Operations */
-"PREPARING_OPERATIONS" = "正在準備操作";
+"PREPARING_OPERATIONS" = "正在準備作業";
 
 /* Proceed */
 "PROCEED" = "處理完畢";
@@ -323,7 +323,7 @@
 "RANDOM_INDO" = "隨機資訊";
 
 /* Ready */
-"READY" = "準備好";
+"READY" = "準備就緒";
 
 /* Rebuilding icon cache */
 "REBUILD_ICON_CACHE" = "圖標緩存重建中";
@@ -414,7 +414,7 @@
 "SEARCH_INSTALLED" = "搜尋已安裝軟體";
 
 /* Section */
-"SECTION" = "部分";
+"SECTION" = "分類";
 
 /* Set Gravatar */
 "SET_GRAVATAR" = "設置頭像";
@@ -435,10 +435,10 @@
 "SMART_UPDATE" = "智能更新";
 
 /* Software Sources */
-"SOFTWARE_SOURCES" = "軟件來源";
+"SOFTWARE_SOURCES" = "軟體來源";
 
 /* Source Code */
-"SOURCE_CODE" = "源代碼";
+"SOURCE_CODE" = "源始碼";
 
 /* Success */
 "SUCCESS" = "成功";
@@ -456,7 +456,7 @@
 "TASKS" = "任務";
 
 /* This operation cannot be undone */
-"THIS_OPERATION_CANNOT_BE_UNDONE" = "此作業無法撤銷.";
+"THIS_OPERATION_CANNOT_BE_UNDONE" = "此作業無法還原.";
 
 /* Toggle */
 "TOGGLE" = "切換";
@@ -486,16 +486,16 @@
 "UPDATE_CANDIDATE" = "更新候選";
 
 /* Update Tasks Completed */
-"UPDATE_TASK_COMPLETED" = "更新任務已完成";
+"UPDATE_TASK_COMPLETED" = "更新任務完成";
 
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "有可用更新時自動更新";
 
 /* Validating... */
-"VALIDATING..." = "認證中...";
+"VALIDATING..." = "驗證中...";
 
 /* verification failure occurred */
-"VERIFICATION_FAILURE_OCCURRED" = "發生認證失敗";
+"VERIFICATION_FAILURE_OCCURRED" = "發生驗證失敗";
 
 /* Package not available, contact vender for support */
 "VERNDER_PACKAGE_NOT_AVAILABLE" = "軟體不可用，聯繫供應來源以取得支援";

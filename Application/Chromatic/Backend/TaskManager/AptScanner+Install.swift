@@ -96,6 +96,7 @@ extension TaskManager {
             var currentBreakingBuilder = [String]()
             var currentContextBuilder = context
             if currentContextBuilder.map(\.identity).contains(install.identity) {
+                // TODO: check if version matched
                 return returnHook(.init(success: true, install: context, missing: [], breaks: []))
             }
             debugPrint("adding \(install.identity) to context \(currentContextBuilder.count)")
@@ -117,25 +118,57 @@ extension TaskManager {
                                 .requirements
                                 .map(\.elements)
                                 .flatMap { $0 }
-                            for breakingElement in breakingList {
+                            innerBreakingSearch: for breakingElement in breakingList {
                                 if removing.contains(breakingElement.representPackage) {
                                     continue
                                 }
-                                if let installedBreaks = installedOriginalTable[breakingElement.representPackage],
-                                   let version = installedBreaks.latestVersion,
-                                   breakingElement.doesThisVersionMatchesRequirement(version: version)
-                                {
-                                    currentBreakingBuilder.append(installedBreaks.identity)
-                                    debugPrint("🔴 \(install.identity) is breaking package \(installedBreaks.identity) \(version)")
-                                    continue
-                                }
-                                for current in currentContextBuilder where current.identity == breakingElement.representPackage {
-                                    if let version = current.latestVersion,
+                                // check if in an update loop
+                                if currentContextBuilder.map(\.identity).contains(breakingElement.representPackage) {
+                                    /*
+                                     now we need to solve the problem if they are looping the dependency
+                                     eg.
+                                        chariz-keyring is breaking package procursus-keyring 2020.05.09
+                                     while
+                                        procursus-keyring is processing update from 2020.05.09 to 2020.05.09-2
+                                     */
+                                    for installElement in currentContextBuilder
+                                        where installElement.identity == breakingElement.representPackage
+                                    {
+                                        guard let installElementVersion = installElement.latestVersion else {
+                                            currentBreakingBuilder.append(installElement.identity)
+                                            debugPrint("🔴 \(installElement.identity) is invalid")
+                                            continue innerBreakingSearch
+                                        }
+                                        if breakingElement.doesThisVersionMatchesRequirement(version: installElementVersion) {
+                                            currentBreakingBuilder.append(breakingElement.representPackage)
+                                            debugPrint("🔴 \(install.identity) is breaking package \(breakingElement) \(installElementVersion)")
+                                            continue innerBreakingSearch
+                                        } else {
+                                            continue innerBreakingSearch
+                                        }
+                                    }
+                                    #if DEBUG
+                                        // WHAT?
+                                        fatalError()
+                                    #endif
+                                } else {
+                                    // not in install loop, check for installed packages
+                                    if let installedBreaks = installedOriginalTable[breakingElement.representPackage],
+                                       let version = installedBreaks.latestVersion,
                                        breakingElement.doesThisVersionMatchesRequirement(version: version)
                                     {
-                                        currentBreakingBuilder.append(current.identity)
-                                        debugPrint("🔴 \(install.identity) is breaking package \(current.identity) \(version)")
-                                        continue
+                                        currentBreakingBuilder.append(installedBreaks.identity)
+                                        debugPrint("🔴 \(install.identity) is breaking package \(breakingElement) \(version)")
+                                        continue innerBreakingSearch
+                                    }
+                                    for current in currentContextBuilder where current.identity == breakingElement.representPackage {
+                                        if let version = current.latestVersion,
+                                           breakingElement.doesThisVersionMatchesRequirement(version: version)
+                                        {
+                                            currentBreakingBuilder.append(current.identity)
+                                            debugPrint("🔴 \(install.identity) is breaking package \(current.identity) \(version)")
+                                            continue innerBreakingSearch
+                                        }
                                     }
                                 }
                             }
@@ -243,6 +276,47 @@ extension TaskManager {
                                 } else {
                                     // installed, but version failed to match requirement
                                     debugPrint("requirement already install \(eachElement.representPackage) but not working with \(eachElement.original)")
+                                    // now let's check if an update is available for this package
+                                    let availablePackages = PackageCenter
+                                        .default
+                                        .obtainPackageSummary(with: eachElement.representPackage)
+                                        .values
+                                    let availableVersions = availablePackages
+                                        .map { ($0.latestVersion, $0) }
+                                        .sorted {
+                                            switch Package.compareVersion($0.0 ?? "", b: $1.0 ?? "") {
+                                            case .aIsBiggerThenB: return true // put a front
+                                            case .aIsEqualToB: return true // nvm
+                                            case .aIsSmallerThenB: return false // put a back
+                                            case .invalidParameter: return false // what?
+                                            }
+                                        }
+                                    // now, from top down
+                                    innerSearch: for element in availableVersions {
+                                        guard let version = element.0,
+                                              Package.validateVersion(version)
+                                        else {
+                                            continue innerSearch
+                                        }
+                                        if eachElement.doesThisVersionMatchesRequirement(version: version) {
+                                            debugPrint("matched version update for install candidate \(eachElement.representPackage)")
+                                            let appendResult = resolveMissingItem(context: currentContextBuilder,
+                                                                                  install: element.1,
+                                                                                  depth: depth + 1)
+                                            if appendResult.success {
+                                                debugPrint("matched version update validated for install candidate \(eachElement.representPackage)")
+                                                let read = appendResult
+                                                    .install
+                                                    .filter {
+                                                        !currentContextBuilder
+                                                            .map(\.identity)
+                                                            .contains($0.identity)
+                                                    }
+                                                currentContextBuilder.append(contentsOf: read)
+                                                continue group
+                                            }
+                                        }
+                                    }
                                     continue inner
                                 }
                             }

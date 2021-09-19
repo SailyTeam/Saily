@@ -154,6 +154,12 @@
 /* Enable random device info will disable commercial operations */
 "ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "Enabling random device info will disable commercial operations";
 
+/* Enable Share Sheet */
+"ENABLE_SHARE_SHEET" = "Enable Share Sheet";
+
+/* Enable share sheet may crash the app */
+"ENABLE_SHARE_SHEET_MAY_CRASH_THE_APP" = "Enable share sheet may crash the app";
+
 /* Enter Safe Mode */
 "ENTER_SAFE_MODE" = "Enter Safe Mode";
 

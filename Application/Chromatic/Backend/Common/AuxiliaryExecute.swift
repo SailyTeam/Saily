@@ -6,6 +6,7 @@
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
+import Bugsnag
 import Dog
 import UIKit
 
@@ -25,90 +26,88 @@ enum AuxiliaryExecute {
     private(set) static var apt: String = "/usr/bin/apt"
     private(set) static var dpkg: String = "/usr/bin/dpkg"
 
-    private static let searchPath = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        .components(separatedBy: ":")
-
     static func setupExecutables() {
-        do {
-            let bundle = Bundle
-                .main
-                .url(forAuxiliaryExecutable: "chromaticspawn")
-            if let bundle = bundle {
-                chromaticspawn = bundle.path
-                Dog.shared.join(self,
-                                "preferred bundled executable \(bundle.path) rather then system one",
-                                level: .info)
-            }
+        let bundle = Bundle
+            .main
+            .url(forAuxiliaryExecutable: "chromaticspawn")
+        if let bundle = bundle {
+            chromaticspawn = bundle.path
+            Dog.shared.join(self,
+                            "preferred bundled executable \(bundle.path) rather then system one",
+                            level: .info)
         }
 
-        var allBinary = [String: URL]()
+        let binarySearchPath = [
+            "/usr/local/bin",
+            "/usr/bin",
+            "/bin",
+        ]
+        // "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+        var binaryLookupTable = [String: URL]()
 
         #if DEBUG
             let searchBegin = Date()
         #endif
 
-        do {
-            for path in searchPath {
-                // not forEach because of crash, but don't know if fixed.
-                guard let items = try? FileManager
-                    .default
-                    .contentsOfDirectory(atPath: path)
-                else {
-                    continue
-                }
+        for path in binarySearchPath {
+            if let items = try? FileManager
+                .default
+                .contentsOfDirectory(atPath: path)
+            {
                 for item in items {
                     let url = URL(fileURLWithPath: path)
                         .appendingPathComponent(item)
-                    allBinary[item] = url
+                    binaryLookupTable[item] = url
                 }
             }
         }
 
-        if let cp = allBinary["cp"] {
+        if let cp = binaryLookupTable["cp"] {
             self.cp = cp.path
             Dog.shared.join("BinaryFinder", "setting up binary cp at \(cp.path)")
         }
-        if let chmod = allBinary["chmod"] {
+        if let chmod = binaryLookupTable["chmod"] {
             self.chmod = chmod.path
             Dog.shared.join("BinaryFinder", "setting up binary chmod at \(chmod.path)")
         }
-        if let mv = allBinary["mv"] {
+        if let mv = binaryLookupTable["mv"] {
             self.mv = mv.path
             Dog.shared.join("BinaryFinder", "setting up binary mv at \(mv.path)")
         }
-        if let mkdir = allBinary["mkdir"] {
+        if let mkdir = binaryLookupTable["mkdir"] {
             self.mkdir = mkdir.path
             Dog.shared.join("BinaryFinder", "setting up binary mkdir at \(mkdir.path)")
         }
-        if let touch = allBinary["touch"] {
+        if let touch = binaryLookupTable["touch"] {
             self.touch = touch.path
             Dog.shared.join("BinaryFinder", "setting up binary touch at \(touch.path)")
         }
-        if let rm = allBinary["rm"] {
+        if let rm = binaryLookupTable["rm"] {
             self.rm = rm.path
             Dog.shared.join("BinaryFinder", "setting up binary rm at \(rm.path)")
         }
-        if let kill = allBinary["kill"] {
+        if let kill = binaryLookupTable["kill"] {
             self.kill = kill.path
             Dog.shared.join("BinaryFinder", "setting up binary kill at \(kill.path)")
         }
-        if let killall = allBinary["killall"] {
+        if let killall = binaryLookupTable["killall"] {
             self.killall = killall.path
             Dog.shared.join("BinaryFinder", "setting up binary killall at \(killall.path)")
         }
-        if let sbreload = allBinary["sbreload"] {
+        if let sbreload = binaryLookupTable["sbreload"] {
             self.sbreload = sbreload.path
             Dog.shared.join("BinaryFinder", "setting up binary sbreload at \(sbreload.path)")
         }
-        if let uicache = allBinary["uicache"] {
+        if let uicache = binaryLookupTable["uicache"] {
             self.uicache = uicache.path
             Dog.shared.join("BinaryFinder", "setting up binary uicache at \(uicache.path)")
         }
-        if let apt = allBinary["apt"] {
+        if let apt = binaryLookupTable["apt"] {
             self.apt = apt.path
             Dog.shared.join("BinaryFinder", "setting up binary apt at \(apt.path)")
         }
-        if let dpkg = allBinary["dpkg"] {
+        if let dpkg = binaryLookupTable["dpkg"] {
             self.dpkg = dpkg.path
             Dog.shared.join("BinaryFinder", "setting up binary dpkg at \(dpkg.path)")
         }
@@ -291,3 +290,22 @@ enum AuxiliaryExecute {
         return (Int(status), stdoutStr, stderrStr)
     }
 }
+
+/*
+ Developer Notes
+
+ //  [Uncover]
+ // * |info| 2021-09-17_09-19-08| setting up binary cp at /bin/cp
+ // * |info| 2021-09-17_09-19-08| setting up binary chmod at /bin/chmod
+ // * |info| 2021-09-17_09-19-08| setting up binary mv at /bin/mv
+ // * |info| 2021-09-17_09-19-08| setting up binary mkdir at /bin/mkdir
+ // * |info| 2021-09-17_09-19-08| setting up binary touch at /bin/touch
+ // * |info| 2021-09-17_09-19-08| setting up binary rm at /bin/rm
+ // * |info| 2021-09-17_09-19-08| setting up binary kill at /bin/kill
+ // * |info| 2021-09-17_09-19-08| setting up binary killall at /usr/bin/killall
+ // * |info| 2021-09-17_09-19-08| setting up binary sbreload at /usr/bin/sbreload
+ // * |info| 2021-09-17_09-19-08| setting up binary uicache at /usr/bin/uicache
+ // * |info| 2021-09-17_09-19-08| setting up binary apt at /usr/bin/apt
+ // * |info| 2021-09-17_09-19-08| setting up binary dpkg at /usr/bin/dpkg
+
+ */

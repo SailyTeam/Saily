@@ -60,6 +60,29 @@ class UpdateController: UIViewController, UITableViewDelegate, UITableViewDataSo
         navigationItem.rightBarButtonItem = rightItem
 
         reloadDataSource()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadDataSource),
+                                               name: .TaskContainerChanged,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadDataSource),
+                                               name: RepositoryCenter.metadataUpdate,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadDataSource),
+                                               name: RepositoryCenter.registrationUpdate,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadDataSource),
+                                               name: PackageCenter.packageRecordChanged,
+                                               object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,6 +102,7 @@ class UpdateController: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
 
+    @objc
     func reloadDataSource() {
         let everything = PackageCenter
             .default

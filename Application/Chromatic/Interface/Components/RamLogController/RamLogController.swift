@@ -7,6 +7,7 @@
 //
 
 import Dog
+import SPIndicator
 import UIKit
 
 class RamLogController: UIViewController {
@@ -118,11 +119,21 @@ class RamLogController: UIViewController {
 
     @objc
     func openShareView() {
-        let activityViewController = UIActivityViewController(activityItems: [textView.text ?? ""],
-                                                              applicationActivities: nil)
-        activityViewController
-            .popoverPresentationController?
-            .sourceView = textView
-        present(activityViewController, animated: true, completion: nil)
+        if InterfaceBridge.enableShareSheet {
+            let activityViewController = UIActivityViewController(activityItems: [textView.text ?? ""],
+                                                                  applicationActivities: nil)
+            activityViewController
+                .popoverPresentationController?
+                .sourceView = textView
+            present(activityViewController, animated: true, completion: nil)
+        } else {
+            UIPasteboard.general.string = textView.text
+            SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Cpoied"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
+        }
     }
 }

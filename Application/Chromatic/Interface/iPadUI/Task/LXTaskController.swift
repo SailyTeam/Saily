@@ -91,6 +91,15 @@ class LXTaskController: UIViewController {
         reloadTaskActions()
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        reloadTaskActions()
+    }
+
     func updateGuiderOpacity() {
         UIView.animate(withDuration: 0.5) { [self] in
             if dataSource.count == 0 {

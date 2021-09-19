@@ -22,4 +22,7 @@ enum InterfaceBridge {
             NotificationCenter.default.post(name: .PackageCollectionChanged, object: nil)
         }
     }
+
+    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.enableShareSheet", defaultValue: false)
+    public static var enableShareSheet: Bool
 }

@@ -97,6 +97,9 @@
 /* Copied */
 "COPIED" = "已复制";
 
+/* Copy Meta */
+"COPY_META" = "复制元数据";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "已安装";
 
@@ -105,6 +108,9 @@
 
 /* Dashboard */
 "DASHBOARD" = "面板";
+
+/* Delete */
+"DELETE" = "删除";
 
 /* Delete All Downloads */
 "DELETE_ALL_DOWNLOADS" = "清除下载";
@@ -343,6 +349,9 @@
 /* Recent Update */
 "RECENT_UPDATE" = "最近更新";
 
+/* Refresh */
+"REFRESH" = "刷新";
+
 /* Refreshed */
 "REFRESHED" = "已刷新";
 
@@ -429,6 +438,9 @@
 
 /* Settings */
 "SETTINGS" = "设置";
+
+/* Share */
+"SHARE" = "分享";
 
 /* Sign Out */
 "SIGN_OUT" = "注销";

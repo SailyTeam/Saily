@@ -70,8 +70,6 @@ private class FeaturedBanner: UIView {
 
         super.init(frame: CGRect())
 
-        cornerRadius = 12
-
         addSubview(imageView)
         addSubview(name)
         addSubview(button)
@@ -90,9 +88,10 @@ private class FeaturedBanner: UIView {
             x.height.equalTo(30)
         }
 
+        imageView.cornerRadius = 8
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "BannerImagePlaceholder")
-        imageView.cornerRadius = 8
         imageView.sd_setImage(with: url,
                               placeholderImage: imageView.image,
                               options: .highPriority,

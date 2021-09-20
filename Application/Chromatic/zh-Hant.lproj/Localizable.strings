@@ -97,6 +97,9 @@
 /* Copied */
 "COPIED" = "已複製";
 
+/* Copy Meta */
+"COPY_META" = "複製元數據";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "目前已安裝";
 
@@ -105,6 +108,9 @@
 
 /* Dashboard */
 "DASHBOARD" = "儀表板";
+
+/* Delete */
+"DELETE" = "刪除";
 
 /* Delete All Downloads */
 "DELETE_ALL_DOWNLOADS" = "刪除所有下載";
@@ -343,6 +349,9 @@
 /* Recent Update */
 "RECENT_UPDATE" = "近期更新";
 
+/* Refresh */
+"REFRESH" = "刷新";
+
 /* Refreshed */
 "REFRESHED" = "已刷新";
 
@@ -430,6 +439,9 @@
 
 /* Settings */
 "SETTINGS" = "設定";
+
+/* Share */
+"SHARE" = "分享";
 
 /* Sign Out */
 "SIGN_OUT" = "登出";

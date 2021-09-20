@@ -297,7 +297,7 @@ extension RepoCard: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_: UITableView, trailingSwipeActionsConfigurationForRowAt index: IndexPath) -> UISwipeActionsConfiguration? {
         if dataSourceCache.count < 1 { return nil }
-        let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, _ in
+        let deleteItem = UIContextualAction(style: .destructive, title: NSLocalizedString("DELETE", comment: "Delete")) { _, _, _ in
             if self.dataSourceCache.count < 1 { return }
             let url = self.dataSourceCache[index.row]
             self.dataSourceCache.remove(at: index.row)
@@ -313,7 +313,7 @@ extension RepoCard: UITableViewDataSource, UITableViewDelegate {
             }
         }
         deleteItem.backgroundColor = UIColor(hex: 0xFA685C)
-        let reloadItem = UIContextualAction(style: .normal, title: "Refresh".localized()) { _, _, _ in
+        let reloadItem = UIContextualAction(style: .normal, title: NSLocalizedString("REFRESH", comment: "Refresh")) { _, _, _ in
             if self.dataSourceCache.count < 1 { return }
             let url = self.dataSourceCache[index.row]
             RepositoryCenter.default.dispatchUpdateOnRepository(withUrl: url)
@@ -324,14 +324,24 @@ extension RepoCard: UITableViewDataSource, UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [reloadItem, deleteItem])
     }
 
-    func tableView(_: UITableView, leadingSwipeActionsConfigurationForRowAt index: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt index: IndexPath) -> UISwipeActionsConfiguration? {
         if dataSourceCache.count < 1 { return nil }
-        let copyItem = UIContextualAction(style: .normal, title: "Share".localized()) { _, _, _ in
+        let copyItem = UIContextualAction(style: .normal, title: NSLocalizedString("SHARE", comment: "Share")) { _, _, _ in
             if self.dataSourceCache.count < 1 { return }
-            let url = self.dataSourceCache[index.row]
-            UIPasteboard.general.string = url.absoluteString
-            self.tableView.setEditing(false, animated: true)
-            SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Copied"), preset: .done)
+            tableView.setEditing(false, animated: true)
+            let text = self.dataSourceCache[index.row].absoluteString
+            if InterfaceBridge.enableShareSheet {
+                let activityViewController = UIActivityViewController(activityItems: [text],
+                                                                      applicationActivities: nil)
+                activityViewController
+                    .popoverPresentationController?
+                    .sourceView = tableView.cellForRow(at: index)
+                self.parentViewController?.present(activityViewController, animated: true, completion: nil)
+            } else {
+                UIPasteboard.general.string = text
+                self.tableView.setEditing(false, animated: true)
+                SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Copied"), preset: .done)
+            }
         }
         copyItem.backgroundColor = UIColor(hex: 0xBA82D0)
         return UISwipeActionsConfiguration(actions: [copyItem])

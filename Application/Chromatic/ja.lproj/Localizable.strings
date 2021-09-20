@@ -97,6 +97,9 @@
 /* Copied */
 "COPIED" = "コピーしました";
 
+/* Copy Meta */
+"COPY_META" = "メタデータをコピーする";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "インストール済み";
 
@@ -105,6 +108,9 @@
 
 /* Dashboard */
 "DASHBOARD" = "ダッシュボード";
+
+/* Delete */
+"DELETE" = "削除";
 
 /* Delete All Downloads */
 "DELETE_ALL_DOWNLOADS" = "全てのダウンロードを削除";
@@ -343,6 +349,9 @@
 /* Recent Update */
 "RECENT_UPDATE" = "最近のアップデート";
 
+/* Refresh */
+"REFRESH" = "更新";
+
 /* Refreshed */
 "REFRESHED" = "リフレッシュしました";
 
@@ -429,6 +438,9 @@
 
 /* Settings */
 "SETTINGS" = "設定";
+
+/* Share */
+"SHARE" = "共有";
 
 /* Sign Out */
 "SIGN_OUT" = "サインアウト";

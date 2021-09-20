@@ -85,13 +85,13 @@ class WelcomeCard: UIView {
         addSubview(welcomeTitleLabel)
         welcomeTintLabel.snp.makeConstraints { x in
             x.leading.equalToSuperview().offset(18)
-            x.trailing.equalToSuperview().offset(18)
+            x.trailing.equalToSuperview().offset(-18)
             x.height.equalTo(22)
             x.bottom.equalTo(self.snp.bottom).offset(-12)
         }
         welcomeTitleLabel.snp.makeConstraints { x in
             x.leading.equalToSuperview().offset(18)
-            x.trailing.equalToSuperview().offset(18)
+            x.trailing.equalToSuperview().offset(-18)
             x.height.equalTo(28)
             x.bottom.equalTo(welcomeTintLabel.snp.top).offset(6)
         }

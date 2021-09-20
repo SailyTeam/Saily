@@ -6,24 +6,26 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 [![Crowdin](https://badges.crowdin.net/saily/localized.svg)](https://crwd.in/saily)
 
-![Preview](./Resources/main.jpeg)
+![Preview](Resources/main.jpeg)
 
-Description: Saily is a modern APT package manager for jailbroken devices running iPadOS 13 and up.
+Description: Saily is a modern APT package manager for jailbroken devices running iOS/iPadOS 13 and up.
 
 ## Saily Features
 
 - [ ] i18n help wanted [https://crwd.in/saily](https://crwd.in/saily)
-- [x] Unique UI for Both iPhone and iPad
+- [x] Unique UI for **BOTH** iPhone and iPad
 - [x] Import all your repos from Cydia, Sileo, Zebra, and Installer
 - [x] Add and manage repositories without limitation
 - [x] Built to work alongside all of your other package managers
-- [x] Support for Native Depictions with Dark Mode
+- [x] Support for Web Depiction with dark mode
+- [x] Support for Native Depictions with dark mode
 - [x] Support for all jailbreaks (excluding rootlessJB)
-- [x] Clean and stable packaging using CI Machine
-- [x] Random Device Info for Free Packages
+- [x] Support for paid packages
+- [x] Make everything clear with Version Control page listing all available versions and repos
+- [x] Clean and stable packaging using CI machine
+- [x] Random device info for free packages
 - [x] Fully open-sourced under MIT Licence
-- [x] Quick Actions via Settings
-- [x] Paid Packages Support
+- [x] Quick actions (eg respring, uicache) via Setting page
 
 ## Updates
 
@@ -35,21 +37,28 @@ In case you need support regarding Saily or anything associated with it, contact
 
 ## Bug Reports, Feature Requests, & Feedback
 
-If you are experiencing any issues regarding Saily, and would like to file a bug report, make a feature request, or provide any other feedback to be reviewed by our team, please do so using the [Saily Bug Tracker](https://github.com/SailyTeam/BugTracker/blob/master/README.md). Do not contact individual people personally because that will not work. Please be sure to check if the issue you're experiencing has already been reported. Duplicated issues will be closed.
+If you are experiencing any issues regarding Saily, and would like to file a bug report, make a feature request, or provide any other feedback to be reviewed by our team, please do so using the [Saily Bug Tracker](https://github.com/SailyTeam/Saily/issues). Do not contact individual people personally because that will not work. Please be sure to check if the issue you're experiencing has already been reported. Duplicated issues will be closed.
+
+[<img src="Resources/bugsnag.png" alt="" width="100"/>](https://www.bugsnag.com)
+
+We are using [bugsnag](https://www.bugsnag.com/) for bug/crash tracking in application. [Privacy Licenses](https://docs.bugsnag.com/platforms/ios/appstore-privacy/) are additionally applied there, TL;DR, the diagnostic data is anonymous and will not be able to trace you back.
+
+Additionally, if your issue is related to a crash or similar cases, there are some recommended info for you to include in the issue report.
+
+- Your Bugsnag ID, in the Setting page or application log, will provide us a backtrace with code level diagnostic data. It does not contain any privacy related information.
+- The application log, generally located at `/var/mobile/Documents/wiki.qaq.chromatic/Journal/`, will be helpful for tracking the issue. It is a plain text document and may include sensitive privacy related info (eg: searched text, repo urls ...), so check it before upload.
 
 "Your next bug is not a bug, it's a feature." - Apple Inc.
 
-[<img src="./Resources/bugsnag.png" alt="" width="100"/>](https://www.bugsnag.com)
-
-Additionally, we are using [bugsnag](https://www.bugsnag.com/) for bug/crash tracking in application. [Privacy Licenses](https://docs.bugsnag.com/platforms/ios/appstore-privacy/) are additionally applied there, TL;DR, the diagnostic data is anonymous and will not be able to trace you back.
-
 ## Contributing
 
-If you want to contribute to the project, make a pull request with your changes and it will be reviewed by our team. Do not contact individual people personally in order to get your changes through because that will not work.
+If you want to contribute to the project, make a pull request with your changes and it will be reviewed by our team. Do not contact individual people personally in order to get your changes through because that will not work. With pull request, we may squash or rebase your changes to one commit.
 
 ## Compiling Project
 
-For debugging with Xcode, there is nothing to setup for, just open the workspace and click run. Certifications and bundle identity are required to be changed in purpose of real device debugging. For releasing/jailbroken compile, exeucte command line inside resources folder. Make sure to install dpkg, for building the package, and python3 for license scanning, xcpretty for a better output format.  swiftlint and bartycrouch are optional.
+For debugging with Xcode, there is nothing to setup for, just open the workspace and click run. Certifications and bundle identity are required to be changed in purpose of real device debugging. Debugging build will not include license info which is scanned and generated while compiling for release build.
+
+For releasing/jailbroken compile, exeucte command line inside resources folder. Make sure to install dpkg, for building the package, and python3 for license scanning, xcpretty for a better output format. swiftlint and bartycrouch are optional.
 
 ## Credits
 
@@ -83,5 +92,7 @@ We would like to thank and akgnowledge everyone who has contibuted to this proje
 - [Support - @SailySupport](https://twitter.com/SailySupport)  
 
 #### "While the world sleeps, we dream."
+
+---
 
 Copyright © 2020 Saily Team. All Rights Reserved.

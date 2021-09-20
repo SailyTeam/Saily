@@ -30,21 +30,6 @@ extension PackageController {
             tabViewsArray.append(["class": "DepictionSeparatorView"])
         }
 
-        if let changeLogStr = packageObject.latestMetadata?["changelog"] {
-            var priviewTitle1 = [String: Any]()
-            priviewTitle1["title"] = "BuiltInDepiction_whatsNew".localized()
-            priviewTitle1["useBoldText"] = "true"
-            priviewTitle1["useBottomMargin"] = "false"
-            priviewTitle1["class"] = "DepictionHeaderView"
-            tabViewsArray.append(priviewTitle1)
-            var newmd: [String: Any] = [:]
-            newmd["class"] = "DepictionMarkdownView"
-            newmd["useSpacing"] = "true"
-            newmd["markdown"] = changeLogStr
-            tabViewsArray.append(newmd)
-            tabViewsArray.append(["class": "DepictionSeparatorView"])
-        }
-
         var version = [String: Any]()
         version["title"] = NSLocalizedString("VERSION", comment: "Version")
         version["text"] = packageObject.latestMetadata?["version"] ?? "0.0.0.???"

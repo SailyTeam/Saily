@@ -7,6 +7,7 @@
 //
 
 import AptRepository
+import Dog
 import PropertyWrapper
 import UIKit
 
@@ -25,4 +26,13 @@ enum InterfaceBridge {
 
     @UserDefaultsWrapper(key: "wiki.qaq.chromatic.enableShareSheet", defaultValue: false)
     public static var enableShareSheet: Bool
+
+    public static func removeRecoveryFlag(with reason: String, userRequested: Bool) {
+        if !applicationShouldEnterRecovery || userRequested {
+            debugPrint("\(#function) \(reason)")
+            try? FileManager.default.removeItem(at: applicationRecoveryFlag)
+        } else {
+            debugPrint("app in recovery mode")
+        }
+    }
 }

@@ -25,6 +25,7 @@ class PackageMenuAction {
         case collectAndSave
         case collectAndOverwrite
         case removeCollect
+        case copyMeta
 
         func describe() -> String {
             switch self {
@@ -54,6 +55,8 @@ class PackageMenuAction {
                 return NSLocalizedString("COLLECT_AND_OVERWRITE", comment: "Collect And Overwrite")
             case .removeCollect:
                 return NSLocalizedString("REMOVE_COLLECT", comment: "Remove Collect")
+            case .copyMeta:
+                return NSLocalizedString("COPY_META", comment: "Copy Meta")
             }
         }
     }
@@ -447,6 +450,33 @@ class PackageMenuAction {
                 .map(\.identity)
                 .contains(package.identity)
         }),
+
+        // MARK: - COPY META
+
+        .init(descriptor: .copyMeta, block: { package, view in
+            let text = (package.latestMetadata ?? [:])
+                .sorted { $0.key < $1.key }
+                .map { "\($0.key): \($0.value)" }
+                .joined(separator: "\n")
+            if InterfaceBridge.enableShareSheet {
+                let activityViewController = UIActivityViewController(activityItems: [text],
+                                                                      applicationActivities: nil)
+                activityViewController
+                    .popoverPresentationController?
+                    .sourceView = view
+                view
+                    .parentViewController?
+                    .present(activityViewController, animated: true, completion: nil)
+            } else {
+                UIPasteboard.general.string = text
+                SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Cpoied"),
+                                    message: nil,
+                                    preset: .done,
+                                    haptic: .success,
+                                    from: .top,
+                                    completion: nil)
+            }
+        }, elegantForPerform: { _ in true }),
     ]
 
     // MARK: ACTIONS -

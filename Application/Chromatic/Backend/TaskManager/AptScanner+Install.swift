@@ -141,7 +141,7 @@ extension TaskManager {
                                         }
                                         if breakingElement.doesThisVersionMatchesRequirement(version: installElementVersion) {
                                             currentBreakingBuilder.append(breakingElement.representPackage)
-                                            debugPrint("🔴 \(install.identity) is breaking package \(breakingElement) \(installElementVersion)")
+                                            debugPrint("🔴 \(install.identity) is breaking package \(breakingElement.representPackage) \(installElementVersion)")
                                             continue innerBreakingSearch
                                         } else {
                                             continue innerBreakingSearch
@@ -158,7 +158,7 @@ extension TaskManager {
                                        breakingElement.doesThisVersionMatchesRequirement(version: version)
                                     {
                                         currentBreakingBuilder.append(installedBreaks.identity)
-                                        debugPrint("🔴 \(install.identity) is breaking package \(breakingElement) \(version)")
+                                        debugPrint("🔴 \(install.identity) is breaking package \(breakingElement.representPackage) \(version)")
                                         continue innerBreakingSearch
                                     }
                                     for current in currentContextBuilder where current.identity == breakingElement.representPackage {

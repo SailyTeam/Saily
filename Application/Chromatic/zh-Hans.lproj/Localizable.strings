@@ -1,8 +1,8 @@
 /* %d Operation */
-"%d_OPERATIONS" = "%d 队列操作";
+"%d_OPERATIONS" = "%d 作業";
 
 /* Accounts */
-"ACCOUNTS" = "账号";
+"ACCOUNTS" = "帳號";
 
 /* Actions */
 "ACTIONS" = "操作";
@@ -11,22 +11,22 @@
 "ADD" = "添加";
 
 /* Additional Install */
-"ADDITIONAL_INSTALL" = "依赖";
+"ADDITIONAL_INSTALL" = "依賴";
 
 /* Additional operations are appointed by package vender. */
-"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "额外的操作由软件包开发者指定";
+"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "附加操作由軟體供應者指定";
 
 /* Additional Remove */
-"ADDITIONAL_REMOVE" = "冲突";
+"ADDITIONAL_REMOVE" = "衝突";
 
 /* All Packages Up to Date */
-"ALL_PACKAGES_UP_TO_DATE" = "软件包均为最新";
+"ALL_PACKAGES_UP_TO_DATE" = "所有軟體已更新";
 
 /* Apt Records */
-"APT_RECORDS" = "APT 记录";
+"APT_RECORDS" = "APT 記錄";
 
 /* Following software sources come from APT or other package managers */
-"APT_RECORDS_DESCRIPTION" = "以下软件源来自本地 APT 记录或其他软件包管理器。";
+"APT_RECORDS_DESCRIPTION" = "以下軟體源來自APT或其他軟體管理器";
 
 /* Author */
 "AUTHOR" = "作者";
@@ -35,475 +35,487 @@
 "AVAILABLE_VERSIONS" = "可用版本";
 
 /* Begin install */
-"BEGIN_INSTALL" = "开始安装";
+"BEGIN_INSTALL" = "開始安裝";
 
 /* Begin uninstall */
-"BEGIN_UNINSTALL" = "开始卸载";
+"BEGIN_UNINSTALL" = "開始卸載";
 
 /* Block Update */
-"BLOCK_UPDATE" = "屏蔽更新";
+"BLOCK_UPDATE" = "封鎖更新";
 
 /* Broken Repo Removed */
-"BROKEN_REPO_REMOVED" = "已清理破损软件源";
+"BROKEN_REPO_REMOVED" = "損壞的軟體源已移除";
 
 /* Broken Resource */
-"BROKEN_RESOURCE" = "数据已损坏";
+"BROKEN_RESOURCE" = "損壞的來源";
 
 /* Buy */
-"BUY" = "购买";
+"BUY" = "購買";
 
 /* Cancel */
 "CANCEL" = "取消";
 
 /* Cancel Queue */
-"CANCEL_QUEUE" = "取消队列";
+"CANCEL_QUEUE" = "取消隊列";
 
 /* Cannot sign in without using real device identities, check your settings. */
-"CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "无法使用随机设备信息登录，请在设置内取消后重试。";
+"CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "非真實設備身份無法登入，請檢查您的設定";
 
 /* Change your keyword or refresh the repo. */
-"CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "请尝试更换关键词或刷新软件源。";
+"CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "更改您的密碼或重新整理軟體源";
 
 /* Clear Tasks */
-"CLEAR_TASKS" = "清除队列";
+"CLEAR_TASKS" = "清除任務";
 
 /* Close */
-"CLOSE" = "关闭";
+"CLOSE" = "關閉";
 
 /* Collect And Overwrite */
-"COLLECT_AND_OVERWRITE" = "覆盖收藏项";
+"COLLECT_AND_OVERWRITE" = "收藏並覆蓋";
 
 /* Collect And Save */
-"COLLECT_AND_SAVE" = "保存到收藏";
+"COLLECT_AND_SAVE" = "收藏並保存";
 
 /* Collected Packages */
-"COLLECTED_PACKAGES" = "保存的软件包";
+"COLLECTED_PACKAGES" = "已收藏軟體";
 
 /* Search Result: Collection */
 "Collection" = "收藏";
 
 /* Communicating with vender */
-"COMMUNICATING_WITH_VENDER" = "正在联系软件包制造商";
+"COMMUNICATING_WITH_VENDER" = "與供應來源聯繫";
 
 /* Concurrent Download */
-"CONCURRENT_DOWNLOAD" = "下载队列";
+"CONCURRENT_DOWNLOAD" = "同時下載數";
 
 /* Configuring Application */
-"CONFIGURAING_APPLICATION" = "正在配置应用程序";
+"CONFIGURAING_APPLICATION" = "配置應用程式";
 
 /* Confirm */
-"CONFIRM" = "确认";
+"CONFIRM" = "確認";
 
 /* Copied */
-"COPIED" = "已复制";
+"COPIED" = "已複製";
+
+/* Copy Meta */
+"COPY_META" = "複製元數據";
 
 /* Current Installed */
-"CURRENT_INSTALLED" = "已安装";
+"CURRENT_INSTALLED" = "目前已安裝";
 
 /* Current Selected */
-"CURRENT_SELECTED" = "当前选择";
+"CURRENT_SELECTED" = "目前已選擇";
 
 /* Dashboard */
-"DASHBOARD" = "面板";
+"DASHBOARD" = "儀表板";
+
+/* Delete */
+"DELETE" = "刪除";
 
 /* Delete All Downloads */
-"DELETE_ALL_DOWNLOADS" = "清除下载";
+"DELETE_ALL_DOWNLOADS" = "刪除所有下載";
 
 /* Deleted */
-"DELETED" = "已删除";
+"DELETED" = "已刪除";
 
 /* Details */
-"DETAILS" = "详细信息";
+"DETAILS" = "詳細資訊";
 
 /* Device Information */
-"DEVICE_INFORMATION" = "设备信息";
+"DEVICE_INFORMATION" = "裝置資訊";
 
 /* Diagnostic */
-"DIAGNOSTIC" = "诊断";
+"DIAGNOSTIC" = "診斷";
 
 /* Direct Install */
-"DIRECT_INSTALL" = "立即安装";
+"DIRECT_INSTALL" = "直接安裝";
 
 /* Disable history record will delete previous history records */
-"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "该操作将删除历史记录，且不可恢复。";
+"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "禁用歷史記錄將刪除以前的歷史記錄";
 
 /* Dismiss */
-"DISMISS" = "关闭";
+"DISMISS" = "解除";
 
 /* Do again to force reload */
-"DO_AGAIN_TO_FORCE_RELOAD" = "再次点击来强制刷新";
+"DO_AGAIN_TO_FORCE_RELOAD" = "再次點擊以強制重新加載";
 
 /* Done */
 "DONE" = "完成";
 
 /* Downgrade */
-"DOWNGRADE" = "降级";
+"DOWNGRADE" = "降級";
 
 /* Your download can be resumed any time. */
-"DOWNLOAD_CAN_RESUME_ANY_TIME" = "下载缓存支持断点续传";
+"DOWNLOAD_CAN_RESUME_ANY_TIME" = "您可以隨時恢復下載";
 
 /* Downloaded file can be found in setting. */
-"DOWNLOADED_FILE_CAN_BE_FOUND_IN_SETTING" = "下载文件可在设置中找到";
+"DOWNLOADED_FILE_CAN_BE_FOUND_IN_SETTING" = "已下載的檔案可以在設定中找到";
 
 /* Downloading */
-"DOWNLOADING" = "下载中";
+"DOWNLOADING" = "下載中";
 
 /* Enable History */
-"ENABLE_HISTORY" = "启用历史记录";
+"ENABLE_HISTORY" = "啟用歷史";
 
 /* Enable random device info will disable commercial operations */
-"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "启用随机设备信息将会禁用付费软件包。";
+"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "啟用隨機設備資訊將禁用商業操作";
 
 /* Enable Share Sheet */
-"ENABLE_SHARE_SHEET" = "启用分享表单";
+"ENABLE_SHARE_SHEET" = "啟用分享表單";
 
 /* Enable share sheet may crash the app */
-"ENABLE_SHARE_SHEET_MAY_CRASH_THE_APP" = "启用分享表单可能会使应用程序崩溃";
+"ENABLE_SHARE_SHEET_MAY_CRASH_THE_APP" = "啟用分享表單有可能會使應用程序崩潰";
 
 /* Enter Safe Mode */
-"ENTER_SAFE_MODE" = "进入安全模式";
+"ENTER_SAFE_MODE" = "進入安全模式";
 
 /* Error */
-"ERROR" = "错误";
+"ERROR" = "錯誤";
 
 /* Error Occurred */
-"ERROR_OCCURRED" = "遇到未知错误";
+"ERROR_OCCURRED" = "發生未知錯誤";
 
 /* Essential package in removal queue, this may brick your device. */
-"ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在删除队列中检测到系统软件包，这可能会损坏你的设备。";
+"ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在移除隊列中有基本軟體，移除將可能導致設備變磚";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
-"FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "无法创建操作数据，下载未完成或数据已损坏。请稍后再试。";
+"FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "創建操作酬載失敗，下載不完整或已損毀的資源，請稍候再嘗試";
 
 /* Failed to verify package */
-"FAILED_VERIFY_PACKAGE" = "软件包数据校验失败";
+"FAILED_VERIFY_PACKAGE" = "軟體驗證失敗";
 
 /* Features */
-"FEATURES" = "功能";
+"FEATURES" = "功能表";
 
 /* Files are hash verified before processing. */
-"FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "支持下载完整性校验";
+"FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "檔案處理前已經過哈希值驗證";
 
 /* Filza is required for this operation */
-"FILZA_REQUIRED" = "打开下载文件夹需要安装 Filza";
+"FILZA_REQUIRED" = "此操作需要 Filza";
 
 /* Found author with this search key. */
-"FOUND_AUTHOR_WITH_NAME" = "使用此搜索关键词已找到该作者";
+"FOUND_AUTHOR_WITH_NAME" = "使用此搜尋鍵尋找作者";
 
 /* History Records */
-"HISTORY_RECORDS" = "历史记录";
+"HISTORY_RECORDS" = "歷史記錄";
 
 /* You have added these software sources before. These records will be kept for two weeks until you manually turn off this function. */
-"HISTORY_RECORDS_DESCRIPTION" = "历史记录保存了你之前删除的软件源。操作记录将会保留一些时间直到你手动删除。";
+"HISTORY_RECORDS_DESCRIPTION" = "您之前已添加這些軟體源。這些記錄將保留兩週，直到您手動關閉此功能";
 
 /* Initializing Packages Engine */
-"INITIALIZING_PACKAGES_ENGINE" = "正在初始化软件包引擎";
+"INITIALIZING_PACKAGES_ENGINE" = "正在初始化軟體引擎";
 
 /* Initializing Repository Engine */
-"INITIALIZING_REPOSITORY_ENGINE" = "正在初始化软件源引擎";
+"INITIALIZING_REPOSITORY_ENGINE" = "正在初始化軟體源引擎";
 
 /* Input your email for gravatar */
-"INPUT_YOUR_EMAIL_FOR_GRAVATAR" = "请输入 Gravatar 的邮箱地址";
+"INPUT_YOUR_EMAIL_FOR_GRAVATAR" = "輸入頭像的電子郵件";
 
 /* Install */
-"INSTALL" = "安装";
+"INSTALL" = "安裝";
 
 /* Installation Info Refreshed */
-"INSTALLATION_INFO_REFRESHED" = "本地安装信息已刷新";
+"INSTALLATION_INFO_REFRESHED" = "安裝資訊已更新";
 
 /* Installed */
-"INSTALLED" = "已安装";
+"INSTALLED" = "已安裝";
 
 /* Last Modification */
-"LAST_MODIFICATION" = "修改日期";
+"LAST_MODIFICATION" = "最後修改";
 
 /* Last Update */
-"LAST_UPDATE" = "最近更新";
+"LAST_UPDATE" = "最後更新";
 
 /* License */
-"LICENSE" = "许可证";
+"LICENSE" = "許可";
 
 /* License Info */
-"LICENSE_INFO" = "许可证合规信息";
+"LICENSE_INFO" = "許可資訊";
 
 /* Main */
-"MAIN" = "主页";
+"MAIN" = "主頁面";
 
 /* Maintainer */
-"MAINTAINER" = "维护者";
+"MAINTAINER" = "維護人員";
 
 /* Manage Account Info */
-"MANAGE_ACCOUNT_INFO" = "管理账户";
+"MANAGE_ACCOUNT_INFO" = "管理帳號";
 
 /* Manual Input */
-"MANUAL_INPUT" = "手动输入";
+"MANUAL_INPUT" = "手動輸入";
 
 /* Enter the software source address manually here and use line feed to split multiple addresses */
-"MANUAL_INPUT_DESCRIPTION" = "在下方手动输入软件源地址，一行一个。";
+"MANUAL_INPUT_DESCRIPTION" = "在這裡手動輸入軟件源地址，每個地址需分行";
 
 /* missing or breaking */
-"MISSING_OR_BREAKING" = "缺失或冲突";
+"MISSING_OR_BREAKING" = "遺失或損壞";
 
 /* Name */
-"NAME" = "名称";
+"NAME" = "名稱";
 
 /* Network Timeout */
-"NETWORK_TIMEOUT" = "请求超时";
+"NETWORK_TIMEOUT" = "網路逾時";
 
 /* No Description Available */
-"NO_DESCRIPTION_AVAILABLE" = "无可用描述";
+"NO_DESCRIPTION_AVAILABLE" = "沒有可用的描述";
 
 /* No Repository */
-"NO_REPO" = "没有软件源";
+"NO_REPO" = "沒有軟體源";
 
 /* No Result Found */
-"NO_RESULT_FOUND" = "未找到";
+"NO_RESULT_FOUND" = "查無結果";
 
 /* No Update Required */
-"NO_UPDATE_REQUIRED" = "无需更新";
+"NO_UPDATE_REQUIRED" = "無需更新";
 
 /* Not Available */
-"NOT_AVAILABLE" = "不可用";
+"NOT_AVAILABLE" = "無法使用";
 
 /* Not Modified */
-"NOT_MODIFIED" = "没有变更";
+"NOT_MODIFIED" = "未修改";
 
 /* Open Download */
-"OPEN_DOWNLOAD" = "打开下载目录";
+"OPEN_DOWNLOAD" = "開啟下載位址資料夾";
 
 /* Operation */
-"OPERATION" = "操作";
+"OPERATION" = "作業";
 
 /* Operation can not be complete with following reasons. */
-"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "这项操作无法完成，请参考下面的原因。";
+"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "因以下原因，作業無法完成";
 
 /* Operation Completed */
-"OPERATION_COMPLETED" = "操作已完成";
+"OPERATION_COMPLETED" = "作業已完成";
 
 /* Operation Queue */
-"OPERATION_QUEUE" = "操作队列";
+"OPERATION_QUEUE" = "作業隊列";
 
 /* Option */
-"OPTION" = "选项";
+"OPTION" = "選項";
 
 /* Package */
-"PACKAGE" = "软件包";
+"PACKAGE" = "軟體";
 
 /* Package Detail */
-"PACKAGE_DETAIL" = "软件包详情";
+"PACKAGE_DETAIL" = "軟體詳細資訊";
 
 /* Packages */
-"PACKAGES" = "软件包";
+"PACKAGES" = "軟體";
 
 /* Pasteboard Records */
-"PASTEBOARD_REPO" = "剪贴板记录";
+"PASTEBOARD_REPO" = "黏貼板記錄";
 
 /* We found these links in the clipboard, they may be the source of the software */
-"PASTEBOARD_REPO_DESCRIPTION" = "我们在剪贴板中找到了这些软件源记录。";
+"PASTEBOARD_REPO_DESCRIPTION" = "我們找到剪貼板中的連結，他們可能是軟體來源";
 
 /* Press add button above to add some */
-"PLEASE_ADD_REPO" = "请点击上面的按钮来添加一些";
+"PLEASE_ADD_REPO" = "按上面的添加按鈕添加";
 
 /* Preparing Operations */
-"PREPARING_OPERATIONS" = "正在准备操作项";
+"PREPARING_OPERATIONS" = "正在準備作業";
 
 /* Proceed */
-"PROCEED" = "继续处理";
+"PROCEED" = "處理完畢";
 
 /* Preparing application upgrade, will exit after complete */
-"PROGRAM_UPGRADING_WILL_EXIT" = "正在处理程序更新，请重启应用。";
+"PROGRAM_UPGRADING_WILL_EXIT" = "正在準備應用程式升級，完成後將退出";
 
 /* Purchased */
-"PURCHASED" = "已购项目";
+"PURCHASED" = "已購買";
 
 /* Queue */
-"QUEUE" = "队列";
+"QUEUE" = "隊列";
 
 /* Queue is empty */
-"QUEUE_IS_EMPTY" = "空队列";
+"QUEUE_IS_EMPTY" = "隊列是空的";
 
 /* Queued */
-"QUEUED" = "队列中";
+"QUEUED" = "隊列中";
 
 /* Random Info */
-"RANDOM_INDO" = "随机信息";
+"RANDOM_INDO" = "隨機資訊";
 
 /* Ready */
-"READY" = "已就绪";
+"READY" = "準備就緒";
 
 /* Rebuilding icon cache */
-"REBUILD_ICON_CACHE" = "重建桌面图标缓存";
+"REBUILD_ICON_CACHE" = "圖標緩存重建中";
 
 /* Rebuild Icons */
-"REBUILD_ICONS" = "重建桌面图标缓存";
+"REBUILD_ICONS" = "重建圖標";
 
 /* Recent Install */
-"RECENT_INSTALL" = "最近安装";
+"RECENT_INSTALL" = "近期安裝";
 
 /* Recent Update */
-"RECENT_UPDATE" = "最近更新";
+"RECENT_UPDATE" = "近期更新";
+
+/* Refresh */
+"REFRESH" = "刷新";
 
 /* Refreshed */
 "REFRESHED" = "已刷新";
 
 /* Registered */
-"REGISTERED" = "已注册";
+"REGISTERED" = "已加入";
 
 /* Reinstall */
-"REINSTALL" = "重新安装";
+"REINSTALL" = "重新安裝";
 
 /* Reload Desktop */
-"RELOAD_DESKTOP" = "注销桌面";
+"RELOAD_DESKTOP" = "重新加載桌面";
 
 /* Reload Home Screen */
-"RELOAD_HOMESCREEN" = "注销桌面";
+"RELOAD_HOMESCREEN" = "重新加載主屏幕";
 
 /* Reload iCloud Avatar */
-"RELOAD_ICLOUD_AVATAR" = "刷新 iCloud 头像";
+"RELOAD_ICLOUD_AVATAR" = "重新加載 iCloud 頭像";
 
 /* Reload Icon Cache */
-"RELOAD_ICON_CACHE" = "重建桌面图标缓存";
+"RELOAD_ICON_CACHE" = "重新加載圖標緩存";
 
 /* Reloading home screen icons will take some time */
-"RELOAD_ICON_CACHE_TASKES_TIME" = "重建全部的图标缓存需要花费一些时间";
+"RELOAD_ICON_CACHE_TASKES_TIME" = "重新加載主屏幕圖標需要一些時間";
 
 /* Remove */
-"REMOVE" = "删除";
+"REMOVE" = "移除";
 
 /* Remove Avatar */
-"REMOVE_AVATAR" = "删除头像";
+"REMOVE_AVATAR" = "移除頭像";
 
 /* Remove Collect */
-"REMOVE_COLLECT" = "删除收藏项";
+"REMOVE_COLLECT" = "移除收藏";
 
 /* Repo Collections */
-"REPO_COLLECTIONS" = "软件源列表";
+"REPO_COLLECTIONS" = "軟體源收藏";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
 "REPO_DESCRIPTION" = "软件源包含各种插件、应用程序、主题和铃声，它们由官方或非官方组织或个人维护。你可以不受限制地添加任何软件源，但请注意，我们不能确认他们提供的数据或信息是安全的。它们可能会损坏你的系统或设备，使之无法恢复。";
 
 /* Repo Featured */
-"REPO_FEATURED" = "软件源推荐";
+"REPO_FEATURED" = "精選軟體源";
 
 /* Repository */
-"REPOSITORY" = "软件源";
+"REPOSITORY" = "軟體源";
 
 /* Request Install */
-"REQUEST_INSTALL" = "安装";
+"REQUEST_INSTALL" = "安裝請求";
 
 /* Request Remove */
-"REQUEST_REMOVE" = "删除";
+"REQUEST_REMOVE" = "移除請求";
 
 /* Reset Colors */
-"RESET_COLORS" = "重置颜色";
+"RESET_COLORS" = "重置顏色";
 
 /* Resumed */
-"RESUMED" = "已恢复";
+"RESUMED" = "已恢復";
 
 /* Search */
-"SEARCH" = "搜索";
+"SEARCH" = "搜尋";
 
 /* Search for everything by an author with name. */
-"SEARCH_GUIDE_AUTHOR" = "搜索任意作者";
+"SEARCH_GUIDE_AUTHOR" = "按作者搜尋所有內容";
 
 /* Search in your favorite collection. */
-"SEARCH_GUIDE_FAVORITE" = "搜索收藏并储存的软件包";
+"SEARCH_GUIDE_FAVORITE" = "在您最喜歡的收藏中搜尋";
 
 /* Search for a packages with name or description. */
-"SEARCH_GUIDE_PACAKGE" = "可模糊搜索名称或描述";
+"SEARCH_GUIDE_PACAKGE" = "用名稱或描述搜尋軟體";
 
 /* Search for a repository with url or description. */
-"SEARCH_GUIDE_REPO" = "可搜索软件源";
+"SEARCH_GUIDE_REPO" = "按網址或描述搜尋軟體源";
 
 /* Search Installed */
-"SEARCH_INSTALLED" = "搜索已安装";
+"SEARCH_INSTALLED" = "搜尋已安裝軟體";
 
 /* Section */
-"SECTION" = "分组";
+"SECTION" = "分類";
 
 /* Set Gravatar */
-"SET_GRAVATAR" = "设置 Gravatar";
+"SET_GRAVATAR" = "設置頭像";
 
 /* Setting */
-"SETTING" = "设置";
+"SETTING" = "設定";
 
 /* Settings */
-"SETTINGS" = "设置";
+"SETTINGS" = "設定";
+
+/* Share */
+"SHARE" = "分享";
 
 /* Sign Out */
-"SIGN_OUT" = "注销";
+"SIGN_OUT" = "登出";
 
 /* Signin Failed */
-"SIGNIN_FAILED" = "登录失败";
+"SIGNIN_FAILED" = "登入失敗";
 
 /* Smart Update */
-"SMART_UPDATE" = "智能刷新";
+"SMART_UPDATE" = "智能更新";
 
 /* Software Sources */
-"SOFTWARE_SOURCES" = "软件源";
+"SOFTWARE_SOURCES" = "軟體來源";
 
 /* Source Code */
-"SOURCE_CODE" = "获取源码";
+"SOURCE_CODE" = "源始碼";
 
 /* Success */
 "SUCCESS" = "成功";
 
 /* Successfully Queued */
-"SUCCESSFULLY_QUEUED" = "已添加到队列";
+"SUCCESSFULLY_QUEUED" = "已成功加入隊列";
 
 /* Task processor is busy processing another job */
-"TASK_PROCESSOR_BUSY_PROCESSING_ANOTHER_JOB" = "任务处理引擎正在处理另一个队列";
+"TASK_PROCESSOR_BUSY_PROCESSING_ANOTHER_JOB" = "任務處理器正在忙著處理另一個工作";
 
 /* Task Queue */
-"TASK_QUEUE" = "任务队列";
+"TASK_QUEUE" = "任務隊列";
 
 /* Tasks */
-"TASKS" = "任务";
+"TASKS" = "任務";
 
 /* This operation cannot be undone */
-"THIS_OPERATION_CANNOT_BE_UNDONE" = "此项操作不可撤销";
+"THIS_OPERATION_CANNOT_BE_UNDONE" = "此作業無法還原.";
 
 /* Toggle */
-"TOGGLE" = "切换选择";
+"TOGGLE" = "切換";
 
 /* Unavailable */
 "UNAVAILABLE" = "不可用";
 
 /* Unblock Update */
-"UNBLOCK_UPDATE" = "取消屏蔽更新";
+"UNBLOCK_UPDATE" = "關閉更新封鎖";
 
 /* Unknown Error Occurred */
-"UNKNOWN_ERROR_OCCURRED" = "未知错误";
+"UNKNOWN_ERROR_OCCURRED" = "發生未知錯誤";
 
 /* Unlocking system */
-"UNLOCKING_SYSTEM" = "解锁系统资源";
+"UNLOCKING_SYSTEM" = "系統解鎖中";
 
 /* Unpacking Package */
-"UNPACKING_PACKAGE" = "正在加载软件包数据";
+"UNPACKING_PACKAGE" = "軟體解包中";
 
 /* Update */
 "UPDATE" = "更新";
 
 /* Update All */
-"UPDATE_ALL" = "全部更新";
+"UPDATE_ALL" = "更新全部";
 
 /* Update Candidate */
-"UPDATE_CANDIDATE" = "更新候选项";
+"UPDATE_CANDIDATE" = "更新候選";
 
 /* Update Tasks Completed */
-"UPDATE_TASK_COMPLETED" = "更新任务已完成";
+"UPDATE_TASK_COMPLETED" = "更新任務完成";
 
 /* Update When Available */
-"UPDATE_WHEN_AVAILABLE" = "自动更新";
+"UPDATE_WHEN_AVAILABLE" = "有可用更新時自動更新";
 
 /* Validating... */
-"VALIDATING..." = "正在验证...";
+"VALIDATING..." = "驗證中...";
 
 /* verification failure occurred */
-"VERIFICATION_FAILURE_OCCURRED" = "验证失败";
+"VERIFICATION_FAILURE_OCCURRED" = "發生驗證失敗";
 
 /* Package not available, contact vender for support */
-"VERNDER_PACKAGE_NOT_AVAILABLE" = "软件包不可用，请联系制造商反馈问题。";
+"VERNDER_PACKAGE_NOT_AVAILABLE" = "軟體不可用，聯繫供應來源以取得支援";
 
 /* Version */
 "VERSION" = "版本";
@@ -512,10 +524,10 @@
 "VERSION_CONTROL" = "版本控制";
 
 /* While the world sleeps, we dream! */
-"WELCOME_CARD_DESC" = "爱慕星云的人穿梭在不为人知的天方夜谭";
+"WELCOME_CARD_DESC" = "愛慕星雲的人穿梭在不為人知的天方夜譚";
 
 /* Welcome to Saily! */
-"WELCOME_CARD_TITLE" = "欢迎使用 Saily!";
+"WELCOME_CARD_TITLE" = "歡迎使用 Saily!";
 
 /* Worldwide Search */
-"WORLDWIDE_SEARCH" = "全局搜索";
+"WORLDWIDE_SEARCH" = "全球搜尋";

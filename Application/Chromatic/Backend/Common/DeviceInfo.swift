@@ -90,7 +90,6 @@ class DeviceInfo {
             "X-Machine": machine,
             "X-Unique-ID": udid,
             "X-Firmware": firmware,
-//            "User-Agent": "Telesphoreo APT-HTTP/1.0.\(Int.random(in: 580 ... 620))",
         ]
         RepositoryCenter.default.networkingHeaders.forEach { key, value in
             DiggerManager.shared.additionalHTTPHeaders[key] = value

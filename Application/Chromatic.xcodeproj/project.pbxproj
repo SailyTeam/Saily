@@ -264,6 +264,7 @@
 		50975F0026C65720004BCBED /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		50975F0226C65910004BCBED /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		50975F0426C65994004BCBED /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		509C526C26F9C43300116616 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50A283F026D5E34E005FA2DB /* OperationConsoleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationConsoleController.swift; sourceTree = "<group>"; };
 		50A8052526CB5FA300F8FB7D /* HDRepoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDRepoController.swift; sourceTree = "<group>"; };
 		50A8052A26CB78DF00F8FB7D /* RepoAddController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RepoAddController+Layout.swift"; sourceTree = "<group>"; };
@@ -842,6 +843,7 @@
 				es,
 				ja,
 				"pt-BR",
+				de,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1045,6 +1047,7 @@
 				50BB782126F4EC36003C31FD /* es */,
 				5087445526F6397800DA9EC8 /* ja */,
 				5087445626F6398200DA9EC8 /* pt-BR */,
+				509C526C26F9C43300116616 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

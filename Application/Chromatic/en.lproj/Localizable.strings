@@ -97,6 +97,9 @@
 /* Copied */
 "COPIED" = "Copied";
 
+/* Copy Meta */
+"COPY_META" = "Copy Meta";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "Current Installed";
 
@@ -105,6 +108,9 @@
 
 /* Dashboard */
 "DASHBOARD" = "Dashboard";
+
+/* Delete */
+"DELETE" = "Delete";
 
 /* Delete All Downloads */
 "DELETE_ALL_DOWNLOADS" = "Delete All Downloads";
@@ -343,6 +349,9 @@
 /* Recent Update */
 "RECENT_UPDATE" = "Recent Updates";
 
+/* Refresh */
+"REFRESH" = "Refresh";
+
 /* Refreshed */
 "REFRESHED" = "Refreshed";
 
@@ -429,6 +438,9 @@
 
 /* Settings */
 "SETTINGS" = "Settings";
+
+/* Share */
+"SHARE" = "Share";
 
 /* Sign Out */
 "SIGN_OUT" = "Sign Out";

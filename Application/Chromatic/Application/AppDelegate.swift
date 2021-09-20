@@ -21,10 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         #endif
 
+        if applicationShouldEnterRecovery {
+            return true
+        }
+
         // for pop up notifications
         prepareNotifications()
 
         return true
+    }
+
+    func applicationWillTerminate(_: UIApplication) {
+        InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)
     }
 
     // MARK: - UISceneSession Lifecycle

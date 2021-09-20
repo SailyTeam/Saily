@@ -275,6 +275,7 @@ class TaskProcessor {
 
         // MARK: - FINISH UP
 
+        InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)
         PackageCenter.default.realodLocalPackages()
         TaskManager.shared.clearActions()
         AppleCardColorProvider.shared.addColor(withCount: 1)

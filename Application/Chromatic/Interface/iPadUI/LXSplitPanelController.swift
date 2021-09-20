@@ -76,8 +76,8 @@ class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
 
         container.addSubview(welcomeCardDropDownAnchor)
         welcomeCardDropDownAnchor.snp.makeConstraints { x in
-            x.leading.equalTo(safeAnchor)
-            x.width.equalTo(280)
+            x.leading.equalTo(safeAnchor.snp.leading)
+            x.trailing.equalTo(safeAnchor.snp.trailing)
             x.top.equalTo(welcomeCard.snp.bottom).offset(10)
             x.height.equalTo(0)
         }

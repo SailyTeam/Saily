@@ -226,7 +226,7 @@ extension LXTaskController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let data = dataSource[indexPath.section].content[indexPath.row]
         guard data.isUserRequired else { return nil }
-        let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized()) { _, _, _ in
+        let deleteItem = UIContextualAction(style: .destructive, title: NSLocalizedString("DELETE", comment: "Delete")) { _, _, _ in
             _ = TaskManager.shared.cancelActionWithPackage(identity: data.represent.identity)
             SPIndicator.present(title: NSLocalizedString("DELETED", comment: "Deleted"), preset: .done)
             self.reloadTaskActions()

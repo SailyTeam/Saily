@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -17,16 +17,8 @@ let package = Package(
             name: "SWCompression",
             dependencies: ["BitByteData"],
             path: "Sources",
-            sources: [
-                "Common",
-                "7-Zip", "BZip2",
-                "Deflate",
-                "GZip",
-                "LZMA", "LZMA2",
-                "TAR",
-                "XZ",
-                "ZIP", "Zlib",
-            ]
+            sources: ["Common", "7-Zip", "BZip2", "Deflate", "GZip", "LZMA", "LZMA2", "TAR", "XZ", "ZIP", "Zlib"]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )

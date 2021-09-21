@@ -31,10 +31,6 @@ let package = Package(
                 "SWCompression",
                 "AptPackageVersion",
             ]
-        ),
-        .testTarget(
-            name: "AptRepositoryTests",
-            dependencies: ["AptRepository"]
-        ),
+        )
     ]
 )

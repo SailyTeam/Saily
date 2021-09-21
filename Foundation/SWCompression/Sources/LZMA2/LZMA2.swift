@@ -23,6 +23,8 @@ public class LZMA2: DecompressionAlgorithm {
      */
     public static func decompress(data: Data) throws -> Data {
         let byteReader = LittleEndianByteReader(data: data)
+        guard byteReader.bytesLeft >= 1
+        else { throw LZMAError.rangeDecoderInitError }
         return try decompress(byteReader, byteReader.byte())
     }
 

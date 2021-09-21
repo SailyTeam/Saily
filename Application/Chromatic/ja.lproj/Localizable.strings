@@ -98,7 +98,7 @@
 "COPIED" = "コピーしました";
 
 /* Copy Meta */
-"COPY_META" = "メタデータをコピーする";
+"COPY_META" = "Meta をコピー";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "インストール済み";
@@ -389,7 +389,7 @@
 "REPO_COLLECTIONS" = "リポジトリコレクション";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
-"REPO_DESCRIPTION" = "ソフトウェア・ソース(別名レポ) には、公式または非公式の組織または個人によって管理されているさまざまなプラグイン、アプリケーション、テーマ、および着信音が含まれています。 制限なしにソフトウェアソースを追加することはできますが、提供するデータや情報が安全であることを確認することはできませんのでご注意ください。 彼らはあなたのシステムや機器を損傷し、それを回復することが不可能になるかもしれません。";
+"REPO_DESCRIPTION" = "ソフトウェア・ソース(別名リポジトリ) には、公式または非公式の組織または個人によって管理されているさまざまなプラグイン、アプリケーション、テーマ、および着信音が含まれています。 制限なしにソフトウェアソースを追加することはできますが、提供するデータや情報が安全であることを確認することはできませんのでご注意ください。 彼らはあなたのシステムや機器を損傷し、それを回復することが不可能になるかもしれません。";
 
 /* Repo Featured */
 "REPO_FEATURED" = "おすすめのリポジトリ";

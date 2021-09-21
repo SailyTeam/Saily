@@ -98,7 +98,7 @@
 "COPIED" = "Copiado";
 
 /* Copy Meta */
-"COPY_META" = "Copy Meta";
+"COPY_META" = "Copiar Meta";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "Instalado no momento";
@@ -110,7 +110,7 @@
 "DASHBOARD" = "Painel";
 
 /* Delete */
-"DELETE" = "Delete";
+"DELETE" = "Excluir";
 
 /* Delete All Downloads */
 "DELETE_ALL_DOWNLOADS" = "Excluir todos os downloads";
@@ -350,7 +350,7 @@
 "RECENT_UPDATE" = "Atualizações recentes";
 
 /* Refresh */
-"REFRESH" = "Refresh";
+"REFRESH" = "Atualizar";
 
 /* Refreshed */
 "REFRESHED" = "Atualizado";
@@ -440,7 +440,7 @@
 "SETTINGS" = "Configurações";
 
 /* Share */
-"SHARE" = "Share";
+"SHARE" = "Compartilhar";
 
 /* Sign Out */
 "SIGN_OUT" = "Finalizar sessão";

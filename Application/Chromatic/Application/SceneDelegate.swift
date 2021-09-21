@@ -27,6 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidDisconnect(_: UIScene) {}
 
     func sceneDidBecomeActive(_: UIScene) {
+        if applicationShouldEnterRecovery {
+            return
+        }
         Dog.shared.join(self, "sceneDidBecomeActive", level: .info)
         reloadThrottle.throttle {
             PackageCenter.default.realodLocalPackages()
@@ -37,9 +40,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneWillEnterForeground(_: UIScene) {}
 
-    func sceneDidEnterBackground(_: UIScene) {}
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        debugPrint(scene)
+        InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)
+    }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if applicationShouldEnterRecovery {
+            return
+        }
         for item in URLContexts {
             let firstItem = item.url
             if firstItem.absoluteString.lowercased().hasPrefix("file://"),

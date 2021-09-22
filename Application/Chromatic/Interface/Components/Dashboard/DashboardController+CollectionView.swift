@@ -46,18 +46,20 @@ extension DashboardController {
     }
 
     override func collectionView(_ collectionView: UICollectionView,
-                                 viewForSupplementaryElementOfKind _: String,
+                                 viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath)
         -> UICollectionReusableView
     {
+        debugPrint("\(#function) viewForSupplementaryElementOfKind \(kind)")
         let view = collectionView
-            .dequeueReusableSupplementaryView(ofKind: String(describing: LXDashboardSupplementHeaderCell.self),
+            .dequeueReusableSupplementaryView(ofKind: kind,
                                               withReuseIdentifier: generalHeaderID,
                                               for: indexPath)
-            as! LXDashboardSupplementHeaderCell
-        view.prepareNewValue()
-        view.loadSection(data: dataSource[indexPath.section])
-        view.overrideButtonAction = dataSource[indexPath.section].action
+        if let view = view as? LXDashboardSupplementHeaderCell {
+            view.prepareNewValue()
+            view.loadSection(data: dataSource[indexPath.section])
+            view.overrideButtonAction = dataSource[indexPath.section].action
+        }
         return view
     }
 

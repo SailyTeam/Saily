@@ -50,7 +50,7 @@ extension InstalledController {
         collectionView.backgroundColor = .clear
         collectionView.register(PackageCollectionCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(ReuseTimerHeaderView.self,
-                                forSupplementaryViewOfKind: String(describing: ReuseTimerHeaderView.self),
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerId)
 
         searchController.searchBar.placeholder = NSLocalizedString("SEARCH_INSTALLED", comment: "Search Installed")

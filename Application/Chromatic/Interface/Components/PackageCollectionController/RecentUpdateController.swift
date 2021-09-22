@@ -32,7 +32,7 @@ class RecentUpdateController: PackageCollectionController {
         super.viewDidLoad()
         title = NSLocalizedString("RECENT_UPDATE", comment: "Recent Update")
         collectionView.register(ReuseTimerHeaderView.self,
-                                forSupplementaryViewOfKind: String(describing: ReuseTimerHeaderView.self),
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerIdentity)
     }
 
@@ -45,16 +45,17 @@ class RecentUpdateController: PackageCollectionController {
     }
 
     func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind _: String,
+                        viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath)
         -> UICollectionReusableView
     {
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: String(describing: ReuseTimerHeaderView.self),
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                    withReuseIdentifier: headerIdentity,
                                                                    for: indexPath)
-            as! ReuseTimerHeaderView
-        view.horizontalPadding = 5
-        view.loadText(formatter.string(from: updateDataKeys[indexPath.section]))
+        if let view = view as? ReuseTimerHeaderView {
+            view.horizontalPadding = 5
+            view.loadText(formatter.string(from: updateDataKeys[indexPath.section]))
+        }
         return view
     }
 

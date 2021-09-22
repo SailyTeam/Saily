@@ -133,6 +133,11 @@ class SetupViewController: UIViewController {
         let target = storyboard.instantiateViewController(withIdentifier: "NavigatorEnterViewController")
         target.modalPresentationStyle = .fullScreen
         view.window?.rootViewController = target
+        #if DEBUG
+            DispatchQueue.global().asyncAfter(deadline: .now() + 6) {
+                InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)
+            }
+        #endif
     }
 
     func setupRecoveryViews() {

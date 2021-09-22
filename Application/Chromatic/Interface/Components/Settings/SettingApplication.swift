@@ -55,6 +55,13 @@ extension SettingView {
                 InterfaceBridge.enableShareSheet = false
             }
         }
+        #if DEBUG
+            let crashApp = SettingElement(iconSystemNamed: "xmark.octagon.fill",
+                                          text: "EXEC_BAD_ACCESS",
+                                          dataType: .submenuWithAction, initData: nil) { _, _ in
+                fatalError("simulated application crash by user", file: #file, line: #line)
+            }
+        #endif
         let doUicache = SettingElement(iconSystemNamed: "square.grid.2x2",
                                        text: NSLocalizedString("REBUILD_ICONS", comment: "Rebuild Icons"),
                                        dataType: .submenuWithAction,
@@ -112,6 +119,9 @@ extension SettingView {
         }
         addSubview(backgroundView)
         addSubview(enableShareSheet)
+        #if DEBUG
+            addSubview(crashApp)
+        #endif
         addSubview(doUicache)
         addSubview(safemode)
         addSubview(doRespring)
@@ -123,6 +133,15 @@ extension SettingView {
             x.height.equalTo(28)
         }
         anchor = enableShareSheet
+        #if DEBUG
+            crashApp.snp.makeConstraints { x in
+                x.left.equalTo(safeAnchor.snp.left).offset(8)
+                x.right.equalTo(safeAnchor.snp.right).offset(-8)
+                x.top.equalTo(anchor.snp.bottom).offset(18)
+                x.height.equalTo(28)
+            }
+            anchor = crashApp
+        #endif
         doUicache.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left).offset(8)
             x.right.equalTo(safeAnchor.snp.right).offset(-8)

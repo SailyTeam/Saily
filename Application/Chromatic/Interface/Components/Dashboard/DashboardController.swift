@@ -45,7 +45,7 @@ class DashboardController: UICollectionViewController, UICollectionViewDelegateF
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .clear
         collectionView.register(LXDashboardSupplementHeaderCell.self,
-                                forSupplementaryViewOfKind: String(describing: LXDashboardSupplementHeaderCell.self),
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: generalHeaderID)
         collectionView.register(PackageCollectionCell.self,
                                 forCellWithReuseIdentifier: packageCellID)

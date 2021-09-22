@@ -53,15 +53,16 @@ extension InstalledController {
     }
 
     override func collectionView(_ collectionView: UICollectionView,
-                                 viewForSupplementaryElementOfKind _: String,
+                                 viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath)
         -> UICollectionReusableView
     {
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: String(describing: ReuseTimerHeaderView.self),
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                    withReuseIdentifier: headerId,
                                                                    for: indexPath)
-            as! ReuseTimerHeaderView
-        view.loadText(dataSource[indexPath.section].section ?? "")
+        if let view = view as? ReuseTimerHeaderView {
+            view.loadText(dataSource[indexPath.section].section ?? "")
+        }
         return view
     }
 
@@ -73,7 +74,7 @@ extension InstalledController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        debugPrint("\(#file) \(#function) \(indexPath)")
+        debugPrint("\(self) \(#function) \(indexPath)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PackageCollectionCell
         let fetch = dataSource[indexPath.section].package[indexPath.row]
         cell.prepareForNewValue()

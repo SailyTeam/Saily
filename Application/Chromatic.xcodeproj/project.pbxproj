@@ -1179,10 +1179,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Chromatic/Chromatic.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 100;
-				DEVELOPMENT_TEAM = XHU4PZC5QX;
+				DEVELOPMENT_TEAM = GXZ23M5TP2;
 				DOCKER_SHOULD_BUILD = NO;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1197,6 +1198,8 @@
 				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.chromatic;
 				PRODUCT_NAME = chromatic;
+				PROVISIONING_PROFILE_SPECIFIER = "QAQ Wiki iOS";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ./Chromatic/Backend/Common/Bridge.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1210,10 +1213,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Chromatic/Chromatic.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 100;
-				DEVELOPMENT_TEAM = XHU4PZC5QX;
+				DEVELOPMENT_TEAM = GXZ23M5TP2;
 				DOCKER_SHOULD_BUILD = NO;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Chromatic/Info.plist";
@@ -1227,6 +1231,8 @@
 				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.chromatic;
 				PRODUCT_NAME = chromatic;
+				PROVISIONING_PROFILE_SPECIFIER = "QAQ Wiki iOS";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ./Chromatic/Backend/Common/Bridge.h;
 				SWIFT_VERSION = 5.0;

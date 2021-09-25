@@ -844,6 +844,7 @@
 				ja,
 				"pt-BR",
 				de,
+				Base,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;

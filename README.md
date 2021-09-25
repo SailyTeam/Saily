@@ -2,6 +2,8 @@
 
 ## Modern. Fast. Beautiful.
 
+Release Channel Repo: https://sailyteam.github.io/repo/
+
 [![Pipeline Status](https://lab.qaq.wiki/Lakr233/Protein/badges/master/pipeline.svg)](https://lab.qaq.wiki/Lakr233/Protein/-/commits/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 [![Crowdin](https://badges.crowdin.net/saily/localized.svg)](https://crwd.in/saily)

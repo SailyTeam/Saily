@@ -334,6 +334,9 @@ class CariolNetwork {
     }
 
     private func generateDownloadFileUrlWith(downloadUrl: URL) -> URL {
+        try? FileManager.default.createDirectory(at: workingLocation,
+                                                 withIntermediateDirectories: true,
+                                                 attributes: nil)
         var buildName = downloadUrl
             .lastPathComponent
             .components(separatedBy: illegalFileNameCharacters)

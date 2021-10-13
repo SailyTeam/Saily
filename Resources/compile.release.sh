@@ -114,5 +114,3 @@ mkdir Payload
 cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
 zip -r9 chromatic.ipa Payload/chromatic.app
 cp -R chromatic.ipa build/Release
-rm -rf chromatic.ipa
-rm -rf Payload

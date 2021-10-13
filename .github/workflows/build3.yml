@@ -1,0 +1,26 @@
+name: Build Release3
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+   runs-on: macos-latest
+   steps:
+      - uses: actions/checkout@v2
+      - name: submodules-init
+        uses: snickerbockers/submodules-init@v4
+      - name: Build
+        run: |
+            chmod +x ./Resources/compile.release.sh
+            ./Resources/compile.release.sh
+                   
+      - name: Upload .ipa
+        uses: actions/upload-artifact@v2.2.4
+        with:
+         name: chromatic.$TIMESTAMP.ipa
+         path: "build/Release/chromatic.$TIMESTAMP.ipa"
+      - name: Upload .deb
+        uses: actions/upload-artifact@v2.2.4
+        with:  
+         name: chromatic.rel.ci.$TIMESTAMP.deb
+         path: "build/Release/chromatic.rel.ci.$TIMESTAMP.deb"

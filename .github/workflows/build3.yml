@@ -12,7 +12,7 @@ jobs:
       - name: Build
         run: |
             chmod +x ./Resources/compile.release2.sh
-            arch -arm64e /bin/bash -c ./Resources/compile.release2.sh 
+            /bin/bash -c ./Resources/compile.release2.sh 
       - name: Upload .ipa
         uses: actions/upload-artifact@v2.2.4
         with:

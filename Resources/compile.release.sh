@@ -26,6 +26,12 @@ if [ ! -e "build" ]; then
         rm -rf Payload
         rm -rf chromatic.ipa
 fi
+
+# if Payload not exists create it
+if [ ! -e "Payload" ]; then
+    mkdir Payload
+fi
+
 cd build || exit
 
 # run license scan at Resources/compile.license.py
@@ -107,7 +113,6 @@ chmod -R 0755 DEBIAN
 PKG_NAME="chromatic.rel.ci.deb"
 dpkg-deb -b . "../$PKG_NAME"
 
-mkdir Payload
 cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
 zip -r9 chromatic.ipa Payload/chromatic.app
 cp -R chromatic.ipa build/Release

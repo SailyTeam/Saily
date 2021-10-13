@@ -8,11 +8,13 @@ jobs:
 
    steps:
       - uses: actions/checkout@v2
-      - name: Run script file
-        run: chmod +x ./Resources/compile.release.sh
+      - name: submodules-init
+        uses: snickerbockers/submodules-init@v4
+      - name: Build
+        run: |
+            chmod +x /Resources/compile.release.sh
             ./Resources/compile.release.sh
-        shell: bash
-        
+                   
       - name: Upload .ipa
         uses: actions/upload-artifact@v2.2.4
         with:

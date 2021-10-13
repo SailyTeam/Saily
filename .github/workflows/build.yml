@@ -12,7 +12,7 @@ jobs:
         uses: snickerbockers/submodules-init@v4
       - name: Build
         run: |
-            chmod +x /Resources/compile.release.sh
+            chmod +x ./Resources/compile.release.sh
             ./Resources/compile.release.sh
                    
       - name: Upload .ipa

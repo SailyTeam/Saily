@@ -11,16 +11,15 @@ jobs:
         uses: snickerbockers/submodules-init@v4
       - name: Build
         run: |
-            chmod +x ./Resources/compile.release3.sh
-            ./Resources/compile.release3.sh
-                   
+            chmod +x ./Resources/compile.release2.sh
+            arch -arm64e /bin/bash -c ./Resources/compile.release2.sh 
       - name: Upload .ipa
         uses: actions/upload-artifact@v2.2.4
         with:
-         name: chromatic.$TIMESTAMP.ipa
-         path: "build/Release/chromatic.$TIMESTAMP.ipa"
+         name: chromatic.ipa
+         path: "build/Release/chromatic.ipa"
       - name: Upload .deb
         uses: actions/upload-artifact@v2.2.4
         with:  
-         name: chromatic.rel.ci.$TIMESTAMP.deb
-         path: "build/Release/chromatic.rel.ci.$TIMESTAMP.deb"
+         name: chromatic.rel.ci.deb
+         path: "build/Release/chromatic.rel.ci.deb"

@@ -13,10 +13,13 @@ jobs:
       - name: Build
         run: ./Resources/compile.release.sh
                    
-      - name: Upload a Build Artifact
+      - name: Upload .ipa
         uses: actions/upload-artifact@v2.2.4
         with:
          name: chromatic.ipa
          path: "build/Release/chromatic.ipa"
+      - name: Upload .deb
+        uses: actions/upload-artifact@v2.2.4
+        with:  
          name: chromatic.rel.ci.deb
          path: "build/Release/chromatic.rel.ci.deb"

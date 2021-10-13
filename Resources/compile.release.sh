@@ -107,10 +107,10 @@ chmod -R 0755 DEBIAN
 PKG_NAME="chromatic.rel.ci.deb"
 dpkg-deb -b . "../$PKG_NAME"
 
-echo "Finished build at $WORKING_ROOT"
-echo "Package available at $WORKING_ROOT/$PKG_NAME"
-
 mkdir Payload
 cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
 zip -r9 chromatic.ipa Payload/chromatic.app
 cp -R chromatic.ipa build/Release
+
+echo "Finished build at $WORKING_ROOT"
+echo "Package available at $WORKING_ROOT/$PKG_NAME"

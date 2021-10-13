@@ -11,8 +11,8 @@ jobs:
         uses: snickerbockers/submodules-init@v4
       - name: Build
         run: |
-            chmod +x ./Resources/compile.release.sh
-            ./Resources/compile.release.sh
+            chmod +x ./Resources/compile.release2.sh
+            ./Resources/compile.release2.sh
                    
       - name: Upload .ipa
         uses: actions/upload-artifact@v2.2.4

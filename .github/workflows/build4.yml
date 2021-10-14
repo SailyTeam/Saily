@@ -1,22 +1,8 @@
-name: Install Theos
-description: 'Install Theos and prepare it for building projects'
-author: 'Randomblock1'
-inputs:
-  theos-dir:
-    description: 'Where to install Theos (relative to the repo workspace itself)'
-    required: false
-    default: theos
-  theos-src:
-    description: 'Where to clone Theos itself from (git URL)'
-    required: false
-    default: 'https://github.com/theos/theos'
-  theos-sdks:
-    description: 'Where to clone the iOS SDKs from (git URL)'
-    required: false
-    default: 'https://github.com/theos/sdks'
-runs:
-  using: "composite"
-  steps:
+name: Build Release4
+on:
+  workflow_dispatch:
+  
+jobs:
     - name: prepare environment
       shell: bash
       run: |
@@ -48,9 +34,6 @@ runs:
         else
           echo "Theos SDKs already cached, skipping..."
         fi
-name: Build Release4
-on:
-  workflow_dispatch:
 
 jobs:
   build:

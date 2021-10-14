@@ -10,9 +10,12 @@ jobs:
    steps:
     - name: Checkout
       uses: actions/checkout@master
+    - name: Update Homebrew
+      run: brew update
     - name: Install Dependencies
-      run: brew install ldid xz dpkg
-           brew update
+      run: brew install dpkg ldid 
+    - name: Update Homebrew
+      run: brew update
     - name: Setup Theos
       uses: actions/checkout@master
       with:

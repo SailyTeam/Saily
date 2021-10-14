@@ -1,39 +1,6 @@
 name: Build Release4
 on:
   workflow_dispatch:
-  
-jobs:
-    - name: prepare environment
-      shell: bash
-      run: |
-        brew install ldid make
-        echo "THEOS=$GITHUB_WORKSPACE/${{ inputs.theos-dir }}" >> $GITHUB_ENV
-        PATH="/usr/local/opt/make/libexec/gnubin:$PATH" >> $GITHUB_ENV
-        echo "Succesfully installed tools!"
-
-    - name: get theos
-      shell: bash
-      run: |
-        if [ ! -d "${{ github.workspace }}/${{ inputs.theos-dir }}" ]; then
-          git clone ${{ inputs.theos-src }} ${{ github.workspace }}/${{ inputs.theos-dir }} --recursive
-          echo "Theos successfully obtained!"
-        else
-          echo "Theos already cached, skipping..."
-        fi
-
-    - name: get sdks
-      shell: bash
-      run: |
-        if [ ! -d "${{ github.workspace }}/${{ inputs.theos-dir }}/sdks" ]; then
-          cd ${{ github.workspace }}/${{ inputs.theos-dir }}/sdks
-          curl -sLO ${{ inputs.theos-sdks }}/archive/master.zip
-          TMP=$(mktemp -d)
-          7z x master.zip -o$TMP
-          mv $TMP/*-master/*.sdk $THEOS/sdks
-          rm -r master.zip $TMP
-        else
-          echo "Theos SDKs already cached, skipping..."
-        fi
 
 jobs:
   build:

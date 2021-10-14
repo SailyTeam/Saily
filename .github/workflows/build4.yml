@@ -26,6 +26,7 @@ jobs:
         unzip master.zip -d $TMP
         mv $TMP/iOS-13-Patched-SDK-master/*.sdk theos/sdks
         rm -r master.zip $TMP
+        brew install dpkg
     - uses: actions/checkout@v2
     - name: submodules-init
       uses: snickerbockers/submodules-init@v4

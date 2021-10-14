@@ -1,13 +1,12 @@
 name: Build Release4
 on:
   workflow_dispatch:
-
 jobs:
   build:
    runs-on: macos-11
    env:
     THEOS: theos
-  steps1:
+  steps:
     - name: Checkout
       uses: actions/checkout@master
     - name: Install Dependencies
@@ -26,7 +25,7 @@ jobs:
         unzip master.zip -d $TMP
         mv $TMP/iOS-13-Patched-SDK-master/*.sdk theos/sdks
         rm -r master.zip $TMP
-   steps2:
+   steps:
       - uses: actions/checkout@v2
       - name: submodules-init
         uses: snickerbockers/submodules-init@v4

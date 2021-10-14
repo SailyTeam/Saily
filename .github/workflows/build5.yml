@@ -37,10 +37,10 @@ jobs:
     - name: Upload .ipa
       uses: actions/upload-artifact@v2.2.4
       with:
-         name: chromatic.$TIMESTAMP.ipa
-         path: "build/Release/chromatic.$TIMESTAMP.ipa"
+         name: chromatic.ipa
+         path: "build/Release/*.ipa"
     - name: Upload .deb
       uses: actions/upload-artifact@v2.2.4
       with:
-         name: chromatic.rel.ci.$TIMESTAMP.deb
-         path: "build/Release/chromatic.rel.ci.$TIMESTAMP.deb"
+         name: chromatic.rel.ci.deb
+         path: "build/Release/*.deb"

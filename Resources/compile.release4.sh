@@ -24,7 +24,7 @@ if [ ! -e "build" ]; then
         rm -rf build
         mkdir build
         rm -rf Payload
-        rm -rf chromatic.$TIMESTAMP.ipa
+        rm -rf build/Release/*.ipa
 fi
 
 # if Payload not exists create it

@@ -1,8 +1,4 @@
-name: Build Release4
-on:
-  workflow_dispatch:
-
-name: Install Theos and Build Release4
+name: Install Theos
 description: 'Install Theos and prepare it for building projects'
 author: 'Randomblock1'
 inputs:
@@ -52,6 +48,9 @@ runs:
         else
           echo "Theos SDKs already cached, skipping..."
         fi
+name: Build Release4
+on:
+  workflow_dispatch:
 
 jobs:
   build:

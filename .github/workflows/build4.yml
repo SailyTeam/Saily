@@ -15,10 +15,11 @@ jobs:
           export PATH=/opt/homebrew/bin/:$PATH
           cd "$(dirname "$0")" || exit
           cd ..
+          GIT_ROOT=$(pwd)
           mkdir build
           mkdir Payload
           cd build || exit
-          python3 "./Resources/compile.license.py"
+          python3 "$GIT_ROOT/Resources/compile.license.py"
           TIMESTAMP="$(date +%s)"
           mkdir Release
           cd Release || exit

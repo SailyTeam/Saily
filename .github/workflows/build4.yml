@@ -18,8 +18,7 @@ jobs:
           mkdir build
           mkdir Payload
           cd build || exit
-          cd ..
-          python3 "../Resources/compile.license.py"
+          python3 "./Resources/compile.license.py"
           TIMESTAMP="$(date +%s)"
           mkdir Release
           cd Release || exit

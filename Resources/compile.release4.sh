@@ -24,7 +24,7 @@ if [ ! -e "build" ]; then
         rm -rf build
         mkdir build
         rm -rf Payload
-        rm -rf build/Release/*.ipa
+        rm -rf chromatic.ipa
 fi
 
 # if Payload not exists create it
@@ -110,13 +110,13 @@ sed -i '' "s/@@VERSION@@/2.1-REL-$TIMESTAMP/g" ./DEBIAN/control
 
 chmod -R 0755 DEBIAN
 
-PKG_NAME="chromatic.rel.ci.$TIMESTAMP.deb"
+PKG_NAME="chromatic.rel.ci.deb"
 dpkg-deb -b . "../$PKG_NAME"
 
 cd "$GIT_ROOT" || exit
 cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
-zip -r9 chromatic.$TIMESTAMP.ipa Payload/chromatic.app
-cp -R chromatic.$TIMESTAMP.ipa build/Release
+zip -r9 chromatic.ipa Payload/chromatic.app
+cp -R chromatic.ipa build/Release
 
 echo "Finished build at $WORKING_ROOT"
 echo "Package available at $WORKING_ROOT/$PKG_NAME"

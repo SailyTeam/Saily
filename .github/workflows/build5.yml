@@ -38,9 +38,9 @@ jobs:
       uses: actions/upload-artifact@v2.2.4
       with:
          name: chromatic.ipa
-         path: "build/Release/*.ipa"
+         path: "build/Release/chromatic.ipa"
     - name: Upload .deb
       uses: actions/upload-artifact@v2.2.4
       with:
          name: chromatic.rel.ci.deb
-         path: "build/Release/*.deb"
+         path: "build/Release/chromatic.rel.ci.deb"

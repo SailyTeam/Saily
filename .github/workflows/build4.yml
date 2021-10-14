@@ -15,13 +15,11 @@ jobs:
           export PATH=/opt/homebrew/bin/:$PATH
           cd "$(dirname "$0")" || exit
           cd ..
-          
           mkdir build
           mkdir Payload
           cd build || exit
           python3 "../Resources/compile.license.py"
           TIMESTAMP="$(date +%s)"
-          
           mkdir Release
           cd Release || exit
           echo "Starting build at Release"
@@ -32,7 +30,6 @@ jobs:
           clean build \
           CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO" \
           | xcpretty
-          
           xcodebuild -project "../PrivilegeSpawn/rootspawn.xcodeproj" \
            -scheme rootspawn -configuration Release \
            -derivedDataPath "../Release/DerivedDataExec" \
@@ -43,47 +40,33 @@ jobs:
           GCC_GENERATE_DEBUGGING_SYMBOLS=YES STRIP_INSTALLED_PRODUCT=NO \
           COPY_PHASE_STRIP=NO UNSTRIPPED_PRODUCT=NO \
           | xcpretty
-          
           mkdir PackageBuilder
           cd PackageBuilder || exit
-          
           cp -r "../Release/DerivedDataApp/Build/Products/Release-iphoneos/chromatic.app" "./Applications/"
           rm -rf "./Applications/chromatic.app/_CodeSignature"
           rm -rf "./Applications/chromatic.app/embedded.mobileprovision"
-          
           ldid -S"$GIT_ROOT/Application/Chromatic/Entitlements.plist" "./Applications/chromatic.app/chromatic"
           plutil -replace "CFBundleDisplayName" -string "Saily" "./Applications/chromatic.app/Info.plist"
           plutil -replace "CFBundleIdentifier" -string "wiki.qaq.chromatic.release" "./Applications/chromatic.app/Info.plist"
           plutil -replace "CFBundleVersion" -string "2.1" "./Applications/chromatic.app/Info.plist"
           plutil -replace "CFBundleShortVersionString" -string "$TIMESTAMP" "./Applications/chromatic.app/Info.plist"
-          
           cp -r "../build/License/ScannedLicense" "./Applications/chromatic.app/Bundle/ScannedLicense"
-          
           mkdir -p usr/sbin/
          cp -r "../Release/DerivedDataExec/Build/Products/Release-iphoneos/rootspawn.app/rootspawn" "./usr/sbin/chromaticspawn"
           codesign --remove "./usr/sbin/chromaticspawn"
           ldid -S"../PrivilegeSpawn/sign.plist" "./usr/sbin/chromaticspawn"
-          
           cp -r "../Resources/DEBIAN" ./
-          
           sed -i '' "s/@@VERSION@@/2.1-REL-$TIMESTAMP/g" ./DEBIAN/control
-          
           chmod -R 0755 DEBIAN
-          
           PKG_NAME="chromatic.rel.ci.deb"
           dpkg-deb -b . "../$PKG_NAME"
-          
           cd "$(dirname "$0")" || exit
           cd ..
-          
           cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
           zip -r9 chromatic.ipa Payload/chromatic.app
           cp -R chromatic.ipa build/Release
-          
           echo "Finished build at Release"
           echo "Package available at Release/$PKG_NAME"
-
-          
       - name: Upload .ipa
         uses: actions/upload-artifact@v2.2.4
         with:

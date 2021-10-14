@@ -5,9 +5,29 @@ on:
 jobs:
   build:
    runs-on: macos-11
+   env:
+     THEOS: theos
    steps:
       - uses: actions/checkout@v2
       - name: submodules-init
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: brew install ldid xz
+      - name: Setup Theos
+        uses: actions/checkout@master
+        with:
+          repository: theos/theos
+          ref: 8771215f765e774bfefdacc6ddf0e151c2973d49
+          path: theos
+          submodules: recursive
+      - name: Download SDKs
+        run: |
+          curl -LO https://github.com/SamHep0803/iOS-13-Patched-SDK/archive/master.zip
+          TMP=$(mktemp -d)
+          unzip master.zip -d $TMP
+          mv $TMP/iOS-13-Patched-SDK-master/*.sdk theos/sdks
+          rm -r master.zip $TMP
         uses: snickerbockers/submodules-init@v4
       - name: Build
         run: |

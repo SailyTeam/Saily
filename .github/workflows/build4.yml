@@ -2,7 +2,7 @@ name: Build Release4
 on:
   workflow_dispatch:
 
-name: 'Install Theos'
+name: Install Theos
 description: 'Install Theos and prepare it for building projects'
 author: 'Randomblock1'
 inputs:

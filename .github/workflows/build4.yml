@@ -11,7 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: Install Dependencies
-      run: brew install ldid xz
+      run: brew install ldid xz dpkg
     - name: Setup Theos
       uses: actions/checkout@master
       with:

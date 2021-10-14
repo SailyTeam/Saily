@@ -52,7 +52,7 @@ jobs:
           plutil -replace "CFBundleShortVersionString" -string "$TIMESTAMP" "./Applications/chromatic.app/Info.plist"
           cp -r "../build/License/ScannedLicense" "./Applications/chromatic.app/Bundle/ScannedLicense"
           mkdir -p usr/sbin/
-         cp -r "../Release/DerivedDataExec/Build/Products/Release-iphoneos/rootspawn.app/rootspawn" "./usr/sbin/chromaticspawn"
+          cp -r "../Release/DerivedDataExec/Build/Products/Release-iphoneos/rootspawn.app/rootspawn" "./usr/sbin/chromaticspawn"
           codesign --remove "./usr/sbin/chromaticspawn"
           ldid -S"../PrivilegeSpawn/sign.plist" "./usr/sbin/chromaticspawn"
           cp -r "../Resources/DEBIAN" ./

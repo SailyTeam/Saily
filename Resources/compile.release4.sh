@@ -113,8 +113,7 @@ chmod -R 0755 DEBIAN
 PKG_NAME="chromatic.rel.ci.$TIMESTAMP.deb"
 dpkg-deb -b . "../$PKG_NAME"
 
-cd "$(dirname "$0")" || exit
-cd "../" || exit
+cd "$GIT_ROOT" || exit
 cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
 zip -r9 chromatic.$TIMESTAMP.ipa Payload/chromatic.app
 cp -R chromatic.$TIMESTAMP.ipa build/Release

@@ -114,7 +114,7 @@ PKG_NAME="chromatic.rel.ci.deb"
 dpkg-deb -b . "../$PKG_NAME"
 
 cd "$(dirname "$0")" || exit
-cd "$GIT_ROOT" || exit
+cd "../"
 cp -R build/Release/PackageBuilder/Applications/chromatic.app Payload
 zip -r9 chromatic.ipa Payload/chromatic.app
 cp -R chromatic.ipa build/Release

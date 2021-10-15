@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4C4-y7-2z4">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -12,13 +12,17 @@
         <!--Setup View Controller-->
         <scene sceneID="Y7I-aJ-pq4">
             <objects>
-                <viewController id="4C4-y7-2z4" customClass="SetupViewController" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4C4-y7-2z4" customClass="SetupViewController" customModule="chromatic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XXG-Lh-qbf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="c2h-lq-lR4">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="83m-JJ-Ugg">
-                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FyL-aU-sPK"/>
@@ -31,12 +35,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIC-55-EQi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2016" y="-104"/>
+            <point key="canvasLocation" x="-2017.3913043478262" y="-104.46428571428571"/>
         </scene>
         <!-- -->
         <scene sceneID="3jd-jq-Dle">
             <objects>
-                <tabBarController storyboardIdentifier="NavigatorEnterViewController" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="DPs-4B-Ml5" customClass="NavigatorEnterViewController" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="NavigatorEnterViewController" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="DPs-4B-Ml5" customClass="NavigatorEnterViewController" customModule="chromatic" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" hidden="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="M3T-AP-dNz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -54,9 +58,9 @@
         <!--Split Panel Controller-->
         <scene sceneID="Tcy-LF-Wp6">
             <objects>
-                <viewController storyboardIdentifier="LXSplitPanelController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SgJ-E3-jF2" customClass="LXSplitPanelController" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LXSplitPanelController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SgJ-E3-jF2" customClass="LXSplitPanelController" customModule="chromatic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IEH-bN-HGR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Alx-a4-gcO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -69,7 +73,7 @@
         <!--LuxuriousController-->
         <scene sceneID="cNF-UK-49W">
             <objects>
-                <splitViewController storyboardIdentifier="LXSplitController" useStoryboardIdentifierAsRestorationIdentifier="YES" allowDoubleColumnStyle="YES" preferredDisplayMode="beside" behavior="tile" id="6py-1U-UZo" customClass="LXSplitController" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="LXSplitController" useStoryboardIdentifierAsRestorationIdentifier="YES" allowDoubleColumnStyle="YES" preferredDisplayMode="beside" behavior="tile" id="6py-1U-UZo" customClass="LXSplitController" customModule="chromatic" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="LuxuriousController" id="Aat-ci-Cfu"/>
                     <connections>
                         <segue destination="SgJ-E3-jF2" kind="relationship" relationship="detailViewController" id="OuK-Gj-2Rz"/>
@@ -82,7 +86,7 @@
         <!--HandyController-->
         <scene sceneID="0Ea-9t-2O1">
             <objects>
-                <tabBarController storyboardIdentifier="HandyTabBarController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BRg-bm-eee" customClass="HandyTabBarController" customModule="Saily" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HandyTabBarController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BRg-bm-eee" customClass="HandyTabBarController" customModule="chromatic" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="HandyController" id="6Mb-fc-a7c"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="f8O-5R-38e">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -96,6 +100,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="LaunchScreen" width="1125" height="2436"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

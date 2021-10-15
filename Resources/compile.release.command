@@ -20,6 +20,12 @@ fi
 # if build not exists create it
 if [ ! -e "build" ]; then
     mkdir build
+else
+    # if contains parameter clean, remove build folder
+    if [ "$1" = "clean" ]; then
+        rm -rf build
+        mkdir build
+    fi
 fi
 cd build || exit
 
@@ -104,3 +110,13 @@ dpkg-deb -b . "../$PKG_NAME"
 
 echo "Finished build at $WORKING_ROOT"
 echo "Package available at $WORKING_ROOT/$PKG_NAME"
+
+cd "$GIT_ROOT"/build
+
+# remove file .lastbuild.timestamp if exists
+if [ -e ".lastbuild.timestamp" ]; then
+    rm -rf ".lastbuild.timestamp"
+fi
+
+# write TIMESTAMP into this file
+echo "$TIMESTAMP" > ".lastbuild.timestamp"

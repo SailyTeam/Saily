@@ -51,7 +51,6 @@
 		5034021426BFF24000E8D02B /* RepoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034021126BFF24000E8D02B /* RepoCard.swift */; };
 		5034021526BFF24000E8D02B /* RepoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034021226BFF24000E8D02B /* RepoTableViewCell.swift */; };
 		5034021626BFF24000E8D02B /* RepoCard.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5034021326BFF24000E8D02B /* RepoCard.xcassets */; };
-		5034021926BFFF6B00E8D02B /* LookinServer in Frameworks */ = {isa = PBXBuildFile; productRef = 5034021826BFFF6B00E8D02B /* LookinServer */; };
 		5034021F26C003E600E8D02B /* RepoAddViewController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5034021B26C003E600E8D02B /* RepoAddViewController.xcassets */; };
 		5034022026C003E600E8D02B /* RepoAddSectionInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034021C26C003E600E8D02B /* RepoAddSectionInput.swift */; };
 		5034022126C003E600E8D02B /* RepoAddController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034021D26C003E600E8D02B /* RepoAddController.swift */; };
@@ -153,6 +152,8 @@
 		50FA2C6526BC3765003806D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50FA2C6126BC3765003806D6 /* LaunchScreen.storyboard */; };
 		50FA2C6826BC383E003806D6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA2C6726BC383E003806D6 /* Constant.swift */; };
 		50FA2C6A26BC398E003806D6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA2C6926BC398E003806D6 /* main.swift */; };
+		50FE7A22271B2AA800CB74EB /* LaunchScreenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 50FE7A20271B2AA800CB74EB /* LaunchScreenBackground.png */; };
+		50FE7A23271B2AA800CB74EB /* AppIconTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 50FE7A21271B2AA800CB74EB /* AppIconTransparent.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -302,6 +303,8 @@
 		50FA2C6126BC3765003806D6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50FA2C6726BC383E003806D6 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		50FA2C6926BC398E003806D6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		50FE7A20271B2AA800CB74EB /* LaunchScreenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenBackground.png; sourceTree = "<group>"; };
+		50FE7A21271B2AA800CB74EB /* AppIconTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconTransparent.png; sourceTree = "<group>"; };
 		B5DD518226F358FD007EFF58 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -322,7 +325,6 @@
 				500D83AA26C2158600D9E701 /* SPIndicator in Frameworks */,
 				507D1E7F26BFA89800E72E9B /* MorphingLabel in Frameworks */,
 				505BB6CD26D78235007F5B15 /* Renet in Frameworks */,
-				5034021926BFFF6B00E8D02B /* LookinServer in Frameworks */,
 				500D83A626C2157E00D9E701 /* FLAnimatedImage in Frameworks */,
 				507D1E7326BFA87D00E72E9B /* SwiftThrottle in Frameworks */,
 				507D1E8B26BFA8B400E72E9B /* Dog in Frameworks */,
@@ -369,7 +371,6 @@
 		5012BCE826BFA4A50064A564 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				50FA2C6126BC3765003806D6 /* LaunchScreen.storyboard */,
 				50FA2C5F26BC3765003806D6 /* Main.storyboard */,
 				5012BCE926BFA4B20064A564 /* Initialization */,
 				507D1E9626BFACE400E72E9B /* Navigators */,
@@ -740,6 +741,7 @@
 				50D528C42449B11400F4A483 /* Assets.xcassets */,
 				5000347F2469765800890951 /* Sections.xcassets */,
 				5034022526C00C2700E8D02B /* Colors.xcassets */,
+				50FE7A1F271B2A9900CB74EB /* LauncScreen */,
 			);
 			path = Chromatic;
 			sourceTree = "<group>";
@@ -756,6 +758,16 @@
 				500A2E5926D12C0100A1DA03 /* AptScanner+Remove.swift */,
 			);
 			path = TaskManager;
+			sourceTree = "<group>";
+		};
+		50FE7A1F271B2A9900CB74EB /* LauncScreen */ = {
+			isa = PBXGroup;
+			children = (
+				50FE7A21271B2AA800CB74EB /* AppIconTransparent.png */,
+				50FE7A20271B2AA800CB74EB /* LaunchScreenBackground.png */,
+				50FA2C6126BC3765003806D6 /* LaunchScreen.storyboard */,
+			);
+			name = LauncScreen;
 			sourceTree = "<group>";
 		};
 		6865D586246856C20073EF2A /* Common */ = {
@@ -802,7 +814,6 @@
 				507D1E8C26BFA8B700E72E9B /* Cosmos */,
 				507D1E8E26BFA8BC00E72E9B /* BitByteData */,
 				507D1E9026BFA8BF00E72E9B /* AptRepository */,
-				5034021826BFFF6B00E8D02B /* LookinServer */,
 				500D83A526C2157E00D9E701 /* FLAnimatedImage */,
 				500D83A926C2158600D9E701 /* SPIndicator */,
 				50A8053226CB833D00F8FB7D /* LNPopupController-Static */,
@@ -866,6 +877,8 @@
 				5034022626C00C2700E8D02B /* Colors.xcassets in Resources */,
 				50FA2C6526BC3765003806D6 /* LaunchScreen.storyboard in Resources */,
 				50FA2C6326BC3765003806D6 /* Main.storyboard in Resources */,
+				50FE7A23271B2AA800CB74EB /* AppIconTransparent.png in Resources */,
+				50FE7A22271B2AA800CB74EB /* LaunchScreenBackground.png in Resources */,
 				503401F726BFD5B900E8D02B /* WelcomeCard.xcassets in Resources */,
 				5034021F26C003E600E8D02B /* RepoAddViewController.xcassets in Resources */,
 				5034021626BFF24000E8D02B /* RepoCard.xcassets in Resources */,
@@ -1271,10 +1284,6 @@
 		500D83A926C2158600D9E701 /* SPIndicator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SPIndicator;
-		};
-		5034021826BFFF6B00E8D02B /* LookinServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = LookinServer;
 		};
 		50435E9526DBD35100D3ED25 /* Bugsnag */ = {
 			isa = XCSwiftPackageProductDependency;

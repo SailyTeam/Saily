@@ -104,14 +104,14 @@ public private(set) var applicationShouldEnterRecovery = false
 /*
 
  applicationRecoveryFlag is created during setup indicating
-    - if the app crashed in a short time after boot
-    - user can‘t fix the problem because it’s happening too fast
+ - if the app crashed in a short time after boot
+ - user can‘t fix the problem because it’s happening too fast
 
  there are some triggers to remove this indicator
-    - Application did enter background, user did not meet any problem on the first fly
-    - TaskProcessor completed it‘s execute, user did have chance to fix the problem
-    - 1 minute after initialize, it's not a bootstrap crash
-    - AppDelegate will terminate, app has finished it's life cycle
+ - Application did enter background, user did not meet any problem on the first fly
+ - TaskProcessor completed it‘s execute, user did have chance to fix the problem
+ - 1 minute after initialize, it's not a bootstrap crash
+ - AppDelegate will terminate, app has finished it's life cycle
 
  If the app crashed for more then 3 times, tag the applicationShouldEnterRecovery -> true
 
@@ -152,6 +152,17 @@ do {
         try? FileManager.default.removeItem(at: applicationRecoveryFlag)
     }
 }
+
+print(
+    """
+
+    [*]
+    [*] Basic setup completed, calling UIApplicationMain
+    [*] Exiting console mode!
+    [*]
+
+    """
+)
 
 private let application = UIApplication.shared
 private let delegate = AppDelegate()

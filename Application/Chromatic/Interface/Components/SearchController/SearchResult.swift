@@ -94,7 +94,7 @@ extension SearchController {
             .obtainInstalledPackageList()
             .filter {
                 !($0.latestMetadata?["tag"]?.contains("role::cydia") ?? false)
-                    || (key.hasPrefix("gsc"))
+                    || key.hasPrefix("gsc")
             }
         return searchLookupInside(packages: packages, key: key, token: token) { package in
             SearchResult.RepresentTarget.installed(package: package)

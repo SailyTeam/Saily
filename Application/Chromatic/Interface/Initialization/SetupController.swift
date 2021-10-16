@@ -32,7 +32,7 @@ class SetupViewController: UIViewController {
             setupRecoveryViews()
             return
         }
-        
+
         var meme = [Character](
             "🦍🐨🦥🦌🐈‍⬛🐩🐻🦫🦝🐶🐈🦇🦄🦬🦁🦮🦊🐬🐢🐒🐕‍🦺🦧🐕🐼🐺🦔🦓🐱🦈🐿️🐮🐻‍❄️"
         )

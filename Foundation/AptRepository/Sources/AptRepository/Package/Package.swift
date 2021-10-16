@@ -113,6 +113,19 @@ public struct Package: Codable, Hashable, Identifiable {
         if result > 0 { return .aIsBiggerThenB }
         return .aIsEqualToB
     }
+    
+    public
+    func propertyListEncoded() -> Data? {
+        try? PropertyListEncoder().encode(self)
+    }
+    
+    public static
+    func propertyListDecoded(with data: Data?) -> Self? {
+        guard let data = data else {
+            return nil
+        }
+        return try? PropertyListDecoder().decode(self, from: data)
+    }
 }
 
 public enum PackageDepiction {
@@ -120,20 +133,4 @@ public enum PackageDepiction {
     case json(url: URL)
     case none
 //    case zebra(any: Any)
-}
-
-@objc
-public class PackageDragDropProxy: NSObject, NSItemProviderReading {
-    public var represent: Package?
-
-    public required init(represent: Package) {
-        self.represent = represent
-    }
-
-    public static var readableTypeIdentifiersForItemProvider: [String] = ["wiki.qaq.package"]
-
-    public static func object(withItemProviderData data: Data, typeIdentifier _: String) throws -> Self {
-        let package = try PropertyListDecoder().decode(Package.self, from: data)
-        return self.init(represent: package)
-    }
 }

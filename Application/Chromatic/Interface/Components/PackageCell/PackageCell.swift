@@ -363,10 +363,21 @@ class PackageCell: UIView, PackageCellFunction {
 extension PackageCell: UIDragInteractionDelegate {
     func dragInteraction(_: UIDragInteraction, itemsForBeginning _: UIDragSession) -> [UIDragItem] {
         guard let package = represent else { return [] }
+
+        // define
         let provider = NSItemProvider(object: captureDragImage())
-        let item = UIDragItem(itemProvider: provider)
-        item.localObject = PackageDragDropProxy(represent: package)
-        return [item]
+        let dragItem = UIDragItem(itemProvider: provider)
+
+        // attach user activity if available
+        if let data = package.propertyListEncoded() {
+            let userActivity = NSUserActivity(activityType: cUserActivityDropPackage)
+            userActivity.title = cUserActivityDropPackage
+            userActivity.userInfo = ["attach": data]
+            provider.registerObject(userActivity, visibility: .all)
+        }
+
+        // return drag
+        return [dragItem]
     }
 
     private func captureDragImage() -> UIImage {

@@ -55,4 +55,4 @@ let cRepositoryRedirection: [URL: URL] = [
         URL(string: "http://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/Packages")!,
 ]
 
-let cUserActivityDropPackageNewWindow = "wiki.qaq.cUserActivityDropPackageNewWindow"
+let cUserActivityDropPackage = "wiki.qaq.chromatic.drop.package"

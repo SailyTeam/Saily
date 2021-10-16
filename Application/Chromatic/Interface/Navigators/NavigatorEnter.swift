@@ -6,6 +6,7 @@
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
+import AptRepository
 import UIKit
 
 class NavigatorEnterViewController: UITabBarController {
@@ -16,7 +17,6 @@ class NavigatorEnterViewController: UITabBarController {
                                                selector: #selector(setExceptedRootViewController),
                                                name: .UserInterfaceFrameChanged,
                                                object: nil)
-
         setExceptedRootViewController()
     }
 

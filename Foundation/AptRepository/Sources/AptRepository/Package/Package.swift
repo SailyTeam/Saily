@@ -121,3 +121,19 @@ public enum PackageDepiction {
     case none
 //    case zebra(any: Any)
 }
+
+@objc
+public class PackageDragDropProxy: NSObject, NSItemProviderReading {
+    public var represent: Package?
+
+    public required init(represent: Package) {
+        self.represent = represent
+    }
+
+    public static var readableTypeIdentifiersForItemProvider: [String] = ["wiki.qaq.package"]
+
+    public static func object(withItemProviderData data: Data, typeIdentifier _: String) throws -> Self {
+        let package = try PropertyListDecoder().decode(Package.self, from: data)
+        return self.init(represent: package)
+    }
+}

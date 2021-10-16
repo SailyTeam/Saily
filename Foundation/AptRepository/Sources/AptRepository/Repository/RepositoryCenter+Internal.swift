@@ -343,6 +343,12 @@ extension RepositoryCenter {
                 builder.metaRelease = release
             }
             if let package = buildPackage {
+                // check if any package already available
+                if builder.metaPackage.count > 0 {
+                    builder.attachment[.initialInstall] = "NO"
+                } else {
+                    builder.attachment[.initialInstall] = "YES"
+                }
                 builder.metaPackage = package
             }
             if let searchPath = completedSearchPath {

@@ -68,7 +68,11 @@ extension InstalledController {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let data = dataSource[indexPath.section].package[indexPath.row]
+        guard let data = dataSource[safe: indexPath.section]?
+            .package[safe: indexPath.row]
+        else {
+            return
+        }
         let target = PackageController(package: data)
         present(next: target)
     }
@@ -121,6 +125,23 @@ extension InstalledController {
                                cell.transform = .identity
                            }) { _ in
             }
+        }
+    }
+
+    override func collectionView(_: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
+        guard let data = dataSource[safe: indexPath.section]?
+            .package[safe: indexPath.row],
+            let view = self.view
+        else {
+            return nil
+        }
+        return InterfaceBridge.packageContextMenuConfiguration(for: data, reference: view)
+    }
+
+    override func collectionView(_: UICollectionView, willPerformPreviewActionForMenuWith _: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        guard let destinationViewController = animator.previewViewController else { return }
+        animator.addAnimations {
+            self.show(destinationViewController, sender: self)
         }
     }
 

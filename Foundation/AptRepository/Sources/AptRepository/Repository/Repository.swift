@@ -63,9 +63,25 @@ public struct Repository: Codable, Hashable, Identifiable {
     }
 
     public enum AttachInfo: String, Codable {
+        /*
+         if nickNamePinned is true
+         - that means user has pinned the name for repo
+         - nickName will return userPinnedName
+
+         if nickNamePinned is false
+         - check repo release metadata
+         - the name may be calculated from repo url if no meta
+         */
         case nickName
         case nickNamePinned
+        /*
+         used to store featured packages
+         */
         case featured
+        /*
+         tag for tracing, not set means true [for backward capability]
+         */
+        case initialInstall
     }
 
     public internal(set) var paymentInfo: [PaymentInfo: String] = [:]
@@ -97,6 +113,7 @@ public struct Repository: Codable, Hashable, Identifiable {
     public init(url: URL) {
         self.url = url
         attachment[.nickName] = regenerateNickName()
+        attachment[.initialInstall] = "YES"
     }
 
     // MARK: - PROTOCOL

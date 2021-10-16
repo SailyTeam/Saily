@@ -185,7 +185,7 @@ extension PackageCenter {
                     // get newest version that exists
                     let summay = [Package](self.obtainPackageSummary(with: item).values)
                     guard summay.count > 0 else { continue }
-                    var repoRef: URL?
+                    var repoRef: URL? = summay[0].repoRef
                     var newestVersion = summay[0].latestVersion ?? "0"
                     for value in summay {
                         if let version = value.latestVersion,
@@ -213,10 +213,25 @@ extension PackageCenter {
                                                             lastModification: nil)
                         }
                     } else {
-                        tableTraceBuilder[item] = .init(identity: item,
-                                                        version: newestVersion,
-                                                        repo: repoRef,
-                                                        lastModification: nil)
+                        if let repoRef = repoRef,
+                           let repo = RepositoryCenter
+                           .default
+                           .obtainImmutableRepository(withUrl: repoRef),
+                           repo.attachment[.initialInstall] ?? "YES" == "YES"
+                        {
+                            // this package is first seen here
+                            // and the repo is not currently in any initial load's commit
+                            // we need to put it into display
+                            tableTraceBuilder[item] = .init(identity: item,
+                                                            version: newestVersion,
+                                                            repo: repoRef,
+                                                            lastModification: nil)
+                        } else {
+                            tableTraceBuilder[item] = .init(identity: item,
+                                                            version: newestVersion,
+                                                            repo: repoRef,
+                                                            lastModification: date)
+                        }
                     }
                 }
             }

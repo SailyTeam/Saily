@@ -59,7 +59,7 @@ class HDMainController: DashboardController {
             x.left.equalTo(view).offset(20)
             x.right.equalTo(view).offset(-20)
             x.bottom.equalTo(collectionView.snp.top)
-            x.height.equalTo(200)
+            x.height.equalTo(220)
         }
 
         collectionView.addSubview(welcomeCardDropDownAnchor)
@@ -95,7 +95,7 @@ class HDMainController: DashboardController {
         if height < 150 { height = 150 }
         if height > 250 { height = 250 }
         welcomeCard?.snp.updateConstraints { x in
-            x.height.equalTo(height)
+            x.height.equalTo(height - 10)
         }
         collectionView.contentInset = UIEdgeInsets(top: height, left: 20, bottom: 50, right: 20)
     }

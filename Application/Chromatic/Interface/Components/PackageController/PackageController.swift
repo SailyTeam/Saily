@@ -68,11 +68,17 @@ class PackageController: UIViewController {
         }
     }
 
+    var previewContentSizeOverwrite: CGSize?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        preferredContentSize = preferredPopOverSize
+        if let previewContentSizeOverwrite = previewContentSizeOverwrite {
+            preferredContentSize = previewContentSizeOverwrite
+        } else {
+            preferredContentSize = preferredPopOverSize
+        }
 
         bannerPackageView = PackageBannerView(package: packageObject)
         navigationItem.largeTitleDisplayMode = .never

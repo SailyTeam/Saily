@@ -31,6 +31,6 @@ let package = Package(
                 "SWCompression",
                 "AptPackageVersion",
             ]
-        )
+        ),
     ]
 )

@@ -16,6 +16,6 @@ let package = Package(
         .target(
             name: "SwiftThrottle",
             dependencies: []
-        )
+        ),
     ]
 )

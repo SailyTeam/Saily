@@ -79,6 +79,9 @@ find "$BUILD_PRODUCT" -name "*.ipa" -exec cp {} ./artifact \;
 echo "Artifacts [$(pwd)] :"
 ls -la ./artifact
 
-echo "build_timestamp=$TIMESTAMP" >> "$GITHUB_ENV"
+# check if CI is set to true
+if [ "$CI" = "true" ]; then
+    echo "build_timestamp=$TIMESTAMP" >> "$GITHUB_ENV"
+fi
 
 # done

@@ -50,25 +50,61 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         for item in URLContexts {
-            let firstItem = item.url
-            if firstItem.absoluteString.lowercased().hasPrefix("file://"),
-               firstItem.absoluteString.lowercased().hasSuffix(".deb")
+            let itemUrl = item.url
+            if itemUrl.absoluteString.hasPrefix("file://"),
+               itemUrl.absoluteString.hasSuffix(".deb")
             {
-                while !SetupViewController.setupCompleted { sleep(1) }
-                DispatchQueue.main.async {
-                    if let presenter =
-                        (
-                            (scene as? UIWindowScene)?
-                                .delegate as? UIWindowSceneDelegate
-                        )?
-                        .window??
-                        .topMostViewController
-                    {
-                        let target = DirectInstallController()
-                        target.patternLocation = firstItem
-                        presenter.present(next: target)
-                    }
+                openQuickInstall(scene: scene, url: itemUrl)
+                continue
+            }
+
+            if itemUrl.absoluteString.hasPrefix("apt-repo://") {
+                var str = itemUrl.absoluteString
+                str.removeFirst("apt-repo://".count)
+                guard let url = URL(string: str) else {
+                    continue
                 }
+                Dog.shared.join(self, "scheme calling apt-repo add for value \(url.absoluteString)")
+                openQuickAddRepo(scene: scene, url: url)
+                continue
+            }
+        }
+    }
+
+    func openQuickAddRepo(scene: UIScene, url: URL) {
+        while !SetupViewController.setupCompleted { sleep(1) }
+        DispatchQueue.main.async {
+            if let presenter =
+                (
+                    (scene as? UIWindowScene)?
+                        .delegate as? UIWindowSceneDelegate
+                )?
+                .window??
+                .topMostViewController
+            {
+                let target = RepoAddViewController()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    target.userInputValues.text = url.absoluteString
+                }
+                presenter.present(next: target)
+            }
+        }
+    }
+
+    func openQuickInstall(scene: UIScene, url: URL) {
+        while !SetupViewController.setupCompleted { sleep(1) }
+        DispatchQueue.main.async {
+            if let presenter =
+                (
+                    (scene as? UIWindowScene)?
+                        .delegate as? UIWindowSceneDelegate
+                )?
+                .window??
+                .topMostViewController
+            {
+                let target = DirectInstallController()
+                target.patternLocation = url
+                presenter.present(next: target)
             }
         }
     }

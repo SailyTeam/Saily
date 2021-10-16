@@ -8,6 +8,7 @@
 
 import AptRepository
 import Digger
+import FluentIcon
 import SDWebImage
 import UIKit
 
@@ -42,6 +43,9 @@ class PackageCell: UIView, PackageCellFunction {
 
     init() {
         super.init(frame: CGRect())
+
+        let dragInteraction = UIDragInteraction(delegate: self)
+        addInteraction(dragInteraction)
 
         addSubview(contentView)
         contentView.snp.makeConstraints { x in
@@ -353,5 +357,27 @@ class PackageCell: UIView, PackageCellFunction {
         UIView.animate(withDuration: 0.2) { [self] in
             progressView.setProgress(Float(info.progress.fractionCompleted), animated: true)
         }
+    }
+}
+
+extension PackageCell: UIDragInteractionDelegate {
+    func dragInteraction(_: UIDragInteraction, itemsForBeginning _: UIDragSession) -> [UIDragItem] {
+        guard let package = represent else { return [] }
+        let provider = NSItemProvider(object: captureDragImage())
+        let item = UIDragItem(itemProvider: provider)
+        item.localObject = PackageDragDropProxy(represent: package)
+        return [item]
+    }
+
+    private func captureDragImage() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        if let context = UIGraphicsGetCurrentContext() {
+            layer.render(in: context)
+            if let image = UIGraphicsGetImageFromCurrentImageContext() {
+                return image
+            }
+        }
+        return UIImage.fluent(.extension24Filled)
     }
 }

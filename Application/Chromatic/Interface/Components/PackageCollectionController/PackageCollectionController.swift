@@ -125,37 +125,29 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
         collectionViewCellSizeCache
     }
 
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) {
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           usingSpringWithDamping: 1,
-                           initialSpringVelocity: 1,
-                           options: .curveEaseInOut,
-                           animations: {
-                               cell.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                           }) { _ in
-            }
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) {
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           usingSpringWithDamping: 1,
-                           initialSpringVelocity: 1,
-                           options: .curveEaseInOut,
-                           animations: {
-                               cell.transform = .identity
-                           }) { _ in
-            }
-        }
-    }
+    // didHighlightItemAt removed because we have add preview
+    // subclass may have it's own impl for data source
+    // make sure to add safe:
 
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let data = dataSource[indexPath.row]
+        guard let data = dataSource[safe: indexPath.row] else { return }
         let target = PackageController(package: data)
         present(next: target)
+    }
+
+    func collectionView(_: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
+        guard let data = dataSource[safe: indexPath.row],
+              let view = self.view
+        else {
+            return nil
+        }
+        return InterfaceBridge.packageContextMenuConfiguration(for: data, reference: view)
+    }
+
+    func collectionView(_: UICollectionView, willPerformPreviewActionForMenuWith _: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        guard let destinationViewController = animator.previewViewController else { return }
+        animator.addAnimations {
+            self.show(destinationViewController, sender: self)
+        }
     }
 }

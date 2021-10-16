@@ -195,6 +195,33 @@ class SearchController: UITableViewController {
         }
     }
 
+    override func tableView(_: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
+        if searchResults.count < 1 { return nil }
+        let object = searchResults[indexPath.section][indexPath.row]
+        switch object.associatedValue {
+        case let .installed(package), let .collection(package):
+            return InterfaceBridge.packageContextMenuConfiguration(for: package, reference: view)
+        case let .package(identity, repository):
+            if let lookup = RepositoryCenter
+                .default
+                .obtainImmutableRepository(withUrl: repository)?
+                .metaPackage[identity]
+            {
+                return InterfaceBridge.packageContextMenuConfiguration(for: lookup, reference: view)
+            }
+        case .repository, .author:
+            return nil
+        }
+        return nil
+    }
+
+    override func tableView(_: UITableView, willPerformPreviewActionForMenuWith _: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        guard let destinationViewController = animator.previewViewController else { return }
+        animator.addAnimations {
+            self.show(destinationViewController, sender: self)
+        }
+    }
+
     func updateGuiderOpacity() {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.25) { [self] in

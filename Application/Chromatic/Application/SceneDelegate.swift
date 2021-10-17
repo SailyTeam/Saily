@@ -16,12 +16,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     let reloadThrottle = Throttle(minimumDelay: 0.5, queue: .global())
 
-    func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options: UIScene.ConnectionOptions) {
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
+
+        // created from user activity
+        if let userActivity = options.userActivities.first ?? session.stateRestorationActivity {
+            if !configure(window: window, with: userActivity) {
+                debugPrint("failed to restore from \(userActivity)")
+            }
+            return
+        }
+
+        // if not, check for url schemes
         let urlContexts = options.urlContexts
         DispatchQueue.main.async {
             self.scene(scene, openURLContexts: urlContexts)
         }
+    }
+
+    func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
+        var configured = false
+        if activity.title == cUserActivityDropPackage {
+            if let data = activity.userInfo?["attach"] as? Data,
+               let package = Package.propertyListDecoded(with: data)
+            {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    let packageConteroller = PackageController(package: package)
+                    window?
+                        .topMostViewController?
+                        .present(next: packageConteroller)
+                }
+                configured = true
+            }
+        }
+        return configured
     }
 
     func sceneDidDisconnect(_: UIScene) {}

@@ -33,6 +33,16 @@ class SetupViewController: UIViewController {
             return
         }
 
+        var meme = [Character](
+            "🦍🐨🦥🦌🐈‍⬛🐩🐻🦫🦝🐶🐈🦇🦄🦬🦁🦮🦊🐬🐢🐒🐕‍🦺🦧🐕🐼🐺🦔🦓🐱🦈🐿️🐮🐻‍❄️"
+        )
+        while meme.count > 8 {
+            meme.removeRandomElement()
+        }
+
+        descriptionLabel.text = meme
+            .map { String($0) }
+            .joined(separator: " ")
         descriptionLabel.textColor = .gray
         descriptionLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .semibold)
         view.addSubview(descriptionLabel)

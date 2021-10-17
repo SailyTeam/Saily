@@ -44,9 +44,6 @@
       location = "group:Foundation/LNPopupController">
    </FileRef>
    <FileRef
-      location = "group:Foundation/LookinServer">
-   </FileRef>
-   <FileRef
       location = "group:Foundation/LTMorphingLabel">
    </FileRef>
    <FileRef

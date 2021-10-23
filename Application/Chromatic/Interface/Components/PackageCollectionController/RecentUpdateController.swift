@@ -106,4 +106,20 @@ class RecentUpdateController: PackageCollectionController {
             present(next: target)
         }
     }
+
+    override func collectionView(_: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
+        guard let data = obtainPackageFor(indexPath: indexPath),
+              let view = self.view
+        else {
+            return nil
+        }
+        return InterfaceBridge.packageContextMenuConfiguration(for: data, reference: view)
+    }
+
+    override func collectionView(_: UICollectionView, willPerformPreviewActionForMenuWith _: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        guard let destinationViewController = animator.previewViewController else { return }
+        animator.addAnimations {
+            self.show(destinationViewController, sender: self)
+        }
+    }
 }

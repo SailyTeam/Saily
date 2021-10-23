@@ -42,7 +42,11 @@ extension PackageCenter {
                 break
             } catch {
                 Dog.shared.join(self, "error occurs when loading system configuration \(error.localizedDescription)", level: .error)
-                usleep(500_000)
+                #if !DEBUG
+                    // it does not make scene to wait
+                    // while in a sandboxed non-jailbroken device
+                    usleep(500000)
+                #endif
                 retry += 1
             }
             localInstalled = [:]
@@ -101,8 +105,7 @@ extension PackageCenter {
                         authorList[author] = read
                     }
                     if value.latestMetadata?["provides"] != nil,
-                       let invoker = PackageRequirement(with: value)
-                    {
+                       let invoker = PackageRequirement(with: value) {
                         for section in invoker.group where section.type == .provides {
                             section
                                 .requirements
@@ -189,8 +192,7 @@ extension PackageCenter {
                     var newestVersion = summay[0].latestVersion ?? "0"
                     for value in summay {
                         if let version = value.latestVersion,
-                           Package.compareVersion(version, b: newestVersion) == .aIsBiggerThenB
-                        {
+                           Package.compareVersion(version, b: newestVersion) == .aIsBiggerThenB {
                             newestVersion = version
                             repoRef = value.repoRef
                         }
@@ -217,8 +219,7 @@ extension PackageCenter {
                            let repo = RepositoryCenter
                            .default
                            .obtainImmutableRepository(withUrl: repoRef),
-                           repo.attachment[.initialInstall] ?? "YES" == "YES"
-                        {
+                           repo.attachment[.initialInstall] ?? "YES" == "YES" {
                             // this package is first seen here
                             // and the repo is not currently in any initial load's commit
                             // we need to put it into display

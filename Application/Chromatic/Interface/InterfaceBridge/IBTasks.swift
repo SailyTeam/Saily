@@ -71,6 +71,8 @@ extension InterfaceBridge {
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("DISMISS", comment: "Dismiss"), style: .default, handler: nil))
             sender.parentViewController?.present(alert, animated: true, completion: nil)
+            // resume or retry any broken downloads
+            TaskManager.shared.retryAllDownload()
             return
         }
 

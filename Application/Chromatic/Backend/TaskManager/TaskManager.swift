@@ -96,6 +96,19 @@ internal final class TaskManager {
             .syncDownloadRequest(packageList: downloadList)
     }
 
+    func retryAllDownload() {
+        accessLock.lock()
+        let actions = resolvedAction
+        accessLock.unlock()
+        dispatchNotification()
+        let downloadList = actions
+            .filter { $0.action == .install }
+            .map(\.represent)
+        CariolNetwork
+            .shared
+            .syncDownloadRequest(packageList: downloadList)
+    }
+
     func obtainTaskCount() -> Int {
         accessLock.lock()
         let result = resolvedAction.count

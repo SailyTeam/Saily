@@ -11,14 +11,27 @@ import SwiftThrottle
 import UIKit
 
 class LXMainNavigator: UINavigationController {
+    var displayController = LXMainController()
+
+    var notificationToken: String {
+        set {
+            displayController.notificationToken = newValue
+        }
+        get {
+            displayController.notificationToken
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [LXMainController()]
+        viewControllers = [displayController]
         navigationBar.prefersLargeTitles = true
     }
 }
 
 class LXMainController: UIViewController {
+    var notificationToken: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +78,13 @@ class LXMainController: UIViewController {
     @objc
     func presentNewRootController(withNotification notification: Notification) {
         lastNotification = notification
+        debugPrint("received notificationToken \(notificationToken)")
+        if let object = notification.object, let token = object as? String {
+            guard token == notificationToken else {
+                debugPrint("token mismatch \(token) != \(notificationToken)")
+                return
+            }
+        }
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.shadowImage = nil
         switch notification.name {

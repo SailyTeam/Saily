@@ -45,6 +45,7 @@ extension SettingView {
                                               style: .destructive,
                                               handler: { _ in
                                                   InterfaceBridge.enableShareSheet = true
+                                                  self.dispatchValueUpdate()
                                               }))
                 alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"),
                                               style: .cancel, handler: { _ in
@@ -53,6 +54,7 @@ extension SettingView {
                 self.parentViewController?.present(alert, animated: true, completion: nil)
             } else {
                 InterfaceBridge.enableShareSheet = false
+                self.dispatchValueUpdate()
             }
         }
         #if DEBUG

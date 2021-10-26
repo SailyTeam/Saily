@@ -269,4 +269,37 @@ extension SearchController: UISearchControllerDelegate, UISearchResultsUpdating,
     }
 
     func searchBar(_: UISearchBar, textDidChange _: String) {}
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        guard var text = searchBar
+            .text?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        else {
+            return
+        }
+        while text.hasSuffix("/") {
+            text.removeLast()
+        }
+        if text.hasPrefix("http"), let url = URL(string: text) {
+            // check if already exists
+            if RepositoryCenter.default.obtainImmutableRepository(withUrl: url) != nil {
+                return
+            }
+            // if not, push to add
+            guard let scheme = URL(string: "apt-repo://\(url.absoluteString)") else {
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+                guard let self = self else { return }
+                // check if user tapped a cell, and view controller is away
+                if self.view.window?.topMostViewController != self.searchController {
+                    // do not present
+                    return
+                }
+                debugPrint(scheme)
+                // now, add this repo
+                UIApplication.shared.open(scheme, options: [:], completionHandler: nil)
+            }
+        }
+    }
 }

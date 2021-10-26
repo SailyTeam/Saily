@@ -13,6 +13,8 @@ import SnapKit
 import UIKit
 
 class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
+    var notificationToken: String = ""
+
     private let container: UIScrollView = {
         let builder = UIScrollView()
         builder.showsVerticalScrollIndicator = false
@@ -83,6 +85,7 @@ class LXSplitPanelController: UIViewController, UINavigationControllerDelegate {
         }
 
         let dashNavCardTitle = UILabel()
+        dashNavCard.notificationToken = notificationToken
         dashNavCardTitle.text = NSLocalizedString("FEATURES", comment: "Features")
         dashNavCardTitle.font = .systemFont(ofSize: 22, weight: .heavy)
         dashNavCardTitle.textAlignment = .left

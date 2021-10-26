@@ -24,12 +24,17 @@ class LXSplitController: UISplitViewController {
     }
 
     func makeViewControllers() {
+        let notificationToken = UUID().uuidString
+        let split = LXSplitPanelController()
+        let navigator = LXMainNavigator()
+        split.notificationToken = notificationToken
+        navigator.notificationToken = notificationToken
         viewControllers = [
             /*
              Do not cache them because Apple did it bugly here!
              { viewControllers.count < 2 } will not work
              */
-            LXSplitPanelController(), LXMainNavigator(),
+            split, navigator,
         ]
     }
 

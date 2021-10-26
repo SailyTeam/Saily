@@ -51,6 +51,7 @@ extension SettingView {
                                               style: .destructive,
                                               handler: { _ in
                                                   DeviceInfo.current.useRealDeviceInfo = false
+                                                  self.dispatchValueUpdate()
                                               }))
                 alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"),
                                               style: .cancel, handler: { _ in
@@ -59,6 +60,7 @@ extension SettingView {
                 self.parentViewController?.present(alert, animated: true, completion: nil)
             } else {
                 DeviceInfo.current.useRealDeviceInfo = true
+                self.dispatchValueUpdate()
             }
         }
         addSubview(groupEffect0)

@@ -9,20 +9,20 @@
 import AptRepository
 import UIKit
 
-private let kCardSelectNotificationBlockDashboard = {
-    NotificationCenter.default.post(name: .LXMainControllerSwitchDashboard, object: nil)
+private let kCardSelectNotificationBlockDashboard = { (sender: String?) in
+    NotificationCenter.default.post(name: .LXMainControllerSwitchDashboard, object: sender)
 }
 
-private let kCardSelectNotificationBlockSettings = {
-    NotificationCenter.default.post(name: .LXMainControllerSwitchSettings, object: nil)
+private let kCardSelectNotificationBlockSettings = { (sender: String?) in
+    NotificationCenter.default.post(name: .LXMainControllerSwitchSettings, object: sender)
 }
 
-private let kCardSelectNotificationBlockTasks = {
-    NotificationCenter.default.post(name: .LXMainControllerSwitchTasks, object: nil)
+private let kCardSelectNotificationBlockTasks = { (sender: String?) in
+    NotificationCenter.default.post(name: .LXMainControllerSwitchTasks, object: sender)
 }
 
-private let kCardSelectNotificationBlockInstalled = {
-    NotificationCenter.default.post(name: .LXMainControllerSwitchInstalled, object: nil)
+private let kCardSelectNotificationBlockInstalled = { (sender: String?) in
+    NotificationCenter.default.post(name: .LXMainControllerSwitchInstalled, object: sender)
 }
 
 class DashNavCard: UIView {
@@ -50,6 +50,8 @@ class DashNavCard: UIView {
                                                unselectIconName: "DashNAV.InstalledUnselected",
                                                defaultSelected: false)
 
+    var notificationToken: String?
+
     @available(*, unavailable)
     required init?(coder _: NSCoder) { fatalError() }
 
@@ -59,7 +61,7 @@ class DashNavCard: UIView {
         addSubview(dashCard)
         dashCard.setTouchEvent { [weak self] in
             self?.selectDash()
-            kCardSelectNotificationBlockDashboard()
+            kCardSelectNotificationBlockDashboard(self?.notificationToken)
         }
         dashCard.snp.makeConstraints { x in
             x.top.equalTo(self.snp.top).offset(8)
@@ -71,7 +73,7 @@ class DashNavCard: UIView {
         addSubview(settCard)
         settCard.setTouchEvent { [weak self] in
             self?.selectSetting()
-            kCardSelectNotificationBlockSettings()
+            kCardSelectNotificationBlockSettings(self?.notificationToken)
         }
         settCard.snp.makeConstraints { x in
             x.top.equalTo(self.snp.top).offset(8)
@@ -83,7 +85,7 @@ class DashNavCard: UIView {
         addSubview(taskCard)
         taskCard.setTouchEvent { [weak self] in
             self?.selectTask()
-            kCardSelectNotificationBlockTasks()
+            kCardSelectNotificationBlockTasks(self?.notificationToken)
         }
         taskCard.snp.makeConstraints { x in
             x.top.equalTo(self.snp.centerY).offset(8)
@@ -95,7 +97,7 @@ class DashNavCard: UIView {
         addSubview(instCard)
         instCard.setTouchEvent { [weak self] in
             self?.selectInstalled()
-            kCardSelectNotificationBlockInstalled()
+            kCardSelectNotificationBlockInstalled(self?.notificationToken)
         }
         instCard.snp.makeConstraints { x in
             x.top.equalTo(self.snp.centerY).offset(8)

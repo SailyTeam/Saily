@@ -75,7 +75,6 @@
 		50759B4226F0379800EF39B5 /* PackageUpdateTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50759B4126F0379800EF39B5 /* PackageUpdateTableCell.swift */; };
 		50759B4626F04A0400EF39B5 /* UpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50759B4526F04A0400EF39B5 /* UpdateController.swift */; };
 		50759B4826F04A1000EF39B5 /* BlockUpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50759B4726F04A1000EF39B5 /* BlockUpdateController.swift */; };
-		507873E226F4091F0004A380 /* .bartycrouch.toml in Resources */ = {isa = PBXBuildFile; fileRef = 507873E126F4091F0004A380 /* .bartycrouch.toml */; };
 		507D1E7326BFA87D00E72E9B /* SwiftThrottle in Frameworks */ = {isa = PBXBuildFile; productRef = 507D1E7226BFA87D00E72E9B /* SwiftThrottle */; };
 		507D1E7526BFA88100E72E9B /* SwifterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 507D1E7426BFA88100E72E9B /* SwifterSwift */; };
 		507D1E7726BFA88500E72E9B /* SWCompression in Frameworks */ = {isa = PBXBuildFile; productRef = 507D1E7626BFA88500E72E9B /* SWCompression */; };
@@ -887,7 +886,6 @@
 				508AF3F626CB9497000A2EC6 /* PackageController.xcassets in Resources */,
 				5011783826D27AB600AB123C /* Bundle in Resources */,
 				5034020B26BFE57B00E8D02B /* DashNavCard.xcassets in Resources */,
-				507873E226F4091F0004A380 /* .bartycrouch.toml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

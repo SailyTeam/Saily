@@ -130,6 +130,7 @@ extension SettingView {
                                                }) { changeToOpen, _ in
             if changeToOpen ?? false {
                 RepositoryCenter.default.historyRecordsEnabled = true
+                self.dispatchValueUpdate()
             } else {
                 let alert = UIAlertController(title: "⚠️",
                                               message: NSLocalizedString("DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS",
@@ -139,6 +140,7 @@ extension SettingView {
                                               style: .destructive,
                                               handler: { _ in
                                                   RepositoryCenter.default.historyRecordsEnabled = false
+                                                  self.dispatchValueUpdate()
                                               }))
                 alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"),
                                               style: .cancel,

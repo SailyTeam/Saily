@@ -92,6 +92,7 @@ extension SettingView {
                                                               TaskManager.shared.automaticUpdateWhenAvailable ? "YES" : "NO"
                                                           }) { changeToOpen, _ in
             TaskManager.shared.automaticUpdateWhenAvailable = changeToOpen ?? false
+            self.dispatchValueUpdate()
         }
         let blockedUpdate = SettingElement(iconSystemNamed: "hand.raised.fill",
                                            text: NSLocalizedString("BLOCK_UPDATE", comment: "Block Update"),

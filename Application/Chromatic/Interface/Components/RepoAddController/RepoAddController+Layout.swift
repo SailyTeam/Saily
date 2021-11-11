@@ -46,7 +46,7 @@ extension RepoAddViewController: UITextViewDelegate {
         }
 
         titleDescription.text = NSLocalizedString("REPO_DESCRIPTION", comment: "The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover.")
-        titleDescription.isUserInteractionEnabled = false
+        titleDescription.isEditable = false
         titleDescription.textColor = UIColor(named: "TEXT_SUBTITLE")
         titleDescription.backgroundColor = .clear
         titleDescription.font = .systemFont(ofSize: 14, weight: .medium)
@@ -203,7 +203,7 @@ extension RepoAddViewController: UITextViewDelegate {
         userInput.text = NSLocalizedString("MANUAL_INPUT", comment: "Manual Input")
         userInput.textColor = UIColor(named: "TEXT_TITLE")
         userInput.font = .systemFont(ofSize: 24, weight: .medium)
-        userInputDescription.isUserInteractionEnabled = false
+        userInputDescription.isEditable = false
         userInputDescription.textColor = UIColor(named: "TEXT_SUBTITLE")
         userInputDescription.text = NSLocalizedString("MANUAL_INPUT_DESCRIPTION", comment: "Enter the software source address manually here and use line feed to split multiple addresses")
         userInputDescription.backgroundColor = .clear

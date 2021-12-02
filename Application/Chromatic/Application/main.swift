@@ -88,6 +88,13 @@ Dog.shared.join("App",
                 """,
                 level: .info)
 
+private let environment = ProcessInfo.processInfo.environment
+#if DEBUG
+    for (key, value) in environment {
+        Dog.shared.join("Env", "\(key): \(value)", level: .verbose)
+    }
+#endif
+
 // MARK: - Auxiliary Execute
 
 private let result = AuxiliaryExecute.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
@@ -117,7 +124,13 @@ public private(set) var applicationShouldEnterRecovery = false
 
  */
 
-do {
+repeat {
+    if let preWarmRead = environment["ActivePrewarm"],
+       preWarmRead == "1"
+    {
+        Dog.shared.join("App", "ignoring fail safe startup due to ActivePrewarm")
+        break
+    }
     let manually = documentsDirectory
         .appendingPathComponent("enterAppRecovery")
     if FileManager.default.fileExists(atPath: manually.path) {
@@ -151,7 +164,7 @@ do {
     DispatchQueue.global().asyncAfter(deadline: .now() + 60) {
         try? FileManager.default.removeItem(at: applicationRecoveryFlag)
     }
-}
+} while false
 
 print(
     """

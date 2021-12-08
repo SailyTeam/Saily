@@ -113,12 +113,12 @@ public struct Package: Codable, Hashable, Identifiable {
         if result > 0 { return .aIsBiggerThenB }
         return .aIsEqualToB
     }
-    
+
     public
     func propertyListEncoded() -> Data? {
         try? PropertyListEncoder().encode(self)
     }
-    
+
     public static
     func propertyListDecoded(with data: Data?) -> Self? {
         guard let data = data else {

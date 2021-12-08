@@ -162,10 +162,10 @@ class OperationConsoleController: UIViewController {
                                                 preferredStyle: .alert)
                   controller.present(alert, animated: true) {
                       DispatchQueue.global().async {
-                          AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.uicache,
-                                                     args: ["--all"],
-                                                     timeout: 120,
-                                                     output: { _ in })
+                          AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
+                                                            args: ["--all"],
+                                                            timeout: 120,
+                                                            output: { _ in })
                           DispatchQueue.main.async {
                               alert.dismiss(animated: true, completion: nil)
                           }
@@ -175,7 +175,7 @@ class OperationConsoleController: UIViewController {
         .init(text: NSLocalizedString("RELOAD_HOMESCREEN", comment: "Reload Home Screen"),
               confirmationRequired: true,
               action: { _ in
-                  AuxiliaryExecute.reloadSpringboard()
+                  AuxiliaryExecuteWrapper.reloadSpringboard()
               }),
         .init(text: NSLocalizedString("CLOSE", comment: "Close"),
               confirmationRequired: false,
@@ -193,11 +193,11 @@ class OperationConsoleController: UIViewController {
                                           preferredStyle: .alert)
             present(alert, animated: true, completion: {
                 sleep(1)
-                AuxiliaryExecute.suspendApplication()
+                AuxiliaryExecuteWrapper.suspendApplication()
                 sleep(1)
-                AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.uicache,
-                                           args: ["-p", Bundle.main.bundlePath],
-                                           timeout: 60) { _ in
+                AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
+                                                  args: ["-p", Bundle.main.bundlePath],
+                                                  timeout: 60) { _ in
                 }
                 exit(0)
             })

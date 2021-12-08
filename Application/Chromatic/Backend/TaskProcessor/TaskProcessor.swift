@@ -108,12 +108,12 @@ class TaskProcessor {
         do {
             output("\n===>\n")
             output(NSLocalizedString("UNLOCKING_SYSTEM", comment: "Unlocking system") + "\n")
-            let result = AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.rm,
-                                                    args: ["-f",
-                                                           "/var/lib/apt/lists/lock",
-                                                           "/var/cache/apt/archives/lock",
-                                                           "/var/lib/dpkg/lock"],
-                                                    timeout: 1) { str in
+            let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.rm,
+                                                           args: ["-f",
+                                                                  "/var/lib/apt/lists/lock",
+                                                                  "/var/cache/apt/archives/lock",
+                                                                  "/var/lib/dpkg/lock"],
+                                                           timeout: 1) { str in
                 output(str)
             }
             output("[*] returning \(result.0)\n")
@@ -121,9 +121,9 @@ class TaskProcessor {
 
         if operation.requiresRestart {
             // do not run uicache in our self
-            AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.touch,
-                                       args: [kSignalFile],
-                                       timeout: 1, output: { _ in })
+            AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.touch,
+                                              args: [kSignalFile],
+                                              timeout: 1, output: { _ in })
         }
 
         // MARK: - UNINSTALL IF REQUIRED
@@ -140,9 +140,9 @@ class TaskProcessor {
                 operation.remove.forEach { item in
                     arguments.append(item)
                 }
-                let result = AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.apt,
-                                                        args: arguments,
-                                                        timeout: 0) { str in
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
+                                                               args: arguments,
+                                                               timeout: 0) { str in
                     output(str)
                 }
                 output("[*] returning \(result.0)\n")
@@ -171,9 +171,9 @@ class TaskProcessor {
                 operation.install.forEach { item in
                     arguments.append(item.1.path)
                 }
-                let result = AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.apt,
-                                                        args: arguments,
-                                                        timeout: 0) { str in
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
+                                                               args: arguments,
+                                                               timeout: 0) { str in
                     output(str)
                 }
                 output("[*] returning \(result.0)\n")
@@ -226,9 +226,9 @@ class TaskProcessor {
                     printed = true
                 }
                 output("[*] \(item)\n")
-                let result = AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.uicache,
-                                                        args: ["-p", item],
-                                                        timeout: 10) { _ in }
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
+                                                               args: ["-p", item],
+                                                               timeout: 10) { _ in }
                 output("[*] returning \(result.0)\n")
             }
         }
@@ -257,9 +257,9 @@ class TaskProcessor {
                     printed = true
                 }
                 output("[*] \(path)\n")
-                let result = AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.uicache,
-                                                        args: ["-p", path],
-                                                        timeout: 10) { _ in }
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
+                                                               args: ["-p", path],
+                                                               timeout: 10) { _ in }
                 output("[*] returning \(result.0)\n")
             }
         }
@@ -268,9 +268,9 @@ class TaskProcessor {
 
         if operation.requiresRestart {
             // do not run uicache in our self
-            AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.rm,
-                                       args: [kSignalFile],
-                                       timeout: 1, output: { _ in })
+            AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.rm,
+                                              args: [kSignalFile],
+                                              timeout: 1, output: { _ in })
         }
 
         // MARK: - FINISH UP

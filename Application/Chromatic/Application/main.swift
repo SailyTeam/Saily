@@ -64,6 +64,9 @@ UserDefaults
     .standard
     .setValue(documentsDirectory.path, forKey: "wiki.qaq.chromatic.setupLocation")
 
+// calling chdir avoiding putting junk file into root
+FileManager.default.changeCurrentDirectoryPath(documentsDirectory.path)
+
 // MARK: - Logging Engine
 
 do {
@@ -97,11 +100,11 @@ private let environment = ProcessInfo.processInfo.environment
 
 // MARK: - Auxiliary Execute
 
-private let result = AuxiliaryExecute.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
+private let result = AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
 Dog.shared.join("Privilege", "stdout: [\(result.1.trimmingCharacters(in: .whitespacesAndNewlines))]", level: .info)
 Dog.shared.join("Privilege", "stderr: [\(result.2.trimmingCharacters(in: .whitespacesAndNewlines))]", level: .info)
 
-AuxiliaryExecute.setupExecutables()
+AuxiliaryExecuteWrapper.setupExecutables()
 
 // MARK: - Boot Application
 

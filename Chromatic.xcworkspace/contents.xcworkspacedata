@@ -11,6 +11,9 @@
       location = "group:Foundation/AptRepository">
    </FileRef>
    <FileRef
+      location = "group:Foundation/AuxiliaryExecute">
+   </FileRef>
+   <FileRef
       location = "group:Foundation/BitByteData">
    </FileRef>
    <FileRef

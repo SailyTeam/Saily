@@ -133,6 +133,7 @@
 		50C668A926CFB560005A68BE /* PackageVersionControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C668A826CFB560005A68BE /* PackageVersionControlController.swift */; };
 		50C668AB26CFE76E005A68BE /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C668AA26CFE76E005A68BE /* RepoCell.swift */; };
 		50C88B0A26D22ADD00758FEF /* AptScanner+Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C88B0926D22ADD00758FEF /* AptScanner+Report.swift */; };
+		50CF5829276049A8003AA45B /* AuxiliaryExecute in Frameworks */ = {isa = PBXBuildFile; productRef = 50CF5828276049A8003AA45B /* AuxiliaryExecute */; };
 		50CFB01926D2671600E66AB9 /* Digger in Frameworks */ = {isa = PBXBuildFile; productRef = 50CFB01826D2671600E66AB9 /* Digger */; };
 		50CFB01B26D26CC900E66AB9 /* PackageAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB01A26D26CC900E66AB9 /* PackageAction.swift */; };
 		50D528BC2449B11300F4A483 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528BB2449B11300F4A483 /* AppDelegate.swift */; };
@@ -326,6 +327,7 @@
 				505BB6CD26D78235007F5B15 /* Renet in Frameworks */,
 				500D83A626C2157E00D9E701 /* FLAnimatedImage in Frameworks */,
 				507D1E7326BFA87D00E72E9B /* SwiftThrottle in Frameworks */,
+				50CF5829276049A8003AA45B /* AuxiliaryExecute in Frameworks */,
 				507D1E8B26BFA8B400E72E9B /* Dog in Frameworks */,
 				507D1E7526BFA88100E72E9B /* SwifterSwift in Frameworks */,
 				507D1E7B26BFA89000E72E9B /* SDWebImage in Frameworks */,
@@ -822,6 +824,7 @@
 				50A283EE26D54492005FA2DB /* SwiftMD5 */,
 				505BB6CC26D78235007F5B15 /* Renet */,
 				50435E9526DBD35100D3ED25 /* Bugsnag */,
+				50CF5828276049A8003AA45B /* AuxiliaryExecute */,
 			);
 			productName = Protein;
 			productReference = 50D528B82449B11300F4A483 /* chromatic.app */;
@@ -1358,6 +1361,10 @@
 		50A8053226CB833D00F8FB7D /* LNPopupController-Static */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "LNPopupController-Static";
+		};
+		50CF5828276049A8003AA45B /* AuxiliaryExecute */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AuxiliaryExecute;
 		};
 		50CFB01826D2671600E66AB9 /* Digger */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -19,13 +19,13 @@ enum AppleAvatar {
             .appendingPathComponent(filename)
             .appendingPathExtension("png")
 
-        AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.cp,
-                                   args: ["-f", iconPath.path, toPath.path],
-                                   timeout: 3) { str in
+        AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.cp,
+                                          args: ["-f", iconPath.path, toPath.path],
+                                          timeout: 3) { str in
             Dog.shared.join(self, "exec: \(str.trimmingCharacters(in: .whitespacesAndNewlines))", level: .verbose)
         }
-        AuxiliaryExecute.rootspawn(command: AuxiliaryExecute.chmod,
-                                   args: ["777", toPath.path],
-                                   timeout: 3) { _ in }
+        AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.chmod,
+                                          args: ["777", toPath.path],
+                                          timeout: 3) { _ in }
     }
 }

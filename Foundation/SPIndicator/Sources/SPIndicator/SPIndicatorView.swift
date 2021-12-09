@@ -248,9 +248,16 @@ import UIKit
                     iconView.animate()
                 }
             }
+
+            safeAreaInsetsObserver = window.observe(\.safeAreaInsets, changeHandler: { [weak self] window, _ in
+                guard let self = self else { return }
+                self.center.x = window.frame.midX
+                self.toPresentPosition(.visible(self.presentSide))
+            })
         }
 
         @objc open func dismiss() {
+            safeAreaInsetsObserver?.invalidate()
             UIView.animate(withDuration: presentAndDismissDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [.beginFromCurrentState, .curveEaseIn], animations: {
                 self.toPresentPosition(.prepare(self.presentSide))
                 if self.presentWithOpacity { self.alpha = 0 }
@@ -390,6 +397,8 @@ import UIKit
         private var titleAreaFactor: CGFloat = 2.5
         private var spaceBetweenTitles: CGFloat = 1
         private var spaceBetweenTitlesAndImage: CGFloat = 16
+
+        private var safeAreaInsetsObserver: NSKeyValueObservation?
 
         private var titlesCompactWidth: CGFloat {
             if let iconView = self.iconView {

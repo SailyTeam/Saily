@@ -10,6 +10,7 @@ let package = Package(
     ],
     products: [
         .library(name: "Bugsnag", targets: ["Bugsnag"]),
+        .library(name: "BugsnagNetworkRequestPlugin", targets: ["BugsnagNetworkRequestPlugin"]),
     ],
     dependencies: [],
     targets: [
@@ -39,6 +40,16 @@ let package = Package(
             linkerSettings: [
                 .linkedLibrary("z"),
                 .linkedLibrary("c++"),
+            ]
+        ),
+        .target(
+            name: "BugsnagNetworkRequestPlugin",
+            dependencies: ["Bugsnag"],
+            path: "BugsnagNetworkRequestPlugin/BugsnagNetworkRequestPlugin",
+            publicHeadersPath: "include",
+            cSettings: [
+                .headerSearchPath("."),
+                .headerSearchPath("include/BugsnagNetworkRequestPlugin"),
             ]
         ),
     ],

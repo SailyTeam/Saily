@@ -50,7 +50,7 @@ extension BZip2: CompressionAlgorithm {
         var totalCRC: UInt32 = 0
         for i in stride(from: data.startIndex, to: data.endIndex, by: rawBlockSize) {
             let blockData = data[i ..< min(data.endIndex, i + rawBlockSize)]
-            let blockCRC = CheckSums.bzip2CRC32(blockData)
+            let blockCRC = CheckSums.bzip2crc32(blockData)
 
             totalCRC = (totalCRC << 1) | (totalCRC >> 31)
             totalCRC ^= blockCRC

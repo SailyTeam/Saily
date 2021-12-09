@@ -11,8 +11,8 @@
 #import "BSGEventUploadKSCrashReportOperation.h"
 #import "BSGEventUploadObjectOperation.h"
 #import "BSGFileLocations.h"
-#import "BSGGlobals.h"
 #import "BSGJSONSerialization.h"
+#import "BSGUtils.h"
 #import "BugsnagConfiguration.h"
 #import "BugsnagEvent+Private.h"
 #import "BugsnagLogger.h"
@@ -41,7 +41,7 @@
 
 - (instancetype)initWithConfiguration:(BugsnagConfiguration *)configuration notifier:(BugsnagNotifier *)notifier {
     if ((self = [super init])) {
-        _apiClient = [[BugsnagApiClient alloc] initWithSession:configuration.session queueName:@""];
+        _apiClient = [[BugsnagApiClient alloc] initWithSession:configuration.session];
         _configuration = configuration;
         _eventsDirectory = [BSGFileLocations current].events;
         _kscrashReportsDirectory = [BSGFileLocations current].kscrashReports;
@@ -198,7 +198,7 @@
 // MARK: - BSGEventUploadOperationDelegate
 
 - (void)storeEventPayload:(NSDictionary *)eventPayload {
-    dispatch_sync(BSGGlobalsFileSystemQueue(), ^{
+    dispatch_sync(BSGGetFileSystemQueue(), ^{
         NSString *file = [[self.eventsDirectory stringByAppendingPathComponent:[NSUUID UUID].UUIDString] stringByAppendingPathExtension:@"json"];
         NSError *error = nil;
         if (![BSGJSONSerialization writeJSONObject:eventPayload toFile:file options:0 error:&error]) {

@@ -96,7 +96,7 @@ public class XZArchive: Archive {
         var indexSize = -1
         while true {
             let blockHeaderSize = byteReader.byte()
-            if blockHeaderSize == 0 { /// Zero value of blockHeaderSize means that we've encountered INDEX.
+            if blockHeaderSize == 0 { // Zero value of blockHeaderSize means that we've encountered the index.
                 indexSize = try processIndex(blockInfos, byteReader)
                 break
             } else {

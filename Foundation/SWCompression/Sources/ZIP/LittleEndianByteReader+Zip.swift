@@ -25,6 +25,12 @@ extension LittleEndianByteReader {
 
 private extension String {
     // "Latin-US (DOS)" CP437-2147483120
+    // Note that this encoding is interpreted differently "depending on the context". This concerns codes in 0-31 range
+    // and code 127: sometimes they are treated as normal characters (as was defined by IBM) and sometimes as control
+    // characters, matching corresponding ranges of ASCII/UTF-8. The second interpretation, however, doesn't make CP437
+    // compatible with UTF-8, as CP437 contains codes in the 80-FF range which are not valid UTF-8 codes.
+    // In any case, we are constrained to the implementation provided by Foundation, which currently treats them as
+    // control characters.
     static let cp437Encoding = String.Encoding(rawValue: 0x8000_0400)
     static let cp437Available = String.availableStringEncodings.contains(cp437Encoding)
 }

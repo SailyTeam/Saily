@@ -10,7 +10,7 @@ infix operator >>>
 @inline(__always)
 private func >>> (num: UInt32, count: Int) -> UInt32 {
     // This implementation assumes without checking that `count` is in the 1...31 range.
-    (num >> UInt32(truncatingIfNeeded: count)) | (num << UInt32(truncatingIfNeeded: 32 - count))
+    (num >> count) | (num << (32 - count))
 }
 
 enum Sha256 {

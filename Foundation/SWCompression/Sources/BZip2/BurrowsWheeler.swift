@@ -5,7 +5,7 @@
 
 import Foundation
 
-class BurrowsWheeler {
+enum BurrowsWheeler {
     static func transform(bytes: [Int]) -> ([Int], Int) {
         let doubleBytes = bytes + bytes
         let suffixArray = SuffixArray.make(from: doubleBytes, with: 256)

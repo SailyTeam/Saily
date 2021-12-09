@@ -28,7 +28,6 @@
 
 #import "BSG_KSSystemInfo.h"
 #import "BSG_KSSystemInfoC.h"
-#import "BSG_KSDynamicLinker.h"
 #import "BSG_KSMachHeaders.h"
 #import "BSG_KSJSONCodecObjC.h"
 #import "BSG_KSMach.h"
@@ -41,6 +40,8 @@
 #import "BSG_KSCrash.h"
 
 #import <CommonCrypto/CommonDigest.h>
+#import <mach-o/dyld.h>
+
 #if BSG_PLATFORM_IOS || BSG_PLATFORM_TVOS
 #import "BSGUIKit.h"
 #endif
@@ -77,20 +78,20 @@ static NSDictionary * bsg_systemversion() {
     const char *file = "/System/Library/CoreServices/SystemVersion.plist";
     bsg_syscall_open(file, O_RDONLY, 0, &fd);
     if (fd < 0) {
-        BSG_KSLOG_ERROR("Could not open SystemVersion.plist");
+        bsg_log_err(@"Could not open SystemVersion.plist");
         return nil;
     }
     ssize_t length = read(fd, buffer, sizeof(buffer));
     close(fd);
     if (length < 0 || length == sizeof(buffer)) {
-        BSG_KSLOG_ERROR("Could not read SystemVersion.plist");
+        bsg_log_err(@"Could not read SystemVersion.plist");
         return nil;
     }
     NSData *data = [NSData
                     dataWithBytesNoCopy:buffer
                     length:(NSUInteger)length freeWhenDone:NO];
     if (!data) {
-        BSG_KSLOG_ERROR("Could not read SystemVersion.plist");
+        bsg_log_err(@"Could not read SystemVersion.plist");
         return nil;
     }
     NSError *error = nil;
@@ -98,7 +99,7 @@ static NSDictionary * bsg_systemversion() {
                                    propertyListWithData:data
                                    options:0 format:NULL error:&error];
     if (!systemVersion) {
-        BSG_KSLOG_ERROR("Could not read SystemVersion.plist: %@", error);
+        bsg_log_err(@"Could not read SystemVersion.plist: %@", error);
     }
     return systemVersion;
 }
@@ -441,26 +442,18 @@ static NSDictionary * bsg_systemversion() {
 }
 
 + (BOOL)isRunningInAppExtension {
-#if BSG_PLATFORM_IOS
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    // From the App Extension Programming Guide:
-    // > When you build an extension based on an Xcode template, you get an
-    // > extension bundle that ends in .appex.
-    return [[mainBundle executablePath] containsString:@".appex"]
-        // In the case that the extension bundle was renamed or generated
-        // outside of the Xcode template, check the Bundle OS Type Code:
-        // > This key consists of a four-letter code for the bundle type. For
-        // > apps, the code is APPL, for frameworks, it's FMWK, and for bundles,
-        // > it's BNDL.
-        // If the main bundle type is not "APPL", assume this is an extension
-        // context.
-        || ![[mainBundle infoDictionary][@"CFBundlePackageType"] isEqualToString:@"APPL"];
-#else
-    return NO;
-#endif
+    // From "Information Property List Key Reference" > "App Extension Keys"
+    // https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AppExtensionKeys.html
+    //
+    // NSExtensionPointIdentifier
+    // String - iOS, macOS. Specifies the extension point that supports an app extension, in reverse-DNS notation.
+    // This key is required for every app extension, and must be placed as an immediate child of the NSExtension key.
+    // Each Xcode app extension template is preconfigured with the appropriate extension point identifier key.
+    return NSBundle.mainBundle.infoDictionary[@"NSExtension"][@"NSExtensionPointIdentifier"] != nil;
 }
 
 #if BSG_PLATFORM_IOS || BSG_PLATFORM_TVOS
+
 + (UIApplicationState)currentAppState {
     // Only checked outside of app extensions since sharedApplication is
     // unavailable to extension UIKit APIs
@@ -468,24 +461,32 @@ static NSDictionary * bsg_systemversion() {
         return UIApplicationStateActive;
     }
 
-    UIApplicationState(^getState)(void) = ^() {
+    UIApplication * (^ getSharedApplication)(void) = ^() {
         // Calling this API indirectly to avoid a compile-time check that
         // [UIApplication sharedApplication] is not called from app extensions
         // (which is handled above)
-        UIApplication *app = [UIAPPLICATION performSelector:@selector(sharedApplication)];
-        return [app applicationState];
+        return [UIAPPLICATION performSelector:@selector(sharedApplication)];
     };
 
+    __block UIApplication *application = nil;
     if ([[NSThread currentThread] isMainThread]) {
-        return getState();
+        application = getSharedApplication();
     } else {
         // [UIApplication sharedApplication] is a main thread-only API
-        __block UIApplicationState state;
         dispatch_sync(dispatch_get_main_queue(), ^{
-            state = getState();
+            application = getSharedApplication();
         });
-        return state;
     }
+    
+    // There will be no UIApplication if UIApplicationMain() has not yet been
+    // called. This happens if started from a SwiftUI app's init() function or
+    // UIKit app's main() function. Returning UIApplicationStateActive (0) would
+    // be higly misleading, so we must check for this condition.
+    if (!application) {
+        return UIApplicationStateBackground;
+    }
+    
+    return application.applicationState;
 }
 
 + (BOOL)isInForeground:(UIApplicationState)state {
@@ -502,6 +503,7 @@ static NSDictionary * bsg_systemversion() {
     return state == UIApplicationStateInactive
         || state == UIApplicationStateActive;
 }
+
 #endif
 
 @end
@@ -518,7 +520,7 @@ char *bsg_kssysteminfo_toJSON(void) {
                                          options:BSG_KSJSONEncodeOptionSorted
                                            error:&error];
     if (error != nil) {
-        BSG_KSLOG_ERROR(@"Could not serialize system info: %@", error);
+        bsg_log_err(@"Could not serialize system info: %@", error);
         return NULL;
     }
     if (![jsonData isKindOfClass:[NSMutableData class]]) {

@@ -150,7 +150,7 @@ enum AuxiliaryExecuteWrapper {
                             output: @escaping (String) -> Void)
         -> (Int, String, String)
     {
-        let recipe = AuxiliaryExecute.local.spawn(
+        let recipe = AuxiliaryExecute.spawn(
             command: command,
             args: args,
             environment: [

@@ -16,7 +16,7 @@ public extension AuxiliaryExecute {
     ///   - timeout: any wall timeout if lager than 0, in seconds. eg: 6
     ///   - output: a block call from pipeReadQueue in background when buffer from stdout or stderr available for read
     /// - Returns: execution recipe, see it's definition for details
-    func spawn(
+    static func spawn(
         command: String,
         args: [String] = [],
         environment: [String: String] = [:],
@@ -52,7 +52,7 @@ public extension AuxiliaryExecute {
     ///   - stdout: a block call from pipeReadQueue in background when buffer from stdout available for read
     ///   - stderr: a block call from pipeReadQueue in background when buffer from stderr available for read
     /// - Returns: execution recipe, see it's definition for details
-    func spawn(
+    static func spawn(
         command: String,
         args: [String] = [],
         environment: [String: String] = [:],

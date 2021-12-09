@@ -69,8 +69,8 @@ public class ZipContainer: Container {
         case .deflate:
             let bitReader = LsbBitReader(byteReader)
             fileData = try Deflate.decompress(bitReader)
-            // Sometimes `bitReader` has misaligned state after Deflate decompression,
-            //  so we need to align before getting end index back.
+            // Sometimes bitReader is misaligned after Deflate decompression, so we need to align before getting end
+            // index back.
             bitReader.align()
             byteReader.offset = bitReader.offset
         case .bzip2:
@@ -78,8 +78,8 @@ public class ZipContainer: Container {
                 // BZip2 algorithm uses different bit numbering scheme.
                 let bitReader = MsbBitReader(byteReader)
                 fileData = try BZip2.decompress(bitReader)
-                // Sometimes `bitReader` has misaligned state after BZip2 decompression,
-                //  so we need to align before getting the end index back.
+                // Sometimes bitReader is misaligned after BZip2 decompression, so we need to align before getting end
+                // index back.
                 bitReader.align()
                 byteReader.offset = bitReader.offset
             #else

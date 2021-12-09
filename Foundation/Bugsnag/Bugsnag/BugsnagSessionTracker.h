@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagSession.h"
-#import "BugsnagConfiguration.h"
+#import <Bugsnag/BugsnagConfiguration.h>
+#import <Bugsnag/BugsnagSession.h>
 
-@class BugsnagSessionTrackingApiClient;
+NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SessionTrackerCallback)(BugsnagSession *newSession);
+@class BSGSessionUploader;
+
+typedef void (^SessionTrackerCallback)(BugsnagSession *_Nullable newSession);
 
 extern NSString *const BSGSessionUpdateNotification;
 
@@ -27,8 +29,10 @@ extern NSString *const BSGSessionUpdateNotification;
  @return A new session tracker
  */
 - (instancetype)initWithConfig:(BugsnagConfiguration *)config
-                        client:(BugsnagClient *)client
-            postRecordCallback:(void(^)(BugsnagSession *))callback;
+                        client:(nullable BugsnagClient *)client
+            postRecordCallback:(nullable void(^)(BugsnagSession *))callback;
+
+- (void)startWithNotificationCenter:(NSNotificationCenter *)notificationCenter isInForeground:(BOOL)isInForeground;
 
 /**
  Record and send a new session
@@ -77,12 +81,18 @@ extern NSString *const BSGSessionUpdateNotification;
  */
 - (void)incrementEventCountUnhandled:(BOOL)unhandled;
 
+@property (copy, nonatomic) NSString *codeBundleId;
+
+@property (nullable, nonatomic) BugsnagSession *currentSession;
+
 /**
  * Retrieves the running session, or nil if the session is stopped or has not yet been started/resumed.
  */
-@property (nonatomic, strong, readonly) BugsnagSession *runningSession;
+@property (nullable, readonly, nonatomic) BugsnagSession *runningSession;
 
 - (void)addRuntimeVersionInfo:(NSString *)info
                       withKey:(NSString *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

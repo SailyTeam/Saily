@@ -30,7 +30,7 @@ public class AuxiliaryExecute {
     internal var overwriteTable: [String: String?] = [:]
 
     /// when reading from file pipe, must called from async queue
-    internal let pipeReadQueue = DispatchQueue(
+    internal static let pipeReadQueue = DispatchQueue(
         label: "wiki.qaq.AuxiliaryExecute.pipeRead",
         attributes: .concurrent
     )

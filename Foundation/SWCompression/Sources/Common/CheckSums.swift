@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct CheckSums {
+enum CheckSums {
     // MARK: Functions
 
     static func crc32(_ array: [UInt8], prevValue: UInt32 = 0) -> UInt32 {
@@ -26,11 +26,11 @@ struct CheckSums {
         return ~crc
     }
 
-    static func bzip2CRC32(_ data: Data) -> UInt32 {
+    static func bzip2crc32(_ data: Data) -> UInt32 {
         var crc: UInt32 = 0xFFFF_FFFF
         for byte in data {
-            let index = UInt32(byte)
-            crc = (crc << 8) ^ CheckSums.bzip2CRC32table[Int((crc >> 24) ^ index)]
+            let index = UInt32(truncatingIfNeeded: byte)
+            crc = (crc << 8) ^ CheckSums.bzip2CRC32table[((crc >> 24) ^ index).toInt()]
         }
         return ~crc
     }

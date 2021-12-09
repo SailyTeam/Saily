@@ -6,8 +6,9 @@
 //  Copyright © 2017 Bugsnag. All rights reserved.
 //
 
-#import "BugsnagSessionTracker+Private.h"
+#import "BugsnagSessionTracker.h"
 
+#import "BSGSessionUploader.h"
 #import "BSG_KSSystemInfo.h"
 #import "BugsnagApp+Private.h"
 #import "BugsnagClient+Private.h"
@@ -16,10 +17,12 @@
 #import "BugsnagDevice+Private.h"
 #import "BugsnagLogger.h"
 #import "BugsnagSession+Private.h"
-#import "BugsnagSessionFileStore.h"
-#import "BugsnagSessionTrackingApiClient.h"
-#import "BugsnagSessionTrackingPayload.h"
-#import "BSGFileLocations.h"
+
+#if TARGET_OS_IOS || TARGET_OS_TV
+#import "BSGUIKit.h"
+#elif TARGET_OS_OSX
+#import "BSGAppKit.h"
+#endif
 
 /**
  Number of seconds in background required to make a new session
@@ -31,8 +34,7 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 @interface BugsnagSessionTracker ()
 @property (strong, nonatomic) BugsnagConfiguration *config;
 @property (weak, nonatomic) BugsnagClient *client;
-@property (strong, nonatomic) BugsnagSessionFileStore *sessionStore;
-@property (strong, nonatomic) BugsnagSessionTrackingApiClient *apiClient;
+@property (strong, nonatomic) BSGSessionUploader *sessionUploader;
 @property (strong, nonatomic) NSDate *backgroundStartTime;
 
 /**
@@ -51,18 +53,68 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
     if ((self = [super init])) {
         _config = config;
         _client = client;
-        _apiClient = [[BugsnagSessionTrackingApiClient alloc] initWithConfig:config queueName:@"Session API queue" notifier:client.notifier];
+        _sessionUploader = [[BSGSessionUploader alloc] initWithConfig:config notifier:client.notifier];
         _callback = callback;
-
-        _sessionStore = [BugsnagSessionFileStore storeWithPath:[BSGFileLocations current].sessions maxPersistedSessions:config.maxPersistedSessions];
         _extraRuntimeInfo = [NSMutableDictionary new];
     }
     return self;
 }
 
+- (void)startWithNotificationCenter:(NSNotificationCenter *)notificationCenter isInForeground:(BOOL)isInForeground {
+    if ([BSG_KSSystemInfo isRunningInAppExtension]) {
+        // UIApplication lifecycle notifications and UIApplicationState, which the automatic session tracking logic
+        // depends on, are not available in app extensions.
+        if (self.config.autoTrackSessions) {
+            bsg_log_info(@"Automatic session tracking is not supported in app extensions");
+        }
+        return;
+    }
+    
+    if (isInForeground) {
+        [self startNewSessionIfAutoCaptureEnabled];
+    } else {
+        bsg_log_debug(@"Not starting session because app is not in the foreground");
+    }
+
+#if TARGET_OS_IOS || TARGET_OS_TV
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:UIApplicationWillEnterForegroundNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:UIApplicationDidBecomeActiveNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppBackgroundEvent)
+                   name:UIApplicationDidEnterBackgroundNotification
+                 object:nil];
+
+#elif TARGET_OS_OSX
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:NSApplicationWillBecomeActiveNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:NSApplicationDidBecomeActiveNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppBackgroundEvent)
+                   name:NSApplicationDidResignActiveNotification
+                 object:nil];
+#endif
+}
+
 - (void)setCodeBundleId:(NSString *)codeBundleId {
     _codeBundleId = codeBundleId;
-    self.apiClient.codeBundleId = codeBundleId;
+    self.sessionUploader.codeBundleId = codeBundleId;
 }
 
 #pragma mark - Creating and sending a new session
@@ -89,6 +141,9 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
     } else {
         BOOL stopped = session.isStopped;
         [session resume];
+        if (self.callback) {
+            self.callback(session);
+        }
         [self postUpdateNotice];
         return stopped;
     }
@@ -144,14 +199,13 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
     }
 
     self.currentSession = newSession;
-    [self.sessionStore write:self.currentSession];
 
     if (self.callback) {
         self.callback(self.currentSession);
     }
     [self postUpdateNotice];
 
-    [self.apiClient deliverSessionsInStore:self.sessionStore];
+    [self.sessionUploader uploadSession:newSession];
 }
 
 - (void)addRuntimeVersionInfo:(NSString *)info

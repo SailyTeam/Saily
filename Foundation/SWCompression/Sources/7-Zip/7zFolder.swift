@@ -183,6 +183,12 @@ class SevenZipFolder {
                     else { throw SevenZipError.internalStructureError }
 
                     decodedData = DeltaFilter.decode(LittleEndianByteReader(data: decodedData), (properties[0] &+ 1).toInt())
+                } else if coder.id == [0x04, 0xF7, 0x11, 0x04] {
+                    #if !SWCOMPRESSION_POD_SEVENZIP || (SWCOMPRESSION_POD_SEVENZIP && SWCOMPRESSION_POD_LZ4)
+                        decodedData = try LZ4.decompress(data: decodedData)
+                    #else
+                        throw SevenZipError.compressionNotSupported
+                    #endif
                 } else if coder.isEncryptionMethod {
                     throw SevenZipError.encryptionNotSupported
                 } else {

@@ -145,69 +145,61 @@ extension Deflate: CompressionAlgorithm {
 
     private static func lengthEncode(_ data: Data) -> (codes: [BLDCode], stats: [Int]) {
         var buffer: [BLDCode] = []
-        var inputIndex = 0
-        /// Keys --- three-byte crc32, values --- positions in `data`.
-        var dictionary = [UInt32: Int]()
 
+        var matchStorage = [UInt32: Int]()
         var stats = Array(repeating: 0, count: 316)
+        var i = data.startIndex
 
-        // Last two bytes of input will be considered separately.
-        // This also allows to use length encoding for arrays with size less than 3.
-        while inputIndex < data.count - 2 {
-            let byte = data[inputIndex]
-
-            let threeByteCrc = CheckSums.crc32(data[inputIndex ..< inputIndex + 3])
-
-            if let matchStartIndex = dictionary[threeByteCrc] {
-                // We need to update position of this match to keep distances as small as possible.
-                dictionary[threeByteCrc] = inputIndex
-
-                /// - Note: Minimum match length equals to three.
-                var matchLength = 3
-                /// Cyclic index which is used to compare bytes in match and in input.
-                var repeatIndex = matchStartIndex + matchLength
-
-                /// - Note: Maximum allowed distance equals to 32768.
-                let distance = inputIndex - matchStartIndex
-
-                // Again, the distance cannot be greater than 32768.
-                if distance <= 32768 {
-                    while inputIndex + matchLength < data.count,
-                          data[inputIndex + matchLength] == data[repeatIndex], matchLength < 258
-                    {
-                        matchLength += 1
-                        repeatIndex += 1
-                        if repeatIndex > inputIndex {
-                            repeatIndex = matchStartIndex + 1
-                        }
-                    }
-                    buffer.append(BLDCode.lengthDistance(UInt16(truncatingIfNeeded: matchLength),
-                                                         UInt16(truncatingIfNeeded: distance)))
-                    stats[Constants.lengthCode[matchLength - 3]] += 1 // Length symbol.
-                    stats[286 + ((Constants.distanceBase.firstIndex { $0 > distance }) ?? 30) - 1] += 1 // Distance symbol.
-                    inputIndex += matchLength
-                } else {
-                    buffer.append(BLDCode.byte(byte))
-                    stats[byte.toInt()] += 1
-                    inputIndex += 1
-                }
-            } else {
-                // We need to remember where we met this three-byte sequence.
-                dictionary[threeByteCrc] = inputIndex
-
+        // Last two bytes of input arre considered separately. This also allows to use length encoding for arrays with
+        // size less than 3.
+        while i < data.endIndex - 2 {
+            let byte = data[i]
+            var matchId = UInt32(truncatingIfNeeded: data[i])
+            matchId = (matchId << 8) | UInt32(truncatingIfNeeded: data[i + 1])
+            matchId = (matchId << 8) | UInt32(truncatingIfNeeded: data[i + 2])
+            guard let matchStartIndex = matchStorage[matchId] else {
+                // No match found.
+                // We need to save where we met this three-byte sequence.
+                matchStorage[matchId] = i
                 buffer.append(BLDCode.byte(byte))
                 stats[byte.toInt()] += 1
-                inputIndex += 1
+                i += 1
+                continue
             }
+            // We need to update position of this match to keep distances as small as possible.
+            matchStorage[matchId] = i
+
+            // Minimum match length equals to three.
+            var matchLength = 3
+            // Cyclic index which is used to compare bytes in match and in input.
+            var matchIndex = matchStartIndex + matchLength
+            // Maximum allowed distance equals to 32768.
+            let distance = i - matchStartIndex
+            guard distance <= 32768 else {
+                buffer.append(BLDCode.byte(byte))
+                stats[byte.toInt()] += 1
+                i += 1
+                continue
+            }
+
+            while i + matchLength < data.count, data[i + matchLength] == data[matchIndex], matchLength < 258 {
+                matchLength += 1
+                matchIndex += 1
+            }
+            buffer.append(BLDCode.lengthDistance(UInt16(truncatingIfNeeded: matchLength),
+                                                 UInt16(truncatingIfNeeded: distance)))
+            stats[Constants.lengthCode[matchLength - 3]] += 1 // Length symbol.
+            stats[286 + ((Constants.distanceBase.firstIndex { $0 > distance }) ?? 30) - 1] += 1 // Distance symbol.
+            i += matchLength
         }
 
         // For last two bytes there certainly will be no match.
         // Moreover, `threeByteCrc` cannot be computed, so we need to put them in as `.byte`s.
-        while inputIndex < data.count {
-            let byte = data[inputIndex]
+        while i < data.endIndex {
+            let byte = data[i]
             buffer.append(BLDCode.byte(byte))
             stats[byte.toInt()] += 1
-            inputIndex += 1
+            i += 1
         }
 
         // End of block symbol (256) should also be counted.

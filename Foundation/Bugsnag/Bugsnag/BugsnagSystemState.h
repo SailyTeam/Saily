@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagConfiguration.h"
+#import <Bugsnag/BugsnagConfiguration.h>
+
 #import "BugsnagKeys.h"
 
 #define SYSTEMSTATE_KEY_APP @"app"
@@ -23,6 +24,7 @@
 #define SYSTEMSTATE_APP_DEBUGGER_IS_ACTIVE @"debuggerIsActive"
 
 #define SYSTEMSTATE_DEVICE_BOOT_TIME @"bootTime"
+#define SYSTEMSTATE_DEVICE_CRITICAL_THERMAL_STATE @"criticalThermalState"
 
 #define PLATFORM_WORD_SIZE sizeof(void*)*8
 
@@ -40,12 +42,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSUInteger consecutiveLaunchCrashes;
 
+@property (readonly, nonatomic) BOOL lastLaunchCriticalThermalState;
+
+@property (readonly, nonatomic) BOOL lastLaunchTerminatedUnexpectedly;
+
 - (void)markLaunchCompleted;
 
 /**
  * Purge all stored system state.
  */
 - (void)purge;
+
+- (void)setThermalState:(NSProcessInfoThermalState)thermalState API_AVAILABLE(ios(11.0), tvos(11.0));
 
 @end
 

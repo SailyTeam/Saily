@@ -6,7 +6,7 @@
 import Foundation
 
 /// Suffix Array by Induced Sorting
-class SuffixArray {
+enum SuffixArray {
     private enum SuffixType {
         case sType
         case lType

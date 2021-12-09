@@ -167,7 +167,7 @@ public extension AuxiliaryExecute {
             )
         }
         // finally let‘s call the spawn
-        let recipe = spawn(
+        let recipe = AuxiliaryExecute.spawn(
             command: commandLocation,
             args: args,
             environment: environment,

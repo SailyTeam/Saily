@@ -3,8 +3,8 @@
 APP_PATH="/Applications/chromatic.app"
 
 if [ -d "$APP_PATH" ]; then
-    chown -R root:wheel /Applications/chromatic.app
-    chmod -R 755 /Applications/chromatic.app
+    chown -R root:wheel "$APP_PATH"
+    chmod -R 755 "$APP_PATH"
 else
     echo "Binary not found at $APP_PATH"
 fi
@@ -18,11 +18,17 @@ else
     echo "Binary not found at $ROOT_BINARY"
 fi
 
-# if file exists at /tmp/.chromatic.update 
-if [ -f "/tmp/.chromatic.update" ]; then
-    echo "[*] skipping uicache"
-else
-    echo "[*] rebuilding home screen..."
-    uicache -p /Applications/chromatic.app
-    echo "[*] completed"
+# env chromaticAuxiliaryExec is set
+# then exit with 0
+if [ -n "$chromaticAuxiliaryExec" ]; then
+    exit 0
 fi
+
+# backwards compatibility
+if [ -f "/tmp/.chromatic.update" ]; then
+    exit 0
+fi
+
+echo "[*] reloading icon cache for springboard..."
+uicache -p /Applications/chromatic.app
+echo "[*] completed"

@@ -1,10 +1,3 @@
 #!/bin/bash
 
-# if file exists at /tmp/.chromatic.update 
-if [ -f "/tmp/.chromatic.update" ]; then
-    echo "[*] skipping uicache"
-else
-    echo "[*] rebuilding home screen..."
-    uicache -p /Applications/chromatic.app
-    echo "[*] completed"
-fi
+echo "[i] if springboard is not cleaned, please run uicache manually"

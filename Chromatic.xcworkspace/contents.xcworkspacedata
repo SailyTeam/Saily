@@ -5,6 +5,9 @@
       location = "group:Application/Chromatic.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:PrivilegeSpawn/rootspawn.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Foundation/AptPackageVersion">
    </FileRef>
    <FileRef

@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		501207FA26D379C200E9C656 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 501207F926D379C200E9C656 /* main.m */; };
+		50A255CF2768FD1C0078C432 /* ticket.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A255CE2768FD1C0078C432 /* ticket.m */; };
+		50A255D32768FD900078C432 /* root.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A255D22768FD900078C432 /* root.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		501207E426D379C000E9C656 /* rootspawn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rootspawn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		501207F826D379C200E9C656 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501207F926D379C200E9C656 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		50A255CE2768FD1C0078C432 /* ticket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ticket.m; sourceTree = "<group>"; };
+		50A255D02768FD2E0078C432 /* ticket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ticket.h; sourceTree = "<group>"; };
+		50A255D12768FD900078C432 /* root.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = root.h; sourceTree = "<group>"; };
+		50A255D22768FD900078C432 /* root.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = root.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +54,10 @@
 			children = (
 				501207F826D379C200E9C656 /* Info.plist */,
 				501207F926D379C200E9C656 /* main.m */,
+				50A255D12768FD900078C432 /* root.h */,
+				50A255D22768FD900078C432 /* root.m */,
+				50A255D02768FD2E0078C432 /* ticket.h */,
+				50A255CE2768FD1C0078C432 /* ticket.m */,
 			);
 			path = rootspawn;
 			sourceTree = "<group>";
@@ -78,7 +88,7 @@
 		501207DC26D379C000E9C656 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					501207E326D379C000E9C656 = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -119,6 +129,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				501207FA26D379C200E9C656 /* main.m in Sources */,
+				50A255CF2768FD1C0078C432 /* ticket.m in Sources */,
+				50A255D32768FD900078C432 /* root.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +257,7 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = rootspawn/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -264,7 +276,7 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = rootspawn/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

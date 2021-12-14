@@ -114,6 +114,7 @@
 		50975F0126C65720004BCBED /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50975F0026C65720004BCBED /* SearchController.swift */; };
 		50975F0326C65910004BCBED /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50975F0226C65910004BCBED /* SearchCell.swift */; };
 		50975F0526C65994004BCBED /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50975F0426C65994004BCBED /* SearchResult.swift */; };
+		50A255CD2768F3800078C432 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A255CC2768F3800078C432 /* Console.swift */; };
 		50A283EF26D54492005FA2DB /* SwiftMD5 in Frameworks */ = {isa = PBXBuildFile; productRef = 50A283EE26D54492005FA2DB /* SwiftMD5 */; };
 		50A283F126D5E34E005FA2DB /* OperationConsoleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A283F026D5E34E005FA2DB /* OperationConsoleController.swift */; };
 		50A8052626CB5FA300F8FB7D /* HDRepoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8052526CB5FA300F8FB7D /* HDRepoController.swift */; };
@@ -140,6 +141,7 @@
 		50D528BE2449B11300F4A483 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D528BD2449B11300F4A483 /* SceneDelegate.swift */; };
 		50D528C52449B11400F4A483 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50D528C42449B11400F4A483 /* Assets.xcassets */; };
 		50DBCBBE26D393EB007D2E73 /* AppleAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBCBBD26D393EB007D2E73 /* AppleAvatar.swift */; };
+		50E0BE9F276909BF00B6A852 /* Console+Recovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0BE9E276909BF00B6A852 /* Console+Recovery.swift */; };
 		50E1823926C76F6600C6894F /* SearchPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1823826C76F6600C6894F /* SearchPlaceholder.swift */; };
 		50E316E926CD233D00D4D633 /* PackageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E316E826CD233D00D4D633 /* PackageCollectionCell.swift */; };
 		50E316EB26CD234300D4D633 /* PackageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E316EA26CD234300D4D633 /* PackageCell.swift */; };
@@ -266,6 +268,7 @@
 		50975F0226C65910004BCBED /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		50975F0426C65994004BCBED /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		509C526C26F9C43300116616 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50A255CC2768F3800078C432 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		50A283F026D5E34E005FA2DB /* OperationConsoleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationConsoleController.swift; sourceTree = "<group>"; };
 		50A8052526CB5FA300F8FB7D /* HDRepoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDRepoController.swift; sourceTree = "<group>"; };
 		50A8052A26CB78DF00F8FB7D /* RepoAddController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RepoAddController+Layout.swift"; sourceTree = "<group>"; };
@@ -290,6 +293,7 @@
 		50D528BD2449B11300F4A483 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		50D528C42449B11400F4A483 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50DBCBBD26D393EB007D2E73 /* AppleAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleAvatar.swift; sourceTree = "<group>"; };
+		50E0BE9E276909BF00B6A852 /* Console+Recovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Recovery.swift"; sourceTree = "<group>"; };
 		50E1823826C76F6600C6894F /* SearchPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceholder.swift; sourceTree = "<group>"; };
 		50E316E826CD233D00D4D633 /* PackageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageCollectionCell.swift; sourceTree = "<group>"; };
 		50E316EA26CD234300D4D633 /* PackageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageCell.swift; sourceTree = "<group>"; };
@@ -568,6 +572,7 @@
 		50871620244B3530003E0023 /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				50E0BE9D276909AB00B6A852 /* Console */,
 				6865D586246856C20073EF2A /* Common */,
 				508E475626D5363200D0806F /* CariolNetwork */,
 				50F256A026CE500A0008646E /* TaskManager */,
@@ -745,6 +750,15 @@
 				50FE7A1F271B2A9900CB74EB /* LauncScreen */,
 			);
 			path = Chromatic;
+			sourceTree = "<group>";
+		};
+		50E0BE9D276909AB00B6A852 /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				50A255CC2768F3800078C432 /* Console.swift */,
+				50E0BE9E276909BF00B6A852 /* Console+Recovery.swift */,
+			);
+			path = Console;
 			sourceTree = "<group>";
 		};
 		50F256A026CE500A0008646E /* TaskManager */ = {
@@ -962,6 +976,7 @@
 				5034020C26BFE57B00E8D02B /* DashNavCard.swift in Sources */,
 				5093C24826D163F7004B61B5 /* TaskManager+Api.swift in Sources */,
 				50975F0526C65994004BCBED /* SearchResult.swift in Sources */,
+				50E0BE9F276909BF00B6A852 /* Console+Recovery.swift in Sources */,
 				50C88B0A26D22ADD00758FEF /* AptScanner+Report.swift in Sources */,
 				503401F926BFD77900E8D02B /* UIColor.swift in Sources */,
 				506E837D26BFC4E700C6C16E /* LXSplitController.swift in Sources */,
@@ -969,6 +984,7 @@
 				50EFF10326C191EC0095BD8D /* LXTaskController.swift in Sources */,
 				50274CBD26D68ACD000EF6BB /* RepoDetailController+Payment.swift in Sources */,
 				50BFD9A026DBE86400931488 /* LicenseController.swift in Sources */,
+				50A255CD2768F3800078C432 /* Console.swift in Sources */,
 				507D1E9B26BFB57500E72E9B /* Notification.swift in Sources */,
 				508AF40C26CBFBC4000A2EC6 /* RepoDetailController.swift in Sources */,
 				50FA2C6A26BC398E003806D6 /* main.swift in Sources */,

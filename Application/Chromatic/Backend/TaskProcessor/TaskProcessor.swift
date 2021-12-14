@@ -11,8 +11,6 @@ import Dog
 import Foundation
 import UIKit
 
-private let kSignalFile = "/tmp/.chromatic.update"
-
 class TaskProcessor {
     static let shared = TaskProcessor()
 
@@ -119,13 +117,6 @@ class TaskProcessor {
             output("[*] returning \(result.0)\n")
         }
 
-        if operation.requiresRestart {
-            // do not run uicache in our self
-            AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.touch,
-                                              args: [kSignalFile],
-                                              timeout: 1, output: { _ in })
-        }
-
         // MARK: - UNINSTALL IF REQUIRED
 
         do {
@@ -143,6 +134,7 @@ class TaskProcessor {
                 let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
                                                                args: arguments,
                                                                timeout: 0) { str in
+                    Dog.shared.join(self, "apt rm: \(str)", level: .info)
                     output(str)
                 }
                 output("[*] returning \(result.0)\n")
@@ -174,6 +166,7 @@ class TaskProcessor {
                 let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
                                                                args: arguments,
                                                                timeout: 0) { str in
+                    Dog.shared.join(self, "apt inst: \(str)", level: .info)
                     output(str)
                 }
                 output("[*] returning \(result.0)\n")
@@ -265,13 +258,6 @@ class TaskProcessor {
         }
 
         output("\n\n\n\(NSLocalizedString("OPERATION_COMPLETED", comment: "Operation Completed"))\n")
-
-        if operation.requiresRestart {
-            // do not run uicache in our self
-            AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.rm,
-                                              args: [kSignalFile],
-                                              timeout: 1, output: { _ in })
-        }
 
         // MARK: - FINISH UP
 

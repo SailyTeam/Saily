@@ -27,6 +27,11 @@ enum AuxiliaryExecuteWrapper {
     private(set) static var apt: String = "/usr/bin/apt"
     private(set) static var dpkg: String = "/usr/bin/dpkg"
 
+    private(set) static var session: String?
+
+    static let sessionTiketLocation = documentsDirectory
+        .appendingPathComponent("wiki.qaq.root.sessions")
+
     static func setupExecutables() {
         let bundle = Bundle
             .main
@@ -119,6 +124,29 @@ enum AuxiliaryExecuteWrapper {
         #endif
     }
 
+    static func createPrivilegedSession() {
+        // call the helper to generate the session
+        let result = mobilespawn(command: chromaticspawn,
+                                 args: ["ipc.create.root.session", sessionTiketLocation.path],
+                                 timeout: 0) { _ in
+        }
+        // it should now output the session ticket in stdout
+        let ticket = result
+            .1
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        // validate the ticket to have ticket:// prefix and aa55 suffix
+        guard ticket.hasPrefix("ticket://"),
+              ticket.hasSuffix("AA55")
+        else {
+            Dog.shared.join(self, "failed to create privileged seesion", level: .error)
+            return
+        }
+        session = ticket
+        // for future use, we need to pass the session inside the env
+        Dog.shared.join(self, "created privileged session \(ticket)", level: .info)
+        Dog.shared.join(self, "ticket located at \(sessionTiketLocation.path)", level: .info)
+    }
+
     static func suspendApplication() {
         UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
     }
@@ -136,11 +164,41 @@ enum AuxiliaryExecuteWrapper {
                           timeout: Int,
                           output: @escaping (String) -> Void) -> (Int, String, String)
     {
-        let result = mobilespawn(command: chromaticspawn,
-                                 args: [command] + args,
-                                 timeout: timeout,
-                                 output: output)
-        return result
+        if getuid() == 0 {
+            Dog.shared.join(
+                "AuxiliaryExecute",
+                "\(command): \(args.joined(separator: " "))",
+                level: .info
+            )
+            let recipe = AuxiliaryExecute.spawn(
+                command: command,
+                args: args,
+                environment: [
+                    "chromaticAuxiliaryExec": "1",
+                ],
+                timeout: Double(exactly: timeout) ?? 0,
+                output: output
+            )
+            return (recipe.exitCode, recipe.stdout, recipe.stderr)
+        } else {
+            Dog.shared.join(
+                "AuxiliaryExecute",
+                "\(chromaticspawn): \(([command] + args).joined(separator: " "))",
+                level: .info
+            )
+            let recipe = AuxiliaryExecute.spawn(
+                command: chromaticspawn,
+                args: [command] + args,
+                environment: [
+                    "chromaticAuxiliaryExec": "1",
+                    "chromaticAuxiliaryExecTicket": session ?? "undefined",
+                    "chromaticAuxiliaryExecTicketStore": sessionTiketLocation.path,
+                ],
+                timeout: Double(exactly: timeout) ?? 0,
+                output: output
+            )
+            return (recipe.exitCode, recipe.stdout, recipe.stderr)
+        }
     }
 
     @discardableResult
@@ -150,6 +208,11 @@ enum AuxiliaryExecuteWrapper {
                             output: @escaping (String) -> Void)
         -> (Int, String, String)
     {
+        Dog.shared.join(
+            "AuxiliaryExecute",
+            "\(command): \(args.joined(separator: " "))",
+            level: .info
+        )
         let recipe = AuxiliaryExecute.spawn(
             command: command,
             args: args,

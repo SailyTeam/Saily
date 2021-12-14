@@ -70,6 +70,16 @@ class SetupViewController: UIViewController {
             }
         }
         accessLock.unlock()
+        if AuxiliaryExecuteWrapper.session == nil {
+            DispatchQueue.main.async {
+                SPIndicator.present(title: "chromaticspawn: EPERM",
+                                    message: "",
+                                    preset: .error,
+                                    haptic: .error,
+                                    from: .top,
+                                    completion: nil)
+            }
+        }
     }
 
     func bootstrapApplication() {

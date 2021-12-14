@@ -27,6 +27,16 @@ import UIKit
 
 // MARK: - Document
 
+/*
+ the app is running under mobile:mobile with unix id 501:501
+ to prevent future problems, we are dropping the permission from root if needed
+ */
+
+if getuid() == 0 {
+    setuid(501)
+    setgid(501)
+}
+
 UserDefaults
     .standard
     .setValue("wiki.qaq.chromatic", forKey: "wiki.qaq.chromatic.storeDirPrefix")
@@ -81,15 +91,32 @@ do {
 }
 
 private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+private var appVersionDate: String?
+if let version = appVersion,
+   let timestamp = Double(version),
+   timestamp > 1_600_000_000 // so we make sure it is a timestamp
+{
+    let date = Date(timeIntervalSince1970: timestamp)
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeStyle = .full
+    dateFormatter.dateStyle = .full
+    dateFormatter.locale = Locale.current
+    dateFormatter.doesRelativeDateFormatting = true
+    let buildVersionDate = dateFormatter.string(from: date)
+    appVersionDate = buildVersionDate
+}
 Dog.shared.join("App",
                 """
 
                 \(Bundle.main.bundleIdentifier ?? "unknown bundle") - \(appVersion ?? "unknown bundle version")
+                Build: \(appVersionDate ?? "unknown date")
                 Location:
                     [*] \(Bundle.main.bundleURL.path)
                     [*] \(documentsDirectory.path)
+                Environment: uid \(getuid()) gid \(getgid())
                 """,
                 level: .info)
+
 
 private let environment = ProcessInfo.processInfo.environment
 #if DEBUG
@@ -100,17 +127,19 @@ private let environment = ProcessInfo.processInfo.environment
 
 // MARK: - Auxiliary Execute
 
+AuxiliaryExecuteWrapper.setupExecutables()
+AuxiliaryExecuteWrapper.createPrivilegedSession()
+
 private let result = AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
 Dog.shared.join("Privilege", "stdout: [\(result.1.trimmingCharacters(in: .whitespacesAndNewlines))]", level: .info)
 Dog.shared.join("Privilege", "stderr: [\(result.2.trimmingCharacters(in: .whitespacesAndNewlines))]", level: .info)
-
-AuxiliaryExecuteWrapper.setupExecutables()
 
 // MARK: - Boot Application
 
 public let applicationRecoveryFlag = documentsDirectory
     .appendingPathComponent(".applicationRecoveryFlag")
 public private(set) var applicationShouldEnterRecovery = false
+
 /*
 
  applicationRecoveryFlag is created during setup indicating
@@ -168,6 +197,20 @@ repeat {
         try? FileManager.default.removeItem(at: applicationRecoveryFlag)
     }
 } while false
+
+do {
+    var shouldEnterConsoleMode = false
+    for arg in CommandLine.arguments {
+        if arg == "cli" {
+            shouldEnterConsoleMode = true
+            break
+        }
+    }
+    if shouldEnterConsoleMode {
+        Console.current.enterConsoleMode()
+//        fatalError("console mode does not return to parent routine")
+    }
+}
 
 print(
     """

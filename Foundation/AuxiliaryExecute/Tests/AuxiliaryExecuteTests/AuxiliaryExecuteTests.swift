@@ -3,6 +3,11 @@ import XCTest
 
 final class AuxiliaryExecuteTests: XCTestCase {
     func testExample() throws {
+        XCTAssertNotNil(Int(exactly: AuxiliaryExecute.maxTimeoutValue))
+        XCTAssertNotNil(Int32(exactly: AuxiliaryExecute.maxTimeoutValue))
+        XCTAssertNotNil(Double(exactly: AuxiliaryExecute.maxTimeoutValue))
+        XCTAssertNotNil(TimeInterval(exactly: AuxiliaryExecute.maxTimeoutValue))
+
         do {
             let result = AuxiliaryExecute.local.bash(command: "printf \"\nnya\n\"")
             print(result)

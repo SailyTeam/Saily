@@ -122,9 +122,10 @@ public extension AuxiliaryExecute {
     ///   - args: arg to pass to the binary, exclude argv[0] which is the path itself. eg: ["nya"]
     ///   - environment: any environment to be appended/overwrite when calling posix spawn. eg: ["mua" : "nya"]
     ///   - timeout: any wall timeout if lager than 0, in seconds. eg: 6
-    ///   - stdout: a block call from pipeReadQueue in background when buffer from stdout available for read
-    ///   - stderr: a block call from pipeReadQueue in background when buffer from stderr available for read
+    ///   - stdout: a block call from pipeControlQueue in background when buffer from stdout available for read
+    ///   - stderr: a block call from pipeControlQueue in background when buffer from stderr available for read
     /// - Returns: execution recipe, see it's definition for details
+    @discardableResult
     func shell(
         command: String,
         args: [String] = [],
@@ -150,21 +151,11 @@ public extension AuxiliaryExecute {
         }
         // make sure we find the command
         guard let commandLocation = commandLocation else {
-            return .init(
-                exitCode: -1,
-                error: .commandNotFound,
-                stdout: "",
-                stderr: ""
-            )
+            return ExecuteRecipe.failure(error: .commandNotFound)
         }
         // now, let's validate the command
         guard isBinaryValid(at: URL(fileURLWithPath: commandLocation)) else {
-            return .init(
-                exitCode: -1,
-                error: .commandInvalid,
-                stdout: "",
-                stderr: ""
-            )
+            return ExecuteRecipe.failure(error: .commandInvalid)
         }
         // finally let‘s call the spawn
         let recipe = AuxiliaryExecute.spawn(
@@ -183,9 +174,10 @@ public extension AuxiliaryExecute {
     ///   - command: script to be passed to bash. eg: "echo nya"
     ///   - environment: any environment to be appended/overwrite when calling posix spawn. eg: ["mua" : "nya"]
     ///   - timeout: any wall timeout if lager than 0, in seconds. eg: 6
-    ///   - stdout: a block call from pipeReadQueue in background when buffer from stdout available for read
-    ///   - stderr: a block call from pipeReadQueue in background when buffer from stderr available for read
+    ///   - stdout: a block call from pipeControlQueue in background when buffer from stdout available for read
+    ///   - stderr: a block call from pipeControlQueue in background when buffer from stderr available for read
     /// - Returns: execution recipe, see it's definition for details
+    @discardableResult
     func bash(
         command: String,
         environment: [String: String] = [:],

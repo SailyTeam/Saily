@@ -1207,6 +1207,7 @@
 		50D5290D2449B11600F4A483 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Chromatic/Chromatic.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1215,6 +1216,7 @@
 				CURRENT_PROJECT_VERSION = 100;
 				DEVELOPMENT_TEAM = GXZ23M5TP2;
 				DOCKER_SHOULD_BUILD = NO;
+				ENABLE_BITCODE = NO;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "$(SRCROOT)/Chromatic/Info.plist";
@@ -1241,6 +1243,7 @@
 		50D5290E2449B11600F4A483 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Chromatic/Chromatic.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1249,6 +1252,7 @@
 				CURRENT_PROJECT_VERSION = 100;
 				DEVELOPMENT_TEAM = GXZ23M5TP2;
 				DOCKER_SHOULD_BUILD = NO;
+				ENABLE_BITCODE = NO;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Chromatic/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

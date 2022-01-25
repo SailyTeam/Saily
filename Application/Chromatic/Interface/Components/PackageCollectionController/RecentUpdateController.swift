@@ -109,7 +109,7 @@ class RecentUpdateController: PackageCollectionController {
 
     override func collectionView(_: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
         guard let data = obtainPackageFor(indexPath: indexPath),
-              let view = self.view
+              let view = view
         else {
             return nil
         }

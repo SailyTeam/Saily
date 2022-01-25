@@ -10,7 +10,7 @@ import Foundation
  */
 public final class MsbBitWriter: BitWriter {
     /// Data which contains the writer's output (the last byte, that is currently being written, is not included).
-    public private(set) var data = Data()
+    public private(set) var data: Data = .init()
 
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8 = 0

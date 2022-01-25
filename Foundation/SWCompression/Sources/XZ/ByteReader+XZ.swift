@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -15,7 +15,7 @@ extension LittleEndianByteReader {
         }
         result &= 0x7F
         while true {
-            let byte = self.byte()
+            let byte = byte()
             if i >= 9 || byte == 0x00 {
                 throw XZError.multiByteIntegerError
             }

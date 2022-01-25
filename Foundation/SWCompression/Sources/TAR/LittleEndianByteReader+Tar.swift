@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -42,7 +42,7 @@ extension LittleEndianByteReader {
         var buffer = [UInt8]()
         buffer.reserveCapacity(maxLength)
 
-        let firstByte = self.byte()
+        let firstByte = byte()
         offset -= 1
 
         if firstByte & 0x80 != 0 { // Base-256 encoding; used for big numeric fields.

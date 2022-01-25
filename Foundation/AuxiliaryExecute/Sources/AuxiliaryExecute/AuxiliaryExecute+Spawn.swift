@@ -253,7 +253,19 @@ public extension AuxiliaryExecute {
         var wait: pid_t = 0
         var isTimeout = false
 
-        func handleProcessExit(isTimeout: Bool, status: Int32) {
+        let timerSource = DispatchSource.makeTimerSource(flags: [], queue: processControlQueue)
+        timerSource.setEventHandler {
+            isTimeout = true
+            kill(pid, SIGKILL)
+        }
+
+        let processSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .exit, queue: processControlQueue)
+        processSource.setEventHandler {
+            wait = waitpid(pid, &status, 0)
+
+            processSource.cancel()
+            timerSource.cancel()
+
             // by using exactly method, we won't crash it!
             let recipe = ExecuteRecipe(
                 exitCode: Int(exactly: status) ?? -1,
@@ -265,19 +277,10 @@ public extension AuxiliaryExecute {
             )
             completionBlock?(recipe)
         }
-
-        let processSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .exit, queue: processControlQueue)
-        processSource.setEventHandler {
-            wait = waitpid(pid, &status, 0)
-            processSource.cancel()
-            handleProcessExit(isTimeout: isTimeout, status: status)
-        }
         processSource.resume()
 
         // timeout control
-        processControlQueue.asyncAfter(deadline: wallTimeout) {
-            isTimeout = true
-            kill(pid, SIGKILL)
-        }
+        timerSource.schedule(deadline: wallTimeout)
+        timerSource.resume()
     }
 }

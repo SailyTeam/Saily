@@ -99,7 +99,7 @@ extension TaskManager {
             var removedContext = [Package]()
             let installation = PackageCenter.default.obtainInstalledPackageList()
             for removeRequest in originalRemoveRequest {
-                var success: Bool = true
+                var success = true
                 removedContext = searchRemovalBarrier(success: &success,
                                                       removeRequest: removeRequest,
                                                       removedContext: removedContext,

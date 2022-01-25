@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -7,7 +7,7 @@ import Foundation
 import SWCompression
 import SwiftCLI
 
-class SevenZipCommand: ContainerCommand {
+final class SevenZipCommand: ContainerCommand {
     typealias ContainerType = SevenZipContainer
 
     let name = "7z"

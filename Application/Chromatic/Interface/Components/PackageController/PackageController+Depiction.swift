@@ -93,13 +93,14 @@ extension PackageController {
                                         .shared
                                         .loadImage(with: urlBanner,
                                                    options: .highPriority,
-                                                   progress: nil) { [weak self] image, _, _, _, _, _ in
-                                            guard let self = self else { return }
-                                            if let image = image {
-                                                self.bannerImageView.image = image
-                                                self.bannerImageIconView.isHidden = true
-                                            }
+                                                   progress: nil)
+                                    { [weak self] image, _, _, _, _, _ in
+                                        guard let self = self else { return }
+                                        if let image = image {
+                                            self.bannerImageView.image = image
+                                            self.bannerImageIconView.isHidden = true
                                         }
+                                    }
                                 }
                             }
                             let colorStr = json["tintColor"] as? String

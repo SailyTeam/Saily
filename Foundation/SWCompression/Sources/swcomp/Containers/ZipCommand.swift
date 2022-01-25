@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -7,7 +7,7 @@ import Foundation
 import SWCompression
 import SwiftCLI
 
-class ZipCommand: ContainerCommand {
+final class ZipCommand: ContainerCommand {
     typealias ContainerType = ZipContainer
 
     let name = "zip"

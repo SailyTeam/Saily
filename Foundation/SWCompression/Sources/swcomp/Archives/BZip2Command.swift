@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -12,7 +12,7 @@ import SwiftCLI
 // of the enum (Int, in this case) is ConvertibleFromString itself.
 extension BZip2.BlockSize: ConvertibleFromString {}
 
-class BZip2Command: Command {
+final class BZip2Command: Command {
     let name = "bz2"
     let shortDescription = "Creates or extracts a BZip2 archive"
 

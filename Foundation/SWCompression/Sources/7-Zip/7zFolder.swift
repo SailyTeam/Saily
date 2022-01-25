@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -36,9 +36,7 @@ class SevenZipFolder {
     // This property is stored in SubstreamInfo.
     var numUnpackSubstreams = 1
 
-    lazy var orderedCompressionMethods: [CompressionMethod] = {
-        self.orderedCoders().map(\.compressionMethod)
-    }()
+    lazy var orderedCompressionMethods: [CompressionMethod] = self.orderedCoders().map(\.compressionMethod)
 
     init(_ bitReader: MsbBitReader) throws {
         numCoders = bitReader.szMbd()
@@ -138,7 +136,7 @@ class SevenZipFolder {
             guard coder.numInStreams == 1 || coder.numOutStreams == 1
             else { throw SevenZipError.multiStreamNotSupported }
 
-            let unpackSize = self.unpackSize(for: coder)
+            let unpackSize = unpackSize(for: coder)
 
             switch coder.compressionMethod {
             case .copy:

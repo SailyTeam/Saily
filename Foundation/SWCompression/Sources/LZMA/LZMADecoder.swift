@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -125,7 +125,7 @@ struct LZMADecoder {
 
                 // DECODE LITERAL:
                 /// Previous literal (zero, if there was none).
-                let prevByte = dictEnd == 0 ? 0 : self.byte(at: 1).toInt()
+                let prevByte = dictEnd == 0 ? 0 : byte(at: 1).toInt()
                 /// Decoded symbol. Initial value is 1.
                 var symbol = 1
                 /**
@@ -189,7 +189,7 @@ struct LZMADecoder {
                     {
                         // SHORT REP MATCH CASE
                         state = state < 7 ? 9 : 11
-                        let byte = self.byte(at: rep0 + 1)
+                        let byte = byte(at: rep0 + 1)
                         put(byte)
                         uncompressedSize -= 1
                         continue
@@ -278,7 +278,7 @@ struct LZMADecoder {
                 throw LZMAError.repeatWillExceed
             }
             for _ in 0 ..< len {
-                let byte = self.byte(at: rep0 + 1)
+                let byte = byte(at: rep0 + 1)
                 put(byte)
                 uncompressedSize -= 1
             }

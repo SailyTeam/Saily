@@ -105,6 +105,7 @@ if let version = appVersion,
     let buildVersionDate = dateFormatter.string(from: date)
     appVersionDate = buildVersionDate
 }
+
 Dog.shared.join("App",
                 """
 
@@ -116,7 +117,6 @@ Dog.shared.join("App",
                 Environment: uid \(getuid()) gid \(getgid())
                 """,
                 level: .info)
-
 
 private let environment = ProcessInfo.processInfo.environment
 #if DEBUG

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -74,29 +74,31 @@ public class BZip2: DecompressionAlgorithm {
 
         let pointer = bitReader.int(fromBits: 24)
 
-        func computeUsed() -> [Bool] {
-            let huffmanUsedMap = bitReader.int(fromBits: 16)
-            var mapMask = 1 << 15
-            var used = [Bool]()
-            while mapMask > 0 {
-                if huffmanUsedMap & mapMask > 0 {
-                    let huffmanUsedBitmap = bitReader.int(fromBits: 16)
-                    var bitMask = 1 << 15
-                    while bitMask > 0 {
-                        used.append(huffmanUsedBitmap & bitMask > 0)
-                        bitMask >>= 1
+        // Decoding which symbols are used in Huffman tables.
+        // The "list" of all possible 256 symbols is split into 16 blocks.
+        // If no symbols from a block are in use, then the block is not present.
+        // First, we decode which blocks are present.
+        let usedBlocksBitMap = UInt16(bitReader.int(fromBits: 16))
+        var blockMask = 1 << 15 as UInt16
+        var usedSymbols = [UInt8]()
+        // Two additional symbols are RUNA and RUNB.
+        var usedSymbolsCount = 2
+        while blockMask > 0 {
+            if usedBlocksBitMap & blockMask > 0 {
+                // Each block, if present, is a set of 16 bits which, if set, represent that the corresponding symbols
+                // are in use by Huffman tables.
+                let usedSymbolsBitMask = UInt16(bitReader.int(fromBits: 16))
+                var symbolMask = 1 << 15 as UInt16
+                while symbolMask > 0 {
+                    if usedSymbolsBitMask & symbolMask > 0 {
+                        usedSymbolsCount += 1
+                        usedSymbols.append(UInt8(blockMask.leadingZeroBitCount * 16 + symbolMask.leadingZeroBitCount))
                     }
-                } else {
-                    for _ in 0 ..< 16 {
-                        used.append(false)
-                    }
+                    symbolMask >>= 1
                 }
-                mapMask >>= 1
             }
-            return used
+            blockMask >>= 1
         }
-
-        let used = computeUsed()
 
         let huffmanGroups = bitReader.int(fromBits: 3)
         guard huffmanGroups >= 2, huffmanGroups <= 6
@@ -126,14 +128,13 @@ public class BZip2: DecompressionAlgorithm {
         }
 
         let selectors = try computeSelectors()
-        let symbolsInUse = used.filter { $0 }.count + 2
 
         func computeTables() throws -> [DecodingTree] {
             var tables = [DecodingTree]()
             for _ in 0 ..< huffmanGroups {
                 var length = bitReader.int(fromBits: 5)
                 var lengths = [CodeLength]()
-                for i in 0 ..< symbolsInUse {
+                for i in 0 ..< usedSymbolsCount {
                     guard length >= 0, length <= 20
                     else { throw BZip2Error.wrongHuffmanCodeLength }
                     while bitReader.bit() > 0 {
@@ -152,11 +153,6 @@ public class BZip2: DecompressionAlgorithm {
         }
 
         let tables = try computeTables()
-        var usedBytes = used.enumerated().reduce(into: [UInt8]()) {
-            if $1.element {
-                $0.append($1.offset.toUInt8())
-            }
-        }
 
         var selectorPointer = 0
         var decoded = 0
@@ -189,15 +185,15 @@ public class BZip2: DecompressionAlgorithm {
                 continue
             } else if runLength > 0 {
                 for _ in 0 ..< runLength {
-                    buffer.append(usedBytes[0])
+                    buffer.append(usedSymbols[0])
                 }
                 runLength = 0
             }
-            if symbol == symbolsInUse - 1 { // End of stream symbol.
+            if symbol == usedSymbolsCount - 1 { // End of stream symbol.
                 break
             } else { // Move to front inverse.
-                let element = usedBytes.remove(at: symbol - 1)
-                usedBytes.insert(element, at: 0)
+                let element = usedSymbols.remove(at: symbol - 1)
+                usedSymbols.insert(element, at: 0)
                 buffer.append(element)
             }
         }

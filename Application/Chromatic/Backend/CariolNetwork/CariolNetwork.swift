@@ -178,7 +178,7 @@ class CariolNetwork {
         debugPrint("preparing request to \(url.absoluteString)")
         // digger will call blocks in a sequence, no need to lock
         var completedCache = false
-        var speedCache: Int = 0
+        var speedCache = 0
         // before we can get the size of remote
         // set this number to package size
         // or really big size, coordinated to package deb file

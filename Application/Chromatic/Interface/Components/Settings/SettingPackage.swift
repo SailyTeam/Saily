@@ -74,7 +74,8 @@ extension SettingView {
                                                   return formatter.string(fromByteCount: Int64(compute))
                                               }) { _, anchor in
             self.dropDownConfirm(anchor: anchor,
-                                 text: NSLocalizedString("DELETE_ALL_DOWNLOADS", comment: "Delete All Downloads")) {
+                                 text: NSLocalizedString("DELETE_ALL_DOWNLOADS", comment: "Delete All Downloads"))
+            {
                 let cache = URL(fileURLWithPath: DiggerCache.cachesDirectory)
                 try? FileManager.default.removeItem(at: cache)
                 let download = CariolNetwork.shared.workingLocation

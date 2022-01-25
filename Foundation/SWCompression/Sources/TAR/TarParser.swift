@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -25,6 +25,10 @@ struct TarParser {
 
     init(_ data: Data) {
         reader = LittleEndianByteReader(data: data)
+        lastGlobalExtendedHeader = nil
+        lastLocalExtendedHeader = nil
+        longLinkName = nil
+        longName = nil
     }
 
     mutating func next() throws -> ParsingResult {

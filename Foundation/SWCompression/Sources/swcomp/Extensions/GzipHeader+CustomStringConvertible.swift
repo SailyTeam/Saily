@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -17,7 +17,7 @@ extension GzipHeader: CustomStringConvertible {
         if let mtime = modificationTime {
             output += "Modification time: \(mtime)\n"
         }
-        if let comment = self.comment {
+        if let comment = comment {
             output += "Comment: \(comment)\n"
         }
         output += "Is text file: \(isTextFile)"

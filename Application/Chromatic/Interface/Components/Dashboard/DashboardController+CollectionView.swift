@@ -129,7 +129,8 @@ extension DashboardController {
                            options: .curveEaseInOut,
                            animations: {
                                cell.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                           }) { _ in
+                           })
+            { _ in
             }
         }
     }
@@ -143,7 +144,8 @@ extension DashboardController {
                            options: .curveEaseInOut,
                            animations: {
                                cell.transform = .identity
-                           }) { _ in
+                           })
+            { _ in
             }
         }
     }
@@ -152,7 +154,7 @@ extension DashboardController {
         guard !(collectionView.cellForItem(at: indexPath) is LXDashboardMoreCell),
               let data = dataSource[safe: indexPath.section]?
               .package[safe: indexPath.row],
-              let view = self.view
+              let view = view
         else {
             return nil
         }

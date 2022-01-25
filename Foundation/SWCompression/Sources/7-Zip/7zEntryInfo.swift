@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -75,7 +75,7 @@ public struct SevenZipEntryInfo: ContainerEntryInfo {
            let unixType = ContainerEntryType((0xF000_0000 & attributes) >> 16)
         {
             type = unixType
-        } else if let dosAttributes = self.dosAttributes {
+        } else if let dosAttributes = dosAttributes {
             if dosAttributes.contains(.directory) {
                 type = .directory
             } else {

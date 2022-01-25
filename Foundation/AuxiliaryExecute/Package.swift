@@ -16,9 +16,5 @@ let package = Package(
             name: "AuxiliaryExecute",
             dependencies: []
         ),
-        .testTarget(
-            name: "AuxiliaryExecuteTests",
-            dependencies: ["AuxiliaryExecute"]
-        ),
     ]
 )

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -25,7 +25,7 @@ extension ContainerCommand {
             swcomp.printInfo(entries)
         } else if let outputPath = extract {
             if try !isValidOutputDirectory(outputPath, create: true) {
-                print("ERROR: Specified path already exists and is not a directory.")
+                print("ERROR: Specified output path already exists and is not a directory.")
                 exit(1)
             }
 

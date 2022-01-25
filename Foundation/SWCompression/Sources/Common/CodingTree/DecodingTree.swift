@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -34,15 +34,18 @@ final class DecodingTree {
     }
 
     func findNextSymbol() -> Int {
+        var bitsLeft = bitReader.bitsLeft
         var index = 0
-        while true {
+        while bitsLeft > 0 {
             let bit = bitReader.bit()
             index = bit == 0 ? 2 * index + 1 : 2 * index + 2
+            bitsLeft -= 1
             guard index < leafCount
             else { return -1 }
             if tree[index] > -1 {
                 return tree[index]
             }
         }
+        return -1
     }
 }

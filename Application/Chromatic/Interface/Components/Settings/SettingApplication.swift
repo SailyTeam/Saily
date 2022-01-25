@@ -69,7 +69,8 @@ extension SettingView {
                                        dataType: .submenuWithAction,
                                        initData: nil) { _, anchor in
             self.dropDownConfirm(anchor: anchor,
-                                 text: NSLocalizedString("REBUILD_ICONS", comment: "Rebuild Icons")) { [weak self] in
+                                 text: NSLocalizedString("REBUILD_ICONS", comment: "Rebuild Icons"))
+            { [weak self] in
                 let alert = UIAlertController(title: "⚠️",
                                               message: NSLocalizedString("RELOAD_ICON_CACHE_TASKES_TIME", comment: "Reloading home screen icons will take some time"),
                                               preferredStyle: .alert)
@@ -91,7 +92,8 @@ extension SettingView {
                                         dataType: .submenuWithAction,
                                         initData: nil) { _, anchor in
             self.dropDownConfirm(anchor: anchor,
-                                 text: NSLocalizedString("RELOAD_DESKTOP", comment: "Reload Desktop")) {
+                                 text: NSLocalizedString("RELOAD_DESKTOP", comment: "Reload Desktop"))
+            {
                 AuxiliaryExecuteWrapper.suspendApplication()
                 sleep(1)
                 AuxiliaryExecuteWrapper.reloadSpringboard()
@@ -102,12 +104,14 @@ extension SettingView {
                                       dataType: .submenuWithAction,
                                       initData: nil) { _, anchor in
             self.dropDownConfirm(anchor: anchor,
-                                 text: NSLocalizedString("ENTER_SAFE_MODE", comment: "Enter Safe Mode")) {
+                                 text: NSLocalizedString("ENTER_SAFE_MODE", comment: "Enter Safe Mode"))
+            {
                 AuxiliaryExecuteWrapper.suspendApplication()
                 sleep(1)
                 AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.killall,
                                                   args: ["-SEGV", "SpringBoard"],
-                                                  timeout: 1) { _ in
+                                                  timeout: 1)
+                { _ in
                 }
             }
         }

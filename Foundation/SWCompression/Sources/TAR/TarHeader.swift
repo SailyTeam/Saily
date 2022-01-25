@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -193,7 +193,7 @@ struct TarHeader {
         out.append(tarInt: gid, maxLength: 8)
         out.append(tarInt: size, maxLength: 12)
 
-        if let mtime = self.mtime?.timeIntervalSince1970 {
+        if let mtime = mtime?.timeIntervalSince1970 {
             out.append(tarInt: Int(mtime), maxLength: 12)
         } else {
             out.append(tarInt: nil, maxLength: 12)
@@ -271,12 +271,12 @@ struct TarHeader {
                 }
             } else if format == .gnu {
                 // Gnu format contains atime and ctime instead of a prefix field.
-                if let atime = self.atime?.timeIntervalSince1970 {
+                if let atime = atime?.timeIntervalSince1970 {
                     out.append(tarInt: Int(atime), maxLength: 12)
                 } else {
                     out.append(tarInt: nil, maxLength: 12)
                 }
-                if let ctime = self.ctime?.timeIntervalSince1970 {
+                if let ctime = ctime?.timeIntervalSince1970 {
                     out.append(tarInt: Int(ctime), maxLength: 12)
                 } else {
                     out.append(tarInt: nil, maxLength: 12)

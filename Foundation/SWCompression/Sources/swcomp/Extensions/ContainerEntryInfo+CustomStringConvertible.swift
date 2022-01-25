@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -89,7 +89,7 @@ public extension ContainerEntryInfo where Self: CustomStringConvertible {
             output += "Is anti-file: \(sevenZipEntry.isAnti)\n"
         }
 
-        if let size = self.size {
+        if let size = size {
             output += "Size: \(size) bytes\n"
         }
 
@@ -105,7 +105,7 @@ public extension ContainerEntryInfo where Self: CustomStringConvertible {
             output += "Ctime: \(ctime)\n"
         }
 
-        if let permissions = self.permissions?.rawValue {
+        if let permissions = permissions?.rawValue {
             output += String(format: "Permissions: %o", permissions)
         }
 

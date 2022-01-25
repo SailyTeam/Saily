@@ -1,8 +1,8 @@
 Package: wiki.qaq.chromatic
 Name: Saily
 Description: Modern. Fast. Beautiful.
-Author: Saily Team <master@233owo.com>
-Maintainer: Saily Team <master@233owo.com>
+Author: Saily Team <support.0xa1@qaq.wiki>
+Maintainer: Saily Team <support.0xa1@qaq.wiki>
 Version: @@VERSION@@
 Section: Applications
 Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt

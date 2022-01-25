@@ -8,13 +8,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Install Dependencies
-        run: brew install ldid xz
+        run: brew install ldid xz dpkg
       - uses: actions/checkout@v2
-      - name: submodules-init
-        uses: snickerbockers/submodules-init@v4
       - name: Build
         run: |
-          brew install dpkg
           chmod +x ./Resources/compile.release.action.sh
           /bin/bash -c ./Resources/compile.release.action.sh
       - name: Upload .ipa
@@ -27,3 +24,13 @@ jobs:
         with:
           name: "chromatic.rel.ci.${{ env.build_timestamp }}.deb"
           path: "build/artifact/chromatic.rel.ci.${{ env.build_timestamp }}.deb"
+      - name: Upload .dSYM
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: "chromatic.rel.ci.${{ env.build_timestamp }}+dSYM.zip"
+          path: "build/artifact/${{ env.build_timestamp }}+dSYM.zip"
+      - name: Upload Bugsnag
+        run: |
+          brew install bugsnag/tap/bugsnag-dsym-upload
+          bugsnag-dsym-upload --api-key "${{ secrets.BUGSNAG_API_TOKEN }}" "build/artifact/${{ env.build_timestamp }}+dSYM.zip"
+

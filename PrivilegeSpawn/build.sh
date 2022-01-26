@@ -31,6 +31,9 @@ xcodebuild \
     -sdk iphoneos \
     -derivedDataPath ./ \
     ENABLE_BITCODE=NO CODE_SIGNING_ALLOWED=NO \
+    CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO" \
+    GCC_GENERATE_DEBUGGING_SYMBOLS=YES STRIP_INSTALLED_PRODUCT=NO \
+    COPY_PHASE_STRIP=NO UNSTRIPPED_PRODUCT=NO \
     clean archive
 
 # look for binary in archive dir and copy to build dir

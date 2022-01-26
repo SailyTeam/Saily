@@ -287,6 +287,9 @@
 		50C668A826CFB560005A68BE /* PackageVersionControlController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageVersionControlController.swift; sourceTree = "<group>"; };
 		50C668AA26CFE76E005A68BE /* RepoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
 		50C88B0926D22ADD00758FEF /* AptScanner+Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AptScanner+Report.swift"; sourceTree = "<group>"; };
+		50CC2FA027A105E700BA2042 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50CC2FA127A1060400BA2042 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50CC2FA227A1061700BA2042 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50CFB01A26D26CC900E66AB9 /* PackageAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageAction.swift; sourceTree = "<group>"; };
 		50D528B82449B11300F4A483 /* chromatic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chromatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D528BB2449B11300F4A483 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -872,6 +875,9 @@
 				"pt-BR",
 				de,
 				Base,
+				fr,
+				it,
+				ru,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1079,6 +1085,9 @@
 				5087445526F6397800DA9EC8 /* ja */,
 				5087445626F6398200DA9EC8 /* pt-BR */,
 				509C526C26F9C43300116616 /* de */,
+				50CC2FA027A105E700BA2042 /* fr */,
+				50CC2FA127A1060400BA2042 /* it */,
+				50CC2FA227A1061700BA2042 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

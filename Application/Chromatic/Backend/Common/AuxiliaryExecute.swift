@@ -138,7 +138,7 @@ enum AuxiliaryExecuteWrapper {
         guard ticket.hasPrefix("ticket://"),
               ticket.hasSuffix("AA55")
         else {
-            Dog.shared.join(self, "failed to create privileged seesion", level: .error)
+            Dog.shared.join(self, "failed to create privileged session", level: .error)
             return
         }
         session = ticket

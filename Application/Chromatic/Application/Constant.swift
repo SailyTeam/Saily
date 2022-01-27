@@ -40,19 +40,4 @@ let darkModeJavascript =
     }
     """
 
-let cRepositoryRedirection: [URL: URL] = [
-    // procurs
-    URL(string: "https://apt.procurs.us/Release")!:
-        URL(string: "https://apt.procurs.us/dists/iphoneos-arm64/1700/Release")!,
-    URL(string: "https://apt.procurs.us/Packages")!:
-        URL(string: "https://apt.procurs.us/dists/iphoneos-arm64/1700/main/binary-iphoneos-arm/Packages")!,
-    // bigboss
-    URL(string: "http://apt.thebigboss.org/repofiles/cydia/CydiaIcon.png")!:
-        URL(string: "http://apt.thebigboss.org/repofiles/cydia/dists/stable/CydiaIcon.png")!,
-    URL(string: "http://apt.thebigboss.org/repofiles/cydia/Release")!:
-        URL(string: "http://apt.thebigboss.org/repofiles/cydia/dists/stable/Release")!,
-    URL(string: "http://apt.thebigboss.org/repofiles/cydia/Packages")!:
-        URL(string: "http://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/Packages")!,
-]
-
 let cUserActivityDropPackage = "wiki.qaq.chromatic.drop.package"

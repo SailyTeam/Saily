@@ -17,6 +17,9 @@ internal let kRepositoryCenterIdentity = "wiki.qaq.chromatic.RepositoryCenter"
 public final class RepositoryCenter {
     public static let `default` = RepositoryCenter()
 
+    /// used to generate download url for packages
+    public static let deviceArchitecture = "iphoneos-arm"
+
     /// persist engine will work inside this
     public let workingLocation: URL
 

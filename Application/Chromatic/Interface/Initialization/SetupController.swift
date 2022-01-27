@@ -100,7 +100,6 @@ class SetupViewController: UIViewController {
                 descriptionLabel.text = NSLocalizedString("INITIALIZING_PACKAGES_ENGINE", comment: "Initializing Packages Engine")
             }
             _ = RepositoryCenter.default
-            RepositoryCenter.default.networkingRedirect = cRepositoryRedirection
         }
 
         DispatchQueue.main.async { [self] in

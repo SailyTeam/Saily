@@ -11,19 +11,19 @@ import Foundation
 public struct Repository: Codable, Hashable, Identifiable {
     // MARK: - USER GRANTED
 
-    public let url: URL
+    public internal(set) var url: URL
+    public internal(set) var distribution: String? // flat repo will not get it
+    public internal(set) var component: String? // only accept one
+
     public var id: String { url.absoluteString }
 
     // MARK: - METADATA
 
     public internal(set) var avatar = Data()
     public var avatarUrl: URL {
-        let defaultUrl = url
+        url
             .appendingPathComponent("CydiaIcon")
             .appendingPathExtension("png")
-        return RepositoryCenter
-            .default
-            .networkingRedirect[defaultUrl, default: defaultUrl]
     }
 
     public internal(set) var lastUpdateRelease = Date(timeIntervalSince1970: 0)
@@ -34,10 +34,13 @@ public struct Repository: Codable, Hashable, Identifiable {
     }
 
     public var metaReleaseUrl: URL {
-        let defaultUrl = url.appendingPathComponent("Release")
-        return RepositoryCenter
-            .default
-            .networkingRedirect[defaultUrl, default: defaultUrl]
+        guard let distribution = distribution else {
+            return url.appendingPathComponent("Release")
+        }
+        return url
+            .appendingPathComponent("dists")
+            .appendingPathComponent(distribution)
+            .appendingPathComponent("Release")
     }
 
     public internal(set) var lastUpdatePackage = Date(timeIntervalSince1970: 0)
@@ -48,10 +51,22 @@ public struct Repository: Codable, Hashable, Identifiable {
     }
 
     public var metaPackageUrl: URL {
-        let defaultUrl = url.appendingPathComponent("Packages")
-        return RepositoryCenter
-            .default
-            .networkingRedirect[defaultUrl, default: defaultUrl]
+        guard let distribution = distribution else {
+            return url.appendingPathComponent("Packages")
+        }
+        guard let component = component else {
+            return url
+                .appendingPathComponent("dists")
+                .appendingPathComponent(distribution)
+                .appendingPathComponent("binary-\(RepositoryCenter.deviceArchitecture)")
+                .appendingPathComponent("Packages")
+        }
+        return url
+            .appendingPathComponent("dists")
+            .appendingPathComponent(distribution)
+            .appendingPathComponent(component)
+            .appendingPathComponent("binary-\(RepositoryCenter.deviceArchitecture)")
+            .appendingPathComponent("Packages")
     }
 
     public internal(set) var preferredSearchPath = "bz2"
@@ -110,10 +125,13 @@ public struct Repository: Codable, Hashable, Identifiable {
 
     // MARK: - INIT
 
+    /// Initialize a flat repo with url only
+    /// - Parameter url: the key to the repo
     public init(url: URL) {
         self.url = url
         attachment[.nickName] = regenerateNickName()
         attachment[.initialInstall] = "YES"
+        applyNoneFlatRepositoryIfNeeded()
     }
 
     // MARK: - PROTOCOL

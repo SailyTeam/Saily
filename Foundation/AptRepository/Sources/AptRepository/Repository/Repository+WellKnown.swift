@@ -10,7 +10,7 @@ import Foundation
 internal extension Repository {
     /// Some well known repo for jailbroken devices
     /// This is a simple solution to those users adding them from url only
-    mutating func applyNoneFlatRepositoryIfNeeded() {
+    mutating func applyNoneFlatWellKnownRepositoryIfNeeded() {
         switch url.host {
         case "apt.procurs.us":
             var magic: Double = floor(kCFCoreFoundationVersionNumber / 100.0 + 0.5) * 100.0

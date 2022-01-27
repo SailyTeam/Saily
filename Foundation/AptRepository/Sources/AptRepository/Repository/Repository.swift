@@ -131,7 +131,7 @@ public struct Repository: Codable, Hashable, Identifiable {
         self.url = url
         attachment[.nickName] = regenerateNickName()
         attachment[.initialInstall] = "YES"
-        applyNoneFlatRepositoryIfNeeded()
+        applyNoneFlatWellKnownRepositoryIfNeeded()
     }
 
     // MARK: - PROTOCOL

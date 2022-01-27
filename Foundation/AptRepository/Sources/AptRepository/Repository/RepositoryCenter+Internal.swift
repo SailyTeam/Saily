@@ -25,7 +25,8 @@ extension RepositoryCenter {
             do {
                 let location = workingLocation.appendingPathComponent(name)
                 let data = try Data(contentsOf: location)
-                let repo = try persistDecoder.decode(Repository.self, from: data)
+                var repo = try persistDecoder.decode(Repository.self, from: data)
+                repo.applyNoneFlatWellKnownRepositoryIfNeeded()
                 build[repo.url] = repo
             } catch {
                 Dog.shared.join(self, "read data and decode failed with error \(error.localizedDescription)", level: .error)

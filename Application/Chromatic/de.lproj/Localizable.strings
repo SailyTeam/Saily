@@ -107,7 +107,7 @@
 "CURRENT_SELECTED" = "Momentan ausgewählt";
 
 /* Dashboard */
-"DASHBOARD" = "Dashboard";
+"DASHBOARD" = "Übersicht";
 
 /* Delete */
 "DELETE" = "Löschen";
@@ -308,7 +308,7 @@
 "PASTEBOARD_REPO_DESCRIPTION" = "Wir haben diese Links in der Zwischenablage gefunden.";
 
 /* Press add button above to add some */
-"PLEASE_ADD_REPO" = "Klicke oben, um einige Quellen hinzuzufügen.";
+"PLEASE_ADD_REPO" = "Klicke oben auf die Schaltfläche Hinzufügen, um einige Quellen hinzuzufügen.";
 
 /* Preparing Operations */
 "PREPARING_OPERATIONS" = "Vorgänge vorbereiten";
@@ -494,7 +494,7 @@
 "UNPACKING_PACKAGE" = "Paket auspacken";
 
 /* Update */
-"UPDATE" = "Update";
+"UPDATE" = "Aktualisierung";
 
 /* Update All */
 "UPDATE_ALL" = "Alles aktualisieren";

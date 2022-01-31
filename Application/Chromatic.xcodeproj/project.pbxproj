@@ -270,6 +270,7 @@
 		509C526C26F9C43300116616 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50A255CC2768F3800078C432 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		50A283F026D5E34E005FA2DB /* OperationConsoleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationConsoleController.swift; sourceTree = "<group>"; };
+		50A2D69A27A51101006B61DE /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50A8052526CB5FA300F8FB7D /* HDRepoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDRepoController.swift; sourceTree = "<group>"; };
 		50A8052A26CB78DF00F8FB7D /* RepoAddController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RepoAddController+Layout.swift"; sourceTree = "<group>"; };
 		50A8052C26CB7D9300F8FB7D /* HDSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDSearchController.swift; sourceTree = "<group>"; };
@@ -878,6 +879,7 @@
 				fr,
 				it,
 				ru,
+				tr,
 			);
 			mainGroup = 50D528AF2449B11300F4A483;
 			productRefGroup = 50D528B92449B11300F4A483 /* Products */;
@@ -1088,6 +1090,7 @@
 				50CC2FA027A105E700BA2042 /* fr */,
 				50CC2FA127A1060400BA2042 /* it */,
 				50CC2FA227A1061700BA2042 /* ru */,
+				50A2D69A27A51101006B61DE /* tr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1216,7 +1219,7 @@
 		50D5290D2449B11600F4A483 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Chromatic/Chromatic.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1252,7 +1255,7 @@
 		50D5290E2449B11600F4A483 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Chromatic/Chromatic.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";

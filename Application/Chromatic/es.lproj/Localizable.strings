@@ -74,10 +74,10 @@
 "COLLECT_AND_OVERWRITE" = "Recopilar y sobrescribir";
 
 /* Collect And Save */
-"COLLECT_AND_SAVE" = "Recoger y guardar";
+"COLLECT_AND_SAVE" = "Descargar y guardar";
 
 /* Collected Packages */
-"COLLECTED_PACKAGES" = "Paquetes recolectados";
+"COLLECTED_PACKAGES" = "Paquetes encontrados";
 
 /* Search Result: Collection */
 "Collection" = "Colección";
@@ -98,7 +98,7 @@
 "COPIED" = "Copiado";
 
 /* Copy Meta */
-"COPY_META" = "Copy Meta";
+"COPY_META" = "Copiar Meta";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "Instalados";
@@ -110,7 +110,7 @@
 "DASHBOARD" = "Inicio";
 
 /* Delete */
-"DELETE" = "Delete";
+"DELETE" = "Borrar";
 
 /* Delete All Downloads */
 "DELETE_ALL_DOWNLOADS" = "Borrar todas las descargas";
@@ -350,10 +350,10 @@
 "RECENT_UPDATE" = "Recién actualizados";
 
 /* Refresh */
-"REFRESH" = "Refresh";
+"REFRESH" = "Actualizar";
 
 /* Refreshed */
-"REFRESHED" = "Actualizar";
+"REFRESHED" = "Actualizado";
 
 /* Registered */
 "REGISTERED" = "Registrado";
@@ -440,7 +440,7 @@
 "SETTINGS" = "Ajustes";
 
 /* Share */
-"SHARE" = "Share";
+"SHARE" = "Enviar";
 
 /* Sign Out */
 "SIGN_OUT" = "Cerrar sesión";
@@ -476,7 +476,7 @@
 "THIS_OPERATION_CANNOT_BE_UNDONE" = "Esta operación no se puede deshacer.";
 
 /* Toggle */
-"TOGGLE" = "Alternador";
+"TOGGLE" = "Agregar todas";
 
 /* Unavailable */
 "UNAVAILABLE" = "No disponible";

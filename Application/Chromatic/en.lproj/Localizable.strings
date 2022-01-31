@@ -248,7 +248,7 @@
 "MANUAL_INPUT_DESCRIPTION" = "Enter the software source address manually here and use new lines for each address";
 
 /* missing or breaking */
-"MISSING_OR_BREAKING" = "missing or breaking";
+"MISSING_OR_BREAKING" = "missing or broken";
 
 /* Name */
 "NAME" = "Name";

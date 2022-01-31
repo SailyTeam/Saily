@@ -96,9 +96,11 @@ class SettingElement: UIView {
         dropDownHit.morphingEffect = .evaporate
         dropDownHit.font = UIFont.roundedFont(ofSize: 18, weight: .bold).monospacedDigitFont
         dropDownHit.textColor = .gray
+        dropDownHit.textAlignment = .right
         dropDownHit.snp.makeConstraints { x in
             x.centerY.equalTo(self.snp.centerY)
             x.right.equalTo(self.snp.right).offset(-12)
+            x.left.equalTo(label.snp.right).offset(8)
         }
 
         dropDownAnchor.snp.makeConstraints { x in
@@ -130,7 +132,7 @@ class SettingElement: UIView {
             button.snp.remakeConstraints { x in
                 x.centerY.equalTo(self.snp.centerY)
                 x.right.equalTo(self)
-                x.width.equalTo(100)
+                x.left.equalTo(label.snp.right).offset(8)
             }
         }
 

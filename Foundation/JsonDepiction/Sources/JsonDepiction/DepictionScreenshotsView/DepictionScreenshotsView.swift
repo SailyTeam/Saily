@@ -9,6 +9,7 @@
 import AVKit
 import SDWebImage
 import UIKit
+import DTPhotoViewerController
 
 class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
     private let depiction: [String: Any]
@@ -98,6 +99,8 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
                 }
             } else {
                 let screenshotView = UIButton(frame: .zero)
+                screenshotView.addTarget(self, action: #selector(fullScreenImage), for: .touchUpInside)
+                
                 SDWebImageManager.shared.loadImage(with: url,
                                                    options: .highPriority,
                                                    progress: nil) { [weak self] image, _, _, _, _, _ in
@@ -105,7 +108,6 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
                     self?.layoutSubviews()
                 }
                 screenshotView.accessibilityLabel = accessibilityText
-                screenshotView.isUserInteractionEnabled = false
                 screenshotView.accessibilityIgnoresInvertColors = true
                 screenshotView.layer.cornerRadius = itemCornerRadius
                 screenshotView.clipsToBounds = true
@@ -135,12 +137,21 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
         return parentViewController.view.bounds.height - 32 - verticalInsets
     }
 
-    @objc func fullScreenImage(_: Any) {
-//        let viewcontroller = DepictionScreenshotsViewController()
-//        viewcontroller.tintColor = tintColor
-//        viewcontroller.depiction = depiction
-//        let navController = UINavigationController(rootViewController: viewcontroller)
-//        parentViewController?.present(navController, animated: true, completion: nil)
+    @objc func fullScreenImage(_ sender: Any) {
+        guard let senderButton = sender as? UIButton,
+              let image = senderButton.backgroundImage(for: .normal)
+        else {
+            return
+        }
+        let controller = DTPhotoViewerController(referencedView: senderButton, image: image)
+        var presenter = window?.rootViewController
+        // we want this to be present as root as possible
+        // and iirc, present on a presented controller will result crash
+        // loop over to find the possible solution
+        while let next = presenter?.presentedViewController {
+            presenter = next
+        }
+        presenter?.present(controller, animated: true, completion: nil)
     }
 
     override func layoutSubviews() {

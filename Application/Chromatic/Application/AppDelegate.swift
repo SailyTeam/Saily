@@ -11,6 +11,10 @@ import Dog
 import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    // possible fix for some tweak crashing on something isn't my problem actually
+    // -[chromatic.AppDelegate window]: unrecognized selector sent to instance
+    var window: UIWindow?
+
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         #if !DEBUG
             Bugsnag.start()

@@ -19,6 +19,7 @@ let package = Package(
         .package(name: "SDWebImage", path: "../SDWebImage"),
         .package(name: "Down", path: "../Down"),
         .package(name: "Cosmos", path: "../Cosmos"),
+        .package(name: "DTPhotoViewerController", path: "../DTPhotoViewerController"),
     ],
     targets: [
         .target(
@@ -28,6 +29,7 @@ let package = Package(
                 "SDWebImage",
                 "Down",
                 "Cosmos",
+                "DTPhotoViewerController",
             ]
         ),
     ]

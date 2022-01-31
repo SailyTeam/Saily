@@ -72,6 +72,7 @@ class DashboardController: UICollectionViewController, UICollectionViewDelegateF
                                                selector: #selector(reloadDataSource),
                                                name: RepositoryCenter.metadataUpdate,
                                                object: nil)
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadDataSource),
                                                name: RepositoryCenter.registrationUpdate,

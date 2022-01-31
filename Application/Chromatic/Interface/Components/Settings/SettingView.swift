@@ -10,17 +10,27 @@ import AptRepository
 import Bugsnag
 import DropDown
 import MorphingLabel
+import SnapKit
 import UIKit
 
 class SettingView: UIScrollView {
-    var padding: CGFloat = 20
+    public let shortPadding: Bool
+
     private let safeAnchor = UIView()
     private let frameBuilder = UIView()
+
+    var layoutPadding: CGFloat {
+        if shortPadding {
+            return 10
+        }
+        return 20
+    }
 
     @available(*, unavailable)
     required init?(coder _: NSCoder) { fatalError() }
 
-    required init() {
+    required init(shortPadding: Bool) {
+        self.shortPadding = shortPadding
         super.init(frame: CGRect())
 
         alwaysBounceVertical = true
@@ -28,7 +38,7 @@ class SettingView: UIScrollView {
         addSubview(safeAnchor)
         safeAnchor.snp.makeConstraints { x in
             x.centerX.equalToSuperview()
-            x.width.equalToSuperview().offset(-padding * 2)
+            x.width.equalToSuperview().offset(-layoutPadding * 2)
             x.top.equalToSuperview()
             x.height.equalTo(0)
         }
@@ -58,9 +68,9 @@ class SettingView: UIScrollView {
 
         do {
             let label = UILabel()
-            label.font = .roundedFont(ofSize: 8, weight: .thin)
+            label.font = .roundedFont(ofSize: 8, weight: .light)
             label.textColor = .systemGray
-            label.numberOfLines = 5
+            label.numberOfLines = 10
             let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
             label.text =
                 """
@@ -74,7 +84,7 @@ class SettingView: UIScrollView {
                 x.leading.equalTo(safeAnchor)
                 x.trailing.equalTo(safeAnchor)
                 x.top.equalTo(anchor.snp.bottom)
-                x.height.equalTo(65)
+                x.height.equalTo(100)
             }
         }
 
@@ -121,5 +131,12 @@ class SettingView: UIScrollView {
     func openLicense() {
         let target = LicenseController()
         parentViewController?.present(next: target)
+    }
+
+    func makeElement(constraint: ConstraintMaker, widthAnchor: UIView, topAnchor: UIView) {
+        constraint.left.equalTo(widthAnchor.snp.left).offset(shortPadding ? 0 : 8)
+        constraint.right.equalTo(widthAnchor.snp.right).offset(shortPadding ? 0 : -8)
+        constraint.top.equalTo(topAnchor.snp.bottom).offset(18)
+        constraint.height.equalTo(28)
     }
 }

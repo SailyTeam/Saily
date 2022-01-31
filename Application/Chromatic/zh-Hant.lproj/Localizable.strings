@@ -509,6 +509,9 @@
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "有可用更新時自動更新";
 
+/* User Agent */
+"USER_AGENT" = "User Agent";
+
 /* Validating... */
 "VALIDATING..." = "驗證中...";
 

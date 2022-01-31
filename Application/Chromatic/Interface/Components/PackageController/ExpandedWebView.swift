@@ -7,6 +7,7 @@
 //
 
 import AptRepository
+import SafariServices
 import UIKit
 import WebKit
 
@@ -19,7 +20,22 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
         config.allowsPictureInPictureMediaPlayback = true
         config.allowsAirPlayForMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = .audio
-        config.applicationNameForUserAgent = "Cydia/1.1.32"
+        config.applicationNameForUserAgent = InterfaceBridge.mainUserAgent
+
+        let scaleInjector = """
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'initial-scale=1, maximum-scale=1, user-scalable=0';
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(meta);
+        """
+        let userScript = WKUserScript(
+            source: scaleInjector,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        config.userContentController.addUserScript(userScript)
+
         let view = WKWebView(frame: CGRect(), configuration: config)
         return view
     }()
@@ -89,14 +105,6 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
 
     func webView(_: WKWebView, didFinish _: WKNavigation!) {
         restoreWebViewAlpha()
-        let scaleInjector = """
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'initial-scale=1, maximum-scale=1, user-scalable=0';
-        var head = document.getElementsByTagName('head')[0];
-        head.appendChild(meta);
-        """
-        webKitView.evaluateJavaScript(scaleInjector, completionHandler: nil)
     }
 
     func updateHeightIfNeeded() {
@@ -147,5 +155,21 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
         super.traitCollectionDidChange(previousTraitCollection)
         setWebViewAlphaIfNeeded()
         webKitView.reload()
+    }
+
+    func webView(_: WKWebView, createWebViewWith _: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures _: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil,
+           let url = navigationAction.request.url
+        {
+            if url.scheme == "http" || url.scheme == "https" {
+                let target = SFSafariViewController(url: url)
+                window?
+                    .topMostViewController?
+                    .present(target, animated: true, completion: nil)
+            } else {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        return nil
     }
 }

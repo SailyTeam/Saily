@@ -127,6 +127,7 @@ class PackageBannerView: UIView {
             self.button.snp.updateConstraints { make in
                 make.width.equalTo(width)
             }
+            self.button.layoutIfNeeded()
         } completion: { _ in }
 
         if let iconUrl = PackageCenter.default.avatarUrl(with: package) {

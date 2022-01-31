@@ -508,6 +508,9 @@
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "Uygun olduğunda güncelle";
 
+/* User Agent */
+"USER_AGENT" = "User Agent";
+
 /* Validating... */
 "VALIDATING..." = "Doğrulanıyor...";
 
@@ -531,6 +534,3 @@
 
 /* Worldwide Search */
 "WORLDWIDE_SEARCH" = "Küresel Arama";
-
-/* User Agent */
-"USER_AGENT" = "User Agent";

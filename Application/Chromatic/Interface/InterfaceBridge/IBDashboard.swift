@@ -17,7 +17,7 @@ extension InterfaceBridge {
         let action: ((UIViewController?) -> Void)?
     }
 
-    static func dashbaordBuildDataSource(for _: UIViewController?) -> [DashboardDataSection] {
+    static func dashbaordBuildDataSource() -> [DashboardDataSection] {
         var builder = [DashboardDataSection?]()
         builder.append(buildCollections())
         builder.append(buildAvailableUpdate())

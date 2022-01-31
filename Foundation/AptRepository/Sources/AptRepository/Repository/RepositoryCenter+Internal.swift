@@ -343,6 +343,9 @@ extension RepositoryCenter {
             if let release = buildRelease {
                 builder.metaRelease = release
             }
+            if let searchPath = completedSearchPath {
+                builder.preferredSearchPath = searchPath
+            }
             if let package = buildPackage {
                 // check if any package already available
                 if builder.metaPackage.count > 0 {
@@ -352,18 +355,19 @@ extension RepositoryCenter {
                 }
                 builder.metaPackage = package
             }
-            if let searchPath = completedSearchPath {
-                builder.preferredSearchPath = searchPath
-            }
             printName = builder.regenerateNickName(apply: true)
             if let description = builder.repositoryDescription {
                 printDescription = description
             }
             if let paymentEndpoint = paymentEndpoint {
                 builder.paymentInfo[.endpoint] = paymentEndpoint.absoluteString
+            } else {
+                builder.paymentInfo.removeValue(forKey: .endpoint)
             }
             if let featured = featured {
                 builder.attachment[.featured] = featured
+            } else {
+                builder.attachment.removeValue(forKey: .featured)
             }
         }
 

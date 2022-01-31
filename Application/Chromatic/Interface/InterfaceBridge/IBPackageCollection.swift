@@ -24,7 +24,7 @@ extension InterfaceBridge {
         result.width = 2000
 
         // get me the itemsPerRow
-        let maximumWidth: CGFloat = 300 // soft limit
+        let maximumWidth: CGFloat = 280 // soft limit
         // | padding [minimalWidth] padding [minimalWidth] padding |
         if available > maximumWidth * 2 + padding * 3 {
             // just in case, dont loop forever

@@ -38,6 +38,9 @@
       location = "group:Foundation/Digger">
    </FileRef>
    <FileRef
+      location = "group:Foundation/DTPhotoViewerController">
+   </FileRef>
+   <FileRef
       location = "group:Foundation/FLAnimatedImage">
    </FileRef>
    <FileRef

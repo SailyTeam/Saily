@@ -108,31 +108,19 @@ extension SettingView {
         addSubview(softwareAutoUpdateWhenLaunch)
         addSubview(blockedUpdate)
         openDownloadedPackages.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = openDownloadedPackages
         cleanAllDownload.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = cleanAllDownload
         softwareAutoUpdateWhenLaunch.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = softwareAutoUpdateWhenLaunch
         blockedUpdate.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = blockedUpdate
         backgroundEffect.snp.makeConstraints { x in

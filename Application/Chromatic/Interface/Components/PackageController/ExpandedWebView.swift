@@ -20,7 +20,22 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
         config.allowsPictureInPictureMediaPlayback = true
         config.allowsAirPlayForMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = .audio
-        config.applicationNameForUserAgent = "Cydia/1.1.32"
+        config.applicationNameForUserAgent = InterfaceBridge.mainUserAgent
+
+        let scaleInjector = """
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'initial-scale=1, maximum-scale=1, user-scalable=0';
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(meta);
+        """
+        let userScript = WKUserScript(
+            source: scaleInjector,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        config.userContentController.addUserScript(userScript)
+
         let view = WKWebView(frame: CGRect(), configuration: config)
         return view
     }()
@@ -90,14 +105,6 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
 
     func webView(_: WKWebView, didFinish _: WKNavigation!) {
         restoreWebViewAlpha()
-        let scaleInjector = """
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'initial-scale=1, maximum-scale=1, user-scalable=0';
-        var head = document.getElementsByTagName('head')[0];
-        head.appendChild(meta);
-        """
-        webKitView.evaluateJavaScript(scaleInjector, completionHandler: nil)
     }
 
     func updateHeightIfNeeded() {

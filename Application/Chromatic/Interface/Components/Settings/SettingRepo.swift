@@ -158,38 +158,23 @@ extension SettingView {
         addSubview(repoRefreshTimeGap)
         addSubview(repoHistoryReocrd)
         repoLogin.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = repoLogin
         repoDownloadLimit.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = repoDownloadLimit
         repoDownloadTimeout.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = repoDownloadTimeout
         repoRefreshTimeGap.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = repoRefreshTimeGap
         repoHistoryReocrd.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = repoHistoryReocrd
         groupEffect1.snp.makeConstraints { x in

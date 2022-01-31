@@ -35,4 +35,7 @@ enum InterfaceBridge {
             debugPrint("app in recovery mode")
         }
     }
+
+    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.mainUserAgent", defaultValue: "Saily/2.0 Cydia/1.1.32")
+    public static var mainUserAgent: String
 }

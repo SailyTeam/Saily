@@ -508,6 +508,9 @@
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "自动更新";
 
+/* User Agent */
+"USER_AGENT" = "User Agent";
+
 /* Validating... */
 "VALIDATING..." = "正在验证...";
 

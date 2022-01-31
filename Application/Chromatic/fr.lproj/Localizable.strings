@@ -508,6 +508,9 @@
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "Mettre à jour lorsque disponible";
 
+/* User Agent */
+"USER_AGENT" = "User Agent";
+
 /* Validating... */
 "VALIDATING..." = "Validation...";
 

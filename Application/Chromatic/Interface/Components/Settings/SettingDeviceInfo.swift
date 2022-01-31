@@ -63,39 +63,58 @@ extension SettingView {
                 self.dispatchValueUpdate()
             }
         }
+        let userAgentControl = SettingElement(iconSystemNamed: "grid.circle.fill",
+                                              text: NSLocalizedString("USER_AGENT", comment: "User Agent"),
+                                              dataType: .dropDownWithString) {
+            var ret = InterfaceBridge.mainUserAgent
+            if ret.count < 1 { ret = "_" }
+            return ret
+        } withAction: { _, _ in
+
+            let alert = UIAlertController(title: NSLocalizedString("USER_AGENT", comment: "User Agent"),
+                                          message: "",
+                                          preferredStyle: .alert)
+            alert.addTextField { field in
+                field.text = InterfaceBridge.mainUserAgent
+                if field.text?.count ?? 0 < 1 {
+                    field.text = "Saily/2.0 Cydia/1.1.32"
+                }
+            }
+            alert.addAction(UIAlertAction(title: NSLocalizedString("CONFIRM", comment: "Confirm"), style: .default, handler: { [weak alert, weak self] _ in
+                if let text = alert?.textFields?[0].text {
+                    InterfaceBridge.mainUserAgent = text
+                }
+                self?.dispatchValueUpdate()
+            }))
+            self.parentViewController?.present(alert, animated: true, completion: nil)
+        }
+
         addSubview(groupEffect0)
         addSubview(deviceInfo)
         addSubview(systemVersion)
         addSubview(udid)
         addSubview(enableRandomDeviceInfo)
+        addSubview(userAgentControl)
         deviceInfo.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = deviceInfo
         systemVersion.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = systemVersion
         udid.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = udid
         enableRandomDeviceInfo.snp.makeConstraints { x in
-            x.left.equalTo(safeAnchor.snp.left).offset(8)
-            x.right.equalTo(safeAnchor.snp.right).offset(-8)
-            x.top.equalTo(anchor.snp.bottom).offset(18)
-            x.height.equalTo(28)
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = enableRandomDeviceInfo
+        userAgentControl.snp.makeConstraints { x in
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
+        }
+        anchor = userAgentControl
         groupEffect0.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left)
             x.right.equalTo(safeAnchor.snp.right)

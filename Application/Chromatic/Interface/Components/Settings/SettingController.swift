@@ -9,23 +9,37 @@
 import UIKit
 
 class SettingController: UIViewController {
-    let setting = SettingView()
+    var _settingView: SettingView?
+
+    var settingView: SettingView {
+        if let settingView = _settingView {
+            return settingView
+        }
+        let view = SettingView(shortPadding: true)
+        _settingView = view
+        return view
+    }
+
+    var preferLargeTitle: Bool {
+        false
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = cLXUIDefaultBackgroundColor
         title = NSLocalizedString("SETTING", comment: "Setting")
 
-        view.addSubview(setting)
-        setting.snp.makeConstraints { x in
+        navigationItem.largeTitleDisplayMode = preferLargeTitle ? .automatic : .never
+
+        view.addSubview(settingView)
+        settingView.snp.makeConstraints { x in
             x.edges.equalToSuperview()
         }
-
-        setting.updateContentSize()
+        settingView.updateContentSize()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setting.updateContentSize()
+        settingView.updateContentSize()
     }
 }

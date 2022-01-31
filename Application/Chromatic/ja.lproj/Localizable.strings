@@ -508,6 +508,9 @@
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "利用可能な場合にアップデート";
 
+/* User Agent */
+"USER_AGENT" = "User Agent";
+
 /* Validating... */
 "VALIDATING..." = "検証しています...";
 

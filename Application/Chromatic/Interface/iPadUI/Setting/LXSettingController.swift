@@ -9,6 +9,19 @@
 import UIKit
 
 class LXSettingController: SettingController {
+    override var settingView: SettingView {
+        if let settingView = _settingView {
+            return settingView
+        }
+        let view = SettingView(shortPadding: false)
+        _settingView = view
+        return view
+    }
+
+    override var preferLargeTitle: Bool {
+        true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = cLXUIDefaultBackgroundColor

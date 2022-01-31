@@ -7,6 +7,7 @@
 //
 
 import AptRepository
+import SafariServices
 import UIKit
 import WebKit
 
@@ -147,5 +148,21 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
         super.traitCollectionDidChange(previousTraitCollection)
         setWebViewAlphaIfNeeded()
         webKitView.reload()
+    }
+
+    func webView(_: WKWebView, createWebViewWith _: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures _: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil,
+           let url = navigationAction.request.url
+        {
+            if url.scheme == "http" || url.scheme == "https" {
+                let target = SFSafariViewController(url: url)
+                window?
+                    .topMostViewController?
+                    .present(target, animated: true, completion: nil)
+            } else {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        return nil
     }
 }

@@ -125,7 +125,7 @@ class PackageBannerView: UIView {
             options: .curveEaseInOut
         ) {
             self.button.snp.updateConstraints { make in
-                make.width.equalTo(width)
+                make.width.equalTo(width + 10) // so min would be 60
             }
         } completion: { _ in }
 

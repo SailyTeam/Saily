@@ -225,10 +225,14 @@ class PackageMenuAction {
         .init(descriptor: .directInstall,
               block: resolveInstallRequest,
               elegantForPerform: { package in
-                  if package.latestMetadata?[DirectInstallInjectedPackageLocationKey] != nil {
-                      return true
+                  if TaskManager
+                      .shared
+                      .isQueueContains(package: package.identity)
+                  {
+                      return false
                   }
-                  return false
+                  return package
+                      .latestMetadata?[DirectInstallInjectedPackageLocationKey] != nil
               }),
 
         // MARK: - INSTALL

@@ -43,8 +43,7 @@ void ticket_file_permission_check(mode_t mode) {
     exit(EX_NOPERM);
 }
 
-void privileged_session_create(char *ticket_location) {
-    
+bool pidpath_check_passed(void) {
     // let's check if the user have permission to do so
     const char *privilegedPrefix = "/Applications/";
     pid_t parentPID = getppid();
@@ -52,7 +51,7 @@ void privileged_session_create(char *ticket_location) {
     int status = proc_pidpath(parentPID, parentPath, sizeof(parentPath));
     if (status <= 0) {
         fprintf(stderr, "Permission denied: missing parent info\n");
-        exit(EX_NOPERM);
+        return false;
     }
     
     // check if parentPath start with validatedPrefix
@@ -60,6 +59,15 @@ void privileged_session_create(char *ticket_location) {
         fprintf(stderr,
                 "Permission denied: parent outside the privileged prefix [%s]\n",
                 privilegedPrefix);
+        return false;
+    }
+    
+    return true;
+}
+
+void privileged_session_create(char *ticket_location) {
+    
+    if (!pidpath_check_passed()) {
         exit(EX_NOPERM);
     }
     
@@ -125,6 +133,11 @@ void privileged_session_create(char *ticket_location) {
 // ticket file permission check
 
 void session_check(char *ticket_location, char *ticket) {
+    
+    // if pidpath check passed, ignore session ticket check
+    if (pidpath_check_passed()) {
+        return;
+    }
     
     // first, check if any env param is empty
     if (ticket_location == NULL || ticket == NULL) {

@@ -7,6 +7,7 @@
 //
 
 import AptRepository
+import SafariServices
 import SPIndicator
 import UIKit
 
@@ -22,6 +23,7 @@ class PackageMenuAction {
         case versionControl
         case blockUpdate
         case unblockUpdate
+        case download
         case collectAndSave
         case collectAndOverwrite
         case removeCollect
@@ -49,6 +51,8 @@ class PackageMenuAction {
                 return NSLocalizedString("BLOCK_UPDATE", comment: "Block Update")
             case .unblockUpdate:
                 return NSLocalizedString("UNBLOCK_UPDATE", comment: "Unblock Update")
+            case .download:
+                return NSLocalizedString("DOWNLOAD", comment: "Download")
             case .collectAndSave:
                 return NSLocalizedString("COLLECT_AND_SAVE", comment: "Collect And Save")
             case .collectAndOverwrite:
@@ -393,6 +397,31 @@ class PackageMenuAction {
                                 completion: nil)
         }, elegantForPerform: { package in
             PackageCenter.default.blockedUpdateTable.contains(package.identity)
+        }),
+
+        // MARK: - DOWNLOAD
+
+        .init(descriptor: .download, block: { package, sender in
+            let target = SFSafariViewController(url: package.obtainDownloadLink())
+            target.modalTransitionStyle = .coverVertical
+            target.modalPresentationStyle = .formSheet
+            sender
+                .window?
+                .topMostViewController?
+                .present(target, animated: true, completion: nil)
+        }, elegantForPerform: { package in
+            if let tag = package.latestMetadata?["tag"],
+               tag.contains("cydia::commercial")
+            {
+                return false
+            }
+            if package.obtainDownloadLink() == PackageBadUrl {
+                return false
+            }
+            if package.latestMetadata?[DirectInstallInjectedPackageLocationKey] != nil {
+                return false
+            }
+            return UIApplication.shared.canOpenURL(package.obtainDownloadLink())
         }),
 
         // MARK: - COLLECT AND SAVE

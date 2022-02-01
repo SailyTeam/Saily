@@ -148,6 +148,9 @@
 /* Downgrade */
 "DOWNGRADE" = "降級";
 
+/* Download */
+"DOWNLOAD" = "下载";
+
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "您可以隨時恢復下載";
 

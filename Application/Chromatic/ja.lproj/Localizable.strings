@@ -148,6 +148,9 @@
 /* Downgrade */
 "DOWNGRADE" = "ダウングレード";
 
+/* Download */
+"DOWNLOAD" = "Download";
+
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "ダウンロードはいつでも再開できます。";
 

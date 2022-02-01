@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "複製元數據";
 
+/* Copy Script */
+"COPY_SCRIPT" = "复制脚本";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "目前已安裝";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "下載中";
 
+/* Dry Run */
+"DRY_RUN" = "试运行";
+
 /* Enable History */
 "ENABLE_HISTORY" = "啟用歷史";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在移除隊列中有基本軟體，移除將可能導致設備變磚";
+
+/* Execute */
+"EXECUTE" = "执行";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "創建操作酬載失敗，下載不完整或已損毀的資源，請稍候再嘗試";

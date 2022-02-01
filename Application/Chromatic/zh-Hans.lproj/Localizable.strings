@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "复制元数据";
 
+/* Copy Script */
+"COPY_SCRIPT" = "复制脚本";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "已安装";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "下载中";
 
+/* Dry Run */
+"DRY_RUN" = "试运行";
+
 /* Enable History */
 "ENABLE_HISTORY" = "启用历史记录";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在删除队列中检测到系统软件包，这可能会损坏你的设备。";
+
+/* Execute */
+"EXECUTE" = "执行";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "无法创建操作数据，下载未完成或数据已损坏。请稍后再试。";

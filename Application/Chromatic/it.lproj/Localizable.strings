@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "Copia Meta";
 
+/* Copy Script */
+"COPY_SCRIPT" = "Copy Script";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "Attualmente installati";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "Sto scaricando";
 
+/* Dry Run */
+"DRY_RUN" = "Dry Run";
+
 /* Enable History */
 "ENABLE_HISTORY" = "Attiva cronologia";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "C'è un pacchetto essenziale nella coda di rimozione, questo potrebbe danneggiare il dispositivo.";
+
+/* Execute */
+"EXECUTE" = "Execute";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Impossibile creare il payload dell'operazione a causa di un download incompleto o risorse danneggiate. Si prega di riprovare più tardi.";

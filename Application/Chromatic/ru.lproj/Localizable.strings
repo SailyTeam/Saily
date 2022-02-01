@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "Копировать мета";
 
+/* Copy Script */
+"COPY_SCRIPT" = "Copy Script";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "Установлено";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "Загружается";
 
+/* Dry Run */
+"DRY_RUN" = "Dry Run";
+
 /* Enable History */
 "ENABLE_HISTORY" = "Включить историю";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Существенный пакет в очереди на удаление, это может привести окирпичиванию вашего устройства.";
+
+/* Execute */
+"EXECUTE" = "Execute";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Не удалось создать операцию payload, не завершенная загрузка или поврежденные ресурсы. Пожалуйста, повторите попытку позже.";

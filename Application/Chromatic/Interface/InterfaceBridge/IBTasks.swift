@@ -7,6 +7,8 @@
 //
 
 import AptRepository
+import DropDown
+import SPIndicator
 import UIKit
 
 private let kEssentialPackageIdentities = [
@@ -18,6 +20,51 @@ extension InterfaceBridge {
         let label: String
         let content: [TaskManager.PackageAction]
     }
+
+    struct TaskDropDownAction {
+        let label: String
+        let action: (UIView, TaskProcessor.OperationPaylad) -> Void
+    }
+
+    static let taskDropDownActions: [TaskDropDownAction] = [
+        .init(label: NSLocalizedString("COPY_SCRIPT", comment: "Copy Script"), action: {
+            let text = TaskProcessor.shared.generateMockCommandScript(operation: $1)
+            if InterfaceBridge.enableShareSheet {
+                let activityViewController = UIActivityViewController(activityItems: [text],
+                                                                      applicationActivities: nil)
+                activityViewController
+                    .popoverPresentationController?
+                    .sourceView = $0
+                $0
+                    .parentViewController?
+                    .present(activityViewController, animated: true, completion: nil)
+            } else {
+                UIPasteboard.general.string = text
+                SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Cpoied"),
+                                    message: nil,
+                                    preset: .done,
+                                    haptic: .success,
+                                    from: .top,
+                                    completion: nil)
+            }
+        }),
+        .init(label: NSLocalizedString("DRY_RUN", comment: "Dry Run"), action: {
+            let target = OperationConsoleController()
+            var dryRunPayload = $1
+            dryRunPayload.dryRun = true
+            target.operationPayload = dryRunPayload
+            target.modalTransitionStyle = .coverVertical
+            target.modalPresentationStyle = .formSheet
+            $0.parentViewController?.present(target, animated: true, completion: nil)
+        }),
+        .init(label: NSLocalizedString("EXECUTE", comment: "Execute"), action: {
+            let target = OperationConsoleController()
+            target.operationPayload = $1
+            target.modalTransitionStyle = .coverVertical
+            target.modalPresentationStyle = .formSheet
+            $0.parentViewController?.present(target, animated: true, completion: nil)
+        }),
+    ]
 
     static func buildTaskDataSource() -> [TaskDataSection] {
         var buildSource = [TaskDataSection]()
@@ -104,11 +151,35 @@ extension InterfaceBridge {
                 sender.parentViewController?.present(alert, animated: true, completion: nil)
                 return
             }
-            let target = OperationConsoleController()
-            target.operationPayload = paylaod
-            target.modalTransitionStyle = .coverVertical
-            target.modalPresentationStyle = .formSheet
-            sender.parentViewController?.present(target, animated: true, completion: nil)
+            let dataSource = taskDropDownActions
+                .map(\.label)
+                .invisibleSpacePadding()
+            let anchorView = UIView()
+            sender.addSubview(anchorView)
+            anchorView.snp.makeConstraints { make in
+                make.bottom.equalToSuperview()
+                make.right.equalToSuperview()
+                make.height.equalTo(2)
+                make.width.equalTo(280)
+            }
+            let dropDown = DropDown(
+                anchorView: anchorView,
+                selectionAction: {
+                    debugPrint("\(#function) selecting \($0): \($1)")
+                    taskDropDownActions[safe: $0]?.action(sender, paylaod)
+                },
+                dataSource: dataSource,
+                topOffset: nil,
+                bottomOffset: nil,
+                cellConfiguration: nil,
+                cancelAction: nil
+            )
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                dropDown.show(onTopOf: sender.window)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                anchorView.removeFromSuperview()
+            }
         }
 
         if safetyCheck {

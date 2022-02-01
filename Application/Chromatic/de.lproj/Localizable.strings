@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "Meta kopieren";
 
+/* Copy Script */
+"COPY_SCRIPT" = "Copy Script";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "Aktuell installiert";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "Lade herunter";
 
+/* Dry Run */
+"DRY_RUN" = "Dry Run";
+
 /* Enable History */
 "ENABLE_HISTORY" = "Verlauf aktivieren";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Notwenidges Paket in der Entfernungswarteschlange, dies kann dein Gerät schädigen.";
+
+/* Execute */
+"EXECUTE" = "Execute";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Fehler beim Erstellen der Operationsnutzlast, unvollständiger Download oder defekte Ressourcen. Bitte versuche es später erneut.";

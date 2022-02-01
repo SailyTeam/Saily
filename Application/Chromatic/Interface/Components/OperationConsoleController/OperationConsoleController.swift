@@ -187,7 +187,9 @@ class OperationConsoleController: UIViewController {
     @objc
     func exitButtonClicked() {
         completeBox.shineAnimation()
-        if operationPayload?.requiresRestart ?? false {
+        if operationPayload?.requiresRestart ?? false,
+           !(operationPayload?.dryRun ?? false)
+        {
             let alert = UIAlertController(title: "⚠️",
                                           message: NSLocalizedString("PROGRAM_UPGRADING_WILL_EXIT", comment: "Preparing application upgrade, will exit after complete"),
                                           preferredStyle: .alert)

@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "Copy Meta";
 
+/* Copy Script */
+"COPY_SCRIPT" = "Copy Script";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "Actuellement installé";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "Téléchargement en cours";
 
+/* Dry Run */
+"DRY_RUN" = "Dry Run";
+
 /* Enable History */
 "ENABLE_HISTORY" = "Activer l'historique";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Paquet essentiel dans la file d'attente de suppression, cela peut nuire au fonctionnement de votre jailbreak et de appareil.";
+
+/* Execute */
+"EXECUTE" = "Execute";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Impossible de créer la charge utile d'opération, le téléchargement incomplet ou des ressources cassées. Veuillez réessayer plus tard.";

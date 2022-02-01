@@ -100,6 +100,9 @@
 /* Copy Meta */
 "COPY_META" = "Meta をコピー";
 
+/* Copy Script */
+"COPY_SCRIPT" = "Copy Script";
+
 /* Current Installed */
 "CURRENT_INSTALLED" = "インストール済み";
 
@@ -154,6 +157,9 @@
 /* Downloading */
 "DOWNLOADING" = "ダウンロード中";
 
+/* Dry Run */
+"DRY_RUN" = "Dry Run";
+
 /* Enable History */
 "ENABLE_HISTORY" = "履歴を有効化";
 
@@ -177,6 +183,9 @@
 
 /* Essential package in removal queue, this may brick your device. */
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "削除キューに不可欠なパッケージです。これによりデバイスに悪影響を及ぼす可能性があります。";
+
+/* Execute */
+"EXECUTE" = "Execute";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "操作ペイロードの作成、不完全なダウンロードまたは壊れたリソースに失敗しました。後でもう一度やり直してください。";

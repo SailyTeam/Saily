@@ -46,13 +46,8 @@ class PackageController: UIViewController {
         didSet {
             oldValue.removeFromSuperview()
             container.addSubview(depictionView)
-            if let depictionView = depictionView as? DepictionBaseView {
-                depictionViewHeight = depictionView.depictionHeight(width: view.width)
-            } else {
-                /* else if let view = view as? ExpandedWebView */
-                // no need to do here, we do the math in it's block
-                depictionViewHeight = 1000
-            }
+            // not called when layout subview so move it there
+            // depictionViewHeight = depictionView.depictionHeight(width: view.width)
             depictionView.snp.makeConstraints { x in
                 x.top.equalTo(self.bannerPackageView.snp.bottom)
                 x.left.equalTo(self.view)
@@ -193,7 +188,6 @@ class PackageController: UIViewController {
         DispatchQueue.main.async { [self] in
             if depictionView is ExpandedWebView {
                 depictionView.snp.updateConstraints { x in
-                    // for web document background color
                     x.height.equalTo(depictionViewHeight + 1000)
                 }
             } else {
@@ -211,6 +205,7 @@ class PackageController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updatePreferredImageHeight()
+        updatePreferredNativeDepictionHeightIfNeeded()
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: { [self] in
             bannerPackageView.snp.updateConstraints { x in
                 x.top.equalTo(container).offset(preferredBannerHeight)
@@ -248,6 +243,12 @@ class PackageController: UIViewController {
             preferredHeight = maxHeight
         }
         preferredBannerHeight = preferredHeight
+    }
+
+    func updatePreferredNativeDepictionHeightIfNeeded() {
+        if let depictionView = depictionView as? DepictionBaseView {
+            depictionViewHeight = depictionView.depictionHeight(width: view.width)
+        }
     }
 }
 

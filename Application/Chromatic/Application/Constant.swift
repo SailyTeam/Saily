@@ -31,24 +31,24 @@ let darkModeJavascript =
       }
       return '';
     }
-    if (getMeta('color-scheme').contains('dark')) {
-        return;
-    }
-    var darkModeCss = `
-        * {
-        background-color: #000000 !important;
-        color: #fff !important;
+    let schemeData = getMeta('color-scheme');
+    if (schemeData.includes("dark")) { /* don't return */ } else {
+        var darkModeCss = `
+            * {
+            background-color: #000000 !important;
+            color: #fff !important;
+            }
+            `
+        var documentHead = document.head || document.getElementsByTagName('head')[0];
+        var darkModeStyle = style = document.createElement('style');
+        documentHead.appendChild(style);
+        style.type = 'text/css';
+        if (style.styleSheet) {
+            // This is required for IE8 and below.
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(darkModeCss));
         }
-        `
-    var documentHead = document.head || document.getElementsByTagName('head')[0];
-    var darkModeStyle = style = document.createElement('style');
-    documentHead.appendChild(style);
-    style.type = 'text/css';
-    if (style.styleSheet) {
-        // This is required for IE8 and below.
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(darkModeCss));
     }
     """
 

@@ -101,7 +101,7 @@
 "COPY_META" = "複製元數據";
 
 /* Copy Script */
-"COPY_SCRIPT" = "复制脚本";
+"COPY_SCRIPT" = "複製腳本";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "目前已安裝";
@@ -149,7 +149,7 @@
 "DOWNGRADE" = "降級";
 
 /* Download */
-"DOWNLOAD" = "下载";
+"DOWNLOAD" = "下載";
 
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "您可以隨時恢復下載";
@@ -161,7 +161,7 @@
 "DOWNLOADING" = "下載中";
 
 /* Dry Run */
-"DRY_RUN" = "试运行";
+"DRY_RUN" = "試運行";
 
 /* Enable History */
 "ENABLE_HISTORY" = "啟用歷史";
@@ -188,7 +188,7 @@
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "在移除隊列中有基本軟體，移除將可能導致設備變磚";
 
 /* Execute */
-"EXECUTE" = "执行";
+"EXECUTE" = "執行";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "創建操作酬載失敗，下載不完整或已損毀的資源，請稍候再嘗試";
@@ -522,7 +522,7 @@
 "UPDATE_WHEN_AVAILABLE" = "有可用更新時自動更新";
 
 /* User Agent */
-"USER_AGENT" = "User Agent";
+"USER_AGENT" = "代理用戶";
 
 /* Validating... */
 "VALIDATING..." = "驗證中...";

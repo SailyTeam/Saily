@@ -521,7 +521,7 @@
 "UPDATE_WHEN_AVAILABLE" = "自动更新";
 
 /* User Agent */
-"USER_AGENT" = "User Agent";
+"USER_AGENT" = "浏览器标识";
 
 /* Validating... */
 "VALIDATING..." = "正在验证...";

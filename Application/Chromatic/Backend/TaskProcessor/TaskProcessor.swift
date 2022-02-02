@@ -200,9 +200,11 @@ class TaskProcessor {
                     "-oDir::State::lists=",
                     "-oDpkg::Options::=--force-confdef",
                 ]
-                if operation.dryRun { arguments.append("--dry-run") }
-                if operation.remove.count > 0 {
-                    output("[i] Dry run with remove may not work together with install")
+                if operation.dryRun {
+                    arguments.append("--dry-run")
+                    if operation.remove.count > 0 {
+                        output("\n[i] Dry run with uninstall may not report correctly\n")
+                    }
                 }
                 operation.install.forEach { item in
                     arguments.append(item.1.path)

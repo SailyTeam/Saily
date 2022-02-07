@@ -125,26 +125,35 @@ enum AuxiliaryExecuteWrapper {
     }
 
     static func createPrivilegedSession() {
-        // call the helper to generate the session
-        let result = mobilespawn(command: chromaticspawn,
-                                 args: ["ipc.create.root.session", sessionTiketLocation.path],
-                                 timeout: 0) { _ in
-        }
-        // it should now output the session ticket in stdout
-        let ticket = result
-            .1
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        // validate the ticket to have ticket:// prefix and aa55 suffix
-        guard ticket.hasPrefix("ticket://"),
-              ticket.hasSuffix("AA55")
-        else {
+        var maxRetry = 3
+        while maxRetry > 0 {
+            maxRetry -= 1
+            // call the helper to generate the session
+            let result = mobilespawn(command: chromaticspawn,
+                                     args: ["ipc.create.root.session", sessionTiketLocation.path],
+                                     timeout: 0) { _ in
+            }
+            // it should now output the session ticket in stdout
+            // some tweak may interrupt our data stream so we lookup for them each line
+            let lookup = result
+                .1
+                .components(separatedBy: "\n")
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            for ticket in lookup {
+                // validate the ticket to have ticket:// prefix and aa55 suffix
+                guard ticket.hasPrefix("ticket://"),
+                      ticket.hasSuffix("AA55")
+                else {
+                    continue
+                }
+                session = ticket
+                // for future use, we need to pass the session inside the env
+                Dog.shared.join(self, "created privileged session \(ticket)", level: .info)
+                Dog.shared.join(self, "ticket located at \(sessionTiketLocation.path)", level: .info)
+                return
+            }
             Dog.shared.join(self, "failed to create privileged session", level: .error)
-            return
         }
-        session = ticket
-        // for future use, we need to pass the session inside the env
-        Dog.shared.join(self, "created privileged session \(ticket)", level: .info)
-        Dog.shared.join(self, "ticket located at \(sessionTiketLocation.path)", level: .info)
     }
 
     static func suspendApplication() {

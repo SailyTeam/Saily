@@ -65,7 +65,7 @@ extension SettingView {
         }
         let userAgentControl = SettingElement(iconSystemNamed: "grid.circle.fill",
                                               text: NSLocalizedString("USER_AGENT", comment: "User Agent"),
-                                              dataType: .dropDownWithString) {
+                                              dataType: .submenuWithAction) {
             var ret = InterfaceBridge.mainUserAgent
             if ret.count < 1 { ret = "_" }
             return ret

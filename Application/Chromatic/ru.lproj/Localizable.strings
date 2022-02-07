@@ -31,6 +31,9 @@
 /* Author */
 "AUTHOR" = "Автор";
 
+/* Automatically */
+"AUTOMATICALLY" = "Automatically";
+
 /* Available Versions */
 "AVAILABLE_VERSIONS" = "Доступные версии";
 
@@ -120,6 +123,9 @@
 
 /* Deleted */
 "DELETED" = "Удалено";
+
+/* Depiction */
+"DEPICTION" = "Depiction";
 
 /* Details */
 "DETAILS" = "Подробности";
@@ -265,6 +271,9 @@
 /* Name */
 "NAME" = "Имя";
 
+/* Native */
+"NATIVE" = "Native";
+
 /* Network Timeout */
 "NETWORK_TIMEOUT" = "Таймаут сети";
 
@@ -280,11 +289,20 @@
 /* No Update Required */
 "NO_UPDATE_REQUIRED" = "Обновление не требуется";
 
+/* None */
+"NONE" = "None";
+
 /* Not Available */
 "NOT_AVAILABLE" = "Не доступно";
 
 /* Not Modified */
 "NOT_MODIFIED" = "Без изменений";
+
+/* Native Only */
+"ONLY_NATIVE" = "Native Only";
+
+/* Web Only */
+"ONLY_WEB" = "Web Only";
 
 /* Open Download */
 "OPEN_DOWNLOAD" = "Открыть папку загрузок";
@@ -537,6 +555,9 @@
 
 /* Version Control */
 "VERSION_CONTROL" = "Управление версиями";
+
+/* Web */
+"WEB" = "Web";
 
 /* While the world sleeps, we dream! */
 "WELCOME_CARD_DESC" = "Пока мир спит, мы мечтаем.";

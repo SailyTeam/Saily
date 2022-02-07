@@ -31,6 +31,9 @@
 /* Author */
 "AUTHOR" = "Yazar";
 
+/* Automatically */
+"AUTOMATICALLY" = "Automatically";
+
 /* Available Versions */
 "AVAILABLE_VERSIONS" = "Mevcut sürümler";
 
@@ -120,6 +123,9 @@
 
 /* Deleted */
 "DELETED" = "Silinmiş";
+
+/* Depiction */
+"DEPICTION" = "Depiction";
 
 /* Details */
 "DETAILS" = "Detaylar";
@@ -265,6 +271,9 @@
 /* Name */
 "NAME" = "İsim";
 
+/* Native */
+"NATIVE" = "Native";
+
 /* Network Timeout */
 "NETWORK_TIMEOUT" = "Ağ Zaman Aşımı";
 
@@ -280,11 +289,20 @@
 /* No Update Required */
 "NO_UPDATE_REQUIRED" = "Güncelleme gerekmiyor";
 
+/* None */
+"NONE" = "None";
+
 /* Not Available */
 "NOT_AVAILABLE" = "Mevcut değil";
 
 /* Not Modified */
 "NOT_MODIFIED" = "Değiştirilmedi";
+
+/* Native Only */
+"ONLY_NATIVE" = "Native Only";
+
+/* Web Only */
+"ONLY_WEB" = "Web Only";
 
 /* Open Download */
 "OPEN_DOWNLOAD" = "İndirilenler klasörünü aç";
@@ -537,6 +555,9 @@
 
 /* Version Control */
 "VERSION_CONTROL" = "Sürüm kontrolü";
+
+/* Web */
+"WEB" = "Web";
 
 /* While the world sleeps, we dream! */
 "WELCOME_CARD_DESC" = "Dünya uyurken, biz hayal kurarız.";

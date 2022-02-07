@@ -105,7 +105,7 @@ class SettingElement: UIView {
 
         dropDownAnchor.snp.makeConstraints { x in
             x.top.equalTo(label.snp.bottom).offset(8)
-            x.right.equalTo(self.snp.right).offset(12)
+            x.right.equalTo(self.snp.right).offset(-12)
             x.width.equalTo(250)
             x.height.equalTo(2)
         }

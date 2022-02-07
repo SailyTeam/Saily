@@ -31,6 +31,9 @@
 /* Author */
 "AUTHOR" = "著者";
 
+/* Automatically */
+"AUTOMATICALLY" = "Automatically";
+
 /* Available Versions */
 "AVAILABLE_VERSIONS" = "利用可能なバージョン";
 
@@ -120,6 +123,9 @@
 
 /* Deleted */
 "DELETED" = "削除済み";
+
+/* Depiction */
+"DEPICTION" = "Depiction";
 
 /* Details */
 "DETAILS" = "詳細";
@@ -265,6 +271,9 @@
 /* Name */
 "NAME" = "名前";
 
+/* Native */
+"NATIVE" = "Native";
+
 /* Network Timeout */
 "NETWORK_TIMEOUT" = "ネットワークタイムアウト";
 
@@ -280,11 +289,20 @@
 /* No Update Required */
 "NO_UPDATE_REQUIRED" = "アップデートは必要ありません";
 
+/* None */
+"NONE" = "None";
+
 /* Not Available */
 "NOT_AVAILABLE" = "利用できません";
 
 /* Not Modified */
 "NOT_MODIFIED" = "変更されていません";
+
+/* Native Only */
+"ONLY_NATIVE" = "Native Only";
+
+/* Web Only */
+"ONLY_WEB" = "Web Only";
 
 /* Open Download */
 "OPEN_DOWNLOAD" = "ダウンロードフォルダを開く";
@@ -537,6 +555,9 @@
 
 /* Version Control */
 "VERSION_CONTROL" = "バージョン管理";
+
+/* Web */
+"WEB" = "Web";
 
 /* While the world sleeps, we dream! */
 "WELCOME_CARD_DESC" = "世界が眠っている間、私たちは夢を見る。";

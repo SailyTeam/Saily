@@ -117,6 +117,18 @@ public final class PackageCenter {
         }
     }
 
+    @UserDefaultsWrapper(key: "\(kPackageCenterIdentity).preferredDepiction", defaultValue: "")
+    private var _preferredDepiction: String
+
+    public var preferredDepiction: PackageDepiction.PreferredDepiction {
+        get {
+            PackageDepiction.PreferredDepiction(rawValue: _preferredDepiction) ?? .automatically
+        }
+        set {
+            _preferredDepiction = newValue.rawValue
+        }
+    }
+
     // MARK: - PERSIST ENGINE
 
     /// encoder

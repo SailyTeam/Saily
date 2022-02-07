@@ -31,6 +31,9 @@
 /* Author */
 "AUTHOR" = "Autore";
 
+/* Automatically */
+"AUTOMATICALLY" = "Automatically";
+
 /* Available Versions */
 "AVAILABLE_VERSIONS" = "Versioni disponibili";
 
@@ -120,6 +123,9 @@
 
 /* Deleted */
 "DELETED" = "Eliminato";
+
+/* Depiction */
+"DEPICTION" = "Depiction";
 
 /* Details */
 "DETAILS" = "Dettagli";
@@ -265,6 +271,9 @@
 /* Name */
 "NAME" = "Nome";
 
+/* Native */
+"NATIVE" = "Native";
+
 /* Network Timeout */
 "NETWORK_TIMEOUT" = "Timeout rete";
 
@@ -280,11 +289,20 @@
 /* No Update Required */
 "NO_UPDATE_REQUIRED" = "Nessun aggiornamento richiesto";
 
+/* None */
+"NONE" = "None";
+
 /* Not Available */
 "NOT_AVAILABLE" = "Non disponibile";
 
 /* Not Modified */
 "NOT_MODIFIED" = "Non modificato";
+
+/* Native Only */
+"ONLY_NATIVE" = "Native Only";
+
+/* Web Only */
+"ONLY_WEB" = "Web Only";
 
 /* Open Download */
 "OPEN_DOWNLOAD" = "Apri la cartella dei download";
@@ -537,6 +555,9 @@
 
 /* Version Control */
 "VERSION_CONTROL" = "Controllo Versione";
+
+/* Web */
+"WEB" = "Web";
 
 /* While the world sleeps, we dream! */
 "WELCOME_CARD_DESC" = "Mentre il mondo dorme, noi sogniamo.";

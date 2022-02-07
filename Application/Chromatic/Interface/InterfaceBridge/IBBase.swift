@@ -39,3 +39,22 @@ enum InterfaceBridge {
     @UserDefaultsWrapper(key: "wiki.qaq.chromatic.mainUserAgent", defaultValue: "Saily/2.0 Cydia/1.1.32")
     public static var mainUserAgent: String
 }
+
+public extension PackageDepiction.PreferredDepiction {
+    func localizedDescription() -> String {
+        switch self {
+        case .automatically:
+            return NSLocalizedString("AUTOMATICALLY", comment: "Automatically")
+        case .preferredNative:
+            return NSLocalizedString("NATIVE", comment: "Native")
+        case .preferredWeb:
+            return NSLocalizedString("WEB", comment: "Web")
+        case .onlyNative:
+            return NSLocalizedString("ONLY_NATIVE", comment: "Native Only")
+        case .onlyWeb:
+            return NSLocalizedString("ONLY_WEB", comment: "Web Only")
+        case .never:
+            return NSLocalizedString("NONE", comment: "None")
+        }
+    }
+}

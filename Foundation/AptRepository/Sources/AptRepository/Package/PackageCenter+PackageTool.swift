@@ -63,26 +63,50 @@ public extension PackageCenter {
             return .none
         }
 
-        var nativeDepictionLookup: String?
-        if let lookup = targetMeta["nativedepiction"] {
-            nativeDepictionLookup = lookup
+        var candidate: PackageDepiction?
+        func lookupNative() {
+            var nativeDepictionLookup: String?
+            if let lookup = targetMeta["nativedepiction"] {
+                nativeDepictionLookup = lookup
+            }
+            if let lookup = targetMeta["sileodepiction"] {
+                nativeDepictionLookup = lookup
+            }
+            if let read = nativeDepictionLookup,
+               let native = URL(string: read)
+            {
+                candidate = .json(url: native)
+            }
         }
-        if let lookup = targetMeta["sileodepiction"] {
-            nativeDepictionLookup = lookup
+        func lookupWeb() {
+            if let read = targetMeta["depiction"],
+               let url = URL(string: read)
+            {
+                candidate = .web(url: url)
+            }
         }
-        if let read = nativeDepictionLookup,
-           let native = URL(string: read)
-        {
-            return .json(url: native)
+        func lookupCompleted() -> Bool {
+            candidate != nil
         }
 
-        if let read = targetMeta["depiction"],
-           let url = URL(string: read)
-        {
-            return .web(url: url)
+        switch preferredDepiction {
+        case .automatically:
+            lookupNative()
+            if !lookupCompleted() { lookupWeb() }
+        case .preferredNative:
+            lookupNative()
+            if !lookupCompleted() { lookupWeb() }
+        case .preferredWeb:
+            lookupWeb()
+            if !lookupCompleted() { lookupNative() }
+        case .onlyNative:
+            lookupNative()
+        case .onlyWeb:
+            lookupWeb()
+        case .never: break
         }
 
-        return .none
+        return candidate ?? .none
     }
 
     /// Remove any other version inside a package

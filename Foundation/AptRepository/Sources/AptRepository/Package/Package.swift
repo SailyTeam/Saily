@@ -129,6 +129,15 @@ public struct Package: Codable, Hashable, Identifiable {
 }
 
 public enum PackageDepiction {
+    public enum PreferredDepiction: String, CaseIterable {
+        case automatically
+        case preferredNative
+        case preferredWeb
+        case onlyNative
+        case onlyWeb
+        case never
+    }
+
     case web(url: URL)
     case json(url: URL)
     case none

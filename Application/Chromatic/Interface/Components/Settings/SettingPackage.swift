@@ -8,6 +8,7 @@
 
 import AptRepository
 import Digger
+import DropDown
 import UIKit
 
 extension SettingView {
@@ -102,11 +103,30 @@ extension SettingView {
                                            withAction: { _, _ in
                                                self.parentViewController?.present(next: BlockUpdateController())
                                            })
+        let preferredDepiction = SettingElement(iconSystemNamed: "barcode.viewfinder",
+                                                text: NSLocalizedString("DEPICTION", comment: "Depiction"),
+                                                dataType: .submenuWithAction) {
+            PackageCenter.default.preferredDepiction.localizedDescription()
+        } withAction: { _, dropDownAnchor in
+            let dropDownDataSource = PackageDepiction
+                .PreferredDepiction
+                .allCases
+            let displayDataSource = dropDownDataSource
+                .map { $0.localizedDescription() }
+                .invisibleSpacePadding()
+            let dropDown = DropDown(anchorView: dropDownAnchor, selectionAction: { index, _ in
+                PackageCenter.default.preferredDepiction = dropDownDataSource[safe: index] ?? .automatically
+            }, dataSource: displayDataSource)
+            dropDown.show(onTopOf: dropDownAnchor.window)
+        }
+
         addSubview(backgroundEffect)
         addSubview(openDownloadedPackages)
         addSubview(cleanAllDownload)
         addSubview(softwareAutoUpdateWhenLaunch)
         addSubview(blockedUpdate)
+        addSubview(preferredDepiction)
+
         openDownloadedPackages.snp.makeConstraints { x in
             makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
@@ -123,6 +143,10 @@ extension SettingView {
             makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
         }
         anchor = blockedUpdate
+        preferredDepiction.snp.makeConstraints { x in
+            makeElement(constraint: x, widthAnchor: safeAnchor, topAnchor: anchor)
+        }
+        anchor = preferredDepiction
         backgroundEffect.snp.makeConstraints { x in
             x.left.equalTo(safeAnchor.snp.left)
             x.right.equalTo(safeAnchor.snp.right)

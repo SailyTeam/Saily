@@ -31,6 +31,9 @@
 /* Author */
 "AUTHOR" = "作者";
 
+/* Automatically */
+"AUTOMATICALLY" = "自动";
+
 /* Available Versions */
 "AVAILABLE_VERSIONS" = "可用版本";
 
@@ -120,6 +123,9 @@
 
 /* Deleted */
 "DELETED" = "已删除";
+
+/* Depiction */
+"DEPICTION" = "详情与描述";
 
 /* Details */
 "DETAILS" = "详细信息";
@@ -265,6 +271,9 @@
 /* Name */
 "NAME" = "名称";
 
+/* Native */
+"NATIVE" = "原生";
+
 /* Network Timeout */
 "NETWORK_TIMEOUT" = "请求超时";
 
@@ -280,11 +289,20 @@
 /* No Update Required */
 "NO_UPDATE_REQUIRED" = "无需更新";
 
+/* None */
+"NONE" = "无";
+
 /* Not Available */
 "NOT_AVAILABLE" = "不可用";
 
 /* Not Modified */
 "NOT_MODIFIED" = "没有变更";
+
+/* Native Only */
+"ONLY_NATIVE" = "仅原生";
+
+/* Web Only */
+"ONLY_WEB" = "仅网页";
 
 /* Open Download */
 "OPEN_DOWNLOAD" = "打开下载目录";
@@ -537,6 +555,9 @@
 
 /* Version Control */
 "VERSION_CONTROL" = "版本控制";
+
+/* Web */
+"WEB" = "网页";
 
 /* While the world sleeps, we dream! */
 "WELCOME_CARD_DESC" = "爱慕星云的人穿梭在不为人知的天方夜谭";

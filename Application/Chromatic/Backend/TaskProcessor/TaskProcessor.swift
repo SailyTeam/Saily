@@ -78,7 +78,12 @@ class TaskProcessor {
                         return nil
                     }
                     let filename = path.lastPathComponent
-                    let dest = workingLocation.appendingPathComponent(filename)
+                    var dest = workingLocation.appendingPathComponent(filename)
+                    // workaround for paid package not putting .deb in their download url
+                    // digger nor cariol network should handle this, they are only the downloader
+                    if dest.pathExtension != "deb" {
+                        dest.appendPathExtension("deb")
+                    }
                     try FileManager.default.copyItem(at: path, to: dest)
                     installList.append((item.identity, dest))
                 }

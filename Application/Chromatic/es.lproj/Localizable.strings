@@ -38,7 +38,7 @@
 "AVAILABLE_VERSIONS" = "Versiones disponibles";
 
 /* Begin install */
-"BEGIN_INSTALL" = "Iniciar la instalación";
+"BEGIN_INSTALL" = "Iniciar instalación";
 
 /* Begin uninstall */
 "BEGIN_UNINSTALL" = "Iniciar desinstalación";
@@ -104,7 +104,7 @@
 "COPY_META" = "Copiar Meta";
 
 /* Copy Script */
-"COPY_SCRIPT" = "Copy Script";
+"COPY_SCRIPT" = "Copiar Script";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "Instalados";
@@ -155,7 +155,7 @@
 "DOWNGRADE" = "Degradar";
 
 /* Download */
-"DOWNLOAD" = "Download";
+"DOWNLOAD" = "Descargar";
 
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "Tu descarga puede reanudarse en cualquier momento.";
@@ -167,7 +167,7 @@
 "DOWNLOADING" = "Descargando";
 
 /* Dry Run */
-"DRY_RUN" = "Dry Run";
+"DRY_RUN" = "Prueba";
 
 /* Enable History */
 "ENABLE_HISTORY" = "Activar historial";
@@ -194,7 +194,7 @@
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Paquete esencial en la cola de eliminación, esto puede bloquear tu dispositivo.";
 
 /* Execute */
-"EXECUTE" = "Execute";
+"EXECUTE" = "Ejecutar";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Error al crear la carga útil de la operación, descarga incompleta o recursos rotos. Por favor, inténtelo de nuevo más tarde.";
@@ -236,10 +236,10 @@
 "INSTALLATION_INFO_REFRESHED" = "Información de instalación actualizada";
 
 /* Installed */
-"INSTALLED" = "Instalados";
+"INSTALLED" = "Instalado";
 
 /* Last Modification */
-"LAST_MODIFICATION" = "Fecha";
+"LAST_MODIFICATION" = "Última Modificación";
 
 /* Last Update */
 "LAST_UPDATE" = "Última Actualización";
@@ -257,7 +257,7 @@
 "MAINTAINER" = "Desarrollador";
 
 /* Manage Account Info */
-"MANAGE_ACCOUNT_INFO" = "Gestionar de cuentas";
+"MANAGE_ACCOUNT_INFO" = "Gestionar cuentas";
 
 /* Manual Input */
 "MANUAL_INPUT" = "Agregar manualmente";
@@ -266,7 +266,7 @@
 "MANUAL_INPUT_DESCRIPTION" = "Introduce las direcciones de las fuentes manualmente aquí y utiliza una líneas nuevas para cada dirección";
 
 /* missing or breaking */
-"MISSING_OR_BREAKING" = "falta o eliminar";
+"MISSING_OR_BREAKING" = "falta o roto";
 
 /* Name */
 "NAME" = "Nombre";
@@ -392,7 +392,7 @@
 "REINSTALL" = "Reinstalar";
 
 /* Reload Desktop */
-"RELOAD_DESKTOP" = "Reinicio Rápido";
+"RELOAD_DESKTOP" = "Respring";
 
 /* Reload Home Screen */
 "RELOAD_HOMESCREEN" = "Respring";
@@ -455,7 +455,7 @@
 "SEARCH_GUIDE_REPO" = "Buscar repositorios por URL o descripción.";
 
 /* Search Installed */
-"SEARCH_INSTALLED" = "Buscar";
+"SEARCH_INSTALLED" = "Buscar instalados";
 
 /* Section */
 "SECTION" = "Sección";

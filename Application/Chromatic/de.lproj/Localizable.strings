@@ -104,7 +104,7 @@
 "COPY_META" = "Meta kopieren";
 
 /* Copy Script */
-"COPY_SCRIPT" = "Copy Script";
+"COPY_SCRIPT" = "Skript kopieren";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "Aktuell installiert";

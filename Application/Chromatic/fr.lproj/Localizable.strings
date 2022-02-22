@@ -104,7 +104,7 @@
 "COPY_META" = "Copy Meta";
 
 /* Copy Script */
-"COPY_SCRIPT" = "Copy Script";
+"COPY_SCRIPT" = "Copier le script";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "Actuellement installé";
@@ -155,7 +155,7 @@
 "DOWNGRADE" = "Rétrograder";
 
 /* Download */
-"DOWNLOAD" = "Download";
+"DOWNLOAD" = "Télécharger";
 
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "Votre téléchargement peut être repris à tout moment.";
@@ -194,7 +194,7 @@
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Paquet essentiel dans la file d'attente de suppression, cela peut nuire au fonctionnement de votre jailbreak et de appareil.";
 
 /* Execute */
-"EXECUTE" = "Execute";
+"EXECUTE" = "Exécuter";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Impossible de créer la charge utile d'opération, le téléchargement incomplet ou des ressources cassées. Veuillez réessayer plus tard.";
@@ -539,7 +539,7 @@
 "UPDATE_WHEN_AVAILABLE" = "Mettre la mise à jour dès que possible";
 
 /* User Agent */
-"USER_AGENT" = "User Agent";
+"USER_AGENT" = "Agent Utilisateur";
 
 /* Validating... */
 "VALIDATING..." = "Validation...";

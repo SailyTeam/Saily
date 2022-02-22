@@ -89,7 +89,7 @@
 "COMMUNICATING_WITH_VENDER" = "Yazarla İletişime geçin";
 
 /* Concurrent Download */
-"CONCURRENT_DOWNLOAD" = "Eşzamanlı indirmeler";
+"CONCURRENT_DOWNLOAD" = "Eş zamanlı indirmeler";
 
 /* Configuring Application */
 "CONFIGURAING_APPLICATION" = "Uygulama ayarlanıyor";
@@ -104,7 +104,7 @@
 "COPY_META" = "Metayı Kopyala";
 
 /* Copy Script */
-"COPY_SCRIPT" = "Copy Script";
+"COPY_SCRIPT" = "Komutu kopyala";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "Şu anda yüklü";
@@ -122,7 +122,7 @@
 "DELETE_ALL_DOWNLOADS" = "Tüm indirmeleri sil";
 
 /* Deleted */
-"DELETED" = "Silinmiş";
+"DELETED" = "Silindi";
 
 /* Depiction */
 "DEPICTION" = "Depiction";
@@ -155,7 +155,7 @@
 "DOWNGRADE" = "Sürüm düşür";
 
 /* Download */
-"DOWNLOAD" = "Download";
+"DOWNLOAD" = "İndir";
 
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "İndirme her an devam ettirilebilir.";
@@ -167,13 +167,13 @@
 "DOWNLOADING" = "İndiriliyor";
 
 /* Dry Run */
-"DRY_RUN" = "Dry Run";
+"DRY_RUN" = "Test Et";
 
 /* Enable History */
-"ENABLE_HISTORY" = "Geçmişi Etkinleştir";
+"ENABLE_HISTORY" = "Geçmişi etkinleştir";
 
 /* Enable random device info will disable commercial operations */
-"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "Gizlilik modunu etkinleştirmek satın almayı devre dışı bırakacaktır";
+"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "Gizlilik modu satın alımları devre dışı bırakacaktır";
 
 /* Enable Share Sheet */
 "ENABLE_SHARE_SHEET" = "Paylaşım katmanını etkinleştir";
@@ -182,7 +182,7 @@
 "ENABLE_SHARE_SHEET_MAY_CRASH_THE_APP" = "Paylaşım katmanı uygulamanın çökmesine neden olabilir";
 
 /* Enter Safe Mode */
-"ENTER_SAFE_MODE" = "Güvenli Mod";
+"ENTER_SAFE_MODE" = "Güvenli mod";
 
 /* Error */
 "ERROR" = "Hata";
@@ -194,7 +194,7 @@
 "ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "Gerekli paket kaldırma kuyruğunda, bu cihazınızı bozabilir.";
 
 /* Execute */
-"EXECUTE" = "Execute";
+"EXECUTE" = "Çalıştır";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
 "FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "Eksik indirme veya bozuk kaynaklar nedeniyle işlem tamamlanamıyor. Lütfen daha sonra deneyin.";
@@ -233,7 +233,7 @@
 "INSTALL" = "Kur";
 
 /* Installation Info Refreshed */
-"INSTALLATION_INFO_REFRESHED" = "Kurulmuş paket bilgileri yenilendi";
+"INSTALLATION_INFO_REFRESHED" = "Kurulu paketler yenilendi";
 
 /* Installed */
 "INSTALLED" = "Paketler";
@@ -260,10 +260,10 @@
 "MANAGE_ACCOUNT_INFO" = "Hesapları Yönet";
 
 /* Manual Input */
-"MANUAL_INPUT" = "Manuel giriş";
+"MANUAL_INPUT" = "Elle giriş";
 
 /* Enter the software source address manually here and use line feed to split multiple addresses */
-"MANUAL_INPUT_DESCRIPTION" = "Yazılım kaynak adresini manuel olarak ekleyin";
+"MANUAL_INPUT_DESCRIPTION" = "Yazılım kaynak adresini elle ekleyin";
 
 /* missing or breaking */
 "MISSING_OR_BREAKING" = "eksik veya bozuk";
@@ -335,7 +335,7 @@
 "PASTEBOARD_REPO" = "Pano Kayıtları";
 
 /* We found these links in the clipboard, they may be the source of the software */
-"PASTEBOARD_REPO_DESCRIPTION" = "Panoda bu bağlantıları bulduk, Apt reposu olabilirler";
+"PASTEBOARD_REPO_DESCRIPTION" = "Panoda bu bağlantıları bulduk, belki repo olabilirler";
 
 /* Press add button above to add some */
 "PLEASE_ADD_REPO" = "Biraz eklemek için yukarıdaki ekle düğmesine basın";
@@ -443,7 +443,7 @@
 "SEARCH" = "Arama";
 
 /* Search for everything by an author with name. */
-"SEARCH_GUIDE_AUTHOR" = "Herşeyi geliştiriciye göre arayın.";
+"SEARCH_GUIDE_AUTHOR" = "Her şeyi geliştiriciye göre arayın.";
 
 /* Search in your favorite collection. */
 "SEARCH_GUIDE_FAVORITE" = "Favori koleksiyonunda ara.";
@@ -539,7 +539,7 @@
 "UPDATE_WHEN_AVAILABLE" = "Uygun olduğunda güncelle";
 
 /* User Agent */
-"USER_AGENT" = "User Agent";
+"USER_AGENT" = "Kullanıcı aracı";
 
 /* Validating... */
 "VALIDATING..." = "Doğrulanıyor...";

@@ -1,20 +1,20 @@
 /* %d Operation */
-"%d_OPERATIONS" = "%d の操作";
+"%d_OPERATIONS" = "%d 完了";
 
 /* Accounts */
 "ACCOUNTS" = "アカウント";
 
 /* Actions */
-"ACTIONS" = "アクション";
+"ACTIONS" = "操作";
 
 /* Add */
 "ADD" = "追加";
 
 /* Additional Install */
-"ADDITIONAL_INSTALL" = "依存関係";
+"ADDITIONAL_INSTALL" = "以下も必要です";
 
 /* Additional operations are appointed by package vender. */
-"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "追加の操作は、パッケージベンダーによってされます。";
+"ADDITIONAL_OPERATIONS_ARE_APPOINTED_BY_PACKAGE_VENDER" = "追加の操作は、パッケージの提供者によって行われます";
 
 /* Additional Remove */
 "ADDITIONAL_REMOVE" = "競合";
@@ -26,7 +26,7 @@
 "APT_RECORDS" = "APTレコード";
 
 /* Following software sources come from APT or other package managers */
-"APT_RECORDS_DESCRIPTION" = "以下のソフトウェアソースは、APTまたは他のパッケージマネージャーから提供されます。";
+"APT_RECORDS_DESCRIPTION" = "以下のソフトウェアソースは、APTまたは他のパッケージマネージャーから提供されます";
 
 /* Author */
 "AUTHOR" = "著者";
@@ -47,10 +47,10 @@
 "BLOCK_UPDATE" = "アップデートをブロック";
 
 /* Broken Repo Removed */
-"BROKEN_REPO_REMOVED" = "破損したリポジトリが削除されました";
+"BROKEN_REPO_REMOVED" = "無効なリポジトリが削除されました";
 
 /* Broken Resource */
-"BROKEN_RESOURCE" = "壊れたリソース";
+"BROKEN_RESOURCE" = "無効なリソース";
 
 /* Buy */
 "BUY" = "購入";
@@ -59,40 +59,40 @@
 "CANCEL" = "キャンセル";
 
 /* Cancel Queue */
-"CANCEL_QUEUE" = "キューをキャンセルする";
+"CANCEL_QUEUE" = "キューをキャンセル";
 
 /* Cannot sign in without using real device identities, check your settings. */
-"CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "実際のデバイスIDを使用せずにサインインできません。設定を確認してください。";
+"CANNOT_SIGNIN_PAYMENT_WITHOUT_REAL_DEVICE_ID" = "「デバイスIDを隠す」機能を有効にしているため、サインインできません。設定を確認してください。";
 
 /* Change your keyword or refresh the repo. */
-"CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "キーワードを変更するか、リポジトリをリフレッシュしてください。";
+"CHANGE_YOUR_KEYWORD_OR_REFRESH_REPO" = "キーワードを変更するか、リポジトリを更新してください。";
 
 /* Clear Tasks */
-"CLEAR_TASKS" = "タスクをクリア";
+"CLEAR_TASKS" = "タスクを消去";
 
 /* Close */
 "CLOSE" = "閉じる";
 
 /* Collect And Overwrite */
-"COLLECT_AND_OVERWRITE" = "収集と上書き";
+"COLLECT_AND_OVERWRITE" = "検索・更新";
 
 /* Collect And Save */
-"COLLECT_AND_SAVE" = "収集して保存";
+"COLLECT_AND_SAVE" = "検索し保存";
 
 /* Collected Packages */
-"COLLECTED_PACKAGES" = "収集されたパッケージ";
+"COLLECTED_PACKAGES" = "検索されたパッケージ";
 
 /* Search Result: Collection */
 "Collection" = "コレクション";
 
 /* Communicating with vender */
-"COMMUNICATING_WITH_VENDER" = "ベンダーとの通信";
+"COMMUNICATING_WITH_VENDER" = "提供者に連絡";
 
 /* Concurrent Download */
 "CONCURRENT_DOWNLOAD" = "同時ダウンロード";
 
 /* Configuring Application */
-"CONFIGURAING_APPLICATION" = "アプリケーションを設定する";
+"CONFIGURAING_APPLICATION" = "アプリケーションを設定";
 
 /* Confirm */
 "CONFIRM" = "確認";
@@ -104,7 +104,7 @@
 "COPY_META" = "Meta をコピー";
 
 /* Copy Script */
-"COPY_SCRIPT" = "Copy Script";
+"COPY_SCRIPT" = "スクリプトをコピー";
 
 /* Current Installed */
 "CURRENT_INSTALLED" = "インストール済み";
@@ -140,13 +140,13 @@
 "DIRECT_INSTALL" = "直接インストール";
 
 /* Disable history record will delete previous history records */
-"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "履歴レコードを無効にすると、以前の履歴レコードが削除されます";
+"DISABLE_HISTORY_RECORD_WILL_DELETE_PREVIOUS_HISTORY_REOCRDS" = "履歴を無効にすると、以前の履歴が削除されます";
 
 /* Dismiss */
 "DISMISS" = "無視";
 
 /* Do again to force reload */
-"DO_AGAIN_TO_FORCE_RELOAD" = "強制的に再読み込みするにはもう一度タップします";
+"DO_AGAIN_TO_FORCE_RELOAD" = "再読み込みするにはもう一度タップします";
 
 /* Done */
 "DONE" = "完了";
@@ -155,25 +155,25 @@
 "DOWNGRADE" = "ダウングレード";
 
 /* Download */
-"DOWNLOAD" = "Download";
+"DOWNLOAD" = "ダウンロード";
 
 /* Your download can be resumed any time. */
 "DOWNLOAD_CAN_RESUME_ANY_TIME" = "ダウンロードはいつでも再開できます。";
 
 /* Downloaded file can be found in setting. */
-"DOWNLOADED_FILE_CAN_BE_FOUND_IN_SETTING" = "ダウンロードしたファイルは設定で見つけることができます。";
+"DOWNLOADED_FILE_CAN_BE_FOUND_IN_SETTING" = "ダウンロードしたファイルは設定で確認することができます。";
 
 /* Downloading */
 "DOWNLOADING" = "ダウンロード中";
 
 /* Dry Run */
-"DRY_RUN" = "Dry Run";
+"DRY_RUN" = "開始";
 
 /* Enable History */
 "ENABLE_HISTORY" = "履歴を有効化";
 
 /* Enable random device info will disable commercial operations */
-"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "ランダムなデバイス情報を有効にすると商用操作が無効になります";
+"ENABLE_RANDOM_DEVICE_INFO_WILL_DISABLE_COMMERCIAL_OPERATIONS" = "ランダムなデバイス情報を有効にすると購入操作が出来なくなります。";
 
 /* Enable Share Sheet */
 "ENABLE_SHARE_SHEET" = "共有シートを有効化";
@@ -191,13 +191,13 @@
 "ERROR_OCCURRED" = "エラーが発生しました";
 
 /* Essential package in removal queue, this may brick your device. */
-"ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "削除キューに不可欠なパッケージです。これによりデバイスに悪影響を及ぼす可能性があります。";
+"ESSENTIAL_PACKAG_IN_REMOVE_QUEUE" = "削除キューにシステムに不可欠なパッケージが含まれています。これによりデバイスに悪影響を及ぼす可能性があります。";
 
 /* Execute */
-"EXECUTE" = "Execute";
+"EXECUTE" = "実行";
 
 /* Failed to create operation payload, incomplete download or broken resources. Please try again later. */
-"FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "操作ペイロードの作成、不完全なダウンロードまたは壊れたリソースに失敗しました。後でもう一度やり直してください。";
+"FAILED_TO_CREATE_PAYLOAD_MAYBE_DOWNLOAD_FAILED" = "支払いに失敗しました。ダウンロードが完了しないか、無効なリソースの可能性があります。時間をおいてもう一度やり直してください。";
 
 /* Failed to verify package */
 "FAILED_VERIFY_PACKAGE" = "パッケージの検証に失敗しました";
@@ -206,19 +206,19 @@
 "FEATURES" = "機能";
 
 /* Files are hash verified before processing. */
-"FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "ファイルは処理前にハッシュ検証されます。";
+"FILE_ARE_HASH_VERIFIED_BEFORE_PROCESSING" = "ファイルは処理前に検証されます。";
 
 /* Filza is required for this operation */
-"FILZA_REQUIRED" = "この操作にはFilzaが必要です";
+"FILZA_REQUIRED" = "この操作にはFilzaが必要です。";
 
 /* Found author with this search key. */
-"FOUND_AUTHOR_WITH_NAME" = "この検索キーで著者が見つかりました。";
+"FOUND_AUTHOR_WITH_NAME" = "このキーワードを含む著者が見つかりました。";
 
 /* History Records */
-"HISTORY_RECORDS" = "履歴の記録";
+"HISTORY_RECORDS" = "履歴情報";
 
 /* You have added these software sources before. These records will be kept for two weeks until you manually turn off this function. */
-"HISTORY_RECORDS_DESCRIPTION" = "以前にこれらのソフトウェアソースを追加しました。これらのレコードは、手動でこの機能をオフにするまで2週間保持されます。";
+"HISTORY_RECORDS_DESCRIPTION" = "以前にこれらのソフトウェアのソースを追加しています。これらのレコードは、手動でこの機能を無効にするまで2週間保持されます。";
 
 /* Initializing Packages Engine */
 "INITIALIZING_PACKAGES_ENGINE" = "パッケージエンジンを初期化中";
@@ -227,7 +227,7 @@
 "INITIALIZING_REPOSITORY_ENGINE" = "リポジトリエンジンの初期化中";
 
 /* Input your email for gravatar */
-"INPUT_YOUR_EMAIL_FOR_GRAVATAR" = "グラバターのメールアドレスを入力してください";
+"INPUT_YOUR_EMAIL_FOR_GRAVATAR" = "Gravatarのメールアドレスを入力してください";
 
 /* Install */
 "INSTALL" = "インストール";
@@ -239,10 +239,10 @@
 "INSTALLED" = "インストール済み";
 
 /* Last Modification */
-"LAST_MODIFICATION" = "最終変更日時";
+"LAST_MODIFICATION" = "変更日時";
 
 /* Last Update */
-"LAST_UPDATE" = "最終の更新";
+"LAST_UPDATE" = "最終更新";
 
 /* License */
 "LICENSE" = "ライセンス";
@@ -254,7 +254,7 @@
 "MAIN" = "メイン";
 
 /* Maintainer */
-"MAINTAINER" = "メンテナー";
+"MAINTAINER" = "管理者";
 
 /* Manage Account Info */
 "MANAGE_ACCOUNT_INFO" = "アカウントの管理";
@@ -263,10 +263,10 @@
 "MANUAL_INPUT" = "手動入力";
 
 /* Enter the software source address manually here and use line feed to split multiple addresses */
-"MANUAL_INPUT_DESCRIPTION" = "ここでソフトウェアのソースアドレスを手動で入力し、アドレスごとに新しい行を使用します";
+"MANUAL_INPUT_DESCRIPTION" = "ここでソフトウェアのソースアドレスを手動で入力できます。入力の際は、アドレスごとに改行してください。";
 
 /* missing or breaking */
-"MISSING_OR_BREAKING" = "見つからないか、壊れている";
+"MISSING_OR_BREAKING" = "欠落・破損している可能性があります";
 
 /* Name */
 "NAME" = "名前";
@@ -284,7 +284,7 @@
 "NO_REPO" = "リポジトリがありません";
 
 /* No Result Found */
-"NO_RESULT_FOUND" = "検索結果が見つかりませんでした。";
+"NO_RESULT_FOUND" = "検索結果が見つかりませんでした";
 
 /* No Update Required */
 "NO_UPDATE_REQUIRED" = "アップデートは必要ありません";
@@ -311,7 +311,7 @@
 "OPERATION" = "操作";
 
 /* Operation can not be complete with following reasons. */
-"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "以下の理由で操作を完了することはできません。";
+"OPERATION_CANNOT_BE_COMPLETE_WITH_FOLLOWING_REASONS" = "以下の理由により操作を完了することができません。";
 
 /* Operation Completed */
 "OPERATION_COMPLETED" = "操作が完了しました";
@@ -332,10 +332,10 @@
 "PACKAGES" = "パッケージ";
 
 /* Pasteboard Records */
-"PASTEBOARD_REPO" = "ペーストボードの記録";
+"PASTEBOARD_REPO" = "クリップボードから";
 
 /* We found these links in the clipboard, they may be the source of the software */
-"PASTEBOARD_REPO_DESCRIPTION" = "クリップボードでこれらのリンクを見つけました。それらはソフトウェアのソースかもしれません。";
+"PASTEBOARD_REPO_DESCRIPTION" = "クリップボードでこれらのリンクを見つけました。ここから選択することでリポジトリを追加できます。";
 
 /* Press add button above to add some */
 "PLEASE_ADD_REPO" = "上の追加ボタンを押して追加します";
@@ -347,7 +347,7 @@
 "PROCEED" = "続行";
 
 /* Preparing application upgrade, will exit after complete */
-"PROGRAM_UPGRADING_WILL_EXIT" = "アプリケーションのアップグレードを準備中、完了後に終了します";
+"PROGRAM_UPGRADING_WILL_EXIT" = "アプリケーションのアップデートを準備中です。完了後に終了します。";
 
 /* Purchased */
 "PURCHASED" = "購入済み";
@@ -359,19 +359,19 @@
 "QUEUE_IS_EMPTY" = "キューが空です";
 
 /* Queued */
-"QUEUED" = "キューに入っています。";
+"QUEUED" = "キューされました";
 
 /* Random Info */
-"RANDOM_INDO" = "ランダムな情報";
+"RANDOM_INDO" = "デバイス情報を隠す";
 
 /* Ready */
 "READY" = "準備完了";
 
 /* Rebuilding icon cache */
-"REBUILD_ICON_CACHE" = "アイコンキャッシュを再構築しています";
+"REBUILD_ICON_CACHE" = "アイコンキャッシュを更新しています";
 
 /* Rebuild Icons */
-"REBUILD_ICONS" = "アイコンを再構築";
+"REBUILD_ICONS" = "アイコンを更新";
 
 /* Recent Install */
 "RECENT_INSTALL" = "最近のインストール";
@@ -383,7 +383,7 @@
 "REFRESH" = "更新";
 
 /* Refreshed */
-"REFRESHED" = "リフレッシュしました";
+"REFRESHED" = "更新しました";
 
 /* Registered */
 "REGISTERED" = "登録済み";
@@ -392,19 +392,19 @@
 "REINSTALL" = "再インストール";
 
 /* Reload Desktop */
-"RELOAD_DESKTOP" = "ホーム画面を再読み込み";
+"RELOAD_DESKTOP" = "ホーム画面を更新";
 
 /* Reload Home Screen */
-"RELOAD_HOMESCREEN" = "ホーム画面を再読み込み";
+"RELOAD_HOMESCREEN" = "ホーム画面を更新";
 
 /* Reload iCloud Avatar */
 "RELOAD_ICLOUD_AVATAR" = "iCloud アバターを再読み込み";
 
 /* Reload Icon Cache */
-"RELOAD_ICON_CACHE" = "アイコンキャッシュを再読み込み";
+"RELOAD_ICON_CACHE" = "アイコンキャッシュを更新";
 
 /* Reloading home screen icons will take some time */
-"RELOAD_ICON_CACHE_TASKES_TIME" = "ホーム画面のアイコンを再読み込みするには時間がかかります";
+"RELOAD_ICON_CACHE_TASKES_TIME" = "ホーム画面のアイコンの更新には時間がかかる場合があります。";
 
 /* Remove */
 "REMOVE" = "消去";
@@ -413,13 +413,13 @@
 "REMOVE_AVATAR" = "アイコンを削除";
 
 /* Remove Collect */
-"REMOVE_COLLECT" = "回収を削除";
+"REMOVE_COLLECT" = "コレクションを削除";
 
 /* Repo Collections */
 "REPO_COLLECTIONS" = "リポジトリコレクション";
 
 /* The software source (aka repo) contains various plug-ins, applications, themes, and ringtones, which are maintained by official or unofficial organizations or individuals. You can add any software source without restrictions, but please note that we cannot confirm that the data or information they provide is safe, they may damage your system or equipment, making it impossible to recover. */
-"REPO_DESCRIPTION" = "ソフトウェア・ソース(別名リポジトリ) には、公式または非公式の組織または個人によって管理されているさまざまなプラグイン、アプリケーション、テーマ、および着信音が含まれています。 制限なしにソフトウェアソースを追加することはできますが、提供するデータや情報が安全であることを確認することはできませんのでご注意ください。 彼らはあなたのシステムや機器を損傷し、それを回復することが不可能になるかもしれません。";
+"REPO_DESCRIPTION" = "ソフトウェア・ソース(別名リポジトリ) には、公式または非公式の組織または個人によって管理されているさまざまなプラグイン、アプリケーション、テーマ、および着信音が含まれています。 制限なしにソフトウェアソースを追加することはできますが、提供するデータや情報が安全であることを確認することはできませんのでご注意ください。 システムや機器を破壊し、修復が不可能になる危険性があります。";
 
 /* Repo Featured */
 "REPO_FEATURED" = "おすすめのリポジトリ";
@@ -443,13 +443,13 @@
 "SEARCH" = "検索";
 
 /* Search for everything by an author with name. */
-"SEARCH_GUIDE_AUTHOR" = "著者ですべてを検索します。";
+"SEARCH_GUIDE_AUTHOR" = "著者で検索します。";
 
 /* Search in your favorite collection. */
 "SEARCH_GUIDE_FAVORITE" = "お気に入りのコレクションを検索します。";
 
 /* Search for a packages with name or description. */
-"SEARCH_GUIDE_PACAKGE" = "名前または説明のあるパッケージを検索します。";
+"SEARCH_GUIDE_PACAKGE" = "名前または説明文でパッケージを検索します。";
 
 /* Search for a repository with url or description. */
 "SEARCH_GUIDE_REPO" = "URLまたは説明でリポジトリを検索します。";
@@ -461,7 +461,7 @@
 "SECTION" = "セクション";
 
 /* Set Gravatar */
-"SET_GRAVATAR" = "グラバターをセット";
+"SET_GRAVATAR" = "Gravatarを設定";
 
 /* Setting */
 "SETTING" = "設定";
@@ -482,7 +482,7 @@
 "SMART_UPDATE" = "スマートアップデート";
 
 /* Software Sources */
-"SOFTWARE_SOURCES" = "ソフトウェアソース";
+"SOFTWARE_SOURCES" = "リポジトリ";
 
 /* Source Code */
 "SOURCE_CODE" = "ソースコード";
@@ -491,10 +491,10 @@
 "SUCCESS" = "成功";
 
 /* Successfully Queued */
-"SUCCESSFULLY_QUEUED" = "キューに入りました";
+"SUCCESSFULLY_QUEUED" = "キューされました";
 
 /* Task processor is busy processing another job */
-"TASK_PROCESSOR_BUSY_PROCESSING_ANOTHER_JOB" = "タスクプロセッサは別のジョブを処理中です";
+"TASK_PROCESSOR_BUSY_PROCESSING_ANOTHER_JOB" = "処理タスクは別のジョブを処理中です";
 
 /* Task Queue */
 "TASK_QUEUE" = "タスクキュー";
@@ -515,10 +515,10 @@
 "UNBLOCK_UPDATE" = "アップデートのブロックを解除";
 
 /* Unknown Error Occurred */
-"UNKNOWN_ERROR_OCCURRED" = "不明なエラーが発生しました。";
+"UNKNOWN_ERROR_OCCURRED" = "不明なエラーが発生しました";
 
 /* Unlocking system */
-"UNLOCKING_SYSTEM" = "ロック解除システム";
+"UNLOCKING_SYSTEM" = "システムのロックを解除";
 
 /* Unpacking Package */
 "UNPACKING_PACKAGE" = "パッケージを解凍中";
@@ -527,19 +527,19 @@
 "UPDATE" = "アップデート";
 
 /* Update All */
-"UPDATE_ALL" = "一括更新";
+"UPDATE_ALL" = "すべて更新";
 
 /* Update Candidate */
 "UPDATE_CANDIDATE" = "候補を更新";
 
 /* Update Tasks Completed */
-"UPDATE_TASK_COMPLETED" = "更新タスクが完了しました";
+"UPDATE_TASK_COMPLETED" = "更新が完了しました";
 
 /* Update When Available */
 "UPDATE_WHEN_AVAILABLE" = "利用可能な場合にアップデート";
 
 /* User Agent */
-"USER_AGENT" = "User Agent";
+"USER_AGENT" = "ユーザーエージェント";
 
 /* Validating... */
 "VALIDATING..." = "検証しています...";
@@ -548,7 +548,7 @@
 "VERIFICATION_FAILURE_OCCURRED" = "検証に失敗しました";
 
 /* Package not available, contact vender for support */
-"VERNDER_PACKAGE_NOT_AVAILABLE" = "パッケージが利用できません。サポートのベンダーにお問い合わせください";
+"VERNDER_PACKAGE_NOT_AVAILABLE" = "パッケージが利用できません。提供者にお問い合わせください。";
 
 /* Version */
 "VERSION" = "バージョン";
@@ -560,7 +560,7 @@
 "WEB" = "Web";
 
 /* While the world sleeps, we dream! */
-"WELCOME_CARD_DESC" = "世界が眠っている間、私たちは夢を見る。";
+"WELCOME_CARD_DESC" = "世界が眠っていても、私たちは夢を追い続ける。";
 
 /* Welcome to Saily! */
 "WELCOME_CARD_TITLE" = "Sailyへようこそ！";

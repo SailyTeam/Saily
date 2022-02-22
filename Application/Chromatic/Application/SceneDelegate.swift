@@ -89,6 +89,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if itemUrl.absoluteString.hasPrefix("apt-repo://") {
                 var str = itemUrl.absoluteString
                 str.removeFirst("apt-repo://".count)
+                // workaround for url scheme removing : from context
+                // eg: apt-repo://https://example.com -> apt-repo://https//example.com
+                // just put it back, it's usually happening when Safari make magic
+                str = str.replacingOccurrences(of: "http//", with: "http://")
+                str = str.replacingOccurrences(of: "https//", with: "https://")
                 guard let url = URL(string: str) else {
                     continue
                 }

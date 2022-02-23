@@ -7,6 +7,7 @@
 //
 
 import AptRepository
+import PathListTableViewController
 import SafariServices
 import SPIndicator
 import UIKit
@@ -28,6 +29,7 @@ class PackageMenuAction {
         case collectAndOverwrite
         case removeCollect
         case copyMeta
+        case revealFiles
 
         func describe() -> String {
             switch self {
@@ -61,6 +63,8 @@ class PackageMenuAction {
                 return NSLocalizedString("REMOVE_COLLECT", comment: "Remove Collect")
             case .copyMeta:
                 return NSLocalizedString("COPY_META", comment: "Copy Meta")
+            case .revealFiles:
+                return NSLocalizedString("REVEAL_FILES", comment: "Reveal Files")
             }
         }
     }
@@ -510,6 +514,25 @@ class PackageMenuAction {
                                     completion: nil)
             }
         }, elegantForPerform: { _ in true }),
+
+        // MARK: - REVEAL FILES
+
+        .init(descriptor: .revealFiles, block: { package, view in
+            let path = "/Library/dpkg/info/\(package.identity).list"
+            let controller = PathListTableViewController(path: path)
+            controller.pressToCopy = true
+            controller.showFullPath = true
+            controller.allowSearch = true
+            view
+                .window?
+                .topMostViewController?
+                .present(next: controller)
+        },
+        elegantForPerform: { package in
+            FileManager
+                .default
+                .fileExists(atPath: "/Library/dpkg/info/\(package.identity).list")
+        }),
     ]
 
     // MARK: ACTIONS -

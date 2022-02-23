@@ -56,6 +56,9 @@
       location = "group:Foundation/LTMorphingLabel">
    </FileRef>
    <FileRef
+      location = "group:Foundation/PathListTableViewController">
+   </FileRef>
+   <FileRef
       location = "group:Foundation/PropertyWrapper">
    </FileRef>
    <FileRef

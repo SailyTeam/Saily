@@ -440,6 +440,9 @@
 /* Resumed */
 "RESUMED" = "已恢復";
 
+/* Reveal Files */
+"REVEAL_FILES" = "显示安装文件";
+
 /* Search */
 "SEARCH" = "搜尋";
 

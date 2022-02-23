@@ -110,6 +110,7 @@
 		5091064126C030BA004F978E /* PPShine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5091064026C030BA004F978E /* PPShine.swift */; };
 		5093C24626D158F5004B61B5 /* AptScanner+Install.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5093C24526D158F5004B61B5 /* AptScanner+Install.swift */; };
 		5093C24826D163F7004B61B5 /* TaskManager+Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5093C24726D163F7004B61B5 /* TaskManager+Api.swift */; };
+		50940CA227C618D400075B48 /* PathListTableViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 50940CA127C618D400075B48 /* PathListTableViewController */; };
 		50972E2426D5F727008BDCFE /* TaskProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50972E2326D5F727008BDCFE /* TaskProcessor.swift */; };
 		50975F0126C65720004BCBED /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50975F0026C65720004BCBED /* SearchController.swift */; };
 		50975F0326C65910004BCBED /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50975F0226C65910004BCBED /* SearchCell.swift */; };
@@ -324,6 +325,7 @@
 				507D1E8F26BFA8BC00E72E9B /* BitByteData in Frameworks */,
 				50527FFC26CFF6A600FD846D /* FluentIcon in Frameworks */,
 				50A8053326CB833D00F8FB7D /* LNPopupController-Static in Frameworks */,
+				50940CA227C618D400075B48 /* PathListTableViewController in Frameworks */,
 				507D1E9126BFA8BF00E72E9B /* AptRepository in Frameworks */,
 				507D1E7726BFA88500E72E9B /* SWCompression in Frameworks */,
 				50A283EF26D54492005FA2DB /* SwiftMD5 in Frameworks */,
@@ -843,6 +845,7 @@
 				505BB6CC26D78235007F5B15 /* Renet */,
 				50435E9526DBD35100D3ED25 /* Bugsnag */,
 				50CF5828276049A8003AA45B /* AuxiliaryExecute */,
+				50940CA127C618D400075B48 /* PathListTableViewController */,
 			);
 			productName = Protein;
 			productReference = 50D528B82449B11300F4A483 /* chromatic.app */;
@@ -1385,6 +1388,10 @@
 		508AF3F326CB8F66000A2EC6 /* JsonDepiction */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = JsonDepiction;
+		};
+		50940CA127C618D400075B48 /* PathListTableViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PathListTableViewController;
 		};
 		50A283EE26D54492005FA2DB /* SwiftMD5 */ = {
 			isa = XCSwiftPackageProductDependency;

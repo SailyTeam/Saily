@@ -439,6 +439,9 @@
 /* Resumed */
 "RESUMED" = "已恢复";
 
+/* Reveal Files */
+"REVEAL_FILES" = "显示安装文件";
+
 /* Search */
 "SEARCH" = "搜索";
 

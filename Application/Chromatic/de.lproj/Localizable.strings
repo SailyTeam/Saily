@@ -439,6 +439,9 @@
 /* Resumed */
 "RESUMED" = "Fortgesetzt";
 
+/* Reveal Files */
+"REVEAL_FILES" = "Reveal Files";
+
 /* Search */
 "SEARCH" = "Suchen";
 

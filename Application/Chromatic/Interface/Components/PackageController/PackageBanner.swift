@@ -87,7 +87,7 @@ class PackageBannerView: UIView {
         }
         buttonAnchor.snp.makeConstraints { x in
             x.trailing.equalTo(buttonBackground)
-            x.top.equalTo(buttonBackground.snp.bottom).offset(4)
+            x.top.equalTo(buttonBackground.snp.bottom).offset(10)
             x.height.equalTo(2)
             x.width.equalTo(250)
         }

@@ -33,7 +33,7 @@ class SetupViewController: UIViewController {
             return
         }
 
-        descriptionLabel.text = "......"
+        descriptionLabel.text = ""
         descriptionLabel.textColor = .gray
         descriptionLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .semibold)
         view.addSubview(descriptionLabel)
@@ -105,14 +105,14 @@ class SetupViewController: UIViewController {
             let appearance = DropDown.appearance()
             appearance.textColor = UIColor(named: "TEXT_TITLE")!
             appearance.selectedTextColor = UIColor.white
-            appearance.textFont = .roundedFont(ofSize: 14, weight: .semibold)
+            appearance.textFont = .roundedFont(ofSize: 16, weight: .semibold)
             appearance.backgroundColor = UIColor(light: .white,
                                                  dark: .init(hex: 0x2C2C2E)!)
             appearance.shadowColor = .black
             appearance.setupShadowOpacity(0.1)
             appearance.selectionBackgroundColor = UIColor(hex: 0x93D5DC)!
             appearance.layer.shadowOpacity = 0.1
-            appearance.cellHeight = 40
+            appearance.cellHeight = 45
         }
 
         // MARK: - DOWNLOAD ENGINE

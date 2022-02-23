@@ -80,6 +80,10 @@ extension SettingView {
                     field.text = "Saily/2.0 Cydia/1.1.32"
                 }
             }
+            alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"),
+                                          style: .cancel, handler: { _ in
+                                              self.dispatchValueUpdate()
+                                          }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("CONFIRM", comment: "Confirm"), style: .default, handler: { [weak alert, weak self] _ in
                 if let text = alert?.textFields?[0].text {
                     InterfaceBridge.mainUserAgent = text

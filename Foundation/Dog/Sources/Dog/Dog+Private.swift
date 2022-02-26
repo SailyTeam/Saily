@@ -85,7 +85,7 @@ internal extension Dog {
                         #if DEBUG
                             fatalError("You are responsible for making the permission right")
                         #else
-                            throw NSError()
+                            throw NSError(domain: "wiki.qaq.chromatic", code: -1, userInfo: [:])
                         #endif
                     }
                 }

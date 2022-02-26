@@ -87,7 +87,7 @@ public extension Dog {
                 .first
         }
         guard let dispathDir = dispathDir else {
-            throw NSError()
+            throw NSError(domain: "wiki.qaq.chromatic", code: -1, userInfo: [:])
         }
 
         try? FileManager
@@ -106,8 +106,8 @@ public extension Dog {
             .default
             .fileExists(atPath: storeLocationDir.path, isDirectory: &bool)
         if !(dirValidate && bool.boolValue) {
-            print("unable to initialize, permission denied on file")
-            throw NSError()
+            print("unable to initialize, permission denied at \(storeLocationDir.path)")
+            throw NSError(domain: "wiki.qaq.chromatic", code: -1, userInfo: [:])
         }
 
         currentLogFileDirLocation = storeLocationDir
@@ -157,7 +157,7 @@ public extension Dog {
         if let handler = FileHandle(forWritingAtPath: logFileLocation.path) {
             logFileHandler = handler
         } else {
-            throw NSError()
+            throw NSError(domain: "wiki.qaq.chromatic", code: -1, userInfo: [:])
         }
 
         currentLogFileLocation = logFileLocation

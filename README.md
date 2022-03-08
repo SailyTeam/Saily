@@ -88,6 +88,7 @@ We would like to thank and akgnowledge everyone who has contibuted to this proje
 - [@Amachik](https://twitter.com/Amachik2)
 - [@Minazuki_dev](https://twitter.com/Minazuki_dev)
 - [@powen00hsiao](https://twitter.com/powen00hsiao)
+- [@t0mi](https://twitter.com/t0mi292)
 
 #### Official Twitter Accounts:
 - [Main - @TrySaily](https://twitter.com/TrySaily)

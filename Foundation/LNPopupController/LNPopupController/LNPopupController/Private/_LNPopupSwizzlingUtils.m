@@ -8,9 +8,7 @@
 
 #import "_LNPopupSwizzlingUtils.h"
 
-NSString *_LNPopupDecodeBase64String(NSString *base64String) {
-  return [[NSString alloc]
-      initWithData:[[NSData alloc] initWithBase64EncodedString:base64String
-                                                       options:0]
-          encoding:NSUTF8StringEncoding];
+NSString* _LNPopupDecodeBase64String(NSString* base64String)
+{
+	return [[NSString alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:base64String options:0] encoding:NSUTF8StringEncoding];
 }

@@ -120,8 +120,8 @@ extension RepositoryCenter {
 
             // send to update
             dispatchContainer.forEach { url in
-                DispatchQueue.global().async {
-                    asyncUpdate(target: url) { success in
+                DispatchQueue.global().async { [self] in
+                    asyncUpdate(target: url) { [self] success in
                         // remove from in update queue
                         accessLock.lock()
                         currentlyInUpdate = currentlyInUpdate
@@ -130,7 +130,7 @@ extension RepositoryCenter {
                         Dog.shared.join(self, "update engine reported \(pendingUpdateRequest.count) pending and \(currentlyInUpdate.count) in queue")
                         accessLock.unlock()
                         PackageCenter.default.issueReloadFromRepositoryCenter()
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async { [self] in
                             let object = UpdateNotification(representedRepo: url,
                                                             progress: nil,
                                                             complete: true,

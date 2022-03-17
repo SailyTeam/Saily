@@ -54,7 +54,7 @@ internal class CSTextView: UIView, CSTextViewActionHandler {
     }
 
     func process(action: String) -> Bool {
-        let superview = self.superview as? CSTextViewActionHandler
+        let superview = superview as? CSTextViewActionHandler
         return superview?.process(action: action) ?? false
     }
 }
@@ -90,7 +90,7 @@ internal class CSTextRenderView: UIView {
 
         links = []
 
-        guard let attributedText = self.attributedText else {
+        guard let attributedText = attributedText else {
             return
         }
 

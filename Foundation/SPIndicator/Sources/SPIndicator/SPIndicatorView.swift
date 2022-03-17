@@ -56,7 +56,7 @@ import UIKit
          */
         open var dismissByDrag: Bool = true {
             didSet {
-                setGester()
+                setGesture()
             }
         }
 
@@ -127,7 +127,7 @@ import UIKit
             addSubview(backgroundView)
 
             setShadow()
-            setGester()
+            setGesture()
         }
 
         // MARK: - Configure
@@ -181,7 +181,7 @@ import UIKit
             // layer.shouldRasterize = true
         }
 
-        private func setGester() {
+        private func setGesture() {
             if dismissByDrag {
                 let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
                 addGestureRecognizer(gestureRecognizer)
@@ -215,7 +215,7 @@ import UIKit
 
             // Prepare for present
 
-            whenGesterEndShoudHide = false
+            whenGestureEndShoudHide = false
             self.completion = completion
 
             isHidden = true
@@ -235,29 +235,22 @@ import UIKit
                 if self.presentWithOpacity { self.alpha = 1 }
             }, completion: { _ in
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
-                    if self.gesterIsDragging {
-                        self.whenGesterEndShoudHide = true
+                    if self.gestureIsDragging {
+                        self.whenGestureEndShoudHide = true
                     } else {
                         self.dismiss()
                     }
                 }
             })
 
-            if let iconView = self.iconView as? SPIndicatorIconAnimatable {
+            if let iconView = iconView as? SPIndicatorIconAnimatable {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + presentAndDismissDuration / 3) {
                     iconView.animate()
                 }
             }
-
-            safeAreaInsetsObserver = window.observe(\.safeAreaInsets, changeHandler: { [weak self] window, _ in
-                guard let self = self else { return }
-                self.center.x = window.frame.midX
-                self.toPresentPosition(.visible(self.presentSide))
-            })
         }
 
         @objc open func dismiss() {
-            safeAreaInsetsObserver?.invalidate()
             UIView.animate(withDuration: presentAndDismissDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [.beginFromCurrentState, .curveEaseIn], animations: {
                 self.toPresentPosition(.prepare(self.presentSide))
                 if self.presentWithOpacity { self.alpha = 0 }
@@ -269,16 +262,16 @@ import UIKit
 
         // MARK: - Internal
 
-        private var minimumYTranslationForHideByGester: CGFloat = -10
-        private var maxmiumYTranslationByGester: CGFloat = 60
+        private var minimumYTranslationForHideByGesture: CGFloat = -10
+        private var maximumYTranslationByGesture: CGFloat = 60
 
         private var gestureRecognizer: UIPanGestureRecognizer?
-        private var gesterIsDragging: Bool = false
-        private var whenGesterEndShoudHide: Bool = false
+        private var gestureIsDragging: Bool = false
+        private var whenGestureEndShoudHide: Bool = false
 
         @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
             if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
-                gesterIsDragging = true
+                gestureIsDragging = true
                 let translation = gestureRecognizer.translation(in: self)
                 let newTranslation: CGFloat = {
                     switch presentSide {
@@ -286,36 +279,36 @@ import UIKit
                         if translation.y <= 0 {
                             return translation.y
                         } else {
-                            return min(maxmiumYTranslationByGester, translation.y.squareRoot())
+                            return min(maximumYTranslationByGesture, translation.y.squareRoot())
                         }
                     case .bottom:
                         if translation.y >= 0 {
                             return translation.y
                         } else {
                             let absolute = abs(translation.y)
-                            return -min(maxmiumYTranslationByGester, absolute.squareRoot())
+                            return -min(maximumYTranslationByGesture, absolute.squareRoot())
                         }
                     case .center:
                         let absolute = abs(translation.y).squareRoot()
                         let newValue = translation.y < 0 ? -absolute : absolute
-                        return min(maxmiumYTranslationByGester, newValue)
+                        return min(maximumYTranslationByGesture, newValue)
                     }
                 }()
                 toPresentPosition(.fromVisible(newTranslation, from: presentSide))
             }
 
             if gestureRecognizer.state == .ended {
-                gesterIsDragging = false
+                gestureIsDragging = false
 
                 var shoudDismissWhenEndAnimation: Bool = false
 
                 UIView.animate(withDuration: presentAndDismissDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [.beginFromCurrentState, .curveEaseIn], animations: {
-                    if self.whenGesterEndShoudHide {
+                    if self.whenGestureEndShoudHide {
                         self.toPresentPosition(.prepare(self.presentSide))
                         shoudDismissWhenEndAnimation = true
                     } else {
                         let translation = gestureRecognizer.translation(in: self)
-                        if translation.y < self.minimumYTranslationForHideByGester {
+                        if translation.y < self.minimumYTranslationForHideByGesture {
                             self.toPresentPosition(.prepare(self.presentSide))
                             shoudDismissWhenEndAnimation = true
                         } else {
@@ -398,10 +391,8 @@ import UIKit
         private var spaceBetweenTitles: CGFloat = 1
         private var spaceBetweenTitlesAndImage: CGFloat = 16
 
-        private var safeAreaInsetsObserver: NSKeyValueObservation?
-
         private var titlesCompactWidth: CGFloat {
-            if let iconView = self.iconView {
+            if let iconView = iconView {
                 let space = iconView.frame.maxY + spaceBetweenTitlesAndImage
                 return frame.width - space * 2
             } else {

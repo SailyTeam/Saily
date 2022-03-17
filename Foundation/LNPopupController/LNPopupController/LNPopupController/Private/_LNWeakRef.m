@@ -10,15 +10,17 @@
 
 @implementation _LNWeakRef
 
-+ (instancetype)refWithObject:(id)object {
-  if (object == nil) {
-    return nil;
-  }
-
-  _LNWeakRef *rv = [self new];
-  rv->_object = object;
-
-  return rv;
++ (instancetype)refWithObject:(id)object
+{
+	if(object == nil)
+	{
+		return nil;
+	}
+	
+	_LNWeakRef* rv = [self new];
+	rv->_object = object;
+	
+	return rv;
 }
 
 @end

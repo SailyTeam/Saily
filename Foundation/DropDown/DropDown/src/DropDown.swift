@@ -661,7 +661,7 @@
 
         fileprivate func computeLayout() -> (x: CGFloat, y: CGFloat, width: CGFloat, offscreenHeight: CGFloat, visibleHeight: CGFloat, canBeDisplayed: Bool, Direction: Direction) {
             var layout: ComputeLayoutTuple = (0, 0, 0, 0)
-            var direction = self.direction
+            var direction = direction
 
             guard let window = UIWindow.visibleWindow() else { return (0, 0, 0, 0, 0, false, direction) }
 
@@ -670,7 +670,7 @@
 
                 guard isRightBarButtonItem else { break barButtonItemCondition }
 
-                let width = self.width ?? fittingWidth()
+                let width = width ?? fittingWidth()
                 let anchorViewWidth = anchorView.plainView.frame.width
                 let x = -(width - anchorViewWidth)
 
@@ -715,7 +715,7 @@
         fileprivate func computeLayoutBottomDisplay(window: UIWindow) -> ComputeLayoutTuple {
             var offscreenHeight: CGFloat = 0
 
-            let width = self.width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - bottomOffset.x
+            let width = width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - bottomOffset.x
 
             let anchorViewX = anchorView?.plainView.windowFrame?.minX ?? window.frame.midX - (width / 2)
             let anchorViewY = anchorView?.plainView.windowFrame?.minY ?? window.frame.midY - (tableHeight / 2)
@@ -754,7 +754,7 @@
                 y = windowY
             }
 
-            let width = self.width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - topOffset.x
+            let width = width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - topOffset.x
 
             return (x, y, width, offscreenHeight)
         }

@@ -116,9 +116,7 @@
             let writableBundle: Bool
             var options: DownOptions
 
-            private lazy var baseURL: URL = {
-                self.bundle.url(forResource: "index", withExtension: "html")!
-            }()
+            private lazy var baseURL: URL = self.bundle.url(forResource: "index", withExtension: "html")!
 
             #if os(macOS)
                 private var temporaryDirectoryURL: URL?

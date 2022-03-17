@@ -90,7 +90,7 @@ import Foundation
         case .starLineHorizontal324Filled: name = "ic_fluent_star_line_horizontal_3_24_filled"
         case .textChangeAccept24Filled: name = "ic_fluent_text_change_accept_24_filled"
         case .timeline24Regular: name = "ic_fluent_timeline_24_regular"
-       }
+        }
         return name
     }
 }

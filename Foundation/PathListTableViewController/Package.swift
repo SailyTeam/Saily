@@ -10,11 +10,13 @@ let package = Package(
     products: [
         .library(
             name: "PathListTableViewController",
-            targets: ["PathListTableViewController"]),
+            targets: ["PathListTableViewController"]
+        ),
     ],
     targets: [
         .target(
             name: "PathListTableViewController",
-            dependencies: []),
+            dependencies: []
+        ),
     ]
 )

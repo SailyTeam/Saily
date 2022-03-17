@@ -6,8 +6,6 @@
 //  Copyright © 2020 Bugsnag Inc. All rights reserved.
 //
 
-#import "BugsnagPlatformConditional.h"
-
 #import "BugsnagSystemState.h"
 
 #if TARGET_OS_OSX
@@ -21,6 +19,7 @@
 #import "BSGFileLocations.h"
 #import "BSGJSONSerialization.h"
 #import "BSGUtils.h"
+#import "BSG_KSCrashState.h"
 #import "BSG_KSMach.h"
 #import "BSG_KSSystemInfo.h"
 #import "BSG_RFC3339DateTool.h"
@@ -28,6 +27,8 @@
 #import "BugsnagLogger.h"
 #import "BugsnagSessionTracker.h"
 #import "BugsnagSystemState.h"
+
+#import <stdatomic.h>
 
 static NSString * const ConsecutiveLaunchCrashesKey = @"consecutiveLaunchCrashes";
 static NSString * const InternalKey = @"internal";
@@ -57,7 +58,6 @@ static NSDictionary* loadPreviousState(BugsnagKVStore *kvstore, NSString *jsonPa
 
     // KV-store versions of these are authoritative
     for (NSString *key in @[SYSTEMSTATE_APP_DEBUGGER_IS_ACTIVE,
-                            SYSTEMSTATE_APP_IS_ACTIVE,
                             SYSTEMSTATE_APP_IS_IN_FOREGROUND,
                             SYSTEMSTATE_APP_IS_LAUNCHING,
                             SYSTEMSTATE_APP_WAS_TERMINATED]) {
@@ -85,18 +85,19 @@ static NSMutableDictionary* initCurrentState(BugsnagKVStore *kvstore, BugsnagCon
 
     bool isBeingDebugged = bsg_ksmachisBeingTraced();
     bool isInForeground = true;
-    bool isActive = true;
 #if TARGET_OS_OSX
     // MacOS "active" serves the same purpose as "foreground" in iOS
     isInForeground = [NSAPPLICATION sharedApplication].active;
 #else
-    UIApplicationState appState = [BSG_KSSystemInfo currentAppState];
-    isInForeground = [BSG_KSSystemInfo isInForeground:appState];
-    isActive = appState == UIApplicationStateActive;
+    const BSG_KSCrash_State *crashState = bsg_kscrashstate_currentState();
+    NSCParameterAssert(crashState != nil);
+    if (crashState) {
+        isInForeground = crashState->applicationIsInForeground;
+    }
 #endif
     
     [kvstore deleteKey:SYSTEMSTATE_APP_WAS_TERMINATED];
-    [kvstore setBoolean:isActive forKey:SYSTEMSTATE_APP_IS_ACTIVE];
+    [kvstore deleteKey:@"isActive"]; // Deprecated key
     [kvstore setBoolean:isInForeground forKey:SYSTEMSTATE_APP_IS_IN_FOREGROUND];
     [kvstore setBoolean:true forKey:SYSTEMSTATE_APP_IS_LAUNCHING];
     [kvstore setBoolean:isBeingDebugged forKey:SYSTEMSTATE_APP_DEBUGGER_IS_ACTIVE];
@@ -110,12 +111,11 @@ static NSMutableDictionary* initCurrentState(BugsnagKVStore *kvstore, BugsnagCon
     app[BSGKeyMachoUUID] = systemInfo[@BSG_KSSystemField_AppUUID];
     app[@"binaryArch"] = systemInfo[@BSG_KSSystemField_BinaryArch];
     app[@"inForeground"] = @(isInForeground);
-    app[@"isActive"] = @(isActive);
-#if BSG_PLATFORM_TVOS
+#if TARGET_OS_TV
     app[BSGKeyType] = @"tvOS";
-#elif BSG_PLATFORM_IOS
+#elif TARGET_OS_IOS
     app[BSGKeyType] = @"iOS";
-#elif BSG_PLATFORM_OSX
+#elif TARGET_OS_OSX
     app[BSGKeyType] = @"macOS";
 #endif
     app[SYSTEMSTATE_APP_DEBUGGER_IS_ACTIVE] = @(isBeingDebugged);
@@ -136,7 +136,7 @@ static NSMutableDictionary* initCurrentState(BugsnagKVStore *kvstore, BugsnagCon
         @"clangVersion": systemInfo[@BSG_KSSystemField_ClangVersion] ?: @"",
         @"osBuild": systemInfo[@BSG_KSSystemField_OSVersion] ?: @""
     };
-#if BSG_PLATFORM_SIMULATOR
+#if TARGET_OS_SIMULATOR
     device[@"simulator"] = @YES;
 #else
     device[@"simulator"] = @NO;
@@ -160,7 +160,6 @@ static NSDictionary *copyDictionary(NSDictionary *launchState) {
 
 @interface BugsnagSystemState ()
 
-@property(readonly,nonatomic) NSMutableDictionary *currentLaunchStateRW;
 @property(readwrite,atomic) NSDictionary *currentLaunchState;
 @property(readwrite,nonatomic) NSDictionary *lastLaunchState;
 @property(readonly,nonatomic) NSString *persistenceFilePath;
@@ -175,13 +174,12 @@ static NSDictionary *copyDictionary(NSDictionary *launchState) {
         _kvStore = [BugsnagKVStore new];
         _persistenceFilePath = [BSGFileLocations current].systemState;
         _lastLaunchState = loadPreviousState(_kvStore, _persistenceFilePath);
-        _currentLaunchStateRW = initCurrentState(_kvStore, config);
-        _currentLaunchState = [_currentLaunchStateRW copy];
+        _currentLaunchState = initCurrentState(_kvStore, config);
         _consecutiveLaunchCrashes = [_lastLaunchState[InternalKey][ConsecutiveLaunchCrashesKey] unsignedIntegerValue];
         if (@available(iOS 11.0, tvOS 11.0, *)) {
             [self setThermalState:NSProcessInfo.processInfo.thermalState];
         }
-        [self syncState:_currentLaunchState];
+        [self sync];
 
         __weak __typeof__(self) weakSelf = self;
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -227,14 +225,8 @@ static NSDictionary *copyDictionary(NSDictionary *launchState) {
         [center addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil
                         usingBlock:^(__attribute__((unused)) NSNotification * _Nonnull note) {
             __strong __typeof__(self) strongSelf = weakSelf;
-            [strongSelf.kvStore setBoolean:YES forKey:SYSTEMSTATE_APP_IS_ACTIVE];
-            [strongSelf setValue:@YES forAppKey:SYSTEMSTATE_APP_IS_ACTIVE];
-        }];
-        [center addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil
-                        usingBlock:^(__attribute__((unused)) NSNotification * _Nonnull note) {
-            __strong __typeof__(self) strongSelf = weakSelf;
-            [strongSelf.kvStore setBoolean:NO forKey:SYSTEMSTATE_APP_IS_ACTIVE];
-            [strongSelf setValue:@NO forAppKey:SYSTEMSTATE_APP_IS_ACTIVE];
+            [strongSelf.kvStore setBoolean:YES forKey:SYSTEMSTATE_APP_IS_IN_FOREGROUND];
+            [strongSelf setValue:@YES forAppKey:SYSTEMSTATE_APP_IS_IN_FOREGROUND];
         }];
 #endif
         [center addObserver:self selector:@selector(sessionUpdateNotification:) name:BSGSessionUpdateNotification object:nil];
@@ -243,7 +235,7 @@ static NSDictionary *copyDictionary(NSDictionary *launchState) {
 }
 
 - (void)sessionUpdateNotification:(NSNotification *)notification {
-    if (![BSGJSONSerialization isValidJSONObject:notification.object]) {
+    if (notification.object && ![BSGJSONSerialization isValidJSONObject:notification.object]) {
         bsg_log_err("Invalid session payload in notification");
         return;
     }
@@ -287,20 +279,31 @@ static NSDictionary *copyDictionary(NSDictionary *launchState) {
 }
 
 - (void)mutateLaunchState:(nonnull void (^)(NSMutableDictionary *state))block {
-    NSDictionary *state = nil;
+    static _Atomic(BOOL) writePending;
     @synchronized (self) {
-        block(self.currentLaunchStateRW);
+        NSMutableDictionary *mutableState = [NSMutableDictionary dictionary];
+        for (NSString *section in self.currentLaunchState) {
+            mutableState[section] = [self.currentLaunchState[section] mutableCopy];
+        }
+        block(mutableState);
         // User-facing state should never mutate from under them.
-        self.currentLaunchState = copyDictionary(self.currentLaunchStateRW);
-        state = self.currentLaunchState;
+        self.currentLaunchState = copyDictionary(mutableState);
+        
+        BOOL expected = NO;
+        if (!atomic_compare_exchange_strong(&writePending, &expected, YES)) {
+            // _writePending was YES -- avoid an unnecesary dispatch_async()
+            return;
+        }
     }
     // Run on a BG thread so we don't monopolize the notification queue.
     dispatch_async(BSGGetFileSystemQueue(), ^(void){
-        [self syncState:state];
+        atomic_store(&writePending, NO);
+        [self sync];
     });
 }
 
-- (void)syncState:(NSDictionary *)state {
+- (void)sync {
+    NSDictionary *state = self.currentLaunchState;
     NSAssert([BSGJSONSerialization isValidJSONObject:state], @"BugsnagSystemState cannot be converted to JSON data");
     NSError *error = nil;
     if (![BSGJSONSerialization writeJSONObject:state toFile:self.persistenceFilePath options:0 error:&error]) {
@@ -344,9 +347,8 @@ static NSDictionary *copyDictionary(NSDictionary *launchState) {
         return NO; // The debugger may have killed the app
     }
     
-    // If the app was inactive or in the background, we cannot determine whether the termination was unexpected
-    if (![previousAppState[SYSTEMSTATE_APP_IS_ACTIVE] boolValue] ||
-        ![previousAppState[SYSTEMSTATE_APP_IS_IN_FOREGROUND] boolValue]) {
+    // If the app was in the background, we cannot determine whether the termination was unexpected
+    if (![previousAppState[SYSTEMSTATE_APP_IS_IN_FOREGROUND] boolValue]) {
         return NO;
     }
     

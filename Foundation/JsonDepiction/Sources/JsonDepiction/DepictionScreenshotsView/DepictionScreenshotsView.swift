@@ -7,9 +7,9 @@
 //
 
 import AVKit
+import DTPhotoViewerController
 import SDWebImage
 import UIKit
-import DTPhotoViewerController
 
 class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
     private let depiction: [String: Any]
@@ -100,10 +100,11 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
             } else {
                 let screenshotView = UIButton(frame: .zero)
                 screenshotView.addTarget(self, action: #selector(fullScreenImage), for: .touchUpInside)
-                
+
                 SDWebImageManager.shared.loadImage(with: url,
                                                    options: .highPriority,
-                                                   progress: nil) { [weak self] image, _, _, _, _, _ in
+                                                   progress: nil)
+                { [weak self] image, _, _, _, _, _ in
                     screenshotView.setBackgroundImage(image, for: .normal)
                     self?.layoutSubviews()
                 }
@@ -130,7 +131,7 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
     }
 
     func fullViewHeight() -> CGFloat {
-        guard let parentViewController = self.parentViewController else {
+        guard let parentViewController = parentViewController else {
             return 0
         }
         let verticalInsets = parentViewController.view.safeAreaInsets.top + parentViewController.view.safeAreaInsets.bottom
@@ -254,7 +255,7 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
 
     func viewSegmentWidth() -> CGFloat {
         let spacing = CGFloat(16)
-        guard let parentViewController = self.parentViewController else {
+        guard let parentViewController = parentViewController else {
             return 0
         }
         return parentViewController.view.bounds.width - (spacing * 3)

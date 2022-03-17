@@ -49,9 +49,8 @@
 #define BSG_KSSystemField_iOSSupportVersion "iOSSupportVersion"
 
 #import <Foundation/Foundation.h>
-#import "BugsnagPlatformConditional.h"
 
-#if BSG_PLATFORM_IOS || BSG_PLATFORM_TVOS
+#if TARGET_OS_IOS || TARGET_OS_TV
 #import "BSGUIKit.h"
 #endif
 
@@ -89,15 +88,5 @@
  * @return The stringified hex representation of the hash for this device + app.
  */
 + (NSString *)deviceAndAppHash;
-
-#if BSG_PLATFORM_IOS || BSG_PLATFORM_TVOS
-+ (UIApplicationState)currentAppState;
-
-/**
- * YES if the app is currently shown in the foreground
- */
-+ (BOOL)isInForeground:(UIApplicationState)state;
-
-#endif
 
 @end

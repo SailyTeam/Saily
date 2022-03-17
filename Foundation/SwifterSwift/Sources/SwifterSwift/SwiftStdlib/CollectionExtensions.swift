@@ -90,7 +90,7 @@ public extension Collection where Index == Int {
     func forEach(slice: Int, body: ([Element]) throws -> Void) rethrows {
         guard slice > 0, !isEmpty else { return }
 
-        var value: Int = 0
+        var value = 0
         while value < count {
             try body(Array(self[Swift.max(value, startIndex) ..< Swift.min(value + slice, endIndex)]))
             value += slice

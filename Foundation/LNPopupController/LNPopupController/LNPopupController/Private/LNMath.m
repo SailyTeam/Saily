@@ -9,4 +9,7 @@
 #include "LNMath.h"
 #import <Foundation/Foundation.h>
 
-double _ln_clamp(double v, double lo, double hi) { return MIN(hi, MAX(v, lo)); }
+double _ln_clamp(double v, double lo, double hi)
+{
+	return MIN(hi, MAX(v, lo));
+}

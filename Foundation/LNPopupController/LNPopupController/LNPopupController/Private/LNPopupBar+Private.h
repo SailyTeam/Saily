@@ -44,11 +44,13 @@ inline __attribute__((always_inline)) LNPopupBarStyle _LNPopupResolveBarStyleFro
 @protocol _LNPopupBarSupport <NSObject>
 
 @property (nonatomic, strong) UIColor *barTintColor;
-@property (nonatomic, strong) UIBarAppearance* standardAppearance API_AVAILABLE(ios(13.0));
+@property (nonatomic, strong) UIBarAppearance* standardAppearance;
 
 @end
 
 @interface LNPopupBar () <UIPointerInteractionDelegate, _LNPopupBarAppearanceDelegate>
+
++ (void)setAnimatesItemSetter:(BOOL)animate;
 
 @property (nonatomic, strong) UIColor* systemTintColor;
 @property (nonatomic, strong) UIColor* systemBackgroundColor;
@@ -58,14 +60,18 @@ inline __attribute__((always_inline)) LNPopupBarStyle _LNPopupResolveBarStyleFro
 
 - (void)_recalcActiveAppearanceChain;
 
+@property (nonatomic, strong) UIView* shadowView;
 @property (nonatomic, strong) UIView* bottomShadowView;
 
 @property (nonatomic, weak, readwrite) LNPopupItem* popupItem;
 
 @property (nonatomic, weak) id<_LNPopupBarDelegate> _barDelegate;
 
-@property (nonatomic, copy) NSString* title;
-@property (nonatomic, copy) NSString* subtitle;
+@property (nonatomic, copy) NSAttributedString* attributedTitle;
+@property (nonatomic, copy) NSAttributedString* attributedSubtitle;
+
+@property (nonatomic, strong) UIViewController* swiftuiTitleController;
+@property (nonatomic, strong) UIViewController* swiftuiSubtitleController;
 
 @property (nonatomic, strong) UIImage* image;
 @property (nonatomic, strong) UIViewController* swiftuiImageController;
@@ -93,6 +99,7 @@ inline __attribute__((always_inline)) LNPopupBarStyle _LNPopupResolveBarStyleFro
 
 @property (nonatomic, strong, readwrite) UITapGestureRecognizer* popupOpenGestureRecognizer;
 @property (nonatomic, strong, readwrite) UILongPressGestureRecognizer* barHighlightGestureRecognizer;
+- (void)_cancelGestureRecognizers;
 
 @property (nonatomic) BOOL _applySwiftUILayoutFixes;
 
@@ -100,8 +107,6 @@ inline __attribute__((always_inline)) LNPopupBarStyle _LNPopupResolveBarStyleFro
 - (void)_layoutBarButtonItems;
 
 - (void)_setTitleViewMarqueesPaused:(BOOL)paused;
-
-- (void)_removeAnimationFromBarItems;
 
 - (void)_transitionCustomBarViewControllerWithPopupContainerSize:(CGSize)size withCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator;
 - (void)_transitionCustomBarViewControllerWithPopupContainerTraitCollection:(UITraitCollection *)newCollection withCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator;

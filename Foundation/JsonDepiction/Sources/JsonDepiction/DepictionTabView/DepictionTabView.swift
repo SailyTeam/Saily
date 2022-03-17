@@ -70,7 +70,7 @@ class DepictionTabView: DepictionBaseView, DepictionTabControlContainer {
         tabView?.frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: 40))
         tabView?.accessibilityTraits = .tabBar
 
-        let activeTab = tabViews[self.activeTab]
+        let activeTab = tabViews[activeTab]
         activeTab.highlighted = true
 
         let activeTabContent = tabContentViews[self.activeTab]

@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <LNPopupController/LNPopupDefinitions.h>
 #import <LNPopupController/LNPopupBarAppearance.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define LN_DEPRECATED_API(x) __attribute__((deprecated(x)))
-
 /**
  * An @c LNPopupItem object manages the buttons and text to be displayed in a popup bar. Each view controller in popup presentation must have an @c LNPopupItem object that contains the buttons and text it wants displayed in the popup bar.
  */
+NS_SWIFT_UI_ACTOR
 @interface LNPopupItem : NSObject
 
 /**
@@ -26,9 +26,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString* title;
 
 /**
+ * The popup item's attributed title.
+ *
+ * @note If no title or subtitle is set, the property will return its view controller's title.
+ */
+@property (nullable, nonatomic, copy) NSAttributedString* attributedTitle;
+
+/**
  * The popup item's subtitle.
  */
 @property (nullable, nonatomic, copy) NSString* subtitle;
+
+/**
+ * The popup item's attributed subtitle.
+ */
+@property (nullable, nonatomic, copy) NSAttributedString* attributedSubtitle;
 
 /**
  * The popup item's image.
@@ -52,11 +64,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, nonatomic, copy) NSArray<UIBarButtonItem*>* barButtonItems;
 
 /**
+ * Sets the bar button items of the popup bar, optionally animating the transition to the new items.
+ *
+ * @note For compact popup bars, this is equivalent to @c setTrailingBarButtonItems:animated:.
+ */
+- (void)setBarButtonItems:(nullable NSArray<UIBarButtonItem*>*)barButtonItems animated:(BOOL)animated;
+
+/**
  * An array of custom bar button items to display on the leading side of the popup bar.
  *
  * @note For prominent popup bars, these buttons are positioned on the trailing side, before items in @c trailingBarButtonItems.
  */
 @property(nullable, nonatomic, copy) NSArray<UIBarButtonItem*>* leadingBarButtonItems;
+
+/**
+ * Sets the leading bar button items of the popup bar, optionally animating the transition to the new items.
+ *
+ * @note For prominent popup bars, these buttons are positioned on the trailing side, before items in @c trailingBarButtonItems.
+ */
+- (void)setLeadingBarButtonItems:(nullable NSArray<UIBarButtonItem*>*)leadingBarButtonItems animated:(BOOL)animated;
 
 /**
  * An array of custom bar button items to display on the trailing side of the popup bar.
@@ -66,9 +92,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, nonatomic, copy) NSArray<UIBarButtonItem*>* trailingBarButtonItems;
 
 /**
+ * Sets the trailing bar button items of the popup bar, optionally animating the transition to the new items.
+ *
+ * @note For prominent popup bars, this property is synonymous with @c setBarButtonItems:animated:.
+ */
+- (void)setTrailingBarButtonItems:(nullable NSArray<UIBarButtonItem*>*)trailingBarButtonItems animated:(BOOL)animated;
+
+/**
  * When set and this item is displayed, overrides the hosting popup bar's @c standardAppearance as well as any appearance inherited from the docking view. See @c LNPopupBarAppearance.standardAppearance for further details.
  */
-@property (nonatomic, readwrite, copy, nullable) LNPopupBarAppearance* standardAppearance API_AVAILABLE(ios(13.0));
+@property (nonatomic, readwrite, copy, nullable) LNPopupBarAppearance* standardAppearance;
 
 @end
 

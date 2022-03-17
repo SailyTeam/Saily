@@ -8,9 +8,9 @@
 
 #import "BugsnagAppWithState+Private.h"
 
+#import "BSGKeys.h"
 #import "BSG_KSCrashReportFields.h"
 #import "BugsnagApp+Private.h"
-#import "BugsnagKeys.h"
 
 @implementation BugsnagAppWithState
 

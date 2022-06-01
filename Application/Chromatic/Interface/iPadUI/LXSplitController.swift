@@ -11,7 +11,6 @@ import UIKit
 class LXSplitController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
         preferredDisplayMode = .oneBesideSecondary
         applySplitWidth()
     }

@@ -13,6 +13,9 @@ class NavigatorEnterViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .systemBackground
+        tabBar.isHidden = true
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(setExceptedRootViewController),
                                                name: .UserInterfaceFrameChanged,
@@ -27,14 +30,29 @@ class NavigatorEnterViewController: UITabBarController {
         }
     }
 
+    private var hdMain: HandyTabBarController?
+    private var lxMain: LXSplitController?
+
     @objc
     func setExceptedRootViewController() {
         if shouldUseLargeUI() {
             debugPrint("loading lx ui")
-            selectedIndex = 1
+            if let lxMain = lxMain {
+                viewControllers = [lxMain]
+            } else {
+                let controller = LXSplitController()
+                lxMain = controller
+                viewControllers = [controller]
+            }
         } else {
             debugPrint("loading handy ui")
-            selectedIndex = 0
+            if let hdMain = hdMain {
+                viewControllers = [hdMain]
+            } else {
+                let controller = HandyTabBarController()
+                hdMain = controller
+                viewControllers = [controller]
+            }
         }
     }
 

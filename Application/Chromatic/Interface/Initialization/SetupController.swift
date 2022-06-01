@@ -139,10 +139,9 @@ class SetupViewController: UIViewController {
     }
 
     func dispatchAllocInterface() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let target = storyboard.instantiateViewController(withIdentifier: "NavigatorEnterViewController")
-        target.modalPresentationStyle = .fullScreen
-        view.window?.rootViewController = target
+        let controller = NavigatorEnterViewController()
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: false)
         #if DEBUG
             DispatchQueue.global().asyncAfter(deadline: .now() + 6) {
                 InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)

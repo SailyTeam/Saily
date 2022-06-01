@@ -70,6 +70,7 @@ private let allCardOptions: [CardOptions] = [
         UserDefaults
             .standard
             .removeObject(forKey: "wiki.qaq.chromatic.userAvatar")
+        AppleAvatar.unblockLoad()
         AppleAvatar.prepareIconIfAvailable()
         NotificationCenter.default.post(name: .AppleCardAvatarUpdated,
                                         object: nil,
@@ -78,8 +79,8 @@ private let allCardOptions: [CardOptions] = [
     .init(text: NSLocalizedString("REMOVE_AVATAR", comment: "Remove Avatar"), block: { _ in
         UserDefaults
             .standard
-            .setValue(UIImage(named: "AppStoreIcon")!.pngData(),
-                      forKey: "wiki.qaq.chromatic.userAvatar")
+            .removeObject(forKey: "wiki.qaq.chromatic.userAvatar")
+        AppleAvatar.blockLoad()
         NotificationCenter.default.post(name: .AppleCardAvatarUpdated,
                                         object: nil,
                                         userInfo: nil)

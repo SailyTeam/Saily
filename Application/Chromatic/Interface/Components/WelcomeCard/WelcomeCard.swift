@@ -6,6 +6,7 @@
 //  Copyright © 2020 Lakr Aream. All rights reserved.
 //
 
+import FluentIcon
 import SDWebImage
 import SnapKit
 import UIKit
@@ -64,6 +65,7 @@ class WelcomeCard: UIView {
             x.width.equalTo(68)
         }
 
+        headIconView.tintColor = UIColor(named: "BUTTON_NORMAL")
         headIconView.contentMode = .scaleAspectFill
         headIconView.layer.cornerRadius = 34.5
         headIconView.clipsToBounds = true
@@ -118,12 +120,29 @@ class WelcomeCard: UIView {
     @objc
     func updateAvatar() {
         DispatchQueue.main.async { [self] in
+            var avatarLoaded: Bool = false
+            defer {
+                if avatarLoaded {
+                    headIconView.contentMode = .scaleAspectFill
+                } else {
+                    let config = UIImage.SymbolConfiguration(
+                        pointSize: 24,
+                        weight: .bold
+                    )
+                    headIconView.image = UIImage(
+                        systemName: "rosette",
+                        withConfiguration: config
+                    )
+                    headIconView.contentMode = .center
+                }
+            }
             if let data = UserDefaults
                 .standard
                 .value(forKey: "wiki.qaq.chromatic.userAvatar") as? Data,
                 let image = UIImage(data: data)
             {
                 headIconView.image = image
+                avatarLoaded = true
             } else {
                 let scale = Int(UIScreen.main.scale)
                 let filename = scale == 1 ? "AppleAccountIcon" : "AppleAccountIcon@\(scale)x"
@@ -133,8 +152,7 @@ class WelcomeCard: UIView {
                     .path
                 if let image = UIImage(contentsOfFile: path) {
                     headIconView.image = image
-                } else {
-                    headIconView.image = UIImage(named: "AppStoreIcon")
+                    avatarLoaded = true
                 }
             }
         }

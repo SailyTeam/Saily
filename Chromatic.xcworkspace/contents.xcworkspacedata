@@ -85,4 +85,7 @@
    <FileRef
       location = "group:Foundation/SwiftThrottle">
    </FileRef>
+   <FileRef
+      location = "group:Foundation/Tuner">
+   </FileRef>
 </Workspace>

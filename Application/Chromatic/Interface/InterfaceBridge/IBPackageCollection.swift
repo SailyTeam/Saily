@@ -72,7 +72,10 @@ extension InterfaceBridge {
                 .allMenuActions
                 .filter { $0.elegantForPerform(package) }
                 .map { action in
-                    UIAction(title: action.descriptor.describe()) { _ in action.block(package, fromView) }
+                    UIAction(
+                        title: action.descriptor.describe(),
+                        image: action.descriptor.icon()
+                    ) { _ in action.block(package, fromView) }
                 }
             return UIMenu(title: "", children: actions)
         }

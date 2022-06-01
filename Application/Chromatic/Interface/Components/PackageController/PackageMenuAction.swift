@@ -67,6 +67,43 @@ class PackageMenuAction {
                 return NSLocalizedString("REVEAL_FILES", comment: "Reveal Files")
             }
         }
+
+        func icon() -> UIImage? {
+            switch self {
+            case .directInstall:
+                return UIImage(systemName: "paperplane")
+            case .install:
+                return UIImage(systemName: "arrow.down.square")
+            case .reinstall:
+                return UIImage(systemName: "arrow.clockwise.circle")
+            case .downgrade:
+                return UIImage(systemName: "arrow.down.circle")
+            case .update:
+                return UIImage(systemName: "arrow.up.circle")
+            case .remove:
+                return UIImage(systemName: "xmark.circle")
+            case .cancelQueue:
+                return UIImage(systemName: "circle.dashed")
+            case .versionControl:
+                return UIImage(systemName: "list.triangle")
+            case .blockUpdate:
+                return UIImage(systemName: "hand.raised")
+            case .unblockUpdate:
+                return UIImage(systemName: "face.dashed")
+            case .download:
+                return UIImage(systemName: "icloud.and.arrow.down")
+            case .collectAndSave:
+                return UIImage(systemName: "rosette")
+            case .collectAndOverwrite:
+                return UIImage(systemName: "rosette")
+            case .removeCollect:
+                return UIImage(systemName: "circle.dashed")
+            case .copyMeta:
+                return UIImage(systemName: "circle.dashed")
+            case .revealFiles:
+                return UIImage(systemName: "doc.text.magnifyingglass")
+            }
+        }
     }
 
     struct MenuAction {

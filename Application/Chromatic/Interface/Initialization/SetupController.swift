@@ -78,6 +78,10 @@ class SetupViewController: UIViewController {
             UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
         #endif
 
+        if #available(iOS 15.0, *) {
+            UITableView.appearance().sectionHeaderTopPadding = 0.0
+        }
+
         DeviceInfo.current.setupUserAgents()
 
         // MARK: - CENTER

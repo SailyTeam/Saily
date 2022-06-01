@@ -57,6 +57,7 @@
 		5034022426C00B2E00E8D02B /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034022326C00B2E00E8D02B /* UIWindow.swift */; };
 		5034022626C00C2700E8D02B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5034022526C00C2700E8D02B /* Colors.xcassets */; };
 		5034022926C023FF00E8D02B /* RamLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034022826C023FF00E8D02B /* RamLogController.swift */; };
+		5037FB6628470117009BB103 /* Tuner in Frameworks */ = {isa = PBXBuildFile; productRef = 5037FB6528470117009BB103 /* Tuner */; };
 		50435E9626DBD35100D3ED25 /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 50435E9526DBD35100D3ED25 /* Bugsnag */; };
 		50443FB026F1B4FB00F4EDED /* IBDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50443FAF26F1B4FB00F4EDED /* IBDashboard.swift */; };
 		50443FB626F1D2C600F4EDED /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50443FB226F1D2C600F4EDED /* DashboardController.swift */; };
@@ -330,6 +331,7 @@
 				507D1E7726BFA88500E72E9B /* SWCompression in Frameworks */,
 				50A283EF26D54492005FA2DB /* SwiftMD5 in Frameworks */,
 				507D1E8D26BFA8B700E72E9B /* Cosmos in Frameworks */,
+				5037FB6628470117009BB103 /* Tuner in Frameworks */,
 				507D1E7926BFA88D00E72E9B /* SnapKit in Frameworks */,
 				508AF3F426CB8F66000A2EC6 /* JsonDepiction in Frameworks */,
 				500D83AA26C2158600D9E701 /* SPIndicator in Frameworks */,
@@ -846,6 +848,7 @@
 				50435E9526DBD35100D3ED25 /* Bugsnag */,
 				50CF5828276049A8003AA45B /* AuxiliaryExecute */,
 				50940CA127C618D400075B48 /* PathListTableViewController */,
+				5037FB6528470117009BB103 /* Tuner */,
 			);
 			productName = Protein;
 			productReference = 50D528B82449B11300F4A483 /* chromatic.app */;
@@ -1320,6 +1323,10 @@
 		500D83A926C2158600D9E701 /* SPIndicator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SPIndicator;
+		};
+		5037FB6528470117009BB103 /* Tuner */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Tuner;
 		};
 		50435E9526DBD35100D3ED25 /* Bugsnag */ = {
 			isa = XCSwiftPackageProductDependency;

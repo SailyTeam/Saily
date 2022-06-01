@@ -8,11 +8,11 @@
 
 #import "BugsnagStackframe+Private.h"
 
+#import "BSGKeys.h"
 #import "BSG_KSBacktrace.h"
 #import "BSG_KSMachHeaders.h"
 #import "BSG_Symbolicate.h"
 #import "BugsnagCollections.h"
-#import "BugsnagKeys.h"
 #import "BugsnagLogger.h"
 
 BugsnagStackframeType const BugsnagStackframeTypeCocoa = @"cocoa";

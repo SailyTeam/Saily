@@ -566,7 +566,7 @@ public extension String {
         ///
         /// - Returns: The string in slug format.
         func toSlug() -> String {
-            let lowercased = self.lowercased()
+            let lowercased = lowercased()
             let latinized = lowercased.folding(options: .diacriticInsensitive, locale: Locale.current)
             let withDashes = latinized.replacingOccurrences(of: " ", with: "-")
 

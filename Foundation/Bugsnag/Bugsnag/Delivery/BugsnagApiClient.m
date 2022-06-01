@@ -5,19 +5,13 @@
 
 #import "BugsnagApiClient.h"
 
-#import "BugsnagConfiguration.h"
-#import "Bugsnag.h"
-#import "BugsnagKeys.h"
-#import "BugsnagLogger.h"
 #import "BSGJSONSerialization.h"
+#import "BSGKeys.h"
+#import "Bugsnag.h"
+#import "BugsnagConfiguration.h"
+#import "BugsnagLogger.h"
 
 #import <CommonCrypto/CommonCrypto.h>
-
-BugsnagHTTPHeaderName const BugsnagHTTPHeaderNameApiKey             = @"Bugsnag-Api-Key";
-BugsnagHTTPHeaderName const BugsnagHTTPHeaderNameIntegrity          = @"Bugsnag-Integrity";
-BugsnagHTTPHeaderName const BugsnagHTTPHeaderNamePayloadVersion     = @"Bugsnag-Payload-Version";
-BugsnagHTTPHeaderName const BugsnagHTTPHeaderNameSentAt             = @"Bugsnag-Sent-At";
-BugsnagHTTPHeaderName const BugsnagHTTPHeaderNameStacktraceTypes    = @"Bugsnag-Stacktrace-Types";
 
 typedef NS_ENUM(NSInteger, HTTPStatusCode) {
     /// 402 Payment Required: a nonstandard client error status response code that is reserved for future use.

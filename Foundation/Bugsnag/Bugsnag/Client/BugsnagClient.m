@@ -24,16 +24,16 @@
 // THE SOFTWARE.
 //
 
-#import "BugsnagPlatformConditional.h"
-
 #import "BugsnagClient+Private.h"
 
 #import "BSGAppHangDetector.h"
 #import "BSGConnectivity.h"
+#import "BSGCrashSentry.h"
 #import "BSGEventUploader.h"
 #import "BSGFileLocations.h"
 #import "BSGInternalErrorReporter.h"
 #import "BSGJSONSerialization.h"
+#import "BSGKeys.h"
 #import "BSGNotificationBreadcrumbs.h"
 #import "BSGSerialization.h"
 #import "BSGUtils.h"
@@ -52,19 +52,17 @@
 #import "BugsnagBreadcrumbs.h"
 #import "BugsnagCollections.h"
 #import "BugsnagConfiguration+Private.h"
-#import "BugsnagCrashSentry.h"
 #import "BugsnagDeviceWithState+Private.h"
 #import "BugsnagError+Private.h"
 #import "BugsnagErrorTypes.h"
 #import "BugsnagEvent+Private.h"
 #import "BugsnagFeatureFlag.h"
 #import "BugsnagHandledState.h"
-#import "BugsnagKeys.h"
 #import "BugsnagLastRunInfo+Private.h"
 #import "BugsnagLogger.h"
 #import "BugsnagMetadata+Private.h"
 #import "BugsnagNotifier.h"
-#import "BugsnagPluginClient.h"
+#import "BugsnagPlugin.h"
 #import "BugsnagSession+Private.h"
 #import "BugsnagSessionTracker.h"
 #import "BugsnagStackframe+Private.h"
@@ -72,21 +70,20 @@
 #import "BugsnagThread+Private.h"
 #import "BugsnagUser+Private.h"
 
-#if BSG_PLATFORM_IOS || BSG_PLATFORM_TVOS
-#define BSGOOMAvailable 1
+#if TARGET_OS_IOS || TARGET_OS_TV
+#define BSG_OOM_AVAILABLE 1
 #else
-#define BSGOOMAvailable 0
+#define BSG_OOM_AVAILABLE 0
 #endif
 
-#if BSG_PLATFORM_IOS
+#if TARGET_OS_IOS
 #import "BSGUIKit.h"
-#elif BSG_PLATFORM_OSX
+#elif TARGET_OS_OSX
 #import "BSGAppKit.h"
 #endif
 
 static NSString *const BSTabCrash = @"crash";
 static NSString *const BSAttributeDepth = @"depth";
-static NSString *const BSEventLowMemoryWarning = @"lowMemoryWarning";
 
 static struct {
     // Contains the state of the event (handled/unhandled)
@@ -116,7 +113,7 @@ static bool hasRecordedSessions;
  *
  *  @param writer report writer which will receive updated metadata
  */
-void BSSerializeDataCrashHandler(const BSG_KSCrashReportWriter *writer, __attribute__((unused)) int type) {
+void BSSerializeDataCrashHandler(const BSG_KSCrashReportWriter *writer) {
     BOOL isCrash = YES;
     if (hasRecordedSessions) { // a session is available
         // persist session info
@@ -222,7 +219,6 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
         }];
         
         _notifier = _configuration.notifier ?: [[BugsnagNotifier alloc] init];
-        self.systemState = [[BugsnagSystemState alloc] initWithConfiguration:_configuration];
 
         BSGFileLocations *fileLocations = [BSGFileLocations current];
         
@@ -241,7 +237,7 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
 
         self.stateEventBlocks = [NSMutableArray new];
         self.extraRuntimeInfo = [NSMutableDictionary new];
-        self.crashSentry = [BugsnagCrashSentry new];
+
         _eventUploader = [[BSGEventUploader alloc] initWithConfiguration:_configuration notifier:_notifier];
         bsg_g_bugsnag_data.onCrash = (void (*)(const BSG_KSCrashReportWriter *))self.configuration.onCrashHandler;
 
@@ -269,15 +265,12 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
                                withKey:BSGKeyThermalState
                              toSection:BSGKeyDevice];
         }
-#if BSG_PLATFORM_IOS
+#if TARGET_OS_IOS
         _lastOrientation = BSGStringFromDeviceOrientation([UIDEVICE currentDevice].orientation);
         [self.state addMetadata:_lastOrientation withKey:BSGKeyOrientation toSection:BSGKeyDeviceState];
 #endif
         [self.metadata setStorageBuffer:&bsg_g_bugsnag_data.metadataJSON file:_metadataFile];
         [self.state setStorageBuffer:&bsg_g_bugsnag_data.stateJSON file:_stateMetadataFile];
-
-        self.pluginClient = [[BugsnagPluginClient alloc] initWithPlugins:self.configuration.plugins
-                                                                  client:self];
 
         BSGInternalErrorReporter.sharedInstance = [[BSGInternalErrorReporter alloc] initWithDataSource:self];
     }
@@ -286,7 +279,8 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
 
 - (void)start {
     [self.configuration validate];
-    [self.crashSentry install:self.configuration onCrash:&BSSerializeDataCrashHandler];
+    BSGCrashSentryInstall(self.configuration, BSSerializeDataCrashHandler);
+    self.systemState = [[BugsnagSystemState alloc] initWithConfiguration:self.configuration];
     [self computeDidCrashLastLaunch];
     [self.breadcrumbs removeAllBreadcrumbs];
     [self setupConnectivityListener];
@@ -294,7 +288,7 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
-#if BSG_PLATFORM_IOS
+#if TARGET_OS_IOS
     [center addObserver:self
                selector:@selector(batteryChanged:)
                    name:UIDeviceBatteryStateDidChangeNotification
@@ -310,10 +304,29 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
                    name:UIDeviceOrientationDidChangeNotification
                  object:nil];
 
-    [center addObserver:self
-               selector:@selector(applicationDidReceiveMemoryWarning:)
-                   name:UIApplicationDidReceiveMemoryWarningNotification
-                 object:nil];
+    // DISPATCH_SOURCE_TYPE_MEMORYPRESSURE arrives slightly sooner than UIApplicationDidReceiveMemoryWarningNotification
+    dispatch_queue_global_t queue = dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0);
+    uintptr_t mask = DISPATCH_MEMORYPRESSURE_NORMAL | DISPATCH_MEMORYPRESSURE_WARN | DISPATCH_MEMORYPRESSURE_CRITICAL;
+    dispatch_source_t memoryPressureSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_MEMORYPRESSURE, 0, mask, queue);
+    __weak typeof(self) weakSelf = self;
+    dispatch_source_set_event_handler(memoryPressureSource, ^{
+        __strong typeof(self) strongSelf = weakSelf;
+        dispatch_source_memorypressure_flags_t level = dispatch_source_get_data(memoryPressureSource);
+        switch (level) {
+            case DISPATCH_MEMORYPRESSURE_NORMAL:
+                [strongSelf.state clearMetadataFromSection:BSGKeyDeviceState withKey:BSGKeyLowMemoryWarning];
+                break;
+            case DISPATCH_MEMORYPRESSURE_WARN:
+            case DISPATCH_MEMORYPRESSURE_CRITICAL:
+                [strongSelf.state addMetadata:[BSG_RFC3339DateTool stringFromDate:[NSDate date]]
+                                      withKey:BSGKeyLowMemoryWarning
+                                    toSection:BSGKeyDeviceState];
+                break;
+            default:
+                break;
+        }
+    });
+    dispatch_resume(memoryPressureSource);
 
     [UIDEVICE currentDevice].batteryMonitoringEnabled = YES;
     [[UIDEVICE currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -330,22 +343,32 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
 
     [center addObserver:self
                selector:@selector(applicationWillTerminate:)
-#if BSG_PLATFORM_IOS || BSG_PLATFORM_TVOS
+#if TARGET_OS_IOS || TARGET_OS_TV
                    name:UIApplicationWillTerminateNotification
-#elif BSG_PLATFORM_OSX
+#elif TARGET_OS_OSX
                    name:NSApplicationWillTerminateNotification
 #endif
                  object:nil];
 
     self.started = YES;
 
+    id<BugsnagPlugin> reactNativePlugin = [NSClassFromString(@"BugsnagReactNativePlugin") new];
+    if (reactNativePlugin) {
+        [self.configuration.plugins addObject:reactNativePlugin];
+    }
+    for (id<BugsnagPlugin> plugin in self.configuration.plugins) {
+        @try {
+            [plugin load:self];
+        } @catch (NSException *exception) {
+            bsg_log_err(@"Plugin %@ threw exception in -load: %@", plugin, exception);
+        }
+    }
+
     [self.sessionTracker startWithNotificationCenter:center isInForeground:bsg_kscrashstate_currentState()->applicationIsInForeground];
 
     // Record a "Bugsnag Loaded" message
     [self addAutoBreadcrumbOfType:BSGBreadcrumbTypeState withMessage:@"Bugsnag loaded" andMetadata:nil];
 
-    [self.pluginClient loadPlugins];
-    
     if (self.configuration.launchDurationMillis > 0) {
         self.appLaunchTimer = [NSTimer scheduledTimerWithTimeInterval:(double)self.configuration.launchDurationMillis / 1000.0
                                                                target:self selector:@selector(appLaunchTimerFired:)
@@ -426,7 +449,7 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
             if (self.configuration.enabledErrorTypes.thermalKills) {
                 self.eventFromLastLaunch = [self generateThermalKillEvent];
             }
-#if BSGOOMAvailable
+#if BSG_OOM_AVAILABLE
         } else {
             bsg_log_info(@"Last run terminated unexpectedly; possible Out Of Memory.");
             if (self.configuration.enabledErrorTypes.ooms) {
@@ -473,7 +496,7 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [BSGConnectivity stopMonitoring];
 
-#if BSG_PLATFORM_IOS
+#if TARGET_OS_IOS
     [UIDEVICE currentDevice].batteryMonitoringEnabled = NO;
     [[UIDEVICE currentDevice] endGeneratingDeviceOrientationNotifications];
 #endif
@@ -868,7 +891,7 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
  *
  * @param notification The change notification
  */
-#if BSG_PLATFORM_IOS
+#if TARGET_OS_IOS
 - (void)batteryChanged:(__attribute__((unused)) NSNotification *)notification {
     if (![UIDEVICE currentDevice]) {
         return;
@@ -922,12 +945,6 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
                       andMetadata:breadcrumbMetadata];
 
     self.lastOrientation = orientation;
-}
-
-- (void)applicationDidReceiveMemoryWarning:(__unused NSNotification *)notif {
-    [self.state addMetadata:[BSG_RFC3339DateTool stringFromDate:[NSDate date]]
-                      withKey:BSEventLowMemoryWarning
-                    toSection:BSGKeyDeviceState];
 }
 
 #endif
@@ -1138,40 +1155,6 @@ __attribute__((annotate("oclint:suppress[too many methods]")))
     } else {
         self.metadata.observer = nil;
     }
-}
-
-// =============================================================================
-// MARK: - autoNotify
-// =============================================================================
-
-- (BOOL)autoNotify {
-    return self.configuration.autoDetectErrors;
-}
-
-/// Alters whether error detection should be enabled or not after Bugsnag has been initialized.
-/// Intended for internal use only by Unity.
-- (void)setAutoNotify:(BOOL)autoNotify {
-    BOOL changed = self.configuration.autoDetectErrors != autoNotify;
-    self.configuration.autoDetectErrors = autoNotify;
-
-    if (changed) {
-        [self updateCrashDetectionSettings];
-    }
-}
-
-/// Updates the crash detection settings after Bugsnag has been initialized.
-/// App Hang detection is not updated as it will always be disabled for Unity.
-- (void)updateCrashDetectionSettings {
-    if (self.configuration.autoDetectErrors) {
-        // alter the enabled KSCrash types
-        BugsnagErrorTypes *errorTypes = self.configuration.enabledErrorTypes;
-        BSG_KSCrashType crashTypes = [self.crashSentry mapKSToBSGCrashTypes:errorTypes];
-        bsg_kscrash_setHandlingCrashTypes(crashTypes);
-    } else {
-        // Only enable support for notify()-based reports
-        bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashTypeNone);
-    }
-    // OOMs are controlled by config.autoDetectErrors so don't require any further action
 }
 
 // MARK: - App Hangs

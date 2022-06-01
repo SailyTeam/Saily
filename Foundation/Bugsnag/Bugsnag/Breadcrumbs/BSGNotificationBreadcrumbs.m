@@ -10,7 +10,7 @@
 
 #import "BugsnagBreadcrumbs.h"
 #import "BugsnagConfiguration+Private.h"
-#import "BugsnagKeys.h"
+#import "BSGKeys.h"
 #import "BSGUtils.h"
 
 #if TARGET_OS_IOS || TARGET_OS_TV
@@ -18,9 +18,6 @@
 #else
 #import "BSGAppKit.h"
 #endif
-
-
-NSString * const BSGNotificationBreadcrumbsMessageAppWillTerminate = @"App Will Terminate";
 
 
 @interface BSGNotificationBreadcrumbs ()

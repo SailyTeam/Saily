@@ -8,12 +8,12 @@
 
 #import "BugsnagSession+Private.h"
 
+#import "BSGKeys.h"
+#import "BSG_RFC3339DateTool.h"
 #import "BugsnagApp+Private.h"
 #import "BugsnagCollections.h"
 #import "BugsnagDevice+Private.h"
 #import "BugsnagUser+Private.h"
-#import "BSG_RFC3339DateTool.h"
-#import "BugsnagKeys.h"
 
 static NSString *const kBugsnagSessionId = @"id";
 static NSString *const kBugsnagUnhandledCount = @"unhandledCount";

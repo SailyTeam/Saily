@@ -15,11 +15,9 @@
 @class BugsnagAppWithState;
 @class BugsnagBreadcrumbs;
 @class BugsnagConfiguration;
-@class BugsnagCrashSentry;
 @class BugsnagDeviceWithState;
 @class BugsnagMetadata;
 @class BugsnagNotifier;
-@class BugsnagPluginClient;
 @class BugsnagSessionTracker;
 @class BugsnagSystemState;
 
@@ -45,10 +43,6 @@ typedef void (^ BSGClientObserver)(BSGClientObserverEvent event, _Nullable id va
 
 @property (nullable, nonatomic) BugsnagEvent *appHangEvent;
 
-/// Alters whether error detection should be enabled or not after Bugsnag has been initialized.
-/// Intended for internal use only by Unity.
-@property (nonatomic) BOOL autoNotify;
-
 @property (nullable, retain, nonatomic) BugsnagBreadcrumbs *breadcrumbs;
 
 @property (nullable, nonatomic) NSString *codeBundleId;
@@ -58,8 +52,6 @@ typedef void (^ BSGClientObserver)(BSGClientObserverEvent event, _Nullable id va
 @property (nullable, nonatomic) NSDictionary *configMetadataFromLastLaunch;
 
 @property (retain, nonatomic) BugsnagConfiguration *configuration;
-
-@property (strong, nonatomic) BugsnagCrashSentry *crashSentry;
 
 /// The App hang or OOM event that caused the last launch to crash.
 @property (nullable, nonatomic) BugsnagEvent *eventFromLastLaunch;
@@ -79,8 +71,6 @@ typedef void (^ BSGClientObserver)(BSGClientObserverEvent event, _Nullable id va
 @property (nullable, nonatomic) NSDictionary *metadataFromLastLaunch;
 
 @property (readonly, nonatomic) BugsnagNotifier *notifier; // Used in BugsnagReactNative
-
-@property (strong, nonatomic) BugsnagPluginClient *pluginClient;
 
 @property (strong, nonatomic) BugsnagSessionTracker *sessionTracker; // Used in BugsnagReactNative
 

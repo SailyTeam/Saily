@@ -96,7 +96,7 @@ class HandyTabBarController: UITabBarController, UIGestureRecognizerDelegate {
             } else {
                 taskPopUpController.popupItem.subtitle = NSLocalizedString("DOWNLOADING", comment: "Downloading")
             }
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: 0.2) { [self] in
                 popupBar.progressView.setProgress(value, animated: true)
             }
         }

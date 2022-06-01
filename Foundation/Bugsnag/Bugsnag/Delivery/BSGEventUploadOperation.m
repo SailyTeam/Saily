@@ -10,12 +10,12 @@
 
 #import "BSGFileLocations.h"
 #import "BSGInternalErrorReporter.h"
+#import "BSGKeys.h"
 #import "BSG_RFC3339DateTool.h"
 #import "BugsnagAppWithState+Private.h"
 #import "BugsnagConfiguration+Private.h"
 #import "BugsnagError+Private.h"
 #import "BugsnagEvent+Private.h"
-#import "BugsnagKeys.h"
 #import "BugsnagLogger.h"
 #import "BugsnagNotifier.h"
 

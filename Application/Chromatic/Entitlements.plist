@@ -14,6 +14,7 @@
 	<array>
 		<string>wiki.qaq.chromatic</string>
 	</array>
+	<!-- Networking Patch -->
 	<key>com.apple.CommCenter.fine-grained</key>
 	<array>
     	<string>spi</string>
@@ -22,6 +23,13 @@
     	<string>data-usage</string>
     	<string>data-allowed</string>
     	<string>data-allowed-write</string>
+	</array>
+	<!-- Prevent weird sharesheet CoreImage crash -->
+	<key>com.apple.security.iokit-user-client-class</key>
+	<array>
+		<string>AGXDeviceUserClient</string>
+		<string>IOHDIXControllerUserClient</string>
+		<string>IOSurfaceRootUserClient</string>
 	</array>
 </dict>
 </plist>

@@ -8,12 +8,12 @@
 
 import UIKit
 
-class DTImageView: UIImageView {    
+class DTImageView: UIImageView {
     override var image: UIImage? {
         didSet {
             imageChangeBlock?(image)
         }
     }
-    
+
     var imageChangeBlock: ((UIImage?) -> Void)?
 }

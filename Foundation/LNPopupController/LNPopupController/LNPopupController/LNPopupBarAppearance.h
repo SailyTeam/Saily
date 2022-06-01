@@ -7,20 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <LNPopupController/LNPopupDefinitions.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-#ifndef NS_SWIFT_UI_ACTOR
-#define NS_SWIFT_UI_ACTOR
-#endif
-
-API_AVAILABLE(ios(13.0)) NS_SWIFT_UI_ACTOR
 
 /**
  * An object for customizing the appearance of a popup bar.
  *
  * After creating a @c LNPopupBarAppearance object, use the methods and properties of this class to specify the appearance of items in the popup bar. Use the inherited properties from @c UIBarAppearance to configure the background and shadow attributes of the popup bar itself.
  */
+NS_SWIFT_UI_ACTOR
 @interface LNPopupBarAppearance : UIBarAppearance
 
 /**
@@ -55,21 +51,21 @@ API_AVAILABLE(ios(13.0)) NS_SWIFT_UI_ACTOR
 /**
  * When enabled, titles and subtitles that are longer than the space available will scroll text over time.
  *
- * Defaults to @c false
+ * Defaults to @c false.
  */
 @property (nonatomic, assign) BOOL marqueeScrollEnabled;
 
 /**
  * The scroll rate, in points, of the title and subtitle marquee animation.
  *
- * Defaults to @c 30
+ * Defaults to @c 30.
  */
 @property (nonatomic, assign) CGFloat marqueeScrollRate;
 
 /**
  * The delay, in seconds, before starting the title and subtitle marquee animation.
  *
- * Defaults to @c 2
+ * Defaults to @c 2.
  */
 @property (nonatomic, assign) NSTimeInterval marqueeScrollDelay;
 
@@ -78,7 +74,7 @@ API_AVAILABLE(ios(13.0)) NS_SWIFT_UI_ACTOR
  *
  * If either the title or subtitle of the current popup item change, the animation will reset so the two can scroll together.
  *
- * Defaults to @c true
+ * Defaults to @c true.
  */
 @property (nonatomic, assign) BOOL coordinateMarqueeScroll;
 

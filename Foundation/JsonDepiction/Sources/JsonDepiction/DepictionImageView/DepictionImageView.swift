@@ -41,7 +41,8 @@ class DepictionImageView: DepictionBaseView {
 
         SDWebImageManager.shared.loadImage(with: URL(string: url),
                                            options: .highPriority,
-                                           progress: nil) { [weak self] image, _, _, _, _, _ in
+                                           progress: nil)
+        { [weak self] image, _, _, _, _, _ in
             if let image = image, let self = self {
                 self.imageView?.image = image
                 let size = image.size
@@ -67,7 +68,7 @@ class DepictionImageView: DepictionBaseView {
     }
 
     override func depictionHeight(width: CGFloat) -> CGFloat {
-        var height = self.height
+        var height = height
         if self.width > (width - xPadding) {
             height = self.height * (width / self.width)
         }
@@ -77,7 +78,7 @@ class DepictionImageView: DepictionBaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var width = self.width
+        var width = width
         if width > bounds.width - xPadding {
             width = bounds.width - xPadding
         }
@@ -98,7 +99,7 @@ class DepictionImageView: DepictionBaseView {
             }
         }
 
-        var height = self.height
+        var height = height
         if width != self.width {
             height = self.height * width / self.width
         }

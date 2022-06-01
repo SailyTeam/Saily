@@ -68,10 +68,11 @@
 
             guard let textStorage = textStorage else { return }
 
-            let characterRange = self.characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+            let characterRange = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
 
             textStorage.enumerateAttributes(for: .blockBackgroundColor,
-                                            in: characterRange) { (attr: BlockBackgroundColorAttribute, blockRange) in
+                                            in: characterRange)
+            { (attr: BlockBackgroundColorAttribute, blockRange) in
                 let inset = attr.inset
 
                 context.setFillColor(attr.color.cgColor)
@@ -103,7 +104,7 @@
         }
 
         private func drawCustomAttributes(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
-            let characterRange = self.characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+            let characterRange = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
             drawThematicBreakIfNeeded(in: characterRange, at: origin)
             drawQuoteStripeIfNeeded(in: characterRange, at: origin)
         }
@@ -114,7 +115,8 @@
             defer { popContext() }
 
             textStorage?.enumerateAttributes(for: .thematicBreak,
-                                             in: characterRange) { (attr: ThematicBreakAttribute, range) in
+                                             in: characterRange)
+            { (attr: ThematicBreakAttribute, range) in
 
                 let firstGlyphIndex = glyphIndexForCharacter(at: range.lowerBound)
 
@@ -134,7 +136,7 @@
         }
 
         private func fragmentPadding(forGlyphAt glyphIndex: Int) -> CGFloat {
-            let textContainer = self.textContainer(forGlyphAt: glyphIndex, effectiveRange: nil)
+            let textContainer = textContainer(forGlyphAt: glyphIndex, effectiveRange: nil)
             return textContainer?.lineFragmentPadding ?? 0
         }
 
@@ -152,7 +154,8 @@
             defer { popContext() }
 
             textStorage?.enumerateAttributes(for: .quoteStripe,
-                                             in: characterRange) { (attr: QuoteStripeAttribute, quoteRange) in
+                                             in: characterRange)
+            { (attr: QuoteStripeAttribute, quoteRange) in
 
                 context.setFillColor(attr.color.cgColor)
 
@@ -203,7 +206,7 @@
 
     private extension Array where Element == NSRange {
         func mergeNeighbors() -> [Element] {
-            let sorted = self.sorted { $0.lowerBound <= $1.lowerBound }
+            let sorted = sorted { $0.lowerBound <= $1.lowerBound }
 
             let result = sorted.reduce(into: [NSRange]()) { acc, next in
                 guard let last = acc.popLast() else {

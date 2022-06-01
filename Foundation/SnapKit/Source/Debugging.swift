@@ -33,7 +33,7 @@ public extension LayoutConstraint {
 
         description += descriptionForObject(self)
 
-        if let firstItem = conditionalOptional(from: self.firstItem) {
+        if let firstItem = conditionalOptional(from: firstItem) {
             description += " \(descriptionForObject(firstItem))"
         }
 
@@ -43,7 +43,7 @@ public extension LayoutConstraint {
 
         description += " \(descriptionForRelation(relation))"
 
-        if let secondItem = self.secondItem {
+        if let secondItem = secondItem {
             description += " \(descriptionForObject(secondItem))"
         }
 

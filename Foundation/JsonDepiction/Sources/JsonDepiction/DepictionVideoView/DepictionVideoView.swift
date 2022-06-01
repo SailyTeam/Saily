@@ -88,7 +88,7 @@ class DepictionVideoView: DepictionBaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var width = self.width
+        var width = width
         if width > bounds.width {
             width = bounds.width
         }

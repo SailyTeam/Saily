@@ -13,6 +13,7 @@ let package = Package(
     targets: [
         .target(
             name: "DTPhotoViewerController",
-            path: "DTPhotoViewerController/Classes"),
+            path: "DTPhotoViewerController/Classes"
+        ),
     ]
 )

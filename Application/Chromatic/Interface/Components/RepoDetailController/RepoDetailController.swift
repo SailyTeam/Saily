@@ -186,7 +186,7 @@ class RepoDetailController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         DispatchQueue.main.async { [self] in
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: { [self] in
                 layoutCollectionView()
                 subtitle.sizeToFit()
                 var f1 = subtitle.contentSize.height

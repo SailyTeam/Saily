@@ -16,7 +16,7 @@ public class DiggerDelegate: NSObject {
 
 extension DiggerDelegate: URLSessionDataDelegate, URLSessionDelegate {
     public func urlSession(_: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
-        guard let manager = self.manager else { return }
+        guard let manager = manager else { return }
         guard let url = dataTask.originalRequest?.url, let diggerSeed = manager.findDiggerSeed(with: url) else {
             return
         }
@@ -92,7 +92,7 @@ extension DiggerDelegate: URLSessionDataDelegate, URLSessionDelegate {
     }
 
     public func urlSession(_: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        guard let manager = self.manager else { return }
+        guard let manager = manager else { return }
 
         guard let url = dataTask.originalRequest?.url, let diggerSeed = manager.findDiggerSeed(with: url) else {
             return
@@ -106,7 +106,7 @@ extension DiggerDelegate: URLSessionDataDelegate, URLSessionDelegate {
     }
 
     public func urlSession(_: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let manager = self.manager else { return }
+        guard let manager = manager else { return }
 
         guard let url = task.originalRequest?.url, let diggerSeed = manager.findDiggerSeed(with: url) else {
             return
@@ -135,7 +135,7 @@ extension DiggerDelegate {
     }
 
     func notifyCompletionCallback(_ result: Result<URL>, _ diggerSeed: DiggerSeed) {
-        guard let manager = self.manager else { return }
+        guard let manager = manager else { return }
 
         switch result {
         case let .failure(error as NSError):

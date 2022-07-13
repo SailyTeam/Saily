@@ -27,6 +27,7 @@
 	<!-- Prevent weird sharesheet CoreImage crash -->
 	<key>com.apple.security.iokit-user-client-class</key>
 	<array>
+		<string>IOUserClient</string>
 		<string>AGXDeviceUserClient</string>
 		<string>IOHDIXControllerUserClient</string>
 		<string>IOSurfaceRootUserClient</string>

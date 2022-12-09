@@ -5,8 +5,7 @@ Author: Saily Team <support.0xa1@qaq.wiki>
 Maintainer: Saily Team <support.0xa1@qaq.wiki>
 Version: @@VERSION@@
 Section: Applications
-Pre-Depends: firmware (>= 13.0), dpkg, uikittools, apt
-Architecture: iphoneos-arm
+Architecture: all
 Homepage: https://sailyteam.github.io/Saily/index.html
 Website: https://sailyteam.github.io/Saily/index.html
 Depiction: https://sailyteam.github.io/Saily/index.html

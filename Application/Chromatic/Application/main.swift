@@ -89,15 +89,6 @@ do {
 // MARK: - Privileged Boot
 
 AuxiliaryExecuteWrapper.setupExecutables()
-
-AuxiliaryExecuteWrapper.rootspawn(
-    command: AuxiliaryExecuteWrapper.chmod,
-    args: ["-R", "666", documentsDirectory.path],
-    timeout: 1
-) { str in
-    Dog.shared.join("Bootstrap", str)
-}
-
 AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
 
 private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String

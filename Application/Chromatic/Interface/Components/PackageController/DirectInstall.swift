@@ -120,9 +120,9 @@ class DirectInstallController: UIViewController {
             Dog.shared.join(self, "permission denied \(error.localizedDescription)")
             return nil
         }
-        let result = AuxiliaryExecuteWrapper.mobilespawn(command: AuxiliaryExecuteWrapper.dpkg,
-                                                         args: ["-e", withCopiedPayload.path, toDir.path],
-                                                         timeout: 10) { str in
+        let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.dpkg,
+                                                       args: ["-e", withCopiedPayload.path, toDir.path],
+                                                       timeout: 10) { str in
             debugPrint(str)
         }
         Dog.shared.join(self, "unpacking package metadata returned \(result.0)", level: .info)

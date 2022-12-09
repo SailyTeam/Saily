@@ -33,21 +33,21 @@ extension LTMorphingLabel {
         progressClosures["Fall\(LTMorphingPhases.progress)"] = {
             (index: Int, progress: Float, isNewChar: Bool) in
 
-                if isNewChar {
-                    return min(
-                        1.0,
-                        max(
-                            0.0,
-                            progress
-                                - self.morphingCharacterDelay
-                                * Float(index)
-                                / 1.7
-                        )
+            if isNewChar {
+                return min(
+                    1.0,
+                    max(
+                        0.0,
+                        progress
+                            - self.morphingCharacterDelay
+                            * Float(index)
+                            / 1.7
                     )
-                }
+                )
+            }
 
-                let j = Float(sin(Double(index))) * 1.7
-                return min(1.0, max(0.0001, progress + self.morphingCharacterDelay * Float(j)))
+            let j = Float(sin(Double(index))) * 1.7
+            return min(1.0, max(0.0001, progress + self.morphingCharacterDelay * Float(j)))
         }
 
         effectClosures["Fall\(LTMorphingPhases.disappear)"] = {

@@ -67,6 +67,7 @@
 		50443FBB26F1D2E500F4EDED /* LXDashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50443FBA26F1D2E500F4EDED /* LXDashboardController.swift */; };
 		504678D826F3399600C4122A /* ExpandedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504678D726F3399600C4122A /* ExpandedWebView.swift */; };
 		50527FFC26CFF6A600FD846D /* FluentIcon in Frameworks */ = {isa = PBXBuildFile; productRef = 50527FFB26CFF6A600FD846D /* FluentIcon */; };
+		50534ABE294310B700EED01F /* PlatformSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 50534ABD294310B700EED01F /* PlatformSetup.m */; };
 		505BB6CD26D78235007F5B15 /* Renet in Frameworks */ = {isa = PBXBuildFile; productRef = 505BB6CC26D78235007F5B15 /* Renet */; };
 		505E17AE26EE59AB00F32B88 /* IBPackageCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505E17AD26EE59AB00F32B88 /* IBPackageCollection.swift */; };
 		506E837D26BFC4E700C6C16E /* LXSplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E837C26BFC4E700C6C16E /* LXSplitController.swift */; };
@@ -231,6 +232,8 @@
 		50443FBA26F1D2E500F4EDED /* LXDashboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LXDashboardController.swift; sourceTree = "<group>"; };
 		504678D726F3399600C4122A /* ExpandedWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedWebView.swift; sourceTree = "<group>"; };
 		50527FFA26CFE88100FD846D /* Chromatic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chromatic.entitlements; sourceTree = "<group>"; };
+		50534ABC294310B700EED01F /* PlatformSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlatformSetup.h; sourceTree = "<group>"; };
+		50534ABD294310B700EED01F /* PlatformSetup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlatformSetup.m; sourceTree = "<group>"; };
 		505BB6CA26D78182007F5B15 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		505E17AD26EE59AB00F32B88 /* IBPackageCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBPackageCollection.swift; sourceTree = "<group>"; };
 		5063746426F3142300B06BCC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -797,6 +800,8 @@
 			isa = PBXGroup;
 			children = (
 				5018EFAB24599B0F0040DF86 /* Bridge.h */,
+				50534ABC294310B700EED01F /* PlatformSetup.h */,
+				50534ABD294310B700EED01F /* PlatformSetup.m */,
 				50DBCBBD26D393EB007D2E73 /* AppleAvatar.swift */,
 				5012080026D37C5000E9C656 /* AuxiliaryExecute.swift */,
 				50274CC126D68DB2000EF6BB /* DeviceInfo.swift */,
@@ -1030,6 +1035,7 @@
 				50E316E926CD233D00D4D633 /* PackageCollectionCell.swift in Sources */,
 				500C977926DA4E7800B66AB3 /* SettingElement.swift in Sources */,
 				5093C24626D158F5004B61B5 /* AptScanner+Install.swift in Sources */,
+				50534ABE294310B700EED01F /* PlatformSetup.m in Sources */,
 				5034022026C003E600E8D02B /* RepoAddSectionInput.swift in Sources */,
 				508E475526D405ED00D0806F /* PackageMenuAction.swift in Sources */,
 				50443FB726F1D2C600F4EDED /* DashboardController+Data.swift in Sources */,

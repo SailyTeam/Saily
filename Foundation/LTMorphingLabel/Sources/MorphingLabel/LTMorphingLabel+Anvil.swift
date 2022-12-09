@@ -171,12 +171,12 @@ extension LTMorphingLabel {
         progressClosures["Anvil\(LTMorphingPhases.progress)"] = {
             (index: Int, progress: Float, isNewChar: Bool) in
 
-                if !isNewChar {
-                    return min(1.0, max(0.0, progress))
-                }
+            if !isNewChar {
+                return min(1.0, max(0.0, progress))
+            }
 
-                let j = Float(sin(Float(index))) * 1.7
-                return min(1.0, max(0.0001, progress + self.morphingCharacterDelay * j))
+            let j = Float(sin(Float(index))) * 1.7
+            return min(1.0, max(0.0001, progress + self.morphingCharacterDelay * j))
         }
 
         effectClosures["Anvil\(LTMorphingPhases.disappear)"] = {

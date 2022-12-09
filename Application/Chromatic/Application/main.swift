@@ -6,6 +6,7 @@
 //  Copyright © 2021 Lakr Aream. All rights reserved.
 //
 
+import AuxiliaryExecute
 import Dog
 import UIKit
 
@@ -25,10 +26,17 @@ import UIKit
     }
 #endif
 
-// MARK: - Document
+// MARK: - Auxiliary Execute
 
-setuid(0)
-setgid(0)
+AuxiliaryExecuteWrapper.setupSearchPath()
+AuxiliaryExecuteWrapper.checkExecutorRequestAndExecuteIfNeeded()
+AuxiliaryExecuteWrapper.setupExecutables()
+AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
+
+setgid(501)
+setuid(501)
+
+// MARK: - Document
 
 UserDefaults
     .standard
@@ -117,14 +125,6 @@ private let environment = ProcessInfo.processInfo.environment
         Dog.shared.join("Env", "\(key): \(value)", level: .verbose)
     }
 #endif
-
-// MARK: - Auxiliary Execute
-
-AuxiliaryExecuteWrapper.setupExecutables()
-
-private let result = AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
-Dog.shared.join("Privilege", "stdout: [\(result.1.trimmingCharacters(in: .whitespacesAndNewlines))]", level: .info)
-Dog.shared.join("Privilege", "stderr: [\(result.2.trimmingCharacters(in: .whitespacesAndNewlines))]", level: .info)
 
 // MARK: - Boot Application
 

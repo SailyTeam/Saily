@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENV_PREFIX="/var/jb/"
+ENV_PREFIX=""
 
 APP_PATH="$ENV_PREFIX/Applications/chromatic.app"
 

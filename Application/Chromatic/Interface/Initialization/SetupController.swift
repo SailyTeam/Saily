@@ -61,16 +61,6 @@ class SetupViewController: UIViewController {
             }
         }
         accessLock.unlock()
-        if getuid() != 0 {
-            DispatchQueue.main.async {
-                SPIndicator.present(title: "u \(getuid()) g \(getgid())",
-                                    message: "",
-                                    preset: .error,
-                                    haptic: .error,
-                                    from: .top,
-                                    completion: nil)
-            }
-        }
     }
 
     func bootstrapApplication() {

@@ -11,6 +11,11 @@ import Dog
 import Foundation
 import UIKit
 
+private let rootlessArgs = [
+    "-oDpkg::Options::=--root=/var/jb",
+    "-oDir::Etc=/var/jb/etc/apt",
+]
+
 class TaskProcessor {
     static let shared = TaskProcessor()
 
@@ -18,7 +23,18 @@ class TaskProcessor {
     public private(set) var inProcessingQueue: Bool = false
     private let accessLock = NSLock()
 
+    private let isRootlessEnvironment: Bool
+
     private init() {
+        if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
+            Dog.shared.join("TaskProcessor",
+                            "rootless environment detected, insert dpkg flag",
+                            level: .info)
+            isRootlessEnvironment = true
+        } else {
+            isRootlessEnvironment = false
+        }
+
         workingLocation = documentsDirectory.appendingPathComponent("Installer")
         try? resetWorkingLocation()
     }
@@ -110,6 +126,7 @@ class TaskProcessor {
                 "remove",
                 "--assume-yes",
                 "--allow-remove-essential",
+                isRootlessEnvironment ? rootlessArgs.joined(separator: " ") : "",
                 operation.remove.map { $0 }.joined(separator: " \\\n "),
             ].joined(separator: " \\\n ") + "\n\n"
         }
@@ -125,6 +142,7 @@ class TaskProcessor {
                 "-oAcquire::AllowUnsizedPackages=true",
                 "-oDir::State::lists=",
                 "-oDpkg::Options::=--force-confdef",
+                isRootlessEnvironment ? rootlessArgs.joined(separator: " ") : "",
                 operation.install.map(\.1.path).joined(separator: " \\\n "),
             ].joined(separator: " \\\n ") + "\n\n"
         }
@@ -171,6 +189,9 @@ class TaskProcessor {
                     "--assume-yes", // --force-yes is deprecated, use --allow
                     "--allow-remove-essential",
                 ]
+                if isRootlessEnvironment {
+                    arguments.append(contentsOf: rootlessArgs)
+                }
                 if operation.dryRun { arguments.append("--dry-run") }
                 operation.remove.forEach { item in
                     arguments.append(item)
@@ -203,6 +224,9 @@ class TaskProcessor {
                     "-oDir::State::lists=",
                     "-oDpkg::Options::=--force-confdef",
                 ]
+                if isRootlessEnvironment {
+                    arguments.append(contentsOf: rootlessArgs)
+                }
                 if operation.dryRun {
                     arguments.append("--dry-run")
                     if operation.remove.count > 0 {
@@ -237,7 +261,8 @@ class TaskProcessor {
             }
             for item in operation.install.map(\.0) {
                 if let path = lookup["\(item).list"] {
-                    let full = "/Library/dpkg/info/\(path)"
+                    var full = "/Library/dpkg/info/\(path)"
+                    if isRootlessEnvironment { full = "/var/jb" + full }
                     // get the content of the file which contains all the file installed by package
                     let read = (try? String(contentsOf: URL(fileURLWithPath: full))) ?? ""
                     read
@@ -252,7 +277,13 @@ class TaskProcessor {
                         // check if it is in the right place
                         // tweak may install file into SpringBoard.app etc etc
                         // and cause problem if uicache bugged
-                        .filter { $0.path.hasPrefix("/Applications/") }
+                        .filter {
+                            if isRootlessEnvironment {
+                                return $0.path.hasPrefix("/var/jb/Applications/")
+                            } else {
+                                return $0.path.hasPrefix("/Applications/")
+                            }
+                        }
                         // put them into the Set<String>
                         .forEach { modifiedAppList.insert($0.path) }
                 }
@@ -290,7 +321,8 @@ class TaskProcessor {
                 if currentApplicationList.contains(item) {
                     continue // not removed, nor in install or modification list
                 }
-                let path = "/Applications/\(item)"
+                var path = "/Applications/\(item)"
+                if isRootlessEnvironment { path = "/var/jb" + path }
                 if path.hasPrefix(Bundle.main.bundlePath) {
                     continue
                 }

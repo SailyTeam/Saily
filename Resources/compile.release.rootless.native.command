@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 # add /opt/bin to search path
 export PATH=/opt/homebrew/bin/:$PATH
@@ -63,7 +63,7 @@ xcodebuild -workspace "$GIT_ROOT/Chromatic.xcworkspace" \
 mkdir PackageBuilder
 cd PackageBuilder || exit
 
-ENV_PREFIX=""
+ENV_PREFIX="/var/jb"
 
 mkdir -p ".$ENV_PREFIX/Applications"
 # copy build result .app to Applications
@@ -88,6 +88,9 @@ cp -r "$GIT_ROOT/build/License/ScannedLicense" ".$ENV_PREFIX/Applications/chroma
 
 cp -r "$GIT_ROOT/Resources/DEBIAN" ./
 
+# replace 'ENV_PREFIX=""' to 'ENV_PREFIX="/var/jb/"' in postinst
+sed -i '' "s/ENV_PREFIX=\"\"/ENV_PREFIX=\"\/var\/jb\/\"/g" ./DEBIAN/postinst
+
 sed -i '' "s/@@VERSION@@/2.1-REL-$TIMESTAMP/g" ./DEBIAN/control
 
 chmod -R 0755 DEBIAN
@@ -95,20 +98,8 @@ chmod -R 0755 DEBIAN
 PKG_NAME="chromatic.rel.ci.$TIMESTAMP.deb"
 dpkg-deb -b . "../$PKG_NAME"
 
-cd ..
-mkdir -p BuildInstaller/Payload
-cp -r "./PackageBuilder/$ENV_PREFIX/Applications/chromatic.app" "BuildInstaller/Payload/"
-cd BuildInstaller 
-IPA_LOCATION="$(pwd)/../chromatic.rel.ci.$TIMESTAMP.ipa"
-TIPA_LOCATION="$(pwd)/../chromatic.rel.ci.$TIMESTAMP.tipa"
-zip -r0 "$IPA_LOCATION" Payload
-cp "$IPA_LOCATION" "$TIPA_LOCATION"
-IPA_LOCATION=$(realpath "$IPA_LOCATION")
-cd ..
-
 echo "Finished build at $WORKING_ROOT"
 echo "Package available at $WORKING_ROOT/$PKG_NAME"
-echo "Installer available at $IPA_LOCATION"
 
 cd "$GIT_ROOT"/build
 

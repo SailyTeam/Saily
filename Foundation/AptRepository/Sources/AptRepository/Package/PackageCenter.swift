@@ -166,12 +166,12 @@ public final class PackageCenter {
             .appendingPathComponent("RepositoryCenter")
 
         // MARK: - ROOTLESS CHECKER
-        
+
         if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
             systemPackageStatusLocation = "/var/jb/Library/dpkg/status"
             Dog.shared.join("RepositoryCenter", "detected rootless environment")
         }
-        
+
         Dog.shared.join("RepositoryCenter", "tracing package status with \(systemPackageStatusLocation)", level: .info)
 
         // MARK: - PACKAGE TRACE

@@ -67,6 +67,9 @@
 	<array>
 		<string>com.apple.accessibility.AXSpringBoardServer</string>
 	</array>
+
+	<key>com.apple.private.persona-mgmt</key>
+	<true/>
 	
 </dict>
 </plist>

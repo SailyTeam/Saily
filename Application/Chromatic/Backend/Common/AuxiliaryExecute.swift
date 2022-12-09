@@ -8,8 +8,12 @@
 
 import AuxiliaryExecute
 import Bugsnag
+import Darwin
 import Dog
+import SPIndicator
 import UIKit
+
+private let execFlag = "exec-root"
 
 enum AuxiliaryExecuteWrapper {
     private(set) static var chromaticspawn: String = "/usr/sbin/chromaticspawn"
@@ -27,6 +31,23 @@ enum AuxiliaryExecuteWrapper {
     private(set) static var apt: String = "/usr/bin/apt"
     private(set) static var dpkg: String = "/usr/bin/dpkg"
 
+    private(set) static var binarySearchPath = [
+        "/bin",
+        "/usr/bin",
+        "/usr/local/bin",
+    ]
+
+    static func setupSearchPath() {
+        if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
+            binarySearchPath = [
+                "/var/jb/usr/bin",
+            ]
+        }
+        if let path = ProcessInfo.processInfo.environment["PATH"] {
+            binarySearchPath = path.components(separatedBy: ":") + binarySearchPath
+        }
+    }
+
     static func setupExecutables() {
         let bundle = Bundle
             .main
@@ -37,20 +58,6 @@ enum AuxiliaryExecuteWrapper {
                             "preferred bundled executable \(bundle.path) rather then system one",
                             level: .info)
         }
-
-        var binarySearchPath = [
-            "/usr/local/bin",
-            "/usr/bin",
-            "/bin",
-        ]
-
-        if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
-            Dog.shared.join(self,
-                            "rootless environment detected, moving binary prefix...",
-                            level: .info)
-            binarySearchPath = binarySearchPath.map { "/var/jb/" + $0 }
-        }
-        // "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
         var binaryLookupTable = [String: URL]()
 
@@ -145,61 +152,71 @@ enum AuxiliaryExecuteWrapper {
     {
         Dog.shared.join(
             "AuxiliaryExecute",
-            "\(command): \(args.joined(separator: " "))",
+            "\(command) \(args.joined(separator: " "))",
             level: .info
         )
+        guard let binary = Bundle.main.executablePath else {
+            DispatchQueue.main.async {
+                SPIndicator.present(title: "Broken Bundle",
+                                    message: "",
+                                    preset: .error,
+                                    haptic: .error,
+                                    from: .top,
+                                    completion: nil)
+            }
+            return (Int(EPERM), "", "")
+        }
         let recipe = AuxiliaryExecute.spawn(
-            command: command,
-            args: args,
+            command: binary,
+            args: [execFlag] + [command] + args,
             environment: [
                 "chromaticAuxiliaryExec": "1",
             ],
             timeout: Double(exactly: timeout) ?? 0,
             output: output
         )
-        return (recipe.exitCode, recipe.stdout, recipe.stderr)
-    }
-
-    @discardableResult
-    static func mobilespawn(command: String,
-                            args: [String],
-                            timeout: Int,
-                            output: @escaping (String) -> Void)
-        -> (Int, String, String)
-    {
         Dog.shared.join(
             "AuxiliaryExecute",
-            "\(command): \(args.joined(separator: " "))",
+            recipe.stdout + "\n" + recipe.stderr,
             level: .info
-        )
-        let recipe = AuxiliaryExecute.spawn(
-            command: command,
-            args: args,
-            environment: [
-                "chromaticAuxiliaryExec": "1",
-            ],
-            timeout: Double(exactly: timeout) ?? 0,
-            output: output
         )
         return (recipe.exitCode, recipe.stdout, recipe.stderr)
     }
+
+    static func checkExecutorRequestAndExecuteIfNeeded() {
+        var args = CommandLine.arguments
+        args.removeFirst()
+        guard args.first == execFlag else { return }
+        args.removeFirst()
+
+        PlatformSetup.giveMeRoot()
+
+        let binary = args.removeFirst()
+        if binary == "whoami" {
+            print("whoami: uid \(getuid()) gid \(getgid())")
+            exit(0)
+        }
+
+        guard getuid() == 0, getgid() == 0 else {
+            fputs("Permission Denied", stderr)
+            exit(EPERM)
+        }
+
+        for key in ProcessInfo.processInfo.environment.keys {
+            unsetenv(key)
+        }
+
+        let ret = AuxiliaryExecute.spawn(
+            command: binary,
+            args: args,
+            environment: ["PATH": binarySearchPath.joined(separator: ":")],
+            timeout: 0,
+            setPid: nil
+        ) { str in
+            fputs(str, stdout)
+        } stderrBlock: { str in
+            fputs(str, stderr)
+        }
+        exit(Int32(ret.exitCode))
+    }
 }
-
-/*
- Developer Notes
-
- //  [Uncover]
- // * |info| 2021-09-17_09-19-08| setting up binary cp at /bin/cp
- // * |info| 2021-09-17_09-19-08| setting up binary chmod at /bin/chmod
- // * |info| 2021-09-17_09-19-08| setting up binary mv at /bin/mv
- // * |info| 2021-09-17_09-19-08| setting up binary mkdir at /bin/mkdir
- // * |info| 2021-09-17_09-19-08| setting up binary touch at /bin/touch
- // * |info| 2021-09-17_09-19-08| setting up binary rm at /bin/rm
- // * |info| 2021-09-17_09-19-08| setting up binary kill at /bin/kill
- // * |info| 2021-09-17_09-19-08| setting up binary killall at /usr/bin/killall
- // * |info| 2021-09-17_09-19-08| setting up binary sbreload at /usr/bin/sbreload
- // * |info| 2021-09-17_09-19-08| setting up binary uicache at /usr/bin/uicache
- // * |info| 2021-09-17_09-19-08| setting up binary apt at /usr/bin/apt
- // * |info| 2021-09-17_09-19-08| setting up binary dpkg at /usr/bin/dpkg
-
- */

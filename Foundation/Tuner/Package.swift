@@ -6,16 +6,18 @@ import PackageDescription
 let package = Package(
     name: "Tuner",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13),
     ],
     products: [
         .library(
             name: "Tuner",
-            targets: ["Tuner"]),
+            targets: ["Tuner"]
+        ),
     ],
     targets: [
         .target(
             name: "Tuner",
-            dependencies: []),
+            dependencies: []
+        ),
     ]
 )

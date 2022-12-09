@@ -138,6 +138,54 @@ public extension AuxiliaryExecute {
             posix_spawn_file_actions_destroy(&fileActions)
         }
 
+        var fileAttribute: posix_spawnattr_t?
+
+        if getuid() != 0 {
+            posix_spawnattr_init(&fileAttribute)
+
+            typealias posix_spawnattr_set_persona_np = @convention(c) (
+                _ v1: UnsafeMutablePointer<posix_spawnattr_t?>?,
+                _ v2: Any,
+                _ v3: Any
+            ) -> Void
+            typealias posix_spawnattr_set_persona_uid_np = @convention(c) (
+                _ v1: UnsafeMutablePointer<posix_spawnattr_t?>?,
+                _ v2: Any
+            ) -> Void
+            typealias posix_spawnattr_set_persona_gid_np = @convention(c) (
+                _ v1: UnsafeMutablePointer<posix_spawnattr_t?>?,
+                _ v2: Any
+            ) -> Void
+
+            let open = dlopen(nil, RTLD_NOW)
+            if unsafeBitCast(open, to: Int.self) > 0x1024 {
+                let _posix_spawnattr_set_persona_np = dlsym(open, "posix_spawnattr_set_persona_np")
+                let __posix_spawnattr_set_persona_np = unsafeBitCast(
+                    _posix_spawnattr_set_persona_np,
+                    to: posix_spawnattr_set_persona_np.self
+                )
+                __posix_spawnattr_set_persona_np(&fileAttribute, 99, 1)
+
+                let _posix_spawnattr_set_persona_uid_np = dlsym(open, "posix_spawnattr_set_persona_uid_np")
+                let __posix_spawnattr_set_persona_uid_np = unsafeBitCast(
+                    _posix_spawnattr_set_persona_uid_np,
+                    to: posix_spawnattr_set_persona_uid_np.self
+                )
+                __posix_spawnattr_set_persona_uid_np(&fileAttribute, 0)
+
+                let _posix_spawnattr_set_persona_gid_np = dlsym(open, "posix_spawnattr_set_persona_gid_np")
+                let __posix_spawnattr_set_persona_gid_np = unsafeBitCast(
+                    _posix_spawnattr_set_persona_gid_np,
+                    to: posix_spawnattr_set_persona_gid_np.self
+                )
+                __posix_spawnattr_set_persona_gid_np(&fileAttribute, 0)
+            }
+        }
+
+        defer {
+            if fileAttribute != nil { posix_spawnattr_destroy(&fileAttribute) }
+        }
+
         // MARK: PREPARE ENV -
 
         var realEnvironmentBuilder: [String] = []
@@ -181,7 +229,7 @@ public extension AuxiliaryExecute {
         // MARK: NOW POSIX_SPAWN -
 
         var pid: pid_t = 0
-        let spawnStatus = posix_spawn(&pid, command, &fileActions, nil, argv + [nil], realEnv + [nil])
+        let spawnStatus = posix_spawn(&pid, command, &fileActions, &fileAttribute, argv + [nil], realEnv + [nil])
         if spawnStatus != 0 {
             let recipe = ExecuteRecipe.failure(error: .posixSpawnFailed)
             completionBlock?(recipe)

@@ -61,9 +61,9 @@ class SetupViewController: UIViewController {
             }
         }
         accessLock.unlock()
-        if AuxiliaryExecuteWrapper.session == nil {
+        if getuid() != 0 {
             DispatchQueue.main.async {
-                SPIndicator.present(title: "chromaticspawn: EPERM",
+                SPIndicator.present(title: "u \(getuid()) g \(getgid())",
                                     message: "",
                                     preset: .error,
                                     haptic: .error,

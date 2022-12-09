@@ -109,8 +109,7 @@ extension InstalledController {
                            options: .curveEaseInOut,
                            animations: {
                                cell.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                           })
-            { _ in
+                           }) { _ in
             }
         }
     }
@@ -124,8 +123,7 @@ extension InstalledController {
                            options: .curveEaseInOut,
                            animations: {
                                cell.transform = .identity
-                           })
-            { _ in
+                           }) { _ in
             }
         }
     }

@@ -203,8 +203,7 @@ class RepoPaymentView: UIView {
         if userInfo == nil {
             PaymentManager.shared.startUserAuthenticate(window: window ?? UIWindow(),
                                                         controller: parentViewController,
-                                                        repoUrl: repo.url)
-            {
+                                                        repoUrl: repo.url) {
                 DispatchQueue.main.async { [weak self] in
                     self?.updateIndicator()
                 }

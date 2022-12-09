@@ -36,8 +36,7 @@ enum AppleAvatar {
 
         AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.cp,
                                           args: ["-f", iconPath.path, toPath.path],
-                                          timeout: 3)
-        { str in
+                                          timeout: 3) { str in
             Dog.shared.join(self, "exec: \(str.trimmingCharacters(in: .whitespacesAndNewlines))", level: .verbose)
         }
         AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.chmod,

@@ -154,8 +154,7 @@ class TaskProcessor {
                                                                   "/var/lib/apt/lists/lock",
                                                                   "/var/cache/apt/archives/lock",
                                                                   "/var/lib/dpkg/lock"],
-                                                           timeout: 1)
-            { str in
+                                                           timeout: 1) { str in
                 output(str)
             }
             output("[*] returning \(result.0)\n")
@@ -178,8 +177,7 @@ class TaskProcessor {
                 }
                 let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
                                                                args: arguments,
-                                                               timeout: 0)
-                { str in
+                                                               timeout: 0) { str in
                     Dog.shared.join(self, "apt rm: \(str)", level: .info)
                     output(str)
                 }
@@ -216,8 +214,7 @@ class TaskProcessor {
                 }
                 let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
                                                                args: arguments,
-                                                               timeout: 0)
-                { str in
+                                                               timeout: 0) { str in
                     Dog.shared.join(self, "apt inst: \(str)", level: .info)
                     output(str)
                 }

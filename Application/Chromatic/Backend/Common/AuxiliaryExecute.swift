@@ -27,11 +27,6 @@ enum AuxiliaryExecuteWrapper {
     private(set) static var apt: String = "/usr/bin/apt"
     private(set) static var dpkg: String = "/usr/bin/dpkg"
 
-    private(set) static var session: String?
-
-    static let sessionTiketLocation = documentsDirectory
-        .appendingPathComponent("wiki.qaq.root.sessions")
-
     static func setupExecutables() {
         let bundle = Bundle
             .main
@@ -43,11 +38,18 @@ enum AuxiliaryExecuteWrapper {
                             level: .info)
         }
 
-        let binarySearchPath = [
+        var binarySearchPath = [
             "/usr/local/bin",
             "/usr/bin",
             "/bin",
         ]
+
+        if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
+            Dog.shared.join(self,
+                            "rootless environment detected, moving binary prefix...",
+                            level: .info)
+            binarySearchPath = binarySearchPath.map { "/var/jb/" + $0 }
+        }
         // "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
         var binaryLookupTable = [String: URL]()
@@ -124,38 +126,6 @@ enum AuxiliaryExecuteWrapper {
         #endif
     }
 
-    static func createPrivilegedSession() {
-        var maxRetry = 3
-        while maxRetry > 0 {
-            maxRetry -= 1
-            // call the helper to generate the session
-            let result = mobilespawn(command: chromaticspawn,
-                                     args: ["ipc.create.root.session", sessionTiketLocation.path],
-                                     timeout: 0) { _ in
-            }
-            // it should now output the session ticket in stdout
-            // some tweak may interrupt our data stream so we lookup for them each line
-            let lookup = result
-                .1
-                .components(separatedBy: "\n")
-                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            for ticket in lookup {
-                // validate the ticket to have ticket:// prefix and aa55 suffix
-                guard ticket.hasPrefix("ticket://"),
-                      ticket.hasSuffix("AA55")
-                else {
-                    continue
-                }
-                session = ticket
-                // for future use, we need to pass the session inside the env
-                Dog.shared.join(self, "created privileged session \(ticket)", level: .info)
-                Dog.shared.join(self, "ticket located at \(sessionTiketLocation.path)", level: .info)
-                return
-            }
-            Dog.shared.join(self, "failed to create privileged session", level: .error)
-        }
-    }
-
     static func suspendApplication() {
         UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
     }
@@ -173,41 +143,21 @@ enum AuxiliaryExecuteWrapper {
                           timeout: Int,
                           output: @escaping (String) -> Void) -> (Int, String, String)
     {
-        if getuid() == 0 {
-            Dog.shared.join(
-                "AuxiliaryExecute",
-                "\(command): \(args.joined(separator: " "))",
-                level: .info
-            )
-            let recipe = AuxiliaryExecute.spawn(
-                command: command,
-                args: args,
-                environment: [
-                    "chromaticAuxiliaryExec": "1",
-                ],
-                timeout: Double(exactly: timeout) ?? 0,
-                output: output
-            )
-            return (recipe.exitCode, recipe.stdout, recipe.stderr)
-        } else {
-            Dog.shared.join(
-                "AuxiliaryExecute",
-                "\(chromaticspawn): \(([command] + args).joined(separator: " "))",
-                level: .info
-            )
-            let recipe = AuxiliaryExecute.spawn(
-                command: chromaticspawn,
-                args: [command] + args,
-                environment: [
-                    "chromaticAuxiliaryExec": "1",
-                    "chromaticAuxiliaryExecTicket": session ?? "undefined",
-                    "chromaticAuxiliaryExecTicketStore": sessionTiketLocation.path,
-                ],
-                timeout: Double(exactly: timeout) ?? 0,
-                output: output
-            )
-            return (recipe.exitCode, recipe.stdout, recipe.stderr)
-        }
+        Dog.shared.join(
+            "AuxiliaryExecute",
+            "\(command): \(args.joined(separator: " "))",
+            level: .info
+        )
+        let recipe = AuxiliaryExecute.spawn(
+            command: command,
+            args: args,
+            environment: [
+                "chromaticAuxiliaryExec": "1",
+            ],
+            timeout: Double(exactly: timeout) ?? 0,
+            output: output
+        )
+        return (recipe.exitCode, recipe.stdout, recipe.stderr)
     }
 
     @discardableResult

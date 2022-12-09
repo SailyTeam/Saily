@@ -555,7 +555,20 @@ class PackageMenuAction {
         // MARK: - REVEAL FILES
 
         .init(descriptor: .revealFiles, block: { package, view in
-            let path = "/Library/dpkg/info/\(package.identity).list"
+            var path: String?
+            if FileManager
+                .default
+                .fileExists(atPath: "/Library/dpkg/info/\(package.identity).list")
+            {
+                path = "/Library/dpkg/info/\(package.identity).list"
+            }
+            if FileManager
+                .default
+                .fileExists(atPath: "/var/jb/Library/dpkg/info/\(package.identity).list")
+            {
+                path = "/var/jb/Library/dpkg/info/\(package.identity).list"
+            }
+            guard let path else { return }
             let controller = PathListTableViewController(path: path)
             controller.pressToCopy = true
             controller.showFullPath = true
@@ -569,6 +582,10 @@ class PackageMenuAction {
             FileManager
                 .default
                 .fileExists(atPath: "/Library/dpkg/info/\(package.identity).list")
+                ||
+                FileManager
+                .default
+                .fileExists(atPath: "/var/jb/Library/dpkg/info/\(package.identity).list")
         }),
     ]
 

@@ -32,14 +32,6 @@ AuxiliaryExecuteWrapper.setupSearchPath()
 AuxiliaryExecuteWrapper.checkExecutorRequestAndExecuteIfNeeded()
 AuxiliaryExecuteWrapper.setupExecutables()
 
-AuxiliaryExecuteWrapper.rootspawn(
-    command: AuxiliaryExecuteWrapper.chmod,
-    args: ["-R", "666", documentsDirectory.path],
-    timeout: 1
-) { str in
-    Dog.shared.join("Bootstrap", str)
-}
-
 // MARK: - Document
 
 UserDefaults
@@ -81,6 +73,22 @@ UserDefaults
 
 // calling chdir avoiding putting junk file into root
 FileManager.default.changeCurrentDirectoryPath(documentsDirectory.path)
+
+AuxiliaryExecuteWrapper.rootspawn(
+    command: AuxiliaryExecuteWrapper.mkdir,
+    args: ["-p", documentsDirectory.path],
+    timeout: 1
+) { str in
+    Dog.shared.join("Bootstrap", str)
+}
+
+AuxiliaryExecuteWrapper.rootspawn(
+    command: AuxiliaryExecuteWrapper.chmod,
+    args: ["-R", "666", documentsDirectory.path],
+    timeout: 1
+) { str in
+    Dog.shared.join("Bootstrap", str)
+}
 
 // MARK: - Logging Engine
 

@@ -26,15 +26,10 @@ import UIKit
     }
 #endif
 
-// MARK: - Auxiliary Execute
+// MARK: - Auxiliary Execute Special Exec
 
 AuxiliaryExecuteWrapper.setupSearchPath()
 AuxiliaryExecuteWrapper.checkExecutorRequestAndExecuteIfNeeded()
-AuxiliaryExecuteWrapper.setupExecutables()
-AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
-
-setgid(501)
-setuid(501)
 
 // MARK: - Document
 
@@ -78,15 +73,6 @@ UserDefaults
 // calling chdir avoiding putting junk file into root
 FileManager.default.changeCurrentDirectoryPath(documentsDirectory.path)
 
-// now fix any issue
-AuxiliaryExecuteWrapper.rootspawn(
-    command: AuxiliaryExecuteWrapper.chmod,
-    args: ["-R", "666", documentsDirectory.path],
-    timeout: 1
-) { str in
-    Dog.shared.join("Bootstrap", str)
-}
-
 // MARK: - Logging Engine
 
 do {
@@ -99,6 +85,20 @@ do {
         NSLog(errorDescription)
     #endif
 }
+
+// MARK: - Privileged Boot
+
+AuxiliaryExecuteWrapper.setupExecutables()
+
+AuxiliaryExecuteWrapper.rootspawn(
+    command: AuxiliaryExecuteWrapper.chmod,
+    args: ["-R", "666", documentsDirectory.path],
+    timeout: 1
+) { str in
+    Dog.shared.join("Bootstrap", str)
+}
+
+AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }
 
 private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 private var appVersionDate: String?

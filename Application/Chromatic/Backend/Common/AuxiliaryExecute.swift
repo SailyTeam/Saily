@@ -202,6 +202,58 @@ enum AuxiliaryExecuteWrapper {
             exit(EPERM)
         }
 
+        if binary == "exec-uicache" {
+            // we may need root to lookup for apps...
+            Self.setupExecutables()
+            for item in (try? FileManager.default.contentsOfDirectory(atPath: "/Applications")) ?? [] {
+                let path = "/Applications/\(item)"
+                print("calling uicache at \(path)")
+                AuxiliaryExecute.spawn(
+                    command: uicache,
+                    args: ["-p"],
+                    environment: [:],
+                    timeout: 10,
+                    setPid: nil
+                ) { print($0) }
+            }
+            for item in (try? FileManager.default.contentsOfDirectory(atPath: "/var/jb/Applications")) ?? [] {
+                let path = "/var/jb/Applications/\(item)"
+                print("calling uicache at \(path)")
+                AuxiliaryExecute.spawn(
+                    command: uicache,
+                    args: ["-p", path],
+                    environment: [:],
+                    timeout: 10,
+                    setPid: nil
+                ) { print($0) }
+            }
+            let list = AuxiliaryExecute.spawn(
+                command: uicache,
+                args: ["-l"],
+                environment: [:],
+                timeout: 30,
+                setPid: nil
+            ) { print($0) }
+            for line in list.stdout.components(separatedBy: "\n") {
+                guard line.contains(" : ") else { continue }
+                var sep = line.components(separatedBy: " : ")
+                guard sep.count == 2 else { continue }
+                let bundleIdentifier = sep.removeFirst().trimmingCharacters(in: .whitespacesAndNewlines)
+                let path = sep.removeFirst().trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !bundleIdentifier.lowercased().hasPrefix("com.apple.") else { continue }
+                guard !FileManager.default.fileExists(atPath: path) else { continue }
+                print("[*] removing uicache at \(path)")
+                AuxiliaryExecute.spawn(
+                    command: uicache,
+                    args: ["-u", path],
+                    environment: [:],
+                    timeout: 10,
+                    setPid: nil
+                ) { print($0) }
+            }
+            exit(0)
+        }
+
         for key in ProcessInfo.processInfo.environment.keys {
             unsetenv(key)
         }

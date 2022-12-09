@@ -80,6 +80,10 @@ extension SettingView {
                                                           args: ["--all"],
                                                           timeout: 120,
                                                           output: { _ in })
+                        AuxiliaryExecuteWrapper.rootspawn(command: "exec-uicache",
+                                                          args: [],
+                                                          timeout: 120,
+                                                          output: { _ in })
                         DispatchQueue.main.async {
                             alert.dismiss(animated: true, completion: nil)
                         }

@@ -114,6 +114,7 @@ class TaskProcessor {
         // MARK: - GET A LIST OF /Applications SO WE CAN HANDLE REMOVE
 
         let applicationsPath = "\(isRootlessEnvironment ? rootlessPrefix : "")/Applications"
+        output("\n[*] using applications path \(applicationsPath)\n")
 
         let beforeOperationApplicationList = (
             (
@@ -295,7 +296,7 @@ class TaskProcessor {
                 }
                 output("[*] \(path)\n")
                 let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
-                                                               args: ["-p", path],
+                                                               args: ["-u", path],
                                                                timeout: 10) { _ in }
                 output("[*] returning \(result.0)\n")
             }

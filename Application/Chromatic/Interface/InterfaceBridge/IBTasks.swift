@@ -27,27 +27,6 @@ extension InterfaceBridge {
     }
 
     static let taskDropDownActions: [TaskDropDownAction] = [
-        .init(label: NSLocalizedString("COPY_SCRIPT", comment: "Copy Script"), action: {
-            let text = TaskProcessor.shared.generateMockCommandScript(operation: $1)
-            if InterfaceBridge.enableShareSheet {
-                let activityViewController = UIActivityViewController(activityItems: [text],
-                                                                      applicationActivities: nil)
-                activityViewController
-                    .popoverPresentationController?
-                    .sourceView = $0
-                $0
-                    .parentViewController?
-                    .present(activityViewController, animated: true, completion: nil)
-            } else {
-                UIPasteboard.general.string = text
-                SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Cpoied"),
-                                    message: nil,
-                                    preset: .done,
-                                    haptic: .success,
-                                    from: .top,
-                                    completion: nil)
-            }
-        }),
         .init(label: NSLocalizedString("DRY_RUN", comment: "Dry Run"), action: {
             let target = OperationConsoleController()
             var dryRunPayload = $1

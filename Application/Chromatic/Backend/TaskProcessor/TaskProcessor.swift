@@ -11,11 +11,6 @@ import Dog
 import Foundation
 import UIKit
 
-private let rootlessArgs = [
-    "-oDpkg::Options::=--root=/var/jb",
-    "-oDir::Etc=/var/jb/etc/apt",
-]
-
 class TaskProcessor {
     static let shared = TaskProcessor()
 
@@ -24,9 +19,10 @@ class TaskProcessor {
     private let accessLock = NSLock()
 
     private let isRootlessEnvironment: Bool
+    private let rootlessPrefix = "/var/jb"
 
     private init() {
-        if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
+        if FileManager.default.fileExists(atPath: "\(rootlessPrefix)/Library/dpkg/status") {
             Dog.shared.join("TaskProcessor",
                             "rootless environment detected, insert dpkg flag",
                             level: .info)
@@ -111,53 +107,17 @@ class TaskProcessor {
         return .init(install: installList, remove: remove)
     }
 
-    func generateMockCommandScript(operation: OperationPaylad) -> String {
-        var returnString = ""
-        returnString += [
-            AuxiliaryExecuteWrapper.rm,
-            "-f",
-            "/var/lib/apt/lists/lock",
-            "/var/cache/apt/archives/lock",
-            "/var/lib/dpkg/lock",
-        ].joined(separator: " \\\n ") + "\n\n"
-        if operation.remove.count > 0 {
-            returnString += [
-                AuxiliaryExecuteWrapper.apt,
-                "remove",
-                "--assume-yes",
-                "--allow-remove-essential",
-                isRootlessEnvironment ? rootlessArgs.joined(separator: " ") : "",
-                operation.remove.map { $0 }.joined(separator: " \\\n "),
-            ].joined(separator: " \\\n ") + "\n\n"
-        }
-        if operation.install.count > 0 {
-            returnString += [
-                AuxiliaryExecuteWrapper.apt,
-                "install",
-                "--assume-yes",
-                "--reinstall", "--allow-downgrades", "--allow-change-held-packages",
-                "-oquiet::NoUpdate=true", "-oApt::Get::HideAutoRemove=true",
-                "-oquiet::NoProgress=true", "-oquiet::NoStatistic=true",
-                "-oAPT::Get::Show-User-Simulation-Note=False",
-                "-oAcquire::AllowUnsizedPackages=true",
-                "-oDir::State::lists=",
-                "-oDpkg::Options::=--force-confdef",
-                isRootlessEnvironment ? rootlessArgs.joined(separator: " ") : "",
-                operation.install.map(\.1.path).joined(separator: " \\\n "),
-            ].joined(separator: " \\\n ") + "\n\n"
-        }
-        return returnString
-    }
-
     func beginOperation(operation: OperationPaylad, output: @escaping (String) -> Void) {
         accessLock.lock()
         inProcessingQueue = true
 
         // MARK: - GET A LIST OF /Applications SO WE CAN HANDLE REMOVE
 
+        let applicationsPath = "\(isRootlessEnvironment ? rootlessPrefix : "")/Applications"
+
         let beforeOperationApplicationList = (
             (
-                try? FileManager.default.contentsOfDirectory(atPath: "/Applications")
+                try? FileManager.default.contentsOfDirectory(atPath: applicationsPath)
             ) ?? []
         )
 
@@ -168,10 +128,7 @@ class TaskProcessor {
             output("\n===>\n")
             output(NSLocalizedString("UNLOCKING_SYSTEM", comment: "Unlocking system") + "\n")
             let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.rm,
-                                                           args: ["-f",
-                                                                  "/var/lib/apt/lists/lock",
-                                                                  "/var/cache/apt/archives/lock",
-                                                                  "/var/lib/dpkg/lock"],
+                                                           args: ["-f", "\(isRootlessEnvironment ? rootlessPrefix : "")/var/lib/dpkg/lock"],
                                                            timeout: 1) { str in
                 output(str)
             }
@@ -185,21 +142,20 @@ class TaskProcessor {
                 output("\n===>\n")
                 output(NSLocalizedString("BEGIN_UNINSTALL", comment: "Begin uninstall") + "\n")
                 var arguments = [
-                    "remove",
-                    "--assume-yes", // --force-yes is deprecated, use --allow
-                    "--allow-remove-essential",
+                    "--purge",
+                    "--force-all",
                 ]
                 if isRootlessEnvironment {
-                    arguments.append(contentsOf: rootlessArgs)
+                    arguments += ["--root=\(rootlessPrefix)"]
                 }
                 if operation.dryRun { arguments.append("--dry-run") }
                 operation.remove.forEach { item in
                     arguments.append(item)
                 }
-                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.dpkg,
                                                                args: arguments,
                                                                timeout: 0) { str in
-                    Dog.shared.join(self, "apt rm: \(str)", level: .info)
+                    Dog.shared.join(self, "dpkg rm: \(str)", level: .info)
                     output(str)
                 }
                 output("[*] returning \(result.0)\n")
@@ -213,33 +169,42 @@ class TaskProcessor {
                 output("\n===>\n")
                 output(NSLocalizedString("BEGIN_INSTALL", comment: "Begin install") + "\n")
                 var arguments = [
-                    "install",
-                    "--assume-yes", // --force-yes is deprecated, use --allow
-                    "--reinstall", "--allow-downgrades", "--allow-change-held-packages",
-//                    "--no-download", // it will cause bug with pathname not absolute
-                    "-oquiet::NoUpdate=true", "-oApt::Get::HideAutoRemove=true",
-                    "-oquiet::NoProgress=true", "-oquiet::NoStatistic=true",
-                    "-oAPT::Get::Show-User-Simulation-Note=False",
-                    "-oAcquire::AllowUnsizedPackages=true",
-                    "-oDir::State::lists=",
-                    "-oDpkg::Options::=--force-confdef",
+                    "--install",
+                    "--force-all",
+                    "--force-confdef",
                 ]
-                if isRootlessEnvironment {
-                    arguments.append(contentsOf: rootlessArgs)
-                }
-                if operation.dryRun {
-                    arguments.append("--dry-run")
-                    if operation.remove.count > 0 {
-                        output("\n[i] Dry run with uninstall may not report correctly\n")
-                    }
-                }
+                if isRootlessEnvironment { arguments += ["--root=\(rootlessPrefix)"] }
+                if operation.dryRun { arguments.append("--dry-run") }
                 operation.install.forEach { item in
                     arguments.append(item.1.path)
                 }
-                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.apt,
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.dpkg,
                                                                args: arguments,
                                                                timeout: 0) { str in
-                    Dog.shared.join(self, "apt inst: \(str)", level: .info)
+                    Dog.shared.join(self, "dpkg inst: \(str)", level: .info)
+                    output(str)
+                }
+                output("[*] returning \(result.0)\n")
+            }
+        } while false
+
+        // MARK: - CONFIGURE IF NEEDED
+
+        repeat {
+            if operation.install.count > 0 {
+                output("\n===>\n")
+                var arguments = [
+                    "--configure",
+                    "-a",
+                    "--force-all",
+                    "--force-confdef",
+                ]
+                if isRootlessEnvironment { arguments += ["--root=\(rootlessPrefix)"] }
+                if operation.dryRun { arguments.append("--dry-run") }
+                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.dpkg,
+                                                               args: arguments,
+                                                               timeout: 0) { str in
+                    Dog.shared.join(self, "dpkg config all")
                     output(str)
                 }
                 output("[*] returning \(result.0)\n")
@@ -252,8 +217,9 @@ class TaskProcessor {
             if operation.dryRun { break }
             var modifiedAppList = Set<String>()
             var lookup = [String: String]()
+            let dpkgSearchPath = "\(isRootlessEnvironment ? rootlessPrefix : "")/Library/dpkg/info/"
             var dpkgList = (
-                try? FileManager.default.contentsOfDirectory(atPath: "/Library/dpkg/info/")
+                try? FileManager.default.contentsOfDirectory(atPath: dpkgSearchPath)
             ) ?? []
             dpkgList = dpkgList.filter { $0.hasSuffix(".list") }
             for item in dpkgList {
@@ -262,7 +228,7 @@ class TaskProcessor {
             for item in operation.install.map(\.0) {
                 if let path = lookup["\(item).list"] {
                     var full = "/Library/dpkg/info/\(path)"
-                    if isRootlessEnvironment { full = "/var/jb" + full }
+                    if isRootlessEnvironment { full = "\(rootlessPrefix)\(full)" }
                     // get the content of the file which contains all the file installed by package
                     let read = (try? String(contentsOf: URL(fileURLWithPath: full))) ?? ""
                     read
@@ -278,11 +244,7 @@ class TaskProcessor {
                         // tweak may install file into SpringBoard.app etc etc
                         // and cause problem if uicache bugged
                         .filter {
-                            if isRootlessEnvironment {
-                                return $0.path.hasPrefix("/var/jb/Applications/")
-                            } else {
-                                return $0.path.hasPrefix("/Applications/")
-                            }
+                            $0.path.hasPrefix("\(isRootlessEnvironment ? rootlessPrefix : "")/Applications")
                         }
                         // put them into the Set<String>
                         .forEach { modifiedAppList.insert($0.path) }
@@ -313,7 +275,7 @@ class TaskProcessor {
             if operation.dryRun { break }
             let currentApplicationList = (
                 (
-                    try? FileManager.default.contentsOfDirectory(atPath: "/Applications")
+                    try? FileManager.default.contentsOfDirectory(atPath: applicationsPath)
                 ) ?? []
             )
             var printed = false
@@ -321,8 +283,7 @@ class TaskProcessor {
                 if currentApplicationList.contains(item) {
                     continue // not removed, nor in install or modification list
                 }
-                var path = "/Applications/\(item)"
-                if isRootlessEnvironment { path = "/var/jb" + path }
+                let path = applicationsPath + "/" + item
                 if path.hasPrefix(Bundle.main.bundlePath) {
                     continue
                 }

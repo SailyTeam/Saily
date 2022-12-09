@@ -28,7 +28,7 @@ enum AuxiliaryExecuteWrapper {
     private(set) static var killall: String = "/bin/killall"
     private(set) static var sbreload: String = "/usr/bin/sbreload"
     private(set) static var uicache: String = "/usr/bin/uicache"
-    private(set) static var apt: String = "/usr/bin/apt"
+//    private(set) static var apt: String = "/usr/bin/apt" // not good under rootless
     private(set) static var dpkg: String = "/usr/bin/dpkg"
 
     private(set) static var binarySearchPath = [
@@ -118,10 +118,10 @@ enum AuxiliaryExecuteWrapper {
             self.uicache = uicache.path
             Dog.shared.join("BinaryFinder", "setting up binary uicache at \(uicache.path)")
         }
-        if let apt = binaryLookupTable["apt"] {
-            self.apt = apt.path
-            Dog.shared.join("BinaryFinder", "setting up binary apt at \(apt.path)")
-        }
+//        if let apt = binaryLookupTable["apt"] {
+//            self.apt = apt.path
+//            Dog.shared.join("BinaryFinder", "setting up binary apt at \(apt.path)")
+//        }
         if let dpkg = binaryLookupTable["dpkg"] {
             self.dpkg = dpkg.path
             Dog.shared.join("BinaryFinder", "setting up binary dpkg at \(dpkg.path)")

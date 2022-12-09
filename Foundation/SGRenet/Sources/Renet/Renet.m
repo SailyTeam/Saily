@@ -13,6 +13,14 @@
 @implementation SGRenet
 
 + (int)resolveNetworkProblemForAppWithBundleId:(NSString *)bundleId {
+    @try {
+        [SGRenet kResolveNetworkProblemForAppWithBundleId: bundleId];
+    } @catch (NSException *exception) {
+        NSLog(@"[*] Exception Catches %@", exception.description);
+    } @finally { }
+}
+
++ (int)kResolveNetworkProblemForAppWithBundleId:(NSString *)bundleId {
 	NSBundle *cellularBundle = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/SettingsCellular.framework"];
 	if (![cellularBundle load]) {
 		cellularBundle = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/Preferences.framework"];

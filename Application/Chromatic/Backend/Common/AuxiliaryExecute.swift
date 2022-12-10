@@ -16,8 +16,6 @@ import UIKit
 private let execFlag = "exec-root"
 
 enum AuxiliaryExecuteWrapper {
-    private(set) static var chromaticspawn: String = "/usr/sbin/chromaticspawn"
-
     private(set) static var cp: String = "/bin/cp"
     private(set) static var chmod: String = "/bin/chmod"
     private(set) static var mv: String = "/bin/mv"
@@ -47,16 +45,6 @@ enum AuxiliaryExecuteWrapper {
     }
 
     static func setupExecutables() {
-        let bundle = Bundle
-            .main
-            .url(forAuxiliaryExecutable: "chromaticspawn")
-        if let bundle = bundle {
-            chromaticspawn = bundle.path
-            Dog.shared.join(self,
-                            "preferred bundled executable \(bundle.path) rather then system one",
-                            level: .info)
-        }
-
         var binaryLookupTable = [String: URL]()
 
         #if DEBUG
@@ -226,17 +214,6 @@ private extension AuxiliaryExecuteWrapper {
         .init(match: "exec-uicache", execute: { _ in
             // we may need root to lookup for apps...
             Self.setupExecutables()
-            for item in (try? FileManager.default.contentsOfDirectory(atPath: "/Applications")) ?? [] {
-                let path = "/Applications/\(item)"
-                print("calling uicache at \(path)")
-                AuxiliaryExecute.spawn(
-                    command: uicache,
-                    args: ["-p"],
-                    environment: [:],
-                    timeout: 10,
-                    setPid: nil
-                ) { print($0) }
-            }
             for item in (try? FileManager.default.contentsOfDirectory(atPath: "/var/jb/Applications")) ?? [] {
                 let path = "/var/jb/Applications/\(item)"
                 print("calling uicache at \(path)")
@@ -261,7 +238,7 @@ private extension AuxiliaryExecuteWrapper {
                 guard sep.count == 2 else { continue }
                 let bundleIdentifier = sep.removeFirst().trimmingCharacters(in: .whitespacesAndNewlines)
                 let path = sep.removeFirst().trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !bundleIdentifier.lowercased().hasPrefix("com.apple.") else { continue }
+                guard !bundleIdentifier.lowercased().hasPrefix("com.apple.") else { continue } // safe guard
                 guard !FileManager.default.fileExists(atPath: path) else { continue }
                 print("[*] removing uicache at \(path)")
                 AuxiliaryExecute.spawn(
@@ -272,6 +249,13 @@ private extension AuxiliaryExecuteWrapper {
                     setPid: nil
                 ) { print($0) }
             }
+            AuxiliaryExecute.spawn(
+                command: uicache,
+                args: ["-a"],
+                environment: [:],
+                timeout: 120,
+                setPid: nil
+            ) { print($0) }
             exit(0)
         }),
     ]

@@ -39,9 +39,7 @@ enum AuxiliaryExecuteWrapper {
 
     static func setupSearchPath() {
         if FileManager.default.fileExists(atPath: "/var/jb/Library/dpkg/status") {
-            binarySearchPath = [
-                "/var/jb/usr/bin",
-            ]
+            binarySearchPath = ["/var/jb/usr/bin"]
         }
         if let path = ProcessInfo.processInfo.environment["PATH"] {
             binarySearchPath = path.components(separatedBy: ":") + binarySearchPath
@@ -118,10 +116,6 @@ enum AuxiliaryExecuteWrapper {
             self.uicache = uicache.path
             Dog.shared.join("BinaryFinder", "setting up binary uicache at \(uicache.path)")
         }
-//        if let apt = binaryLookupTable["apt"] {
-//            self.apt = apt.path
-//            Dog.shared.join("BinaryFinder", "setting up binary apt at \(apt.path)")
-//        }
         if let dpkg = binaryLookupTable["dpkg"] {
             self.dpkg = dpkg.path
             Dog.shared.join("BinaryFinder", "setting up binary dpkg at \(dpkg.path)")
@@ -169,9 +163,7 @@ enum AuxiliaryExecuteWrapper {
         let recipe = AuxiliaryExecute.spawn(
             command: binary,
             args: [execFlag] + [command] + args,
-            environment: [
-                "chromaticAuxiliaryExec": "1",
-            ],
+            environment: ["chromaticAuxiliaryExec": "1"],
             timeout: Double(exactly: timeout) ?? 0,
             output: output
         )
@@ -190,19 +182,48 @@ enum AuxiliaryExecuteWrapper {
         args.removeFirst()
 
         PlatformSetup.giveMeRoot()
-
-        let binary = args.removeFirst()
-        if binary == "whoami" {
-            print("whoami: uid \(getuid()) gid \(getgid())")
-            exit(0)
-        }
-
         guard getuid() == 0, getgid() == 0 else {
             fputs("Permission Denied", stderr)
             exit(EPERM)
         }
 
-        if binary == "exec-uicache" {
+        let binary = args.removeFirst()
+        resolveCustomExecutionIfFound(binary: binary, args: args)
+
+        for key in ProcessInfo.processInfo.environment.keys {
+            unsetenv(key)
+        }
+
+        let ret = AuxiliaryExecute.spawn(
+            command: binary,
+            args: args,
+            environment: [
+                "PATH": binarySearchPath.joined(separator: ":"),
+                "chromaticAuxiliaryExec": "1",
+            ],
+            timeout: 0,
+            setPid: nil
+        ) { str in
+            fputs(str, stdout)
+        } stderrBlock: { str in
+            fputs(str, stderr)
+        }
+        exit(Int32(ret.exitCode))
+    }
+}
+
+private extension AuxiliaryExecuteWrapper {
+    struct CustomCommand {
+        let match: String
+        let execute: (_ args: [String]) -> Never
+    }
+
+    private static let commandList: [CustomCommand] = [
+        .init(match: "whoami", execute: { _ in
+            print("whoami: uid \(getuid()) gid \(getgid())")
+            exit(0)
+        }),
+        .init(match: "exec-uicache", execute: { _ in
             // we may need root to lookup for apps...
             Self.setupExecutables()
             for item in (try? FileManager.default.contentsOfDirectory(atPath: "/Applications")) ?? [] {
@@ -252,23 +273,14 @@ enum AuxiliaryExecuteWrapper {
                 ) { print($0) }
             }
             exit(0)
-        }
+        }),
+    ]
 
-        for key in ProcessInfo.processInfo.environment.keys {
-            unsetenv(key)
+    static func resolveCustomExecutionIfFound(binary: String, args: [String]) {
+        for item in commandList {
+            if binary == item.match {
+                item.execute(args)
+            }
         }
-
-        let ret = AuxiliaryExecute.spawn(
-            command: binary,
-            args: args,
-            environment: ["PATH": binarySearchPath.joined(separator: ":")],
-            timeout: 0,
-            setPid: nil
-        ) { str in
-            fputs(str, stdout)
-        } stderrBlock: { str in
-            fputs(str, stderr)
-        }
-        exit(Int32(ret.exitCode))
     }
 }

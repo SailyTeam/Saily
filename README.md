@@ -4,6 +4,8 @@
 
 Release Channel Repo: https://sailyteam.github.io/repo/
 
+**You are in root branch, for rootless support, check out other branch.**
+
 [![Build Release](https://github.com/SailyTeam/Saily/actions/workflows/build.yml/badge.svg)](https://github.com/SailyTeam/Saily/actions/workflows/build.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SailyTeam/Saily/pulls)
 [![Crowdin](https://badges.crowdin.net/saily/localized.svg)](https://crwd.in/saily)

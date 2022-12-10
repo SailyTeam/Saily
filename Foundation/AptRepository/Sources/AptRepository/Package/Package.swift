@@ -83,7 +83,13 @@ public struct Package: Codable, Hashable, Identifiable {
         guard let repo = repoRef else {
             return badUrl
         }
-        return repo.appendingPathComponent(target)
+//        return repo.appendingPathComponent(target)
+        var builder = repo.absoluteString
+        while builder.hasSuffix("/") { builder.removeLast() }
+        if !target.hasPrefix("/") { builder += "/" }
+        builder += target
+        return URL(string: builder) ?? badUrl
+        // ? isn't part of a path, will resolve to %3F
     }
 
     // MARK: - Static Tools

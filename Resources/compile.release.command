@@ -101,7 +101,7 @@ cp -r "./PackageBuilder/$ENV_PREFIX/Applications/chromatic.app" "BuildInstaller/
 cd BuildInstaller 
 IPA_LOCATION="$(pwd)/../chromatic.rel.ci.$TIMESTAMP.ipa"
 TIPA_LOCATION="$(pwd)/../chromatic.rel.ci.$TIMESTAMP.tipa"
-zip -r0 "$IPA_LOCATION" Payload
+zip -r "$IPA_LOCATION" Payload
 cp "$IPA_LOCATION" "$TIPA_LOCATION"
 IPA_LOCATION=$(realpath "$IPA_LOCATION")
 cd ..

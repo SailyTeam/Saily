@@ -35,8 +35,7 @@ extension UIView {
                            options: .curveEaseInOut,
                            animations: {
                                self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                           })
-            { _ in
+                           }) { _ in
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5,
                                    delay: 0,

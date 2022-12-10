@@ -178,8 +178,7 @@ class PackageCell: UIView, PackageCellFunction {
                 .shared
                 .loadImage(with: url,
                            options: .highPriority,
-                           progress: nil)
-                { [weak self] image, _, _, _, _, _ in
+                           progress: nil) { [weak self] image, _, _, _, _, _ in
                     if let image = image, self?.currentToken == token {
                         self?.avatar.image = image
                     }

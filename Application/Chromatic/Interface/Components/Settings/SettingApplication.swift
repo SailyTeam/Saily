@@ -110,8 +110,7 @@ extension SettingView {
                 sleep(1)
                 AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.killall,
                                                   args: ["-SEGV", "SpringBoard"],
-                                                  timeout: 1)
-                { _ in
+                                                  timeout: 1) { _ in
                 }
             }
         }

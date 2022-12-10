@@ -199,8 +199,7 @@ class OperationConsoleController: UIViewController {
                 sleep(1)
                 AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
                                                   args: ["-p", Bundle.main.bundlePath],
-                                                  timeout: 60)
-                { _ in
+                                                  timeout: 60) { _ in
                 }
                 exit(0)
             })

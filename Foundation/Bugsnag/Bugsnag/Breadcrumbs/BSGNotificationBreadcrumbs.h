@@ -8,12 +8,15 @@
 
 #import <Bugsnag/BugsnagBreadcrumb.h>
 
+#import "BSGDefines.h"
+
 @class BugsnagConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const BSGNotificationBreadcrumbsMessageAppWillTerminate = @"App Will Terminate";
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGNotificationBreadcrumbs : NSObject
 
 #pragma mark Initializers

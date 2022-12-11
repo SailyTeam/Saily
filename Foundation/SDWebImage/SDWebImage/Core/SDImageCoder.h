@@ -44,6 +44,35 @@ FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderDecodePreserveAs
  */
 FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderDecodeThumbnailPixelSize;
 
+/**
+ A NSString value indicating the source image's file extension. Example: "jpg", "nef", "tif", don't prefix the dot
+ Some image file format share the same data structure but has different tag explanation, like TIFF and NEF/SRW, see https://en.wikipedia.org/wiki/TIFF
+ Changing the file extension cause the different image result. The coder (like ImageIO) may use file extension to choose the correct parser
+ @note However, different UTType may share the same file extension, like `public.jpeg` and `public.jpeg-2000` both use `.jpg`. If you want detail control, use `TypeIdentifierHint` below
+ */
+FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderDecodeFileExtensionHint;
+
+/**
+ A NSString value (UTI) indicating the source image's file extension. Example: "public.jpeg-2000", "com.nikon.raw-image", "public.tiff"
+ Some image file format share the same data structure but has different tag explanation, like TIFF and NEF/SRW, see https://en.wikipedia.org/wiki/TIFF
+ Changing the file extension cause the different image result. The coder (like ImageIO) may use file extension to choose the correct parser
+ @note If you provide `TypeIdentifierHint`, the `FileExtensionHint` option above will be ignored (because UTType has high priority)
+ @note If you really don't want any hint which effect the image result, pass `NSNull.null` instead
+ */
+FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderDecodeTypeIdentifierHint;
+
+/**
+ A BOOL value indicating whether to use lazy-decoding. Defaults to NO on animated image coder, but defaults to YES on static image coder.
+ CGImageRef, this image object typically support lazy-decoding, via the `CGDataProviderCreateDirectAccess` or `CGDataProviderCreateSequential`
+ Which allows you to provide a lazy-called callback to access bitmap buffer, so that you can achieve lazy-decoding when consumer actually need bitmap buffer
+ UIKit on iOS use heavy on this and ImageIO codec prefers to lazy-decoding for common Hardware-Accelerate format like JPEG/PNG/HEIC
+ But however, the consumer may access bitmap buffer when running on main queue, like CoreAnimation layer render image. So this is a trade-off
+ You can force us to disable the lazy-decoding and always allocate bitmap buffer on RAM, but this may have higher ratio of OOM (out of memory)
+ @note The default value is NO for animated image coder (means `animatedImageFrameAtIndex:`)
+ @note The default value is YES for static image coder (means `decodedImageWithData:`)
+ @note works for `SDImageCoder`, `SDProgressiveImageCoder`, `SDAnimatedImageCoder`.
+ */
+FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderDecodeUseLazyDecoding;
 
 // These options are for image encoding
 /**
@@ -91,9 +120,11 @@ FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderEncodeEmbedThumb
  A SDWebImageContext object which hold the original context options from top-level API. (SDWebImageContext)
  This option is ignored for all built-in coders and take no effect.
  But this may be useful for some custom coders, because some business logic may dependent on things other than image or image data information only.
+ Only the unknown context from top-level API (See SDWebImageDefine.h) may be passed in during image loading.
  See `SDWebImageContext` for more detailed information.
+ @warning Deprecated. This does nothing from 5.14.0. Use `SDWebImageContextImageDecodeOptions` to pass additional information in top-level API, and use `SDImageCoderOptions` to retrieve options from coder.
  */
-FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderWebImageContext API_DEPRECATED("The coder component will be seperated from Core subspec in the future. Update your code to not rely on this context option.", macos(10.10, API_TO_BE_DEPRECATED), ios(8.0, API_TO_BE_DEPRECATED), tvos(9.0, API_TO_BE_DEPRECATED), watchos(2.0, API_TO_BE_DEPRECATED));
+FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderWebImageContext API_DEPRECATED("No longer supported. Use SDWebImageContextDecodeOptions in loader API to provide options. Use SDImageCoderOptions in coder API to retrieve options.", macos(10.10, 10.10), ios(8.0, 8.0), tvos(9.0, 9.0), watchos(2.0, 2.0));
 
 #pragma mark - Coder
 /**

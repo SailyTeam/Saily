@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
 #import <Bugsnag/BugsnagDevice.h>
 
 /**
  * Stateful information set by the notifier about the device on which the event occurred can be
  * found on this class. These values can be accessed and amended if necessary.
  */
+BUGSNAG_EXTERN
 @interface BugsnagDeviceWithState : BugsnagDevice
 
 /**

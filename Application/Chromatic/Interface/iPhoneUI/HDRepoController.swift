@@ -98,7 +98,7 @@ class HDRepoController: UIViewController {
 
         let box = UIView()
         box.backgroundColor = UIColor(named: "CARD_BACKGROUND")
-        box.cornerRadius = 12
+        box.layer.cornerRadius = 12
         container.addSubview(box)
         box.snp.makeConstraints { x in
             x.leading.equalTo(safeAnchor.snp.leading)

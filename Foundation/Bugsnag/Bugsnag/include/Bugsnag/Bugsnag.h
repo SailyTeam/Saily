@@ -29,6 +29,7 @@
 #import <Bugsnag/BugsnagAppWithState.h>
 #import <Bugsnag/BugsnagClient.h>
 #import <Bugsnag/BugsnagConfiguration.h>
+#import <Bugsnag/BugsnagDefines.h>
 #import <Bugsnag/BugsnagDevice.h>
 #import <Bugsnag/BugsnagDeviceWithState.h>
 #import <Bugsnag/BugsnagEndpointConfiguration.h>
@@ -46,6 +47,7 @@
 /**
  * Static access to a Bugsnag Client, the easiest way to use Bugsnag in your app.
  */
+BUGSNAG_EXTERN
 @interface Bugsnag : NSObject <BugsnagClassLevelMetadataStore>
 
 /**
@@ -103,7 +105,7 @@
 /**
  * @return YES if Bugsnag has been started and the previous launch crashed
  */
-+ (BOOL)appDidCrashLastLaunch BSG_DEPRECATED_WITH_REPLACEMENT("lastRunInfo.crashed");
++ (BOOL)appDidCrashLastLaunch BUGSNAG_DEPRECATED_WITH_REPLACEMENT("lastRunInfo.crashed");
 
 /**
  * Information about the last run of the app, and whether it crashed.
@@ -191,6 +193,14 @@
                           metadata:(NSDictionary *_Nullable)metadata
                            andType:(BSGBreadcrumbType)type
     NS_SWIFT_NAME(leaveBreadcrumb(_:metadata:type:));
+
+/**
+ * Leave a "breadcrumb" log message representing a completed network request.
+ */
++ (void)leaveNetworkRequestBreadcrumbForTask:(nonnull NSURLSessionTask *)task
+                                     metrics:(nonnull NSURLSessionTaskMetrics *)metrics
+    API_AVAILABLE(macosx(10.12), ios(10.0), watchos(3.0), tvos(10.0))
+    NS_SWIFT_NAME(leaveNetworkRequestBreadcrumb(task:metrics:));
 
 /**
  * Returns the current buffer of breadcrumbs that will be sent with captured events. This
@@ -289,6 +299,8 @@
  *  @param userId ID of the user
  *  @param name   Name of the user
  *  @param email  Email address of the user
+ *
+ *  If user ID is nil, a Bugsnag-generated Device ID is used for the `user.id` property of events and sessions.
  */
 + (void)setUser:(NSString *_Nullable)userId
        withEmail:(NSString *_Nullable)email
@@ -338,7 +350,7 @@
  * Deprecated
  */
 + (void)removeOnSessionBlock:(BugsnagOnSessionBlock _Nonnull)block
-    BSG_DEPRECATED_WITH_REPLACEMENT("removeOnSession:")
+    BUGSNAG_DEPRECATED_WITH_REPLACEMENT("removeOnSession:")
     NS_SWIFT_NAME(removeOnSession(block:));
 
 // =============================================================================
@@ -368,7 +380,7 @@
  * Deprecated
  */
 + (void)removeOnBreadcrumbBlock:(BugsnagOnBreadcrumbBlock _Nonnull)block
-    BSG_DEPRECATED_WITH_REPLACEMENT("removeOnBreadcrumb:")
+    BUGSNAG_DEPRECATED_WITH_REPLACEMENT("removeOnBreadcrumb:")
     NS_SWIFT_NAME(removeOnBreadcrumb(block:));
 
 @end

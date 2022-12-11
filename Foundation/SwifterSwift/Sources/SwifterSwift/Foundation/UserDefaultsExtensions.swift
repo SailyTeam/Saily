@@ -1,10 +1,4 @@
-//
-//  UserDefaultsExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 9/5/17.
-//  Copyright © 2017 SwifterSwift
-//
+// UserDefaultsExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation) && !os(Linux)
     import Foundation
@@ -12,7 +6,7 @@
     // MARK: - Methods
 
     public extension UserDefaults {
-        /// SwifterSwift: get object from UserDefaults by using subscript
+        /// SwifterSwift: get object from UserDefaults by using subscript.
         ///
         /// - Parameter key: key in the current user's defaults database.
         subscript(key: String) -> Any? {
@@ -26,7 +20,7 @@
 
         /// SwifterSwift: Float from UserDefaults.
         ///
-        /// - Parameter forKey: key to find float for.
+        /// - Parameter key: key to find float for.
         /// - Returns: Float object for key (if exists).
         func float(forKey key: String) -> Float? {
             object(forKey: key) as? Float
@@ -34,7 +28,7 @@
 
         /// SwifterSwift: Date from UserDefaults.
         ///
-        /// - Parameter forKey: key to find date for.
+        /// - Parameter key: key to find date for.
         /// - Returns: Date object for key (if exists).
         func date(forKey key: String) -> Date? {
             object(forKey: key) as? Date

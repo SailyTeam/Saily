@@ -1,10 +1,4 @@
-//
-//  UIWindowExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 6/2/18.
-//  Copyright © 2018 SwifterSwift
-//
+// UIWindowExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(UIKit) && os(iOS)
     import UIKit

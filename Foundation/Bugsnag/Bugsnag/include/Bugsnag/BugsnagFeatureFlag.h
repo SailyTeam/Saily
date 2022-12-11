@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
+BUGSNAG_EXTERN
 @interface BugsnagFeatureFlag : NSObject
 
 + (instancetype)flagWithName:(NSString *)name;

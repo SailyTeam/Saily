@@ -29,9 +29,9 @@
 #include "BSG_KSCrashReport.h"
 #include "BSG_KSMach.h"
 #include "BSG_KSMachHeaders.h"
-#include "BSG_KSObjC.h"
 #include "BSG_KSString.h"
 #include "BSG_KSSystemInfoC.h"
+#include "BSGDefines.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
@@ -77,10 +77,6 @@ void bsg_kscrash_i_onCrash(BSG_KSCrash_Context *context) {
 
     bsg_kscrashstate_notifyAppCrash();
 
-    if (context->config.printTraceToStdout) {
-        bsg_kscrashreport_logCrash(context);
-    }
-
     if (context->crash.crashedDuringCrashHandling) {
         bsg_kscrashreport_writeMinimalReport(context,
                                              context->config.recrashReportFilePath);
@@ -113,12 +109,6 @@ BSG_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
         return context->config.handlingCrashTypes;
     }
     bsg_g_installed = 1;
-
-    bsg_ksmach_init();
-
-    if (context->config.introspectionRules.enabled) {
-        bsg_ksobjc_init();
-    }
 
     bsg_kscrash_reinstall(crashReportFilePath, recrashReportFilePath,
                           stateFilePath, crashID);
@@ -171,26 +161,16 @@ BSG_KSCrashType bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashType crashTypes) {
     return crashTypes;
 }
 
-void bsg_kscrash_setPrintTraceToStdout(bool printTraceToStdout) {
-    crashContext()->config.printTraceToStdout = printTraceToStdout;
-}
-
-void bsg_kscrash_setIntrospectMemory(bool introspectMemory) {
-    crashContext()->config.introspectionRules.enabled = introspectMemory;
-}
-
 void bsg_kscrash_setCrashNotifyCallback(
     const BSG_KSReportWriteCallback onCrashNotify) {
     BSG_KSLOG_TRACE("Set onCrashNotify to %p", onCrashNotify);
     crashContext()->config.onCrashNotify = onCrashNotify;
 }
 
-void bsg_kscrash_setReportWhenDebuggerIsAttached(
-    bool reportWhenDebuggerIsAttached) {
-    crashContext()->crash.reportWhenDebuggerIsAttached =
-        reportWhenDebuggerIsAttached;
-}
-
 void bsg_kscrash_setThreadTracingEnabled(bool threadTracingEnabled) {
+#if BSG_HAVE_MACH_THREADS
     crashContext()->crash.threadTracingEnabled = threadTracingEnabled;
+#else
+    (void)threadTracingEnabled;
+#endif
 }

@@ -6,22 +6,17 @@
 //  Copyright © 2020 Bugsnag Inc. All rights reserved.
 //
 
-#import <Bugsnag/BugsnagError.h>
+#import "BSGDefines.h"
+#import "BugsnagInternals.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class BugsnagThread;
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BugsnagError ()
 
 - (instancetype)initWithKSCrashReport:(NSDictionary *)event stacktrace:(NSArray<BugsnagStackframe *> *)stacktrace;
-
-- (instancetype)initWithErrorClass:(NSString *)errorClass
-                      errorMessage:(nullable NSString *)errorMessage
-                         errorType:(BSGErrorType)errorType
-                        stacktrace:(nullable NSArray<BugsnagStackframe *> *)stacktrace;
-
-+ (BugsnagError *)errorFromJson:(NSDictionary *)json;
 
 /// The string representation of the BSGErrorType
 @property (copy, nonatomic) NSString *typeString;

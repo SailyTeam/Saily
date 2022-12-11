@@ -1,10 +1,4 @@
-//
-//  BoolExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 07/12/2016.
-//  Copyright © 2016 SwifterSwift
-//
+// BoolExtensions.swift - Copyright 2020 SwifterSwift
 
 // MARK: - Properties
 

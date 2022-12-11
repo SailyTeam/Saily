@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import <Bugsnag/BugsnagApp.h>
+#import <Bugsnag/BugsnagDefines.h>
 #import <Bugsnag/BugsnagDevice.h>
 #import <Bugsnag/BugsnagUser.h>
 
@@ -17,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Represents a session of user interaction with your app.
  */
+BUGSNAG_EXTERN
 @interface BugsnagSession : NSObject
 
 @property (copy, nonatomic) NSString *id;

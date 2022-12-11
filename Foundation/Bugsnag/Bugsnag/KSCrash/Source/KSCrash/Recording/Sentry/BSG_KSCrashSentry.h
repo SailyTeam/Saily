@@ -58,8 +58,8 @@ typedef struct BSG_KSCrash_SentryContext {
     /** Called by the crash handler when a crash is detected. */
     void (*onCrash)(void *);
 
-    /** If true, will send reports even if debugger is attached. */
-    bool reportWhenDebuggerIsAttached;
+    /** BSGCrashSentryAttemptyDelivery */
+    void (*attemptDelivery)(void);
 
     /**
      * The methodology used for tracing threads.
@@ -133,6 +133,7 @@ typedef struct BSG_KSCrash_SentryContext {
         /** The exception name. */
         const char *name;
 
+        const char *userInfo;
     } NSException;
 
     struct {

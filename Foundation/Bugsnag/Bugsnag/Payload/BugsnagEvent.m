@@ -8,9 +8,12 @@
 
 #import "BugsnagEvent+Private.h"
 
+#import "BSGDefines.h"
 #import "BSGFeatureFlagStore.h"
+#import "BSGJSONSerialization.h"
 #import "BSGKeys.h"
 #import "BSGSerialization.h"
+#import "BSGUtils.h"
 #import "BSG_KSCrashReportFields.h"
 #import "BSG_RFC3339DateTool.h"
 #import "Bugsnag+Private.h"
@@ -124,6 +127,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 
 // MARK: -
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BugsnagEvent
 
 /**
@@ -186,8 +190,6 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
             return [BugsnagDeviceWithState deviceFromJson:dict];
         }) ?: [[BugsnagDeviceWithState alloc] init];
 
-        _error = BSGDeserializeDict(json[BSGKeyMetadata][BSGKeyError]);
-
         _errors = BSGDeserializeArrayOfObjects(json[BSGKeyExceptions], ^id _Nullable(NSDictionary * _Nonnull dict) {
             return [BugsnagError errorFromJson:dict];
         }) ?: @[];
@@ -202,17 +204,17 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
             return [[BugsnagMetadata alloc] initWithDictionary:dict];
         }) ?: [[BugsnagMetadata alloc] init];
 
-        _session = BSGDeserializeObject(json[BSGKeySession], ^id _Nullable(NSDictionary * _Nonnull dict) {
-            return [BugsnagSession fromJson:dict];
-        });
-
         _threads = BSGDeserializeArrayOfObjects(json[BSGKeyThreads], ^id _Nullable(NSDictionary * _Nonnull dict) {
             return [BugsnagThread threadFromJson:dict];
         }) ?: @[];
 
+        _usage = BSGDeserializeDict(json[BSGKeyUsage]);
+
         _user = BSGDeserializeObject(json[BSGKeyUser], ^id _Nullable(NSDictionary * _Nonnull dict) {
             return [[BugsnagUser alloc] initWithDictionary:dict];
         }) ?: [[BugsnagUser alloc] init];
+
+        _session = BSGSessionFromEventJson(json[BSGKeySession], _app, _device, _user);
     }
     return self;
 }
@@ -283,8 +285,22 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
         metadata = [BugsnagMetadata new];
     }
 
-    // Cocoa-specific, non-spec., device and app data
-    [metadata addMetadata:BSGParseDeviceMetadata(event) toSection:BSGKeyDevice];
+    [metadata addMetadata:error toSection:BSGKeyError];
+
+    // Device information that isn't part of `event.device`
+    NSMutableDictionary *deviceMetadata = BSGParseDeviceMetadata(event);
+#if BSG_HAVE_BATTERY
+    deviceMetadata[BSGKeyBatteryLevel] = [event valueForKeyPath:@"user.batteryLevel"];
+    deviceMetadata[BSGKeyCharging] = [event valueForKeyPath:@"user.charging"];
+#endif
+    if (@available(iOS 11.0, tvOS 11.0, watchOS 4.0, *)) {
+        NSNumber *thermalState = [event valueForKeyPath:@"user.thermalState"];
+        if ([thermalState isKindOfClass:[NSNumber class]]) {
+            deviceMetadata[BSGKeyThermalState] = BSGStringFromThermalState(thermalState.longValue);
+        }
+    }
+    [metadata addMetadata:deviceMetadata toSection:BSGKeyDevice];
+
     [metadata addMetadata:BSGParseAppMetadata(event) toSection:BSGKeyApp];
 
     NSDictionary *recordedState = [event valueForKeyPath:@"user.handledState"];
@@ -295,14 +311,11 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
     } else {
         depth = 0;
     }
-    BugsnagSession *session = BSGDeserializeObject(event[BSGKeyUser], ^id _Nullable(NSDictionary * _Nonnull userDict) {
-        return userDict[@"id"] ? [[BugsnagSession alloc] initWithDictionary:userDict] : nil;
-    });
 
     // generate threads/error info
     NSArray *binaryImages = event[@"binary_images"];
     NSArray *threadDict = [event valueForKeyPath:@"crash.threads"];
-    NSArray<BugsnagThread *> *threads = [BugsnagThread threadsFromArray:threadDict binaryImages:binaryImages depth:depth errorType:errorType];
+    NSArray<BugsnagThread *> *threads = [BugsnagThread threadsFromArray:threadDict binaryImages:binaryImages];
 
     BugsnagThread *errorReportingThread = nil;
     for (BugsnagThread *thread in threads) {
@@ -322,7 +335,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 
     if (errorReportingThread.crashInfoMessage) {
         [errors[0] updateWithCrashInfoMessage:(NSString * _Nonnull)errorReportingThread.crashInfoMessage];
-        error[@"crashInfo"] = errorReportingThread.crashInfoMessage;
+        [metadata addMetadata:errorReportingThread.crashInfoMessage withKey:@"crashInfo" toSection:@"error"];
     }
     
     BugsnagHandledState *handledState;
@@ -339,7 +352,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
         handledState.unhandledOverridden = isUnhandledOverridden;
     }
 
-    [[self parseOnCrashData:event] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, __attribute__((unused)) BOOL *stop) {
+    [[self parseOnCrashData:event] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, __unused BOOL *stop) {
         if ([key isKindOfClass:[NSString class]] &&
             [obj isKindOfClass:[NSDictionary class]]) {
             [metadata addMetadata:obj toSection:key];
@@ -348,6 +361,13 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 
     NSString *deviceAppHash = [event valueForKeyPath:@"system.device_app_hash"];
     BugsnagDeviceWithState *device = [BugsnagDeviceWithState deviceWithKSCrashReport:event];
+#if TARGET_OS_IOS
+    NSNumber *orientation = [event valueForKeyPath:@"user.orientation"];
+    if ([orientation isKindOfClass:[NSNumber class]]) {
+        device.orientation = BSGStringFromDeviceOrientation(orientation.longValue);
+    }
+#endif
+
     BugsnagUser *user = [self parseUser:event deviceAppHash:deviceAppHash deviceId:device.id];
 
     NSDictionary *configDict = [event valueForKeyPath:@"user.config"];
@@ -355,6 +375,9 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
                                     [configDict isKindOfClass:[NSDictionary class]] ? configDict : @{}];
 
     BugsnagAppWithState *app = [BugsnagAppWithState appWithDictionary:event config:config codeBundleId:self.codeBundleId];
+
+    BugsnagSession *session = BSGSessionFromCrashReport(event, app, device, user);
+
     BugsnagEvent *obj = [self initWithApp:app
                                    device:device
                              handledState:handledState
@@ -372,8 +395,8 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
     obj.featureFlagStore = BSGFeatureFlagStoreFromJSON([event valueForKeyPath:@"user.state.client.featureFlags"]);
     obj.context = [event valueForKeyPath:@"user.state.client.context"];
     obj.customException = BSGParseCustomException(event, [errors[0].errorClass copy], [errors[0].errorMessage copy]);
-    obj.error = error;
     obj.depth = depth;
+    obj.usage = [event valueForKeyPath:@"user._usage"];
     return obj;
 }
 
@@ -395,7 +418,6 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
     _context = BSGDeserializeString(json[BSGKeyContext]);
     _featureFlagStore = [[BSGFeatureFlagStore alloc] init];
     _groupingHash = BSGDeserializeString(json[BSGKeyGroupingHash]);
-    _error = [self getMetadataFromSection:BSGKeyError];
 
     if (_errors.count) {
         BugsnagError *error = _errors[0];
@@ -414,17 +436,26 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
             @BSG_KSCrashField_State,
             @BSG_KSCrashField_Config,
             @BSG_KSCrashField_DiscardDepth,
+            @"batteryLevel",
             @"breadcrumbs",
-            @"startedAt",
-            @"unhandledCount",
+            @"charging",
             @"handledCount",
             @"id",
+            @"isLaunching",
+            @"orientation",
+            @"startedAt",
+            @"thermalState",
+            @"unhandledCount",
     ];
     [userAtCrash removeObjectsForKeys:keysToRemove];
 
-    for (NSString *key in [userAtCrash allKeys]) { // remove any non-dictionary values
+    for (NSString *key in [userAtCrash allKeys]) {
+        if ([key hasPrefix:@"_"]) {
+            [userAtCrash removeObjectForKey:key];
+            continue;
+        }
         if (![userAtCrash[key] isKindOfClass:[NSDictionary class]]) {
-            bsg_log_warn(@"Removing value added in onCrashHandler for key %@ as it is not a dictionary value", key);
+            bsg_log_debug(@"Removing value added in onCrashHandler for key %@ as it is not a dictionary value", key);
             [userAtCrash removeObjectForKey:key];
         }
     }
@@ -476,15 +507,11 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 }
 
 - (BSGSeverity)severity {
-    @synchronized (self) {
-        return self.handledState.currentSeverity;
-    }
+    return self.handledState.currentSeverity;
 }
 
 - (void)setSeverity:(BSGSeverity)severity {
-    @synchronized (self) {
-        self.handledState.currentSeverity = severity;
-    }
+    self.handledState.currentSeverity = severity;
 }
 
 // =============================================================================
@@ -501,7 +528,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 - (void)setUser:(NSString *_Nullable)userId
       withEmail:(NSString *_Nullable)email
         andName:(NSString *_Nullable)name {
-    self.user = [[BugsnagUser alloc] initWithUserId:userId name:name emailAddress:email];
+    self.user = [[BugsnagUser alloc] initWithId:userId name:name emailAddress:email];
 }
 
 /**
@@ -536,7 +563,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 
     event[BSGKeyExceptions] = ({
         NSMutableArray *array = [NSMutableArray array];
-        [self.errors enumerateObjectsUsingBlock:^(BugsnagError *error, NSUInteger idx, __attribute__((unused)) BOOL *stop) {
+        [self.errors enumerateObjectsUsingBlock:^(BugsnagError *error, NSUInteger idx, __unused BOOL *stop) {
             if (self.customException != nil && idx == 0) {
                 [array addObject:(NSDictionary * _Nonnull)self.customException];
             } else {
@@ -585,23 +612,14 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 
     //  Inserted into `context` property
     [metadata removeObjectForKey:BSGKeyContext];
-    // Build metadata
-    metadata[BSGKeyError] = self.error;
 
     // add user
     event[BSGKeyUser] = [self.user toJson];
 
-    if (self.session) {
-        // Different from the payload returned by [BugsnagSession toDictionary] or [BugsnagSession toJson]
-        event[BSGKeySession] = @{
-            BSGKeyId: self.session.id ?: @"",
-            @"startedAt": [BSG_RFC3339DateTool stringFromDate:self.session.startedAt] ?: @"",
-            @"events": @{
-                    @"handled": @(self.session.handledCount),
-                    @"unhandled": @(self.session.unhandledCount)
-            }
-        };
-    }
+    event[BSGKeySession] = self.session ? BSGSessionToEventJson((BugsnagSession *_Nonnull)self.session) : nil;
+
+    event[BSGKeyUsage] = self.usage;
+
     return event;
 }
 
@@ -670,6 +688,76 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
     }
 }
 
+- (void)trimBreadcrumbs:(const NSUInteger)bytesToRemove {
+    NSMutableArray *breadcrumbs = [self.breadcrumbs mutableCopy];
+    BugsnagBreadcrumb *lastRemovedBreadcrumb = nil;
+    NSUInteger bytesRemoved = 0, count = 0;
+    
+    while (bytesRemoved < bytesToRemove && breadcrumbs.count) {
+        lastRemovedBreadcrumb = [breadcrumbs firstObject];
+        [breadcrumbs removeObjectAtIndex:0];
+        
+        NSDictionary *dict = [lastRemovedBreadcrumb objectValue];
+        NSData *data = BSGJSONDataFromDictionary(dict, NULL);
+        bytesRemoved += data.length;
+        count++;
+    }
+    
+    if (lastRemovedBreadcrumb) {
+        lastRemovedBreadcrumb.message = count < 2 ? @"Removed to reduce payload size" :
+        [NSString stringWithFormat:@"Removed, along with %lu older breadcrumb%s, to reduce payload size",
+         (unsigned long)(count - 1), count == 2 ? "" : "s"];
+        lastRemovedBreadcrumb.metadata = @{};
+        [breadcrumbs insertObject:lastRemovedBreadcrumb atIndex:0];
+    }
+    
+    self.breadcrumbs = breadcrumbs;
+    
+    NSDictionary *usage = self.usage;
+    if (usage) {
+        self.usage = BSGDictMerge(@{
+            @"system": @{
+                @"breadcrumbBytesRemoved": @(bytesRemoved),
+                @"breadcrumbsRemoved": @(count)}
+        }, usage);
+    }
+}
+
+- (void)truncateStrings:(NSUInteger)maxLength {
+    BSGTruncateContext context = {
+        .maxLength = maxLength
+    };
+    
+    if (self.context) {
+        self.context = BSGTruncateString(&context, self.context);
+    }
+    
+    for (BugsnagError *error in self.errors) {
+        error.errorClass = BSGTruncateString(&context, error.errorClass);
+        error.errorMessage = BSGTruncateString(&context, error.errorMessage);
+    }
+    
+    for (BugsnagBreadcrumb *breadcrumb in self.breadcrumbs) {
+        breadcrumb.message = BSGTruncateString(&context, breadcrumb.message);
+        breadcrumb.metadata = BSGTruncateStrings(&context, breadcrumb.metadata);
+    }
+    
+    BugsnagMetadata *metadata = self.metadata; 
+    if (metadata) {
+        self.metadata = [[BugsnagMetadata alloc] initWithDictionary:
+                         BSGTruncateStrings(&context, metadata.dictionary)];
+    }
+    
+    NSDictionary *usage = self.usage;
+    if (usage) {
+        self.usage = BSGDictMerge(@{
+            @"system": @{
+                @"stringCharsTruncated": @(context.length),
+                @"stringsTruncated": @(context.strings)}
+        }, usage);
+    }
+}
+
 - (BOOL)unhandled {
     return self.handledState.unhandled;
 }
@@ -679,6 +767,10 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 }
 
 // MARK: - <BugsnagFeatureFlagStore>
+
+- (NSArray<BugsnagFeatureFlag *> *)featureFlags {
+    return self.featureFlagStore.allFlags;
+}
 
 - (void)addFeatureFlagWithName:(NSString *)name variant:(nullable NSString *)variant {
     BSGFeatureFlagStoreAddFeatureFlag(self.featureFlagStore, name, variant);

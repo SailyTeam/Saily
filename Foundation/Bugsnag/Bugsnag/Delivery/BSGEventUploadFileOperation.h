@@ -8,11 +8,14 @@
 
 #import "BSGEventUploadOperation.h"
 
+#import "BSGDefines.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A concrete operation class for uploading an event that is stored on disk.
  */
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGEventUploadFileOperation : BSGEventUploadOperation
 
 - (instancetype)initWithFile:(NSString *)file delegate:(id<BSGEventUploadOperationDelegate>)delegate;

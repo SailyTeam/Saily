@@ -24,9 +24,13 @@
 // THE SOFTWARE.
 //
 
+#import <Bugsnag/BugsnagDefines.h>
+#import <Foundation/Foundation.h>
+
+#import "BSGDefines.h"
+
 #define BSG_KSSystemField_AppUUID "app_uuid"
 #define BSG_KSSystemField_BinaryArch "binary_arch"
-#define BSG_KSSystemField_BootTime "boot_time"
 #define BSG_KSSystemField_BundleID "CFBundleIdentifier"
 #define BSG_KSSystemField_BundleName "CFBundleName"
 #define BSG_KSSystemField_BundleExecutable "CFBundleExecutable"
@@ -48,15 +52,10 @@
 #define BSG_KSSystemField_Translated "proc_translated"
 #define BSG_KSSystemField_iOSSupportVersion "iOSSupportVersion"
 
-#import <Foundation/Foundation.h>
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-#import "BSGUIKit.h"
-#endif
-
 /**
  * Provides system information useful for a crash report.
  */
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSG_KSSystemInfo : NSObject
 
 /** Get the system info.

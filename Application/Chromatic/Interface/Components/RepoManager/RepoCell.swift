@@ -58,7 +58,7 @@ class RepoCell: UIView {
         }
 
         indicator.backgroundColor = .clear
-        indicator.cornerRadius = 4
+        indicator.layer.cornerRadius = 4
         indicator.clipsToBounds = true
         indicator.snp.makeConstraints { x in
             x.centerX.equalTo(icon.snp.right).offset(-2)

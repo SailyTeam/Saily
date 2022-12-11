@@ -1,10 +1,4 @@
-//
-//  SignedNumberExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/15/17.
-//  Copyright © 2017 SwifterSwift
-//
+// SignedNumericExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -39,7 +33,7 @@ public extension SignedNumeric {
         ///        print((12.32).spelledOutString()) // prints "twelve point three two"
         ///
         /// - Parameter locale: Locale, default is .current.
-        /// - Returns: String representation of number spelled in specified locale language. E.g. input 92, output in "en": "ninety-two"
+        /// - Returns: String representation of number spelled in specified locale language. E.g. input 92, output in "en": "ninety-two".
         func spelledOutString(locale: Locale = .current) -> String? {
             let formatter = NumberFormatter()
             formatter.locale = locale

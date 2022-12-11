@@ -33,6 +33,7 @@
 #include "BSG_KSCrashSentry_Signal.h"
 #include "BSG_KSLogger.h"
 #include "BSG_KSMach.h"
+#include "BSGDefines.h"
 
 #include <stdatomic.h>
 
@@ -47,16 +48,18 @@ typedef struct {
 } BSG_CrashSentry;
 
 static BSG_CrashSentry bsg_g_sentries[] = {
-#if MACH_EXCEPTION_HANDLING_AVAILABLE
+#if BSG_HAVE_MACH_EXCEPTIONS
     {
         BSG_KSCrashTypeMachException, bsg_kscrashsentry_installMachHandler,
         bsg_kscrashsentry_uninstallMachHandler,
     },
 #endif
+#if BSG_HAVE_SIGNAL
     {
         BSG_KSCrashTypeSignal, bsg_kscrashsentry_installSignalHandler,
         bsg_kscrashsentry_uninstallSignalHandler,
     },
+#endif
     {
         BSG_KSCrashTypeCPPException,
         bsg_kscrashsentry_installCPPExceptionHandler,
@@ -73,10 +76,12 @@ static size_t bsg_g_sentriesCount =
 /** Context to fill with crash information. */
 static BSG_KSCrash_SentryContext *bsg_g_context = NULL;
 
+#if BSG_HAVE_MACH_THREADS
 /** Keeps track of whether threads have already been suspended or not.
  * This won't handle multiple suspends in a row.
  */
 static bool bsg_g_threads_are_running = true;
+#endif
 
 // ============================================================================
 #pragma mark - API -
@@ -87,17 +92,9 @@ bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
                                      BSG_KSCrashType crashTypes,
                                      void (*onCrash)(void *)) {
     if (bsg_ksmachisBeingTraced()) {
-        if (context->reportWhenDebuggerIsAttached) {
-            BSG_KSLOG_WARN("App is running in a debugger. Crash "
-                           "handling is enabled via configuration.");
-            BSG_KSLOG_INFO(
-                "Installing handlers with context %p, crash types 0x%x.",
-                context, crashTypes);
-        } else {
-            BSG_KSLOG_WARN("App is running in a debugger. Only handled "
-                           "events will be sent to Bugsnag.");
-            crashTypes = 0;
-        }
+        BSG_KSLOG_WARN("App is running in a debugger. "
+                       "Only handled events will be sent to Bugsnag.");
+        crashTypes = 0;
     } else {
         BSG_KSLOG_DEBUG(
             "Installing handlers with context %p, crash types 0x%x.", context,
@@ -139,6 +136,7 @@ void bsg_kscrashsentry_uninstall(BSG_KSCrashType crashTypes) {
 #pragma mark - Private API -
 // ============================================================================
 
+#if BSG_HAVE_MACH_THREADS
 void bsg_kscrashsentry_suspendThreads(void) {
     BSG_KSLOG_DEBUG("Suspending threads.");
     if (!bsg_g_threads_are_running) {
@@ -195,19 +193,20 @@ void bsg_kscrashsentry_resumeThreads(void) {
     bsg_g_threads_are_running = true;
     BSG_KSLOG_DEBUG("Resume complete.");
 }
+#endif
 
 void bsg_kscrashsentry_clearContext(BSG_KSCrash_SentryContext *context) {
     void (*onCrash)(void *) = context->onCrash;
+    void (*attemptDelivery)(void) = context->attemptDelivery;
     bool threadTracingEnabled = context->threadTracingEnabled;
-    bool reportWhenDebuggerIsAttached = context->reportWhenDebuggerIsAttached;
     thread_t reservedThreads[BSG_KSCrashReservedThreadTypeCount];
     memcpy(reservedThreads, context->reservedThreads, sizeof(reservedThreads));
 
     memset(context, 0, sizeof(*context));
-    context->onCrash = onCrash;
 
+    context->onCrash = onCrash;
+    context->attemptDelivery = attemptDelivery;
     context->threadTracingEnabled = threadTracingEnabled;
-    context->reportWhenDebuggerIsAttached = reportWhenDebuggerIsAttached;
     memcpy(context->reservedThreads, reservedThreads, sizeof(reservedThreads));
 }
 

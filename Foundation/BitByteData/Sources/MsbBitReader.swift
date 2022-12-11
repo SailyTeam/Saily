@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -320,7 +320,7 @@ public final class MsbBitReader: BitReader {
      */
     public func bytes(count: Int) -> [UInt8] {
         defer { offset += count }
-        return data[offset ..< offset + count].toByteArray(count)
+        return data[offset ..< offset + count].toByteArray()
     }
 
     /**

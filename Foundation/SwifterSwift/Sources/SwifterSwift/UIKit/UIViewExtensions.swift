@@ -1,10 +1,4 @@
-//
-//  UIViewExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/5/16.
-//  Copyright © 2016 SwifterSwift
-//
+// UIViewExtensions.swift - Copyright 2022 SwifterSwift
 
 #if canImport(UIKit) && !os(watchOS)
     import UIKit
@@ -61,7 +55,7 @@
 
     public extension UIView {
         /// SwifterSwift: Border color of view; also inspectable from Storyboard.
-        @IBInspectable var borderColor: UIColor? {
+        @IBInspectable var layerBorderColor: UIColor? {
             get {
                 guard let color = layer.borderColor else { return nil }
                 return UIColor(cgColor: color)
@@ -78,7 +72,7 @@
         }
 
         /// SwifterSwift: Border width of view; also inspectable from Storyboard.
-        @IBInspectable var borderWidth: CGFloat {
+        @IBInspectable var layerBorderWidth: CGFloat {
             get {
                 layer.borderWidth
             }
@@ -88,7 +82,7 @@
         }
 
         /// SwifterSwift: Corner radius of view; also inspectable from Storyboard.
-        @IBInspectable var cornerRadius: CGFloat {
+        @IBInspectable var layerCornerRadius: CGFloat {
             get {
                 layer.cornerRadius
             }
@@ -110,7 +104,7 @@
 
         /// SwifterSwift: Check if view is in RTL format.
         var isRightToLeft: Bool {
-            if #available(tvOS 10.0, *) {
+            if #available(iOS 10.0, macCatalyst 13.0, tvOS 10.0, *) {
                 return effectiveUserInterfaceLayoutDirection == .rightToLeft
             } else {
                 return false
@@ -129,7 +123,7 @@
         }
 
         /// SwifterSwift: Shadow color of view; also inspectable from Storyboard.
-        @IBInspectable var shadowColor: UIColor? {
+        @IBInspectable var layerShadowColor: UIColor? {
             get {
                 guard let color = layer.shadowColor else { return nil }
                 return UIColor(cgColor: color)
@@ -140,7 +134,7 @@
         }
 
         /// SwifterSwift: Shadow offset of view; also inspectable from Storyboard.
-        @IBInspectable var shadowOffset: CGSize {
+        @IBInspectable var layerShadowOffset: CGSize {
             get {
                 layer.shadowOffset
             }
@@ -150,7 +144,7 @@
         }
 
         /// SwifterSwift: Shadow opacity of view; also inspectable from Storyboard.
-        @IBInspectable var shadowOpacity: Float {
+        @IBInspectable var layerShadowOpacity: Float {
             get {
                 layer.shadowOpacity
             }
@@ -160,12 +154,22 @@
         }
 
         /// SwifterSwift: Shadow radius of view; also inspectable from Storyboard.
-        @IBInspectable var shadowRadius: CGFloat {
+        @IBInspectable var layerShadowRadius: CGFloat {
             get {
                 layer.shadowRadius
             }
             set {
                 layer.shadowRadius = newValue
+            }
+        }
+
+        /// SwifterSwift: Masks to bounds of view; also inspectable from Storyboard.
+        @IBInspectable var masksToBounds: Bool {
+            get {
+                layer.masksToBounds
+            }
+            set {
+                layer.masksToBounds = newValue
             }
         }
 
@@ -260,12 +264,20 @@
 
         /// SwifterSwift: Add shadow to view.
         ///
+        /// - Note: This method only works with non-clear background color, or if the view has a `shadowPath` set.
+        /// See parameter `opacity` for detail.
+        ///
         /// - Parameters:
         ///   - color: shadow color (default is #137992).
         ///   - radius: shadow radius (default is 3).
         ///   - offset: shadow offset (default is .zero).
-        ///   - opacity: shadow opacity (default is 0.5).
-        func addShadow(ofColor color: UIColor = UIColor(red: 0.07, green: 0.47, blue: 0.57, alpha: 1.0), radius: CGFloat = 3, offset: CGSize = .zero, opacity: Float = 0.5) {
+        ///   - opacity: shadow opacity (default is 0.5). It will also be affected by the `alpha` of `backgroundColor`.
+        func addShadow(
+            ofColor color: UIColor = UIColor(red: 0.07, green: 0.47, blue: 0.57, alpha: 1.0),
+            radius: CGFloat = 3,
+            offset: CGSize = .zero,
+            opacity: Float = 0.5
+        ) {
             layer.shadowColor = color.cgColor
             layer.shadowOffset = offset
             layer.shadowRadius = radius
@@ -284,7 +296,7 @@
         ///
         /// - Parameters:
         ///   - duration: animation duration in seconds (default is 1 second).
-        ///   - completion: optional completion handler to run with animation finishes (default is nil)
+        ///   - completion: optional completion handler to run with animation finishes (default is nil).
         func fadeIn(duration: TimeInterval = 1, completion: ((Bool) -> Void)? = nil) {
             if isHidden {
                 isHidden = false
@@ -298,7 +310,7 @@
         ///
         /// - Parameters:
         ///   - duration: animation duration in seconds (default is 1 second).
-        ///   - completion: optional completion handler to run with animation finishes (default is nil)
+        ///   - completion: optional completion handler to run with animation finishes (default is nil).
         func fadeOut(duration: TimeInterval = 1, completion: ((Bool) -> Void)? = nil) {
             if isHidden {
                 isHidden = false
@@ -316,6 +328,20 @@
         /// - Returns: optional UIView (if applicable).
         class func loadFromNib(named name: String, bundle: Bundle? = nil) -> UIView? {
             UINib(nibName: name, bundle: bundle).instantiate(withOwner: nil, options: nil)[0] as? UIView
+        }
+
+        /// SwifterSwift: Load view of a certain type from nib
+        ///
+        /// - Parameters:
+        ///   - withClass: UIView type.
+        ///   - bundle: bundle of nib (default is nil).
+        /// - Returns: UIView
+        class func loadFromNib<T: UIView>(withClass name: T.Type, bundle: Bundle? = nil) -> T {
+            let named = String(describing: name)
+            guard let view = UINib(nibName: named, bundle: bundle).instantiate(withOwner: nil, options: nil)[0] as? T else {
+                fatalError("First element in xib file \(named) is not of type \(named)")
+            }
+            return view
         }
 
         /// SwifterSwift: Remove all subviews in view.
@@ -354,7 +380,13 @@
         ///   - animated: set true to animate rotation (default is true).
         ///   - duration: animation duration in seconds (default is 1 second).
         ///   - completion: optional completion handler to run with animation finishes (default is nil).
-        func rotate(byAngle angle: CGFloat, ofType type: AngleUnit, animated: Bool = false, duration: TimeInterval = 1, completion: ((Bool) -> Void)? = nil) {
+        func rotate(
+            byAngle angle: CGFloat,
+            ofType type: AngleUnit,
+            animated: Bool = false,
+            duration: TimeInterval = 1,
+            completion: ((Bool) -> Void)? = nil
+        ) {
             let angleWithType = (type == .degrees) ? .pi * angle / 180.0 : angle
             let aDuration = animated ? duration : 0
             UIView.animate(withDuration: aDuration, delay: 0, options: .curveLinear, animations: { () in
@@ -370,11 +402,18 @@
         ///   - animated: set true to animate rotation (default is false).
         ///   - duration: animation duration in seconds (default is 1 second).
         ///   - completion: optional completion handler to run with animation finishes (default is nil).
-        func rotate(toAngle angle: CGFloat, ofType type: AngleUnit, animated: Bool = false, duration: TimeInterval = 1, completion: ((Bool) -> Void)? = nil) {
+        func rotate(
+            toAngle angle: CGFloat,
+            ofType type: AngleUnit,
+            animated: Bool = false,
+            duration: TimeInterval = 1,
+            completion: ((Bool) -> Void)? = nil
+        ) {
             let angleWithType = (type == .degrees) ? .pi * angle / 180.0 : angle
+            let currentAngle = atan2(transform.b, transform.a)
             let aDuration = animated ? duration : 0
             UIView.animate(withDuration: aDuration, animations: {
-                self.transform = self.transform.concatenating(CGAffineTransform(rotationAngle: angleWithType))
+                self.transform = self.transform.rotated(by: angleWithType - currentAngle)
             }, completion: completion)
         }
 
@@ -385,7 +424,12 @@
         ///   - animated: set true to animate scaling (default is false).
         ///   - duration: animation duration in seconds (default is 1 second).
         ///   - completion: optional completion handler to run with animation finishes (default is nil).
-        func scale(by offset: CGPoint, animated: Bool = false, duration: TimeInterval = 1, completion: ((Bool) -> Void)? = nil) {
+        func scale(
+            by offset: CGPoint,
+            animated: Bool = false,
+            duration: TimeInterval = 1,
+            completion: ((Bool) -> Void)? = nil
+        ) {
             if animated {
                 UIView.animate(withDuration: duration, delay: 0, options: .curveLinear, animations: { () in
                     self.transform = self.transform.scaledBy(x: offset.x, y: offset.y)
@@ -399,11 +443,16 @@
         /// SwifterSwift: Shake view.
         ///
         /// - Parameters:
-        ///   - direction: shake direction (horizontal or vertical), (default is .horizontal)
+        ///   - direction: shake direction (horizontal or vertical), (default is .horizontal).
         ///   - duration: animation duration in seconds (default is 1 second).
         ///   - animationType: shake animation type (default is .easeOut).
         ///   - completion: optional completion handler to run with animation finishes (default is nil).
-        func shake(direction: ShakeDirection = .horizontal, duration: TimeInterval = 1, animationType: ShakeAnimationType = .easeOut, completion: (() -> Void)? = nil) {
+        func shake(
+            direction: ShakeDirection = .horizontal,
+            duration: TimeInterval = 1,
+            animationType: ShakeAnimationType = .easeOut,
+            completion: (() -> Void)? = nil
+        ) {
             CATransaction.begin()
             let animation: CAKeyframeAnimation
             switch direction {
@@ -432,9 +481,9 @@
         /// SwifterSwift: Add Visual Format constraints.
         ///
         /// - Parameters:
-        ///   - withFormat: visual Format language
-        ///   - views: array of views which will be accessed starting with index 0 (example: [v0], [v1], [v2]..)
-        @available(iOS 9, *) func addConstraints(withFormat: String, views: UIView...) {
+        ///   - withFormat: visual Format language.
+        ///   - views: array of views which will be accessed starting with index 0 (example: [v0], [v1], [v2]..).
+        func addConstraints(withFormat: String, views: UIView...) {
             // https://videos.letsbuildthatapp.com/
             var viewsDictionary: [String: UIView] = [:]
             for (index, view) in views.enumerated() {
@@ -442,11 +491,15 @@
                 view.translatesAutoresizingMaskIntoConstraints = false
                 viewsDictionary[key] = view
             }
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: withFormat, options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: viewsDictionary))
+            addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: withFormat,
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: viewsDictionary
+            ))
         }
 
         /// SwifterSwift: Anchor all sides of the view into it's superview.
-        @available(iOS 9, *)
         func fillToSuperview() {
             // https://videos.letsbuildthatapp.com/
             translatesAutoresizingMaskIntoConstraints = false
@@ -462,18 +515,17 @@
         /// SwifterSwift: Add anchors from any side of the current view into the specified anchors and returns the newly added constraints.
         ///
         /// - Parameters:
-        ///   - top: current view's top anchor will be anchored into the specified anchor
-        ///   - left: current view's left anchor will be anchored into the specified anchor
-        ///   - bottom: current view's bottom anchor will be anchored into the specified anchor
-        ///   - right: current view's right anchor will be anchored into the specified anchor
-        ///   - topConstant: current view's top anchor margin
-        ///   - leftConstant: current view's left anchor margin
-        ///   - bottomConstant: current view's bottom anchor margin
-        ///   - rightConstant: current view's right anchor margin
-        ///   - widthConstant: current view's width
-        ///   - heightConstant: current view's height
+        ///   - top: current view's top anchor will be anchored into the specified anchor.
+        ///   - left: current view's left anchor will be anchored into the specified anchor.
+        ///   - bottom: current view's bottom anchor will be anchored into the specified anchor.
+        ///   - right: current view's right anchor will be anchored into the specified anchor.
+        ///   - topConstant: current view's top anchor margin.
+        ///   - leftConstant: current view's left anchor margin.
+        ///   - bottomConstant: current view's bottom anchor margin.
+        ///   - rightConstant: current view's right anchor margin.
+        ///   - widthConstant: current view's width.
+        ///   - heightConstant: current view's height.
         /// - Returns: array of newly added constraints (if applicable).
-        @available(iOS 9, *)
         @discardableResult
         func anchor(
             top: NSLayoutYAxisAnchor? = nil,
@@ -524,7 +576,6 @@
         /// SwifterSwift: Anchor center X into current view's superview with a constant margin value.
         ///
         /// - Parameter constant: constant of the anchor constraint (default is 0).
-        @available(iOS 9, *)
         func anchorCenterXToSuperview(constant: CGFloat = 0) {
             // https://videos.letsbuildthatapp.com/
             translatesAutoresizingMaskIntoConstraints = false
@@ -536,7 +587,6 @@
         /// SwifterSwift: Anchor center Y into current view's superview with a constant margin value.
         ///
         /// - Parameter withConstant: constant of the anchor constraint (default is 0).
-        @available(iOS 9, *)
         func anchorCenterYToSuperview(constant: CGFloat = 0) {
             // https://videos.letsbuildthatapp.com/
             translatesAutoresizingMaskIntoConstraints = false
@@ -545,8 +595,7 @@
             }
         }
 
-        /// SwifterSwift: Anchor center X and Y into current view's superview
-        @available(iOS 9, *)
+        /// SwifterSwift: Anchor center X and Y into current view's superview.
         func anchorCenterSuperview() {
             // https://videos.letsbuildthatapp.com/
             anchorCenterXToSuperview()
@@ -568,6 +617,72 @@
         /// - Parameter name: class of the view to search.
         func ancestorView<T: UIView>(withClass _: T.Type) -> T? {
             ancestorView(where: { $0 is T }) as? T
+        }
+
+        /// SwifterSwift: Returns all the subviews of a given type recursively in the
+        /// view hierarchy rooted on the view it its called.
+        ///
+        /// - Parameter ofType: Class of the view to search.
+        /// - Returns: All subviews with a specified type.
+        func subviews<T>(ofType _: T.Type) -> [T] {
+            var views = [T]()
+            for subview in subviews {
+                if let view = subview as? T {
+                    views.append(view)
+                } else if !subview.subviews.isEmpty {
+                    views.append(contentsOf: subview.subviews(ofType: T.self))
+                }
+            }
+            return views
+        }
+    }
+
+    // MARK: - Constraints
+
+    public extension UIView {
+        /// SwifterSwift: Search constraints until we find one for the given view
+        /// and attribute. This will enumerate ancestors since constraints are
+        /// always added to the common ancestor.
+        ///
+        /// - Parameter attribute: the attribute to find.
+        /// - Parameter at: the view to find.
+        /// - Returns: matching constraint.
+        func findConstraint(attribute: NSLayoutConstraint.Attribute, for view: UIView) -> NSLayoutConstraint? {
+            let constraint = constraints.first {
+                ($0.firstAttribute == attribute && $0.firstItem as? UIView == view) ||
+                    ($0.secondAttribute == attribute && $0.secondItem as? UIView == view)
+            }
+            return constraint ?? superview?.findConstraint(attribute: attribute, for: view)
+        }
+
+        /// SwifterSwift: First width constraint for this view.
+        var widthConstraint: NSLayoutConstraint? {
+            findConstraint(attribute: .width, for: self)
+        }
+
+        /// SwifterSwift: First height constraint for this view.
+        var heightConstraint: NSLayoutConstraint? {
+            findConstraint(attribute: .height, for: self)
+        }
+
+        /// SwifterSwift: First leading constraint for this view.
+        var leadingConstraint: NSLayoutConstraint? {
+            findConstraint(attribute: .leading, for: self)
+        }
+
+        /// SwifterSwift: First trailing constraint for this view.
+        var trailingConstraint: NSLayoutConstraint? {
+            findConstraint(attribute: .trailing, for: self)
+        }
+
+        /// SwifterSwift: First top constraint for this view.
+        var topConstraint: NSLayoutConstraint? {
+            findConstraint(attribute: .top, for: self)
+        }
+
+        /// SwifterSwift: First bottom constraint for this view.
+        var bottomConstraint: NSLayoutConstraint? {
+            findConstraint(attribute: .bottom, for: self)
         }
     }
 

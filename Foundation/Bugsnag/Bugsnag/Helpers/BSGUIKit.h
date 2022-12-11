@@ -6,6 +6,8 @@
 //  Copyright © 2020 Bugsnag Inc. All rights reserved.
 //
 
+#if __has_include(<UIKit/UIKit.h>)
+
 #import <UIKit/UIKit.h>
 
 // When used in some memory constrained contexts such as a file provider extension, linking to UIKit is problematic.
@@ -47,3 +49,5 @@
 #define UIWindowDidBecomeKeyNotification                    @"UIWindowDidBecomeKeyNotification"
 #define UIWindowDidBecomeVisibleNotification                @"UIWindowDidBecomeVisibleNotification"
 #define UIWindowDidResignKeyNotification                    @"UIWindowDidResignKeyNotification"
+
+#endif

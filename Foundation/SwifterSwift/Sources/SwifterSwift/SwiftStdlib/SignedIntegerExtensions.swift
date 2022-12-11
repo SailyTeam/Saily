@@ -1,3 +1,5 @@
+// SignedIntegerExtensions.swift - Copyright 2020 SwifterSwift
+
 //
 //  SignedIntegerExtensions.swift
 //  SwifterSwift

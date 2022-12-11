@@ -1,10 +1,4 @@
-//
-//  SCNSphereExtensions.swift
-//  SwifterSwift
-//
-//  Created by Max Härtwig on 06.04.19.
-//  Copyright © 2019 SwifterSwift
-//
+// SCNSphereExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(SceneKit)
     import SceneKit

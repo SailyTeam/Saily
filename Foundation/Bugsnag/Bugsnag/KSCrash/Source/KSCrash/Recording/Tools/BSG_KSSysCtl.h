@@ -39,16 +39,6 @@ extern "C" {
 #include <sys/sysctl.h>
 #include <sys/types.h>
 
-/** Get an int32 value via sysctl.
- *
- * @param major_cmd The major part of the command or name.
- *
- * @param minor_cmd The minor part of the command or name.
- *
- * @return The value returned by sysctl.
- */
-int32_t bsg_kssysctl_int32(int major_cmd, int minor_cmd);
-
 /** Get an int32 value via sysctl by name.
  *
  * @param name The name of the command.
@@ -56,77 +46,6 @@ int32_t bsg_kssysctl_int32(int major_cmd, int minor_cmd);
  * @return The value returned by sysctl.
  */
 int32_t bsg_kssysctl_int32ForName(const char *name);
-
-/** Get a uint32 value via sysctl.
- *
- * @param major_cmd The major part of the command or name.
- *
- * @param minor_cmd The minor part of the command or name.
- *
- * @return The value returned by sysctl.
- */
-uint32_t bsg_kssysctl_uint32(int major_cmd, int minor_cmd);
-
-/** Get a uint32 value via sysctl by name.
- *
- * @param name The name of the command.
- *
- * @return The value returned by sysctl.
- */
-uint32_t bsg_kssysctl_uint32ForName(const char *name);
-
-/** Get an int64 value via sysctl.
- *
- * @param major_cmd The major part of the command or name.
- *
- * @param minor_cmd The minor part of the command or name.
- *
- * @return The value returned by sysctl.
- */
-int64_t bsg_kssysctl_int64(int major_cmd, int minor_cmd);
-
-/** Get an int64 value via sysctl by name.
- *
- * @param name The name of the command.
- *
- * @return The value returned by sysctl.
- */
-int64_t bsg_kssysctl_int64ForName(const char *name);
-
-/** Get a uint64 value via sysctl.
- *
- * @param major_cmd The major part of the command or name.
- *
- * @param minor_cmd The minor part of the command or name.
- *
- * @return The value returned by sysctl.
- */
-uint64_t bsg_kssysctl_uint64(int major_cmd, int minor_cmd);
-
-/** Get a uint64 value via sysctl by name.
- *
- * @param name The name of the command.
- *
- * @return The value returned by sysctl.
- */
-uint64_t bsg_kssysctl_uint64ForName(const char *name);
-
-/** Get a string value via sysctl.
- *
- * @param major_cmd The major part of the command or name.
- *
- * @param minor_cmd The minor part of the command or name.
- *
- * @param value Pointer to a buffer to fill out. If NULL, does not fill
- *              anything out.
- *
- * @param maxSize The size of the buffer pointed to by value.
- *
- * @return The number of bytes written (or that would have been written if
- *         value is NULL).
- */
-size_t bsg_kssysctl_string(int major_cmd, int minor_cmd, char *value,
-                           size_t maxSize);
 
 /** Get a string value via sysctl by name.
  *
@@ -142,34 +61,6 @@ size_t bsg_kssysctl_string(int major_cmd, int minor_cmd, char *value,
  */
 size_t bsg_kssysctl_stringForName(const char *name, char *value,
                                   size_t maxSize);
-
-/** Get a timeval value via sysctl.
- *
- * @param major_cmd The major part of the command or name.
- *
- * @param minor_cmd The minor part of the command or name.
- *
- * @return The value returned by sysctl.
- */
-struct timeval bsg_kssysctl_timeval(int major_cmd, int minor_cmd);
-
-/** Get a timeval value via sysctl by name.
- *
- * @param name The name of the command.
- *
- * @return The value returned by sysctl.
- */
-struct timeval bsg_kssysctl_timevalForName(const char *name);
-
-/** Get information about a process.
- *
- * @param pid The process ID.
- *
- * @param procInfo Struct to hold the proces information.
- *
- * @return true if the operation was successful.
- */
-bool bsg_kssysctl_getProcessInfo(int pid, struct kinfo_proc *procInfo);
 
 /** Get the MAC address of the specified interface.
  * Note: As of iOS 7 this will always return a fixed value of 02:00:00:00:00:00.

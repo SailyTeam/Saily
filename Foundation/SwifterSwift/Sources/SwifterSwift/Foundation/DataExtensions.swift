@@ -1,10 +1,4 @@
-//
-//  DataExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 07/12/2016.
-//  Copyright © 2016 SwifterSwift
-//
+// DataExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -35,8 +29,8 @@
         /// - Parameter options: Options for reading the JSON data and creating the Foundation object.
         ///
         ///   For possible values, see `JSONSerialization.ReadingOptions`.
-        /// - Returns: A Foundation object from the JSON data in the receiver, or `nil` if an error occurs.
         /// - Throws: An `NSError` if the receiver does not represent a valid JSON object.
+        /// - Returns: A Foundation object from the JSON data in the receiver, or `nil` if an error occurs.
         func jsonObject(options: JSONSerialization.ReadingOptions = []) throws -> Any {
             try JSONSerialization.jsonObject(with: self, options: options)
         }

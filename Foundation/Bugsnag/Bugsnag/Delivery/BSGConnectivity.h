@@ -24,6 +24,10 @@
 // THE SOFTWARE.
 //
 
+#import "BSGDefines.h"
+
+#if BSG_HAVE_REACHABILITY
+
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
@@ -41,6 +45,7 @@ typedef void (^BSGConnectivityChangeBlock)(BOOL connected, NSString *typeDescrip
  * Monitors network connectivity using SCNetworkReachability callbacks,
  * providing a customizable callback block invoked when connectivity changes.
  */
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGConnectivity : NSObject
 
 /**
@@ -68,3 +73,5 @@ NSString *BSGConnectivityFlagRepresentation(SCNetworkReachabilityFlags flags);
 BOOL BSGConnectivityShouldReportChange(SCNetworkReachabilityFlags flags);
 
 NS_ASSUME_NONNULL_END
+
+#endif

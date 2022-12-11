@@ -1,10 +1,4 @@
-//
-//  FloatingPointExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 7/23/17.
-//  Copyright © 2017 SwifterSwift
-//
+// FloatingPointExtensions.swift - Copyright 2021 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -60,10 +54,10 @@ infix operator ±
 /// SwifterSwift: Tuple of plus-minus operation.
 ///
 /// - Parameters:
-///   - lhs: number
-///   - rhs: number
+///   - lhs: number.
+///   - rhs: number.
 /// - Returns: tuple of plus-minus operation ( 2.5 ± 1.5 -> (4, 1)).
-func ± <T: FloatingPoint>(lhs: T, rhs: T) -> (T, T) {
+public func ± <T: FloatingPoint>(lhs: T, rhs: T) -> (T, T) {
     // http://nshipster.com/swift-operators/
     return (lhs + rhs, lhs - rhs)
 }
@@ -74,11 +68,24 @@ func ± <T: FloatingPoint>(lhs: T, rhs: T) -> (T, T) {
 prefix operator ±
 /// SwifterSwift: Tuple of plus-minus operation.
 ///
-/// - Parameter int: number
+/// - Parameter int: number.
 /// - Returns: tuple of plus-minus operation (± 2.5 -> (2.5, -2.5)).
 public prefix func ± <T: FloatingPoint>(number: T) -> (T, T) {
     // http://nshipster.com/swift-operators/
     return 0 ± number
+}
+
+// swiftlint:enable identifier_name
+
+// swiftlint:disable identifier_name
+prefix operator √
+/// SwifterSwift: Square root of float.
+///
+/// - Parameter float: float value to find square root for.
+/// - Returns: square root of given float.
+public prefix func √ <T>(float: T) -> T where T: FloatingPoint {
+    // http://nshipster.com/swift-operators/
+    sqrt(float)
 }
 
 // swiftlint:enable identifier_name

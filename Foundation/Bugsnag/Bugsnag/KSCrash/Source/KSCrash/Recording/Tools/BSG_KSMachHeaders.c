@@ -15,6 +15,7 @@
 #include <dlfcn.h>
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
+#include <os/trace.h>
 #include <stdlib.h>
 
 // Copied from https://github.com/apple/swift/blob/swift-5.0-RELEASE/include/swift/Runtime/Debug.h#L28-L40
@@ -68,6 +69,7 @@ BSG_Mach_Header_Info *bsg_mach_headers_get_main_image() {
 }
 
 BSG_Mach_Header_Info *bsg_mach_headers_get_self_image(void) {
+    (void)bsg_mach_headers_get_images();
     return g_self_image;
 }
 
@@ -209,7 +211,7 @@ void bsg_mach_headers_add_image(const struct mach_header *header, intptr_t slide
                     bsg_g_mach_headers_images_tail->next = newImage;
                 }
                 bsg_g_mach_headers_images_tail = newImage;
-                if (bsg_mach_headers_contains_address(newImage, (vm_address_t)bsg_mach_headers_add_image)) {
+                if (header == &__dso_handle) {
                     g_self_image = newImage;
                 }
             });

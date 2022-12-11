@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Contains information about the last run of the app.
  */
+BUGSNAG_EXTERN
 @interface BugsnagLastRunInfo : NSObject
 
 /**

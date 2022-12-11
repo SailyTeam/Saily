@@ -1,10 +1,4 @@
-//
-//  NotificationCenterExtensions.swift
-//  SwifterSwift
-//
-//  Created by Guy Kogus on 6/3/20.
-//  Copyright © 2020 SwifterSwift
-//
+// NotificationCenterExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation

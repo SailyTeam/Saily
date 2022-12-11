@@ -88,7 +88,7 @@ private class FeaturedBanner: UIView {
             x.height.equalTo(30)
         }
 
-        imageView.cornerRadius = 8
+        imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "BannerImagePlaceholder")

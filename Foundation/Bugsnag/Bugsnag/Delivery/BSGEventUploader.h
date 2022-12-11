@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BSGDefines.h"
+
 @class BugsnagApiClient;
 @class BugsnagConfiguration;
 @class BugsnagEvent;
@@ -15,6 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGEventUploader : NSObject
 
 - (instancetype)initWithConfiguration:(BugsnagConfiguration *)configuration notifier:(BugsnagNotifier *)notifier;
@@ -22,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)storeEvent:(BugsnagEvent *)event;
 
 - (void)uploadEvent:(BugsnagEvent *)event completionHandler:(nullable void (^)(void))completionHandler;
+
+- (void)uploadKSCrashReportWithFile:(NSString *)file completionHandler:(nullable void (^)(void))completionHandler;
 
 - (void)uploadStoredEvents;
 

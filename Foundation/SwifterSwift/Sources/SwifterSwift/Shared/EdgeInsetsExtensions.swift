@@ -1,10 +1,4 @@
-//
-//  EdgeInsetsExtensions.swift
-//  SwifterSwift
-//
-//  Created by Guy Kogus on 03/01/2020.
-//  Copyright © 2020 SwifterSwift
-//
+// EdgeInsetsExtensions.swift - Copyright 2020 SwifterSwift
 
 #if os(iOS) || os(tvOS) || os(watchOS)
     import UIKit
@@ -37,6 +31,7 @@
                 lhs.right == rhs.right
         }
     }
+
     // swiftlint:enable missing_swifterswift_prefix
 #endif
 
@@ -63,7 +58,7 @@
     // MARK: - Methods
 
     public extension EdgeInsets {
-        /// SwifterSwift: Creates an `EdgeInsets` with the inset value applied to all (top, bottom, right, left)
+        /// SwifterSwift: Creates an `EdgeInsets` with the inset value applied to all (top, bottom, right, left).
         ///
         /// - Parameter inset: Inset to be applied in all the edges.
         init(inset: CGFloat) {

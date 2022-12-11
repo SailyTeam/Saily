@@ -31,8 +31,7 @@ import Foundation
  `FileHandle` operations may result in unrecoverable runtime failures due to unhandled Objective-C exceptions (which are
  impossible to correctly handle in Swift code). As such, it is not recommended to use `TarWriter` on those platforms.
  The following platforms are _unaffected_ by this issue: macOS 10.15.4+, iOS 13.4+, watchOS 6.2+, tvOS 13.4+, and any
- other platforms without Objective-C runtime (however, it still can be encountered if using the Swift version older than
- 5.2).
+ other platforms without Objective-C runtime.
  */
 public struct TarWriter {
     private let format: TarContainer.Format
@@ -132,17 +131,12 @@ public struct TarWriter {
     }
 
     private func write(_ data: Data) throws {
-        #if compiler(<5.2)
+        if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
+            try handle.write(contentsOf: data)
+            try handle.synchronize()
+        } else {
             handle.write(data)
             handle.synchronizeFile()
-        #else
-            if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
-                try handle.write(contentsOf: data)
-                try handle.synchronize()
-            } else {
-                handle.write(data)
-                handle.synchronizeFile()
-            }
-        #endif
+        }
     }
 }

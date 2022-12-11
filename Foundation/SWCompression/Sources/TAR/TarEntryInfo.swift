@@ -183,14 +183,6 @@ public struct TarEntryInfo: ContainerEntryInfo {
     init(_ header: TarHeader, _ global: TarExtendedHeader?, _ local: TarExtendedHeader?,
          _ longName: String?, _ longLinkName: String?)
     {
-        // General notes for all the properties processing below:
-        // 1. There might be a corresponding field in either global or local extended PAX header.
-        // 2. We still need to read general TAR fields so we can't eliminate auxiliary local let-variables.
-        // 3. `tarInt` returning `nil` corresponds to either field being unused and filled with NULLs or non-UTF-8
-        //    string describing number which means that either this field or container in general is corrupted.
-        //    Corruption of the container should be detected by checksum comparison, so we decided to ignore them here;
-        //    the alternative, which was used in previous versions, is to throw an error.
-
         permissions = header.permissions
         ownerID = (local?.uid ?? global?.uid) ?? header.uid
         groupID = (local?.gid ?? global?.gid) ?? header.gid

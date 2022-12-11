@@ -26,11 +26,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
 #import <Bugsnag/BugsnagMetadataStore.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// :nodoc:
+BUGSNAG_EXTERN
 @interface BugsnagMetadata : NSObject <BugsnagMetadataStore>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

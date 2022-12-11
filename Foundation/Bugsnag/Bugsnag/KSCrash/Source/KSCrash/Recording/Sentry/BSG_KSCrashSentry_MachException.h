@@ -34,22 +34,13 @@
 extern "C" {
 #endif
 
+#include "BSGDefines.h"
+
+#if BSG_HAVE_MACH_EXCEPTIONS
+
 #include "BSG_KSCrashSentry.h"
 #include <stdbool.h>
 #include <TargetConditionals.h>
-
-/**
- * Implementing a Mach exception handler requires use of the following APIs that
- * are prohibited on tvOS and watchOS:
- * - mach_msg
- * - task_get_exception_ports
- * - task_set_exception_ports
- */
-#if TARGET_OS_IOS || TARGET_OS_OSX
-#define MACH_EXCEPTION_HANDLING_AVAILABLE 1
-#else
-#define MACH_EXCEPTION_HANDLING_AVAILABLE 0
-#endif
 
 /** Install our custom mach exception handler.
  *
@@ -65,6 +56,8 @@ void bsg_kscrashsentry_uninstallMachHandler(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // HDR_KSCrashSentry_MachException_h

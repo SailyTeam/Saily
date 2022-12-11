@@ -56,6 +56,44 @@ class SnapKitTests: XCTestCase {
         XCTAssertEqual(container.snp_constraints.count, 6, "Should have 6 constraints installed")
     }
 
+    func testHorizontalVerticalEdges() {
+        let v1 = View()
+        container.addSubview(v1)
+
+        v1.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
+
+        XCTAssertEqual(container.snp_constraints.count, 4, "Should have 4 constraints installed")
+
+        XCTAssertTrue(container.constraints.count == 4)
+        XCTAssertTrue(container.constraints.allSatisfy { $0.firstItem === v1 && $0.secondItem === v1.superview })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .left && $0.secondAttribute == .left })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .right && $0.secondAttribute == .right })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .top && $0.secondAttribute == .top })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .bottom && $0.secondAttribute == .bottom })
+    }
+
+    func testHorizontalVerticalDirectionalEdges() {
+        let v1 = View()
+        container.addSubview(v1)
+
+        v1.snp.makeConstraints { make in
+            make.directionalVerticalEdges.equalToSuperview()
+            make.directionalHorizontalEdges.equalToSuperview()
+        }
+
+        XCTAssertEqual(container.snp_constraints.count, 4, "Should have 4 constraints installed")
+
+        XCTAssertTrue(container.constraints.count == 4)
+        XCTAssertTrue(container.constraints.allSatisfy { $0.firstItem === v1 && $0.secondItem === v1.superview })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .leading && $0.secondAttribute == .leading })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .trailing && $0.secondAttribute == .trailing })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .top && $0.secondAttribute == .top })
+        XCTAssertNotNil(container.constraints.first { $0.firstAttribute == .bottom && $0.secondAttribute == .bottom })
+    }
+
     func testGuideMakeConstraints() {
         guard #available(iOS 9.0, OSX 10.11, *) else { return }
         let v1 = View()
@@ -660,6 +698,8 @@ class SnapKitTests: XCTestCase {
 
     func testCanSetLabel() {
         container.snp.setLabel("Hello World")
+
+        XCTAssertEqual(container.snp.label(), "Hello World")
     }
 
     func testPriorityShortcuts() {

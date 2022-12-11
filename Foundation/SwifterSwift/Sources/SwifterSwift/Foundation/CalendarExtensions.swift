@@ -1,10 +1,4 @@
-//
-//  CalendarExtensions.swift
-//  SwifterSwift
-//
-//  Created by Chaithanya Prathyush on 09/11/17.
-//  Copyright © 2017 SwifterSwift
-//
+// CalendarExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation

@@ -51,14 +51,8 @@ final class GZipCommand: Command {
                 }
             }
 
-            guard outputURL != nil else {
-                print("""
-                ERROR: Unable to get output path. \
-                No output parameter was specified. \
-                Extension was: \(inputURL.pathExtension)
-                """)
-                exit(1)
-            }
+            guard outputURL != nil
+            else { swcompExit(.noOutputPath) }
 
             let decompressedData = try GzipArchive.unarchive(archive: fileData)
             try decompressedData.write(to: outputURL!)

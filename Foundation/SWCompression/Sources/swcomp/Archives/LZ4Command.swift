@@ -49,7 +49,7 @@ final class LZ4Command: Command {
         let dictID: UInt32?
         if let dictionaryID = dictionaryID {
             guard dictionaryID <= UInt32.max
-            else { print("ERROR: Too large dictionary ID."); exit(1) }
+            else { swcompExit(.lz4BigDictId) }
             dictID = UInt32(truncatingIfNeeded: dictionaryID)
         } else {
             dictID = nil
@@ -62,10 +62,8 @@ final class LZ4Command: Command {
             dictData = nil
         }
 
-        if dictID != nil, dictData == nil {
-            print("ERROR: Dictionary ID is specified without specifying the dictionary itself.")
-            exit(1)
-        }
+        guard dictID == nil || dictData != nil
+        else { swcompExit(.lz4NoDict) }
 
         if decompress {
             let inputURL = URL(fileURLWithPath: input)
@@ -76,12 +74,7 @@ final class LZ4Command: Command {
             } else if inputURL.pathExtension == "lz4" {
                 outputURL = inputURL.deletingPathExtension()
             } else {
-                print("""
-                ERROR: Unable to get output path. \
-                No output parameter was specified. \
-                Extension was: \(inputURL.pathExtension)
-                """)
-                exit(1)
+                swcompExit(.noOutputPath)
             }
 
             let fileData = try Data(contentsOf: inputURL, options: .mappedIfSafe)
@@ -99,10 +92,8 @@ final class LZ4Command: Command {
 
             let bs: Int
             if let blockSize = blockSize {
-                if blockSize >= 4_194_304 {
-                    print("ERROR: Too big block size.")
-                    exit(1)
-                }
+                guard blockSize < 4_194_304
+                else { swcompExit(.lz4BigBlockSize) }
                 bs = blockSize
             } else {
                 bs = 4 * 1024 * 1024

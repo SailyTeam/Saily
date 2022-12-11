@@ -1,10 +1,4 @@
-//
-//  NSRegularExpressionExtensions.swift
-//  SwifterSwift
-//
-//  Created by Guy Kogus on 09/10/2019.
-//  Copyright © 2019 SwifterSwift
-//
+// NSRegularExpressionExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -28,7 +22,11 @@
             func enumerateMatches(in string: String,
                                   options: MatchingOptions = [],
                                   range: Range<String.Index>,
-                                  using block: @escaping (_ result: NSTextCheckingResult?, _ flags: MatchingFlags, _ stop: inout Bool) -> Void)
+                                  using block: @escaping (
+                                      _ result: NSTextCheckingResult?,
+                                      _ flags: MatchingFlags,
+                                      _ stop: inout Bool
+                                  ) -> Void)
             {
                 enumerateMatches(in: string,
                                  options: options,
@@ -44,7 +42,8 @@
             func enumerateMatches(in string: String,
                                   options: MatchingOptions = [],
                                   range: Range<String.Index>,
-                                  using block: (_ result: NSTextCheckingResult?, _ flags: MatchingFlags, _ stop: inout Bool) -> Void)
+                                  using block: (_ result: NSTextCheckingResult?, _ flags: MatchingFlags, _ stop: inout Bool)
+                                      -> Void)
             {
                 enumerateMatches(in: string,
                                  options: options,

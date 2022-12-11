@@ -27,6 +27,7 @@
 #include "BSG_KSMach.h"
 
 #include "BSG_KSMachApple.h"
+#include "BSGDefines.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
@@ -36,74 +37,11 @@
 #include <mach/mach_time.h>
 #include <sys/sysctl.h>
 
-#if __has_include(<os/proc.h>) && TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST
-#include <os/proc.h>
-#endif
-
 // Avoiding static functions due to linker issues.
-
-/** Get the current VM stats.
- *
- * @param vmStats Gets filled with the VM stats.
- *
- * @param pageSize gets filled with the page size.
- *
- * @return true if the operation was successful.
- */
-bool bsg_ksmachi_VMStats(vm_statistics_data_t *const vmStats,
-                         vm_size_t *const pageSize);
-
-static pthread_t bsg_g_topThread;
 
 // ============================================================================
 #pragma mark - General Information -
 // ============================================================================
-
-/**
- * A pointer to `os_proc_available_memory` if it is available and usable.
- *
- * We cannot use the `__builtin_available` check at runtime because its
- * implementation uses malloc() which is not async-signal-safe and can result in
- * a deadlock if called from a crash handler or while threads are suspended.
- */
-static size_t (* get_available_memory)(void);
-
-static void bsg_ksmachfreeMemory_init(void) {
-#if __has_include(<os/proc.h>) && TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST
-    if (__builtin_available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)) {
-        // Only use `os_proc_available_memory` if it appears to be working.
-        // 0 is returned if the calling process is not an app or is running
-        // on a Simulator, and may also erroneously be returned by some early
-        // implementations like iOS 13.0.
-        if (os_proc_available_memory()) {
-            get_available_memory = os_proc_available_memory;
-        }
-    }
-#endif
-}
-
-uint64_t bsg_ksmachfreeMemory(void) {
-    if (get_available_memory) {
-        return get_available_memory();
-    }
-    vm_statistics_data_t vmStats;
-    vm_size_t pageSize;
-    if (bsg_ksmachi_VMStats(&vmStats, &pageSize)) {
-        return ((uint64_t)pageSize) * vmStats.free_count;
-    }
-    return 0;
-}
-
-uint64_t bsg_ksmachusableMemory(void) {
-    vm_statistics_data_t vmStats;
-    vm_size_t pageSize;
-    if (bsg_ksmachi_VMStats(&vmStats, &pageSize)) {
-        return ((uint64_t)pageSize) *
-               (vmStats.active_count + vmStats.inactive_count +
-                vmStats.wire_count + vmStats.free_count);
-    }
-    return 0;
-}
 
 const char *bsg_ksmachcurrentCPUArch(void) {
     const NXArchInfo *archInfo = NXGetLocalArchInfo();
@@ -196,6 +134,7 @@ const char *bsg_ksmachkernelReturnCodeName(const kern_return_t returnCode) {
 #pragma mark - Thread State Info -
 // ============================================================================
 
+#if BSG_HAVE_MACH_THREADS
 bool bsg_ksmachfillState(const thread_t thread, const thread_state_t state,
                          const thread_state_flavor_t flavor,
                          const mach_msg_type_number_t stateCount) {
@@ -211,34 +150,7 @@ bool bsg_ksmachfillState(const thread_t thread, const thread_state_t state,
     }
     return true;
 }
-
-void bsg_ksmach_init(void) {
-    static volatile sig_atomic_t initialized = 0;
-    if (!initialized) {
-        kern_return_t kr;
-        const task_t thisTask = mach_task_self();
-        thread_act_array_t threads;
-        mach_msg_type_number_t numThreads;
-
-        if ((kr = task_threads(thisTask, &threads, &numThreads)) !=
-            KERN_SUCCESS) {
-            BSG_KSLOG_ERROR("task_threads: %s", mach_error_string(kr));
-            return;
-        }
-
-        bsg_g_topThread = pthread_from_mach_thread_np(threads[0]);
-
-        for (mach_msg_type_number_t i = 0; i < numThreads; i++) {
-            mach_port_deallocate(thisTask, threads[i]);
-        }
-        vm_deallocate(thisTask, (vm_address_t)threads,
-                      sizeof(thread_t) * numThreads);
-        
-        bsg_ksmachfreeMemory_init();
-        
-        initialized = true;
-    }
-}
+#endif
 
 thread_t bsg_ksmachthread_self() {
     thread_t thread_self = mach_thread_self();
@@ -246,42 +158,10 @@ thread_t bsg_ksmachthread_self() {
     return thread_self;
 }
 
-thread_t bsg_ksmachmachThreadFromPThread(const pthread_t pthread) {
-    const internal_pthread_t threadStruct = (internal_pthread_t)pthread;
-    thread_t machThread = 0;
-    if (bsg_ksmachcopyMem(&threadStruct->kernel_thread, &machThread,
-                          sizeof(machThread)) != KERN_SUCCESS) {
-        BSG_KSLOG_TRACE("Could not copy mach thread from %u",
-                        threadStruct->kernel_thread);
-        return 0;
-    }
-    return machThread;
-}
-
-pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread) {
-    internal_pthread_t threadStruct = (internal_pthread_t)bsg_g_topThread;
-    thread_t machThread = 0;
-
-    for (int i = 0; i < 50; i++) {
-        if (bsg_ksmachcopyMem(&threadStruct->kernel_thread, &machThread,
-                              sizeof(machThread)) != KERN_SUCCESS) {
-            break;
-        }
-        if (machThread == thread) {
-            return (pthread_t)threadStruct;
-        }
-
-        if (bsg_ksmachcopyMem(&threadStruct->plist.tqe_next, &threadStruct,
-                              sizeof(threadStruct)) != KERN_SUCCESS) {
-            break;
-        }
-    }
-    return 0;
-}
-
 bool bsg_ksmachgetThreadName(const thread_t thread, char *const buffer,
                              size_t bufLength) {
-    // WARNING: This implementation is no longer async-safe!
+    // WARNING: This implementation is not async-safe because
+    // pthread_from_mach_thread_np() acquires an internal lock.
 
     const pthread_t pthread = pthread_from_mach_thread_np(thread);
     if (pthread == NULL) {
@@ -406,6 +286,9 @@ thread_t *bsg_ksmachgetAllThreads(unsigned *threadCount) {
 
     if ((kr = task_threads(thisTask, &threads, &numThreads)) != KERN_SUCCESS) {
         BSG_KSLOG_ERROR("task_threads: %s", mach_error_string(kr));
+#if !BSG_KSLOG_PRINTS_AT_LEVEL(BSG_KSLogger_Level_Error)
+        (void)kr;
+#endif
         return NULL;
     }
 
@@ -445,6 +328,7 @@ unsigned bsg_ksmachremoveThreadsFromList(thread_t *srcThreads, unsigned srcThrea
     return iDst;
 }
 
+#if BSG_HAVE_MACH_THREADS
 void bsg_ksmachsuspendThreads(thread_t *threads, unsigned threadsCount) {
     const thread_t thisThread = bsg_ksmachthread_self();
     for (unsigned i = 0; i < threadsCount; i++) {
@@ -484,6 +368,7 @@ void bsg_ksmachresumeThreads(thread_t *threads, unsigned threadsCount) {
         }
     }
 }
+#endif
 
 kern_return_t bsg_ksmachcopyMem(const void *const src, void *const dst,
                                 const size_t numBytes) {
@@ -491,44 +376,6 @@ kern_return_t bsg_ksmachcopyMem(const void *const src, void *const dst,
     return vm_read_overwrite(mach_task_self(), (vm_address_t)src,
                              (vm_size_t)numBytes, (vm_address_t)dst,
                              &bytesCopied);
-}
-
-size_t bsg_ksmachcopyMaxPossibleMem(const void *const src, void *const dst,
-                                    const size_t numBytes) {
-    const uint8_t *pSrc = src;
-    const uint8_t *pSrcMax = (const uint8_t *)src + numBytes;
-    const uint8_t *pSrcEnd = (const uint8_t *)src + numBytes;
-    uint8_t *pDst = dst;
-
-    size_t bytesCopied = 0;
-
-    // Short-circuit if no memory is readable
-    if (bsg_ksmachcopyMem(src, dst, 1) != KERN_SUCCESS) {
-        return 0;
-    } else if (numBytes <= 1) {
-        return numBytes;
-    }
-
-    for (;;) {
-        ssize_t copyLength = pSrcEnd - pSrc;
-        if (copyLength <= 0) {
-            break;
-        }
-
-        if (bsg_ksmachcopyMem(pSrc, pDst, (size_t)copyLength) == KERN_SUCCESS) {
-            bytesCopied += (size_t)copyLength;
-            pSrc += copyLength;
-            pDst += copyLength;
-            pSrcEnd = pSrc + (pSrcMax - pSrc) / 2;
-        } else {
-            if (copyLength <= 1) {
-                break;
-            }
-            pSrcMax = pSrcEnd;
-            pSrcEnd = pSrc + copyLength / 2;
-        }
-    }
-    return bytesCopied;
 }
 
 double bsg_ksmachtimeDifferenceInSeconds(const uint64_t endTime,
@@ -568,29 +415,4 @@ bool bsg_ksmachisBeingTraced(void) {
     }
 
     return (procInfo.kp_proc.p_flag & P_TRACED) != 0;
-}
-
-// ============================================================================
-#pragma mark - (internal) -
-// ============================================================================
-
-bool bsg_ksmachi_VMStats(vm_statistics_data_t *const vmStats,
-                         vm_size_t *const pageSize) {
-    kern_return_t kr;
-    const mach_port_t hostPort = mach_host_self();
-
-    if ((kr = host_page_size(hostPort, pageSize)) != KERN_SUCCESS) {
-        BSG_KSLOG_ERROR("host_page_size: %s", mach_error_string(kr));
-        return false;
-    }
-
-    mach_msg_type_number_t hostSize = sizeof(*vmStats) / sizeof(natural_t);
-    kr = host_statistics(hostPort, HOST_VM_INFO, (host_info_t)vmStats,
-                         &hostSize);
-    if (kr != KERN_SUCCESS) {
-        BSG_KSLOG_ERROR("host_statistics: %s", mach_error_string(kr));
-        return false;
-    }
-
-    return true;
 }

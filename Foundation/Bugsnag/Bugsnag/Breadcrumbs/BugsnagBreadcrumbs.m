@@ -18,6 +18,7 @@
 #import "BugsnagConfiguration+Private.h"
 #import "BugsnagLogger.h"
 
+#import <stdatomic.h>
 
 //
 // Breadcrumbs are stored as a linked list of JSON encoded C strings
@@ -29,7 +30,8 @@ struct bsg_breadcrumb_list_item {
     char jsonData[]; // MUST be null terminated
 };
 
-static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
+static _Atomic(struct bsg_breadcrumb_list_item *) g_breadcrumbs_head;
+static atomic_bool g_writing_crash_report;
 
 #pragma mark -
 
@@ -45,6 +47,7 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
 
 #pragma mark -
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BugsnagBreadcrumbs
 
 - (instancetype)initWithConfiguration:(BugsnagConfiguration *)config {
@@ -64,17 +67,16 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
 - (NSArray<BugsnagBreadcrumb *> *)breadcrumbs {
     NSMutableArray<BugsnagBreadcrumb *> *breadcrumbs = [NSMutableArray array];
     @synchronized (self) {
-        for (struct bsg_breadcrumb_list_item *item = g_breadcrumbs_head; item != NULL; item = item->next) {
+        for (struct bsg_breadcrumb_list_item *item = atomic_load(&g_breadcrumbs_head); item != NULL; item = item->next) {
             NSError *error = nil;
             NSData *data = [NSData dataWithBytesNoCopy:item->jsonData length:strlen(item->jsonData) freeWhenDone:NO];
-            id JSONObject = [BSGJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            NSDictionary *JSONObject = BSGJSONDictionaryFromData(data, 0, &error);
             if (!JSONObject) {
                 bsg_log_err(@"Unable to parse breadcrumb: %@", error);
                 continue;
             }
-            BugsnagBreadcrumb *breadcrumb = nil;
-            if (![JSONObject isKindOfClass:[NSDictionary class]] ||
-                !(breadcrumb = [BugsnagBreadcrumb breadcrumbFromDict:JSONObject])) {
+            BugsnagBreadcrumb *breadcrumb = [BugsnagBreadcrumb breadcrumbFromDict:JSONObject];
+            if (!breadcrumb) {
                 bsg_log_err(@"Unexpected breadcrumb payload in buffer");
                 continue;
             }
@@ -96,18 +98,11 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
     });
 }
 
-- (void)addBreadcrumb:(NSString *)breadcrumbMessage {
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumb) {
-        crumb.message = breadcrumbMessage;
-    }];
-}
-
-- (void)addBreadcrumbWithBlock:(BSGBreadcrumbConfiguration)block {
+- (void)addBreadcrumb:(BugsnagBreadcrumb *)crumb {
     if (self.maxBreadcrumbs == 0) {
         return;
     }
-    BugsnagBreadcrumb *crumb = [BugsnagBreadcrumb breadcrumbWithBlock:block];
-    if (!crumb || ![self shouldSendBreadcrumb:crumb]) {
+    if (![crumb isValid] || ![self shouldSendBreadcrumb:crumb]) {
         return;
     }
     NSData *data = [self dataForBreadcrumb:crumb];
@@ -122,29 +117,27 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
     if (!newItem) {
         return;
     }
-    [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, __unused BOOL *stop) {
-        memcpy(newItem->jsonData + byteRange.location, bytes, byteRange.length);
-    }];
+    [data getBytes:newItem->jsonData length:data.length];
     
     @synchronized (self) {
         const unsigned int fileNumber = self.nextFileNumber;
         const BOOL deleteOld = fileNumber >= self.maxBreadcrumbs;
         self.nextFileNumber = fileNumber + 1;
         
-        if (g_breadcrumbs_head) {
-            struct bsg_breadcrumb_list_item *tail = g_breadcrumbs_head;
+        struct bsg_breadcrumb_list_item *head = atomic_load(&g_breadcrumbs_head);
+        if (head) {
+            struct bsg_breadcrumb_list_item *tail = head;
             while (tail->next) {
                 tail = tail->next;
             }
             tail->next = newItem;
             if (deleteOld) {
-                struct bsg_breadcrumb_list_item *head = g_breadcrumbs_head;
-                g_breadcrumbs_head = head->next;
-                head->next = NULL;
+                atomic_store(&g_breadcrumbs_head, head->next);
+                while (atomic_load(&g_writing_crash_report)) { continue; }
                 free(head);
             }
         } else {
-            g_breadcrumbs_head = newItem;
+            atomic_store(&g_breadcrumbs_head, newItem);
         }
         
         if (!writeToDisk) {
@@ -199,8 +192,7 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
 
 - (void)removeAllBreadcrumbs {
     @synchronized (self) {
-        struct bsg_breadcrumb_list_item *item = g_breadcrumbs_head;
-        g_breadcrumbs_head = NULL;
+        struct bsg_breadcrumb_list_item *item = atomic_exchange(&g_breadcrumbs_head, NULL);
         while (item) {
             struct bsg_breadcrumb_list_item *next = item->next;
             free(item);
@@ -208,20 +200,24 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
         }
         self.nextFileNumber = 0;
     }
-    [self deleteBreadcrumbFiles];
+    dispatch_async(BSGGetFileSystemQueue(), ^{
+        NSError *error = nil;
+        NSString *directory = self.breadcrumbsPath;
+        NSFileManager *fileManager = [NSFileManager new];
+        if (![fileManager removeItemAtPath:directory error:&error] ||
+            ![fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error]) {
+            bsg_log_debug(@"%s: %@", __FUNCTION__, error);
+        }
+    });
 }
 
 #pragma mark - File storage
 
 - (NSData *)dataForBreadcrumb:(BugsnagBreadcrumb *)breadcrumb {
-    id JSONObject = [breadcrumb objectValue];
-    if (![BSGJSONSerialization isValidJSONObject:JSONObject]) {
-        bsg_log_err(@"Unable to serialize breadcrumb: Not a valid JSON object");
-        return nil;
-    }
+    NSData *data = nil;
     NSError *error = nil;
-    NSData *data = [BSGJSONSerialization dataWithJSONObject:JSONObject options:0 error:&error];
-    if (!data) {
+    NSDictionary *json = [breadcrumb objectValue];
+    if (!json || !(data = BSGJSONDataFromDictionary(json, &error))) {
         bsg_log_err(@"Unable to serialize breadcrumb: %@", error);
     }
     return data;
@@ -265,14 +261,13 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
             }
             continue;
         }
-        id JSONObject = [BSGJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSDictionary *JSONObject = BSGJSONDictionaryFromData(data, 0, &error);
         if (!JSONObject) {
             bsg_log_err(@"Unable to parse breadcrumb: %@", error);
             continue;
         }
-        BugsnagBreadcrumb *breadcrumb;
-        if (![JSONObject isKindOfClass:[NSDictionary class]] ||
-            !(breadcrumb = [BugsnagBreadcrumb breadcrumbFromDict:JSONObject])) {
+        BugsnagBreadcrumb *breadcrumb = [BugsnagBreadcrumb breadcrumbFromDict:JSONObject];
+        if (!breadcrumb) {
             bsg_log_err(@"Unexpected breadcrumb payload in file %@", file);
             continue;
         }
@@ -282,25 +277,22 @@ static struct bsg_breadcrumb_list_item *g_breadcrumbs_head;
     return breadcrumbs;
 }
 
-- (void)deleteBreadcrumbFiles {
-    [[NSFileManager defaultManager] removeItemAtPath:self.breadcrumbsPath error:NULL];
-    
-    NSError *error = nil;
-    if (![[NSFileManager defaultManager] createDirectoryAtPath:self.breadcrumbsPath withIntermediateDirectories:YES attributes:nil error:&error]) {
-        bsg_log_err(@"Unable to create breadcrumbs directory: %@", error);
-    }
-}
-
 @end
 
 #pragma mark -
 
 void BugsnagBreadcrumbsWriteCrashReport(const BSG_KSCrashReportWriter *writer) {
+    atomic_store(&g_writing_crash_report, true);
+    
     writer->beginArray(writer, "breadcrumbs");
     
-    for (struct bsg_breadcrumb_list_item *item = g_breadcrumbs_head; item != NULL; item = item->next) {
+    struct bsg_breadcrumb_list_item *item = atomic_load(&g_breadcrumbs_head);
+    while (item) {
         writer->addJSONElement(writer, NULL, item->jsonData);
+        item = item->next;
     }
     
     writer->endContainer(writer);
+    
+    atomic_store(&g_writing_crash_report, false);
 }

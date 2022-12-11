@@ -1,10 +1,4 @@
-//
-//  UIViewControllerExtensions.swift
-//  SwifterSwift
-//
-//  Created by Emirhan Erdogan on 07/08/16.
-//  Copyright © 2016 SwifterSwift
-//
+// UIViewControllerExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(UIKit) && !os(watchOS)
     import UIKit
@@ -22,6 +16,25 @@
     // MARK: - Methods
 
     public extension UIViewController {
+        /// SwifterSwift: Instantiate UIViewController from storyboard.
+        ///
+        /// - Parameters:
+        ///   - storyboard: Name of the storyboard where the UIViewController is located.
+        ///   - bundle: Bundle in which storyboard is located.
+        ///   - identifier: UIViewController's storyboard identifier.
+        /// - Returns: Custom UIViewController instantiated from storyboard.
+        class func instantiate(from storyboard: String = "Main", bundle: Bundle? = nil, identifier: String? = nil) -> Self {
+            let viewControllerIdentifier = identifier ?? String(describing: self)
+            let storyboard = UIStoryboard(name: storyboard, bundle: bundle)
+            guard let viewController = storyboard
+                .instantiateViewController(withIdentifier: viewControllerIdentifier) as? Self
+            else {
+                preconditionFailure(
+                    "Unable to instantiate view controller with identifier \(viewControllerIdentifier) as type \(type(of: self))")
+            }
+            return viewController
+        }
+
         /// SwifterSwift: Assign as listener to notification.
         ///
         /// - Parameters:
@@ -43,17 +56,23 @@
             NotificationCenter.default.removeObserver(self)
         }
 
-        /// SwifterSwift: Helper method to display an alert on any UIViewController subclass. Uses UIAlertController to show an alert
+        /// SwifterSwift: Helper method to display an alert on any UIViewController subclass. Uses UIAlertController to show an alert.
         ///
         /// - Parameters:
-        ///   - title: title of the alert
-        ///   - message: message/body of the alert
-        ///   - buttonTitles: (Optional)list of button titles for the alert. Default button i.e "OK" will be shown if this paramter is nil
-        ///   - highlightedButtonIndex: (Optional) index of the button from buttonTitles that should be highlighted. If this parameter is nil no button will be highlighted
-        ///   - completion: (Optional) completion block to be invoked when any one of the buttons is tapped. It passes the index of the tapped button as an argument
+        ///   - title: title of the alert.
+        ///   - message: message/body of the alert.
+        ///   - buttonTitles: (Optional)list of button titles for the alert. Default button i.e "OK" will be shown if this parameter is nil.
+        ///   - highlightedButtonIndex: (Optional) index of the button from buttonTitles that should be highlighted. If this parameter is nil no button will be highlighted.
+        ///   - completion: (Optional) completion block to be invoked when any one of the buttons is tapped. It passes the index of the tapped button as an argument.
         /// - Returns: UIAlertController object (discardable).
         @discardableResult
-        func showAlert(title: String?, message: String?, buttonTitles: [String]? = nil, highlightedButtonIndex: Int? = nil, completion: ((Int) -> Void)? = nil) -> UIAlertController {
+        func showAlert(
+            title: String?,
+            message: String?,
+            buttonTitles: [String]? = nil,
+            highlightedButtonIndex: Int? = nil,
+            completion: ((Int) -> Void)? = nil
+        ) -> UIAlertController {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             var allButtons = buttonTitles ?? [String]()
             if allButtons.count == 0 {
@@ -78,8 +97,8 @@
         /// SwifterSwift: Helper method to add a UIViewController as a childViewController.
         ///
         /// - Parameters:
-        ///   - child: the view controller to add as a child
-        ///   - containerView: the containerView for the child viewcontroller's root view.
+        ///   - child: the view controller to add as a child.
+        ///   - containerView: the containerView for the child viewController's root view.
         func addChildViewController(_ child: UIViewController, toContainerView containerView: UIView) {
             addChild(child)
             containerView.addSubview(child.view)
@@ -105,7 +124,14 @@
             ///   - delegate: the popover's presentationController delegate. Default is nil.
             ///   - animated: Pass true to animate the presentation; otherwise, pass false.
             ///   - completion: The block to execute after the presentation finishes. Default is nil.
-            func presentPopover(_ popoverContent: UIViewController, sourcePoint: CGPoint, size: CGSize? = nil, delegate: UIPopoverPresentationControllerDelegate? = nil, animated: Bool = true, completion: (() -> Void)? = nil) {
+            func presentPopover(
+                _ popoverContent: UIViewController,
+                sourcePoint: CGPoint,
+                size: CGSize? = nil,
+                delegate: UIPopoverPresentationControllerDelegate? = nil,
+                animated: Bool = true,
+                completion: (() -> Void)? = nil
+            ) {
                 popoverContent.modalPresentationStyle = .popover
 
                 if let size = size {

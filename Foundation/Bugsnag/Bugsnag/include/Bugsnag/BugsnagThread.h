@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
+
 typedef NS_OPTIONS(NSUInteger, BSGThreadType) {
     BSGThreadTypeCocoa NS_SWIFT_NAME(cocoa) = 0,
     BSGThreadTypeReactNativeJs = 1 << 1
@@ -18,6 +20,7 @@ typedef NS_OPTIONS(NSUInteger, BSGThreadType) {
 /**
  * A representation of thread information recorded as part of a BugsnagEvent.
  */
+BUGSNAG_EXTERN
 @interface BugsnagThread : NSObject
 
 /**

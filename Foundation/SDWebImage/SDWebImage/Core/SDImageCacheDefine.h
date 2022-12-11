@@ -10,6 +10,7 @@
 #import "SDWebImageCompat.h"
 #import "SDWebImageOperation.h"
 #import "SDWebImageDefine.h"
+#import "SDImageCoder.h"
 
 /// Image Cache Type
 typedef NS_ENUM(NSInteger, SDImageCacheType) {
@@ -53,6 +54,18 @@ typedef void(^SDImageCacheContainsCompletionBlock)(SDImageCacheType containsCach
  @return The decoded image for current image data query from cache
  */
 FOUNDATION_EXPORT UIImage * _Nullable SDImageCacheDecodeImageData(NSData * _Nonnull imageData, NSString * _Nonnull cacheKey, SDWebImageOptions options, SDWebImageContext * _Nullable context);
+
+/// Get the decode options from the loading context options and cache key. This is the built-in translate between the web loading part to the decoding part (which does not depends on).
+/// @param context The context arg from the input
+/// @param options The options arg from the input
+/// @param cacheKey The image cache key from the input. Should not be nil
+FOUNDATION_EXPORT SDImageCoderOptions * _Nonnull SDGetDecodeOptionsFromContext(SDWebImageContext * _Nullable context, SDWebImageOptions options, NSString * _Nonnull cacheKey);
+
+/// Set the decode options to the loading context options. This is the built-in translate between the web loading part from the decoding part (which does not depends on).
+/// @param mutableContext The context arg to override
+/// @param mutableOptions The options arg to override
+/// @param decodeOptions The image decoding options
+FOUNDATION_EXPORT void SDSetDecodeOptionsToContext(SDWebImageMutableContext * _Nonnull mutableContext, SDWebImageOptions * _Nonnull mutableOptions, SDImageCoderOptions * _Nonnull decodeOptions);
 
 /**
  This is the image cache protocol to provide custom image cache for `SDWebImageManager`.

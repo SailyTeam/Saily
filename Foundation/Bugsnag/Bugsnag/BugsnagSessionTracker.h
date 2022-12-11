@@ -11,26 +11,20 @@
 #import <Bugsnag/BugsnagConfiguration.h>
 #import <Bugsnag/BugsnagSession.h>
 
+#import "BSGSessionUploader.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-@class BSGSessionUploader;
-
-typedef void (^SessionTrackerCallback)(BugsnagSession *_Nullable newSession);
-
-static NSNotificationName const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
-
+BSG_OBJC_DIRECT_MEMBERS
 @interface BugsnagSessionTracker : NSObject
 
 /**
  Create a new session tracker
 
  @param config The Bugsnag configuration to use
- @param callback A callback invoked each time a new session is started
  @return A new session tracker
  */
-- (instancetype)initWithConfig:(BugsnagConfiguration *)config
-                        client:(nullable BugsnagClient *)client
-            postRecordCallback:(nullable void(^)(BugsnagSession *))callback;
+- (instancetype)initWithConfig:(BugsnagConfiguration *)config client:(nullable BugsnagClient *)client;
 
 - (void)startWithNotificationCenter:(NSNotificationCenter *)notificationCenter isInForeground:(BOOL)isInForeground;
 
@@ -49,32 +43,6 @@ static NSNotificationName const BSGSessionUpdateNotification = @"BugsnagSessionC
 - (void)startNewSessionIfAutoCaptureEnabled;
 
 /**
- Update the details of the current session to account for externally reported
- session information. Current session details are included in subsequent crash
- reports.
- */
-- (void)registerExistingSession:(NSString *)sessionId
-                      startedAt:(NSDate *)startedAt
-                           user:(BugsnagUser *)user
-                   handledCount:(NSUInteger)handledCount
-                 unhandledCount:(NSUInteger)unhandledCount;
-
-/**
- Handle the app foregrounding event. If more than 30s has elapsed since being
- sent to the background, records a new session if session auto-capture is
- enabled.
- Must be called from the main thread.
- */
-- (void)handleAppForegroundEvent;
-
-/**
- Handle the app backgrounding event. Tracks time between foreground and
- background to determine when to automatically record a session.
- Must be called from the main thread.
- */
-- (void)handleAppBackgroundEvent;
-
-/**
  Handle some variation of Bugsnag.notify() being called.
  Increments the number of handled or unhandled errors recorded for the current session, if
  a session exists.
@@ -90,8 +58,29 @@ static NSNotificationName const BSGSessionUpdateNotification = @"BugsnagSessionC
  */
 @property (nullable, readonly, nonatomic) BugsnagSession *runningSession;
 
+@property (strong, nonatomic) BSGSessionUploader *sessionUploader;
+
 - (void)addRuntimeVersionInfo:(NSString *)info
                       withKey:(NSString *)key;
+
+@end
+
+@interface BugsnagSessionTracker (/* not objc_direct */)
+
+/**
+ Handle the app foregrounding event. If more than 30s has elapsed since being
+ sent to the background, records a new session if session auto-capture is
+ enabled.
+ Must be called from the main thread.
+ */
+- (void)handleAppForegroundEvent;
+
+/**
+ Handle the app backgrounding event. Tracks time between foreground and
+ background to determine when to automatically record a session.
+ Must be called from the main thread.
+ */
+- (void)handleAppBackgroundEvent;
 
 @end
 

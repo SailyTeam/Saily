@@ -63,6 +63,4 @@ typedef CF_ENUM(unsigned, BSG_KSCrashType) {
 
 #define BSG_KSCrashTypeNone 0
 
-const char *bsg_kscrashtype_name(BSG_KSCrashType crashType);
-
 #endif // HDR_KSCrashType_h

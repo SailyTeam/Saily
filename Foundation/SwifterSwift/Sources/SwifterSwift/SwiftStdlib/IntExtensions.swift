@@ -1,10 +1,4 @@
-//
-//  IntExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/6/16.
-//  Copyright © 2016 SwifterSwift
-//
+// IntExtensions.swift - Copyright 2021 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics
@@ -29,7 +23,7 @@ public extension Int {
         Double.pi * Double(self) / 180.0
     }
 
-    /// SwifterSwift: Degree value of radian input
+    /// SwifterSwift: Degree value of radian input.
     var radiansToDegrees: Double {
         Double(self) * 180 / Double.pi
     }
@@ -56,7 +50,7 @@ public extension Int {
         }
     #endif
 
-    /// SwifterSwift: String formatted for values over ±1000 (example: 1k, -2k, 100k, 1kk, -5kk..)
+    /// SwifterSwift: String formatted for values over ±1000 (example: 1k, -2k, 100k, 1kk, -5kk..).
     var kFormatted: String {
         var sign: String {
             self >= 0 ? "" : "-"
@@ -100,7 +94,7 @@ public extension Int {
 
 public extension Int {
     /// SwifterSwift: check if given integer prime or not. Warning: Using big numbers can be computationally expensive!
-    /// - Returns: true or false depending on prime-ness
+    /// - Returns: true or false depending on prime-ness.
     func isPrime() -> Bool {
         // To improve speed on latter loop :)
         if self == 2 { return true }
@@ -137,17 +131,15 @@ public extension Int {
         for (index, romanChar) in romanValues.enumerated() {
             let arabicValue = arabicValues[index]
             let div = startingValue / arabicValue
-            if div > 0 {
-                for _ in 0 ..< div {
-                    romanValue += romanChar
-                }
-                startingValue -= arabicValue * div
+            for _ in 0 ..< div {
+                romanValue.append(romanChar)
             }
+            startingValue -= arabicValue * div
         }
         return romanValue
     }
 
-    /// SwifterSwift: Rounds to the closest multiple of n
+    /// SwifterSwift: Rounds to the closest multiple of n.
     func roundToNearest(_ number: Int) -> Int {
         number == 0 ? self : Int(round(Double(self) / Double(number))) * number
     }
@@ -163,7 +155,7 @@ infix operator **: PowerPrecedence
 ///   - lhs: base integer.
 ///   - rhs: exponent integer.
 /// - Returns: exponentiation result (example: 2 ** 3 = 8).
-func ** (lhs: Int, rhs: Int) -> Double {
+public func ** (lhs: Int, rhs: Int) -> Double {
     // http://nshipster.com/swift-operators/
     pow(Double(lhs), Double(rhs))
 }
@@ -172,7 +164,7 @@ func ** (lhs: Int, rhs: Int) -> Double {
 prefix operator √
 /// SwifterSwift: Square root of integer.
 ///
-/// - Parameter int: integer value to find square root for
+/// - Parameter int: integer value to find square root for.
 /// - Returns: square root of given integer.
 public prefix func √ (int: Int) -> Double {
     // http://nshipster.com/swift-operators/
@@ -189,7 +181,7 @@ infix operator ±
 ///   - lhs: integer number.
 ///   - rhs: integer number.
 /// - Returns: tuple of plus-minus operation (example: 2 ± 3 -> (5, -1)).
-func ± (lhs: Int, rhs: Int) -> (Int, Int) {
+public func ± (lhs: Int, rhs: Int) -> (Int, Int) {
     // http://nshipster.com/swift-operators/
     return (lhs + rhs, lhs - rhs)
 }
@@ -200,11 +192,11 @@ func ± (lhs: Int, rhs: Int) -> (Int, Int) {
 prefix operator ±
 /// SwifterSwift: Tuple of plus-minus operation.
 ///
-/// - Parameter int: integer number
+/// - Parameter int: integer number.
 /// - Returns: tuple of plus-minus operation (example: ± 2 -> (2, -2)).
 public prefix func ± (int: Int) -> (Int, Int) {
     // http://nshipster.com/swift-operators/
-    return 0 ± int
+    return (int, -int)
 }
 
 // swiftlint:enable identifier_name

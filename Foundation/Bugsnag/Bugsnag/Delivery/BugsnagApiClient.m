@@ -7,6 +7,7 @@
 
 #import "BSGJSONSerialization.h"
 #import "BSGKeys.h"
+#import "BSG_RFC3339DateTool.h"
 #import "Bugsnag.h"
 #import "BugsnagConfiguration.h"
 #import "BugsnagLogger.h"
@@ -30,51 +31,28 @@ typedef NS_ENUM(NSInteger, HTTPStatusCode) {
     HTTPStatusCodeTooManyRequests = 429,
 };
 
-@interface BugsnagApiClient()
-@property (nonatomic, strong) NSURLSession *session;
-@end
-
-@implementation BugsnagApiClient
-
-- (instancetype)initWithSession:(nullable NSURLSession *)session {
-    if ((self = [super init])) {
-        _session = session ?: [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-    }
-    return self;
-}
-
-#pragma mark - Delivery
-
-- (void)sendJSONPayload:(NSDictionary *)payload
-                headers:(NSDictionary<BugsnagHTTPHeaderName, NSString *> *)headers
-                  toURL:(NSURL *)url
-      completionHandler:(void (^)(BugsnagApiClientDeliveryStatus status, NSError * _Nullable error))completionHandler {
+void BSGPostJSONData(NSURLSession *URLSession,
+                     NSData *data,
+                     NSDictionary<BugsnagHTTPHeaderName, NSString *> *headers,
+                     NSURL *url,
+                     void (^ completionHandler)(BSGDeliveryStatus status, NSError *_Nullable error)) {
     
-    if (![BSGJSONSerialization isValidJSONObject:payload]) {
-        bsg_log_err(@"Error: Invalid JSON payload passed to %s", __PRETTY_FUNCTION__);
-        completionHandler(BugsnagApiClientDeliveryStatusUndeliverable, nil);
-        return;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
+    request.HTTPMethod = @"POST";
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:BSGIntegrityHeaderValue(data) forHTTPHeaderField:BugsnagHTTPHeaderNameIntegrity];
+    [request setValue:[BSG_RFC3339DateTool stringFromDate:[NSDate date]] forHTTPHeaderField:BugsnagHTTPHeaderNameSentAt];
+    
+    for (BugsnagHTTPHeaderName name in headers) {
+        [request setValue:headers[name] forHTTPHeaderField:name];
     }
     
-    NSError *error = nil;
-    NSData *data = [BSGJSONSerialization dataWithJSONObject:payload options:0 error:&error];
-    if (!data) {
-        bsg_log_err(@"Error: Could not encode JSON payload passed to %s", __PRETTY_FUNCTION__);
-        completionHandler(BugsnagApiClientDeliveryStatusUndeliverable, error);
-        return;
-    }
-    
-    NSMutableDictionary<BugsnagHTTPHeaderName, NSString *> *mutableHeaders = [headers mutableCopy];
-    mutableHeaders[BugsnagHTTPHeaderNameIntegrity] = [NSString stringWithFormat:@"sha1 %@", [BugsnagApiClient SHA1HashStringWithData:data]];
-    
-    NSMutableURLRequest *request = [self prepareRequest:url headers:mutableHeaders];
     bsg_log_debug(@"Sending %lu byte payload to %@", (unsigned long)data.length, url);
     
-    [[self.session uploadTaskWithRequest:request fromData:data completionHandler:^(__attribute__((unused)) NSData *responseData,
-                                                                                   NSURLResponse *response, NSError *connectionError) {
+    [[URLSession uploadTaskWithRequest:request fromData:data completionHandler:^(__unused NSData *responseData, NSURLResponse *response, NSError *error) {
         if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
             bsg_log_debug(@"Request to %@ completed with error %@", url, error);
-            completionHandler(BugsnagApiClientDeliveryStatusFailed, connectionError ?:
+            completionHandler(BSGDeliveryStatusFailed, error ?:
                               [NSError errorWithDomain:@"BugsnagApiClientErrorDomain" code:0 userInfo:@{
                                   NSLocalizedDescriptionKey: @"Request failed: no response was received",
                                   NSURLErrorFailingURLErrorKey: url }]);
@@ -85,11 +63,11 @@ typedef NS_ENUM(NSInteger, HTTPStatusCode) {
         bsg_log_debug(@"Request to %@ completed with status code %ld", url, (long)statusCode);
         
         if (statusCode / 100 == 2) {
-            completionHandler(BugsnagApiClientDeliveryStatusDelivered, nil);
+            completionHandler(BSGDeliveryStatusDelivered, nil);
             return;
         }
         
-        connectionError = [NSError errorWithDomain:@"BugsnagApiClientErrorDomain" code:1 userInfo:@{
+        error = [NSError errorWithDomain:@"BugsnagApiClientErrorDomain" code:1 userInfo:@{
             NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Request failed: unacceptable status code %ld (%@)",
                                         (long)statusCode, [NSHTTPURLResponse localizedStringForStatusCode:statusCode]],
             NSURLErrorFailingURLErrorKey: url }];
@@ -102,40 +80,23 @@ typedef NS_ENUM(NSInteger, HTTPStatusCode) {
             statusCode != HTTPStatusCodeProxyAuthenticationRequired &&
             statusCode != HTTPStatusCodeClientTimeout &&
             statusCode != HTTPStatusCodeTooManyRequests) {
-            completionHandler(BugsnagApiClientDeliveryStatusUndeliverable, connectionError);
+            completionHandler(BSGDeliveryStatusUndeliverable, error);
             return;
         }
         
-        completionHandler(BugsnagApiClientDeliveryStatusFailed, connectionError);
+        completionHandler(BSGDeliveryStatusFailed, error);
     }] resume];
 }
 
-- (NSMutableURLRequest *)prepareRequest:(NSURL *)url
-                                headers:(NSDictionary *)headers {
-    NSMutableURLRequest *request = [NSMutableURLRequest
-            requestWithURL:url
-               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-           timeoutInterval:15];
-    request.HTTPMethod = @"POST";
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-    for (NSString *key in [headers allKeys]) {
-        [request setValue:headers[key] forHTTPHeaderField:key];
-    }
-    return request;
-}
-
-+ (NSString *)SHA1HashStringWithData:(NSData *)data {
+NSString * BSGIntegrityHeaderValue(NSData *data) {
     if (!data) {
         return nil;
     }
     unsigned char md[CC_SHA1_DIGEST_LENGTH];
     CC_SHA1(data.bytes, (CC_LONG)data.length, md);
-    return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+    return [NSString stringWithFormat:@"sha1 %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
             md[0], md[1], md[2], md[3], md[4],
             md[5], md[6], md[7], md[8], md[9],
             md[10], md[11], md[12], md[13], md[14],
             md[15], md[16], md[17], md[18], md[19]];
 }
-
-@end

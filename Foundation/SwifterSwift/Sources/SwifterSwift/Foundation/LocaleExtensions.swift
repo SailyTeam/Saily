@@ -1,10 +1,4 @@
-//
-//  LocalExtensions.swift
-//  SwifterSwift
-//
-//  Created by Basem Emara on 4/19/17.
-//  Copyright © 2017 SwifterSwift
-//
+// LocaleExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -35,6 +29,7 @@
         /// - Parameter isoRegionCode: The IOS region code.
         ///
         /// Adapted from https://stackoverflow.com/a/30403199/1627511
+        /// - Returns: A flag emoji string for the given region code (optional).
         static func flagEmoji(forRegionCode isoRegionCode: String) -> String? {
             #if !os(Linux)
                 guard isoRegionCodes.contains(isoRegionCode) else { return nil }

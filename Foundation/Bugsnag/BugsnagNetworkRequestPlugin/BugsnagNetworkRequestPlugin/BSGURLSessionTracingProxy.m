@@ -36,6 +36,15 @@
     return [self.delegate respondsToSelector:aSelector];
 }
 
+// Implementing this method prevents a crash when used alongside NewRelic
+- (id)forwardingTargetForSelector:(__unused SEL)aSelector {
+    return self.delegate;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+    [invocation invokeWithTarget:self.delegate];
+}
+
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
     // Note: We allow a race condition on self.tracingDelegate.canTrace because the
     //       caller has already determined that we respond to selector, and it would
@@ -45,10 +54,6 @@
         return [(NSObject *)self.tracingDelegate methodSignatureForSelector:aSelector];
     }
     return [(NSObject *)self.delegate methodSignatureForSelector:aSelector];
-}
-
-- (void)forwardInvocation:(NSInvocation *)invocation {
-    [invocation invokeWithTarget:self.delegate];
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics

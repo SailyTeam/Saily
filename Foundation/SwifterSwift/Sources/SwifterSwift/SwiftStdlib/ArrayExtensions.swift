@@ -1,10 +1,4 @@
-//
-//  ArrayExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/5/16.
-//  Copyright © 2016 SwifterSwift
-//
+// ArrayExtensions.swift - Copyright 2020 SwifterSwift
 
 // MARK: - Methods
 
@@ -41,7 +35,7 @@ public extension Array {
     ///
     /// - Parameters:
     ///   - otherArray: array containing elements in the desired order.
-    ///   - keyPath: keyPath indiciating the property that the array should be sorted by
+    ///   - keyPath: keyPath indicating the property that the array should be sorted by
     /// - Returns: sorted array.
     func sorted<T: Hashable>(like otherArray: [T], keyPath: KeyPath<Element, T>) -> [Element] {
         let dict = otherArray.enumerated().reduce(into: [:]) { $0[$1.element] = $1.offset }

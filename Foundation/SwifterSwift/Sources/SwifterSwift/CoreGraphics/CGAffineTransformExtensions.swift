@@ -1,10 +1,4 @@
-//
-//  CGAffineTransformExtensions.swift
-//  SwifterSwift
-//
-//  Created by Guy Kogus on 19/3/20.
-//  Copyright © 2020 SwifterSwift
-//
+// CGAffineTransformExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics

@@ -1,10 +1,4 @@
-//
-//  UITextFieldExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/5/16.
-//  Copyright © 2016 SwifterSwift
-//
+// UITextFieldExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(UIKit) && !os(watchOS)
     import UIKit
@@ -137,23 +131,61 @@
         ///
         /// - Parameter padding: amount of padding to apply to the left of the textfield rect.
         func addPaddingLeft(_ padding: CGFloat) {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: frame.height))
-            leftView = paddingView
+            leftView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: frame.height))
             leftViewMode = .always
+        }
+
+        /// SwifterSwift: Add padding to the right of the textfield rect.
+        ///
+        /// - Parameter padding: amount of padding to apply to the right of the textfield rect.
+        func addPaddingRight(_ padding: CGFloat) {
+            rightView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: frame.height))
+            rightViewMode = .always
         }
 
         /// SwifterSwift: Add padding to the left of the textfield rect.
         ///
         /// - Parameters:
-        ///   - image: left image
-        ///   - padding: amount of padding between icon and the left of textfield
+        ///   - image: left image.
+        ///   - padding: amount of padding between icon and the left of textfield.
         func addPaddingLeftIcon(_ image: UIImage, padding: CGFloat) {
+            let iconView = UIView(frame: CGRect(x: 0, y: 0, width: image.size.width + padding, height: image.size.height))
             let imageView = UIImageView(image: image)
+            imageView.frame = iconView.bounds
             imageView.contentMode = .center
-            leftView = imageView
-            leftView?.frame.size = CGSize(width: image.size.width + padding, height: image.size.height)
+            iconView.addSubview(imageView)
+            leftView = iconView
             leftViewMode = .always
         }
+
+        /// SwifterSwift: Add padding to the right of the textfield rect.
+        ///
+        /// - Parameters:
+        ///   - image: right image.
+        ///   - padding: amount of padding between icon and the right of textfield.
+        func addPaddingRightIcon(_ image: UIImage, padding: CGFloat) {
+            let iconView = UIView(frame: CGRect(x: 0, y: 0, width: image.size.width + padding, height: image.size.height))
+            let imageView = UIImageView(image: image)
+            imageView.frame = iconView.bounds
+            imageView.contentMode = .center
+            iconView.addSubview(imageView)
+            rightView = iconView
+            rightViewMode = .always
+        }
+
+        /// Add tool bars to the textfield input accessory view.
+        /// - Parameters:
+        ///   - items: The items to present in the toolbar.
+        ///   - height: The height of the toolbar.
+        #if os(iOS)
+            @discardableResult
+            func addToolbar(items: [UIBarButtonItem]?, height: CGFloat = 44) -> UIToolbar {
+                let toolBar = UIToolbar(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: height))
+                toolBar.setItems(items, animated: false)
+                inputAccessoryView = toolBar
+                return toolBar
+            }
+        #endif
     }
 
 #endif

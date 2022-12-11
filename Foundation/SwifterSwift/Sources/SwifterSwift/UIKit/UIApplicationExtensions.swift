@@ -1,10 +1,4 @@
-//
-//  UIApplicationExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 3/30/19.
-//  Copyright © 2019 SwifterSwift
-//
+// UIApplicationExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(UIKit)
     import UIKit

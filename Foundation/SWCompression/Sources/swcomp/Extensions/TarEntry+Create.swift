@@ -172,3 +172,10 @@ extension TarEntry {
         }
     }
 }
+
+#if os(Linux) || os(Windows)
+    @discardableResult
+    fileprivate func autoreleasepool<T>(_ block: () throws -> T) rethrows -> T {
+        try block()
+    }
+#endif

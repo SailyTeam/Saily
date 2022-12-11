@@ -1,8 +1,14 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 import PackageDescription
 
 let package = Package(
     name: "SWCompression",
+    platforms: [
+        .macOS(.v10_13),
+        .iOS(.v11),
+        .tvOS(.v11),
+        .watchOS(.v4),
+    ],
     products: [
         .library(
             name: "SWCompression",
@@ -10,19 +16,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // SWCOMP: Uncomment the line below to build swcomp example program.
-        // .package(url: "https://github.com/jakeheis/SwiftCLI",
-        //          from: "6.0.0"),
-        .package(url: "https://github.com/tsolomko/BitByteData",
-                 from: "2.0.0"),
+        .package(name: "BitByteData", url: "https://github.com/tsolomko/BitByteData",
+                 from: "2.0.0")
     ],
     targets: [
-        // SWCOMP: Uncomment the lines below to build swcomp example program.
-        // .target(
-        //     name: "swcomp",
-        //     dependencies: ["SWCompression", "SwiftCLI"],
-        //     path: "Sources",
-        //     sources: ["swcomp"]),
         .target(
             name: "SWCompression",
             dependencies: ["BitByteData"],

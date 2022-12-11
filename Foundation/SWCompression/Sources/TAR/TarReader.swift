@@ -28,8 +28,7 @@ import Foundation
  `FileHandle` operations may result in unrecoverable runtime failures due to unhandled Objective-C exceptions (which are
  impossible to correctly handle in Swift code). As such, it is not recommended to use `TarReader` on those platforms.
  The following platforms are _unaffected_ by this issue: macOS 10.15.4+, iOS 13.4+, watchOS 6.2+, tvOS 13.4+, and any
- other platforms without Objective-C runtime (however, it still can be encountered if using the Swift version older than
- 5.2).
+ other platforms without Objective-C runtime.
  */
 public struct TarReader {
     private let handle: FileHandle
@@ -145,45 +144,33 @@ public struct TarReader {
     }
 
     private func getOffset() throws -> UInt64 {
-        #if compiler(<5.2)
+        if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
+            return try handle.offset()
+        } else {
             return handle.offsetInFile
-        #else
-            if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
-                return try handle.offset()
-            } else {
-                return handle.offsetInFile
-            }
-        #endif
+        }
     }
 
     private func set(offset: UInt64) throws {
-        #if compiler(<5.2)
+        if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
+            try handle.seek(toOffset: offset)
+        } else {
             handle.seek(toFileOffset: offset)
-        #else
-            if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
-                try handle.seek(toOffset: offset)
-            } else {
-                handle.seek(toFileOffset: offset)
-            }
-        #endif
+        }
     }
 
     private func getData(size: Int) throws -> Data {
         assert(size >= 0, "TarReader.getData(size:): negative size.")
         guard size > 0
         else { return Data() }
-        #if compiler(<5.2)
+        if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
+            guard let chunkData = try handle.read(upToCount: size)
+            else { throw DataError.truncated }
+            return chunkData
+        } else {
+            // Technically, this can throw NSException, but since it is ObjC exception we cannot handle it in Swift.
             return handle.readData(ofLength: size)
-        #else
-            if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
-                guard let chunkData = try handle.read(upToCount: size)
-                else { throw DataError.truncated }
-                return chunkData
-            } else {
-                // Technically, this can throw NSException, but since it is ObjC exception we cannot handle it in Swift.
-                return handle.readData(ofLength: size)
-            }
-        #endif
+        }
     }
 }
 

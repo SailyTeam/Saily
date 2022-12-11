@@ -1,10 +1,4 @@
-//
-//  BinaryFloatingPointExtensions.swift
-//  SwifterSwift
-//
-//  Created by Quentin Jin on 2018/10/13.
-//  Copyright © 2018 SwifterSwift
-//
+// BinaryFloatingPointExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation

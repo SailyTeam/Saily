@@ -15,26 +15,21 @@ static BugsnagHTTPHeaderName const BugsnagHTTPHeaderNamePayloadVersion     = @"B
 static BugsnagHTTPHeaderName const BugsnagHTTPHeaderNameSentAt             = @"Bugsnag-Sent-At";
 static BugsnagHTTPHeaderName const BugsnagHTTPHeaderNameStacktraceTypes    = @"Bugsnag-Stacktrace-Types";
 
-typedef NS_ENUM(NSInteger, BugsnagApiClientDeliveryStatus) {
+typedef NS_ENUM(NSInteger, BSGDeliveryStatus) {
     /// The payload was delivered successfully and can be deleted.
-    BugsnagApiClientDeliveryStatusDelivered,
+    BSGDeliveryStatusDelivered,
     /// The payload was not delivered but can be retried, e.g. when there was a loss of connectivity.
-    BugsnagApiClientDeliveryStatusFailed,
+    BSGDeliveryStatusFailed,
     /// The payload cannot be delivered and should be deleted without attempting to retry.
-    BugsnagApiClientDeliveryStatusUndeliverable,
+    BSGDeliveryStatusUndeliverable,
 };
 
-@interface BugsnagApiClient : NSObject
+void BSGPostJSONData(NSURLSession *URLSession,
+                     NSData *data,
+                     NSDictionary<BugsnagHTTPHeaderName, NSString *> *headers,
+                     NSURL *url,
+                     void (^ completionHandler)(BSGDeliveryStatus status, NSError *_Nullable error));
 
-- (instancetype)initWithSession:(nullable NSURLSession *)session;
-
-- (void)sendJSONPayload:(NSDictionary *)payload
-                headers:(NSDictionary<BugsnagHTTPHeaderName, NSString *> *)headers
-                  toURL:(NSURL *)url
-      completionHandler:(void (^)(BugsnagApiClientDeliveryStatus status, NSError * _Nullable error))completionHandler;
-
-+ (NSString *)SHA1HashStringWithData:(NSData *)data;
-
-@end
+NSString *_Nullable BSGIntegrityHeaderValue(NSData *_Nullable data);
 
 NS_ASSUME_NONNULL_END

@@ -9,9 +9,10 @@
 #import "BugsnagApp.h"
 
 #import "BSGKeys.h"
+#import "BSGRunContext.h"
 #import "BSG_KSSystemInfo.h"
-#import "BugsnagConfiguration.h"
 #import "BugsnagCollections.h"
+#import "BugsnagConfiguration.h"
 
 /**
  * Parse an event dictionary representation for App-specific metadata.
@@ -22,6 +23,18 @@ NSDictionary *BSGParseAppMetadata(NSDictionary *event) {
     NSMutableDictionary *app = [NSMutableDictionary new];
     app[@"name"] = [event valueForKeyPath:@"system." BSG_KSSystemField_BundleExecutable];
     app[@"runningOnRosetta"] = [event valueForKeyPath:@"system." BSG_KSSystemField_Translated];
+    return app;
+}
+
+NSDictionary *BSGAppMetadataFromRunContext(const struct BSGRunContext *context) {
+    NSMutableDictionary *app = [NSMutableDictionary dictionary];
+    if (context->memoryLimit) {
+        app[BSGKeyFreeMemory] = @(context->memoryAvailable);
+        app[BSGKeyMemoryLimit] = @(context->memoryLimit);
+    }
+    if (context->memoryFootprint) {
+        app[BSGKeyMemoryUsage] = @(context->memoryFootprint);
+    }
     return app;
 }
 

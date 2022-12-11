@@ -24,7 +24,9 @@
 // THE SOFTWARE.
 //
 
-#include <TargetConditionals.h>
+#include "BSGDefines.h"
+
+#if BSG_HAVE_SIGNAL
 
 #include "BSG_KSCrashSentry_Private.h"
 #include "BSG_KSCrashSentry_Signal.h"
@@ -32,12 +34,12 @@
 #include "BSG_KSMach.h"
 #include "BSG_KSSignalInfo.h"
 #include "BSG_KSCrashC.h"
+#include "BSG_KSCrashStringConversion.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
 
 #include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 // ============================================================================
@@ -58,7 +60,7 @@ static volatile sig_atomic_t bsg_g_installed = 0;
  */
 static volatile sig_atomic_t bsg_g_enabled = 0;
 
-#if !TARGET_OS_TV
+#if BSG_HAVE_SIGALTSTACK
 /** Our custom signal stack. The signal handler will use this as its stack. */
 static stack_t bsg_g_signalStack = {0};
 #endif
@@ -161,7 +163,7 @@ bool bsg_kscrashsentry_installSignalHandler(
 
     bsg_g_context = context;
 
-#if !TARGET_OS_TV
+#if BSG_HAVE_SIGALTSTACK
     if (bsg_g_signalStack.ss_size == 0) {
         BSG_KSLOG_DEBUG("Allocating signal stack area.");
         bsg_g_signalStack.ss_size = SIGSTKSZ;
@@ -197,14 +199,15 @@ bool bsg_kscrashsentry_installSignalHandler(
         BSG_KSLOG_DEBUG("Assigning handler for signal %d", fatalSignals[i]);
         if (sigaction(fatalSignals[i], &action,
                       &bsg_g_previousSignalHandlers[i]) != 0) {
+#if BSG_KSLOG_PRINTS_AT_LEVEL(BSG_KSLogger_Level_Error)
             char sigNameBuff[30];
             const char *sigName = bsg_kssignal_signalName(fatalSignals[i]);
             if (sigName == NULL) {
-                snprintf(sigNameBuff, sizeof(sigNameBuff), "%d",
-                         fatalSignals[i]);
+                bsg_int64_to_string(fatalSignals[i], sigNameBuff);
                 sigName = sigNameBuff;
             }
             BSG_KSLOG_ERROR("sigaction (%s): %s", sigName, strerror(errno));
+#endif
             // Try to reverse the damage
             for (i--; i >= 0; i--) {
                 sigaction(fatalSignals[i], &bsg_g_previousSignalHandlers[i],
@@ -248,3 +251,5 @@ void bsg_kscrashsentry_uninstallSignalHandler(void) {
     BSG_KSLOG_DEBUG("Signal handlers disabled.");
     bsg_g_enabled = 0;
 }
+
+#endif

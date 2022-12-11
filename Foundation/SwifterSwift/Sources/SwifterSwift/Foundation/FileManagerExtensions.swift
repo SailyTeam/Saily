@@ -1,10 +1,4 @@
-//
-//  FileManagerExtensions.swift
-//  SwifterSwift
-//
-//  Created by Jason Jon E. Carreos on 05/02/2018.
-//  Copyright © 2018 SwifterSwift
-//
+// FileManagerExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -15,8 +9,8 @@
         /// - Parameters:
         ///   - path: JSON file path.
         ///   - readingOptions: JSONSerialization reading options.
-        /// - Returns: Optional dictionary.
         /// - Throws: Throws any errors thrown by Data creation or JSON serialization.
+        /// - Returns: Optional dictionary.
         func jsonFromFile(
             atPath path: String,
             readingOptions: JSONSerialization.ReadingOptions = .allowFragments
@@ -34,8 +28,8 @@
             ///   - filename: File to read.
             ///   - bundleClass: Bundle where the file is associated.
             ///   - readingOptions: JSONSerialization reading options.
-            /// - Returns: Optional dictionary.
             /// - Throws: Throws any errors thrown by Data creation or JSON serialization.
+            /// - Returns: Optional dictionary.
             func jsonFromFile(
                 withFilename filename: String,
                 at bundleClass: AnyClass? = nil,
@@ -64,8 +58,8 @@
         ///     let tempFile1URL = tempDirectory.appendingPathComponent(ProcessInfo().globallyUniqueString)
         ///     let tempFile2URL = tempDirectory.appendingPathComponent(ProcessInfo().globallyUniqueString)
         ///
-        /// - Returns: A URL to a new directory for saving temporary files.
         /// - Throws: An error if a temporary directory cannot be found or created.
+        /// - Returns: A URL to a new directory for saving temporary files.
         func createTemporaryDirectory() throws -> URL {
             #if !os(Linux)
                 let temporaryDirectoryURL: URL

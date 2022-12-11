@@ -1,10 +1,4 @@
-//
-//  KeyedDecodingContainer.swift
-//  SwifterSwift
-//
-//  Created by Francesco Deliro on 23/10/2019.
-//  Copyright © 2019 SwifterSwift
-//
+// KeyedDecodingContainerExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation

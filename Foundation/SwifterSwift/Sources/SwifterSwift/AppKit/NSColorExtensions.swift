@@ -1,10 +1,4 @@
-//
-//  NSColorExtensions.swift
-//  SwifterSwift
-//
-//  Created by Max Haertwig on 10/06/19.
-//  Copyright © 2019 SwifterSwift
-//
+// NSColorExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
     import AppKit

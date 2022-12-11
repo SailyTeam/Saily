@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
+
 /**
  * Information about the current user of your application.
  */
+BUGSNAG_EXTERN
 @interface BugsnagUser : NSObject
 
 @property (readonly, nullable, nonatomic) NSString *id;

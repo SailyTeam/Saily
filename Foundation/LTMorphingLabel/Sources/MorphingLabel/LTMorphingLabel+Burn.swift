@@ -176,17 +176,17 @@ extension LTMorphingLabel {
         drawingClosures["Burn\(LTMorphingPhases.draw)"] = {
             (charLimbo: LTCharacterLimbo) in
 
-                if charLimbo.drawingProgress > 0.0 {
-                    let (charImage, rect) = self.burningImageForCharLimbo(
-                        charLimbo,
-                        withProgress: charLimbo.drawingProgress
-                    )
-                    charImage.draw(in: rect)
+            if charLimbo.drawingProgress > 0.0 {
+                let (charImage, rect) = self.burningImageForCharLimbo(
+                    charLimbo,
+                    withProgress: charLimbo.drawingProgress
+                )
+                charImage.draw(in: rect)
 
-                    return true
-                }
+                return true
+            }
 
-                return false
+            return false
         }
 
         skipFramesClosures["Burn\(LTMorphingPhases.skipFrames)"] = {

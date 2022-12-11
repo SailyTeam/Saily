@@ -16,6 +16,7 @@
 #import "BSGUtils.h"
 #import "BugsnagConfiguration.h"
 #import "BugsnagEvent+Private.h"
+#import "BugsnagInternals.h"
 #import "BugsnagLogger.h"
 
 
@@ -38,15 +39,14 @@ static NSString * const RecrashReportPrefix = @"RecrashReport-";
 
 // MARK: -
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BSGEventUploader
 
-@synthesize apiClient = _apiClient;
 @synthesize configuration = _configuration;
 @synthesize notifier = _notifier;
 
 - (instancetype)initWithConfiguration:(BugsnagConfiguration *)configuration notifier:(BugsnagNotifier *)notifier {
     if ((self = [super init])) {
-        _apiClient = [[BugsnagApiClient alloc] initWithSession:configuration.session];
         _configuration = configuration;
         _eventsDirectory = [BSGFileLocations current].events;
         _kscrashReportsDirectory = [BSGFileLocations current].kscrashReports;
@@ -83,6 +83,12 @@ static NSString * const RecrashReportPrefix = @"RecrashReport-";
         return;
     }
     BSGEventUploadObjectOperation *operation = [[BSGEventUploadObjectOperation alloc] initWithEvent:event delegate:self];
+    operation.completionBlock = completionHandler;
+    [self.uploadQueue addOperation:operation];
+}
+
+- (void)uploadKSCrashReportWithFile:(NSString *)file completionHandler:(nullable void (^)(void))completionHandler {
+    BSGEventUploadKSCrashReportOperation *operation = [[BSGEventUploadKSCrashReportOperation alloc] initWithFile:file delegate:self];
     operation.completionBlock = completionHandler;
     [self.uploadQueue addOperation:operation];
 }
@@ -147,8 +153,8 @@ static NSString * const RecrashReportPrefix = @"RecrashReport-";
         
         NSString *path = [directory stringByAppendingPathComponent:filename];
         if (!didReportRecrash) {
-            id recrashReport = [BSGJSONSerialization JSONObjectWithContentsOfFile:path options:0 error:&error];
-            if ([recrashReport isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *recrashReport = BSGJSONDictionaryFromFile(path, 0, &error);
+            if (recrashReport) {
                 bsg_log_debug(@"Reporting %@", filename);
                 [BSGInternalErrorReporter.sharedInstance reportRecrash:recrashReport];
                 didReportRecrash = YES;
@@ -162,7 +168,7 @@ static NSString * const RecrashReportPrefix = @"RecrashReport-";
         // Delete the report to prevent reporting a "JSON parsing error"
         NSString *crashReportFilename = [filename stringByReplacingOccurrencesOfString:RecrashReportPrefix withString:CrashReportPrefix];
         NSString *crashReportPath = [directory stringByAppendingPathComponent:crashReportFilename];
-        if (![BSGJSONSerialization JSONObjectWithContentsOfFile:crashReportPath options:0 error:nil]) {
+        if (!BSGJSONDictionaryFromFile(crashReportPath, 0, nil)) {
             bsg_log_info(@"Deleting unparsable %@", crashReportFilename);
             if (![fileManager removeItemAtPath:crashReportPath error:&error]) {
                 bsg_log_err(@"%@", error);
@@ -254,7 +260,7 @@ static NSString * const RecrashReportPrefix = @"RecrashReport-";
     dispatch_sync(BSGGetFileSystemQueue(), ^{
         NSString *file = [[self.eventsDirectory stringByAppendingPathComponent:[NSUUID UUID].UUIDString] stringByAppendingPathExtension:@"json"];
         NSError *error = nil;
-        if (![BSGJSONSerialization writeJSONObject:eventPayload toFile:file options:0 error:&error]) {
+        if (!BSGJSONWriteToFileAtomically(eventPayload, file, &error)) {
             bsg_log_err(@"Error encountered while saving event payload for retry: %@", error);
             return;
         }

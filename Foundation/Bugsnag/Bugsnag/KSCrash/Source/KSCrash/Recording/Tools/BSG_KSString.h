@@ -31,34 +31,6 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <sys/types.h>
-
-/** Check if a memory location contains a null terminated UTF-8 string.
- *
- * @param memory The memory location to test.
- *
- * @param minLength The minimum length to be considered a valid string.
- *
- * @param maxLength The maximum length to be considered a valid string.
- */
-bool bsg_ksstring_isNullTerminatedUTF8String(const void *memory, int minLength,
-                                             int maxLength);
-
-/** Extract a hex value in the form "0x123456789abcdef" from a string.
- *
- * @param string The string to search.
- *
- * @param stringLength The length of the string.
- *
- * @param result Buffer to hold the resulting value.
- *
- * @return true if the operation was successful.
- */
-bool bsg_ksstring_extractHexValue(const char *string, size_t stringLength,
-                                  uint64_t *result);
-
 /** Replace a string with another string.
  * If dest points to a non-null, it will be freed.
  * If replacement is null, dest will point to null.

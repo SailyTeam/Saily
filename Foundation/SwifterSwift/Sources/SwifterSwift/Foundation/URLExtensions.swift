@@ -1,10 +1,4 @@
-//
-//  URLExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 03/02/2017.
-//  Copyright © 2017 SwifterSwift
-//
+// URLExtensions.swift - Copyright 2022 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation
@@ -17,9 +11,10 @@
     // MARK: - Properties
 
     public extension URL {
-        /// SwifterSwift: Dictionary of the URL's query parameters
+        /// SwifterSwift: Dictionary of the URL's query parameters.
         var queryParameters: [String: String]? {
-            guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems else { return nil }
+            guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false),
+                  let queryItems = components.queryItems else { return nil }
 
             var items: [String: String] = [:]
 
@@ -42,6 +37,14 @@
             guard let string = string else { return nil }
             self.init(string: string, relativeTo: url)
         }
+
+        /**
+         SwifterSwift: Initializes a forced unwrapped `URL` from string. Can potentially crash if string is invalid.
+          - Parameter unsafeString: The URL string used to initialize the `URL`object.
+          */
+        init(unsafeString: String) {
+            self.init(string: unsafeString)!
+        }
     }
 
     // MARK: - Methods
@@ -57,9 +60,8 @@
         /// - Returns: URL with appending given query parameters.
         func appendingQueryParameters(_ parameters: [String: String]) -> URL {
             var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: true)!
-            var items = urlComponents.queryItems ?? []
-            items += parameters.map { URLQueryItem(name: $0, value: $1) }
-            urlComponents.queryItems = items
+            urlComponents.queryItems = (urlComponents.queryItems ?? []) + parameters
+                .map { URLQueryItem(name: $0, value: $1) }
             return urlComponents.url!
         }
 
@@ -95,6 +97,8 @@
         ///
         /// - Returns: URL with all path components removed.
         func deletingAllPathComponents() -> URL {
+            guard !pathComponents.isEmpty else { return self }
+
             var url: URL = self
             for _ in 0 ..< pathComponents.count - 1 {
                 url.deleteLastPathComponent()
@@ -108,6 +112,8 @@
         ///        url.deleteAllPathComponents()
         ///        print(url) // prints "https://domain.com/"
         mutating func deleteAllPathComponents() {
+            guard !pathComponents.isEmpty else { return }
+
             for _ in 0 ..< pathComponents.count - 1 {
                 deleteLastPathComponent()
             }

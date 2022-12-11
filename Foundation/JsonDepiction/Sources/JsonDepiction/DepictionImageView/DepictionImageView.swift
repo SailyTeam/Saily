@@ -41,8 +41,7 @@ class DepictionImageView: DepictionBaseView {
 
         SDWebImageManager.shared.loadImage(with: URL(string: url),
                                            options: .highPriority,
-                                           progress: nil)
-        { [weak self] image, _, _, _, _, _ in
+                                           progress: nil) { [weak self] image, _, _, _, _, _ in
             if let image = image, let self = self {
                 self.imageView?.image = image
                 let size = image.size

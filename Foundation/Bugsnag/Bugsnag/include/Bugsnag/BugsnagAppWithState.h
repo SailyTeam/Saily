@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 #import <Bugsnag/BugsnagApp.h>
+#import <Bugsnag/BugsnagDefines.h>
 
 /**
  * Stateful information set by the notifier about your app can be found on this class. These values
  * can be accessed and amended if necessary.
  */
+BUGSNAG_EXTERN
 @interface BugsnagAppWithState : BugsnagApp
 
 /**

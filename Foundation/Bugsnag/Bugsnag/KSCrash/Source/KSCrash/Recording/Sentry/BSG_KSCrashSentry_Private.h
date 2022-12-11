@@ -32,7 +32,9 @@ extern "C" {
 #endif
 
 #include "BSG_KSCrashSentry.h"
+#include "BSGDefines.h"
 
+#if BSG_HAVE_MACH_THREADS
 /** Suspend all non-reserved threads.
  *
  * Reserved threads include the current thread and all threads in
@@ -46,6 +48,7 @@ void bsg_kscrashsentry_suspendThreads(void);
  * "reservedThreads" in the context.
  */
 void bsg_kscrashsentry_resumeThreads(void);
+#endif
 
 /**
  * Prepares the context for handling a crash.

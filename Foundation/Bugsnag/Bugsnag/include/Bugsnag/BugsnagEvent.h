@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
 #import <Bugsnag/BugsnagFeatureFlagStore.h>
 #import <Bugsnag/BugsnagMetadataStore.h>
 
@@ -34,6 +35,7 @@ typedef NS_ENUM(NSUInteger, BSGSeverity) {
 /**
  * Represents an occurrence of an error, along with information about the state of the app and device.
  */
+BUGSNAG_EXTERN
 @interface BugsnagEvent : NSObject <BugsnagFeatureFlagStore, BugsnagMetadataStore>
 
 // -----------------------------------------------------------------------------
@@ -66,6 +68,11 @@ typedef NS_ENUM(NSUInteger, BSGSeverity) {
  *  Breadcrumbs from user events leading up to the error
  */
 @property (readwrite, copy, nonnull, nonatomic) NSArray<BugsnagBreadcrumb *> *breadcrumbs;
+
+/**
+ * Feature flags that were active when the error occurred
+ */
+@property (readonly, strong, nonnull, nonatomic) NSArray<BugsnagFeatureFlag *> *featureFlags;
 
 /**
  * A per-event override for the apiKey.

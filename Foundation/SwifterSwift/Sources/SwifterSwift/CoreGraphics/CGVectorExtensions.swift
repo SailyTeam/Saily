@@ -1,10 +1,4 @@
-//
-//  CGVectorExtensions.swift
-//  SwifterSwift
-//
-//  Created by Robbie Moyer on 7/25/18.
-//  Copyright © 2018 SwifterSwift
-//
+// CGVectorExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics
@@ -36,7 +30,7 @@
         ///
         /// - Parameters:
         ///     - angle: The angle of rotation (in radians) counterclockwise from the positive x-axis.
-        ///     - magnitude: The lenth of the vector.
+        ///     - magnitude: The length of the vector.
         ///
         init(angle: CGFloat, magnitude: CGFloat) {
             // https://www.grc.nasa.gov/WWW/K-12/airplane/vectpart.html
@@ -53,9 +47,9 @@
         ///     let largerVector = vector * 2
         ///
         /// - Parameters:
-        ///   - vector: The vector to be multiplied
-        ///   - scalar: The scale by which the vector will be multiplied
-        /// - Returns: The vector with its magnitude scaled
+        ///   - vector: The vector to be multiplied.
+        ///   - scalar: The scale by which the vector will be multiplied.
+        /// - Returns: The vector with its magnitude scaled.
         static func * (vector: CGVector, scalar: CGFloat) -> CGVector {
             CGVector(dx: vector.dx * scalar, dy: vector.dy * scalar)
         }
@@ -66,24 +60,24 @@
         ///     let largerVector = 2 * vector
         ///
         /// - Parameters:
-        ///   - scalar: The scalar by which the vector will be multiplied
-        ///   - vector: The vector to be multiplied
-        /// - Returns: The vector with its magnitude scaled
+        ///   - scalar: The scalar by which the vector will be multiplied.
+        ///   - vector: The vector to be multiplied.
+        /// - Returns: The vector with its magnitude scaled.
         static func * (scalar: CGFloat, vector: CGVector) -> CGVector {
             CGVector(dx: scalar * vector.dx, dy: scalar * vector.dy)
         }
 
-        /// SwifterSwift: Compound assignment operator for vector-scalr multiplication
+        /// SwifterSwift: Compound assignment operator for vector-scalar multiplication.
         ///
         ///     var vector = CGVector(dx: 1, dy: 1)
         ///     vector *= 2
         ///
         /// - Parameters:
-        ///   - vector: The vector to be multiplied
-        ///   - scalar: The scale by which the vector will be multiplied
+        ///   - vector: The vector to be multiplied.
+        ///   - scalar: The scale by which the vector will be multiplied.
         static func *= (vector: inout CGVector, scalar: CGFloat) {
-            // swiftlint:disable:next shorthand_operator
-            vector = vector * scalar
+            vector.dx *= scalar
+            vector.dy *= scalar
         }
 
         /// SwifterSwift: Negates the vector. The direction is reversed, but magnitude remains the same.
@@ -91,8 +85,8 @@
         ///     let vector = CGVector(dx: 1, dy: 1)
         ///     let reversedVector = -vector
         ///
-        /// - Parameter vector: The vector to be negated
-        /// - Returns: The negated vector
+        /// - Parameter vector: The vector to be negated.
+        /// - Returns: The negated vector.
         static prefix func - (vector: CGVector) -> CGVector {
             CGVector(dx: -vector.dx, dy: -vector.dy)
         }

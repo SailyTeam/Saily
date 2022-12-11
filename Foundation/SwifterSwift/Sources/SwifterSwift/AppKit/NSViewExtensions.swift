@@ -1,10 +1,4 @@
-//
-//  NSViewExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 3/3/17.
-//  Copyright © 2017 SwifterSwift
-//
+// NSViewExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
     import AppKit
@@ -46,7 +40,7 @@
             set {
                 wantsLayer = true
                 layer?.masksToBounds = true
-                layer?.cornerRadius = abs(CGFloat(Int(newValue * 100)) / 100)
+                layer?.cornerRadius = newValue.magnitude
             }
         }
 

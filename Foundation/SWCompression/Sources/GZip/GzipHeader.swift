@@ -23,25 +23,33 @@ public struct GzipHeader {
     }
 
     /// Compression method of archive. Always `.deflate` for GZip archives.
-    public let compressionMethod: CompressionMethod
+    public var compressionMethod: CompressionMethod
 
     /**
      The most recent modification time of the original file. If corresponding archive's field is set to 0, which means
      that no time was specified, then this property is `nil`.
      */
-    public let modificationTime: Date?
+    public var modificationTime: Date?
 
     /// Type of file system on which archivation took place.
-    public let osType: FileSystemType
+    public var osType: FileSystemType
 
     /// Name of the original file. If archive doesn't contain file's name, then `nil`.
-    public let fileName: String?
+    public var fileName: String?
 
     /// Comment stored in archive. If archive doesn't contain any comment, then `nil`.
-    public let comment: String?
+    public var comment: String?
 
     /// True, if file is likely to be text file or ASCII-file.
-    public let isTextFile: Bool
+    public var isTextFile: Bool
+
+    /**
+     Extra fields present in the header.
+
+     - Note: This feature of the GZip format is extremely rarely used, so in vast majority of cases this property
+     contains an empty array.
+     */
+    public var extraFields: [ExtraField]
 
     /**
      Initializes the structure with the values from the first 'member' of GZip `archive`.
@@ -63,12 +71,14 @@ public struct GzipHeader {
 
         // First two bytes should be correct 'magic' bytes
         let magic = reader.uint16()
-        guard magic == 0x8B1F else { throw GzipError.wrongMagic }
+        guard magic == 0x8B1F
+        else { throw GzipError.wrongMagic }
         var headerBytes: [UInt8] = [0x1F, 0x8B]
 
         // Third byte is a method of compression. Only type 8 (DEFLATE) compression is supported for GZip archives.
         let method = reader.byte()
-        guard method == 8 else { throw GzipError.wrongCompressionMethod }
+        guard method == 8
+        else { throw GzipError.wrongCompressionMethod }
         headerBytes.append(method)
         compressionMethod = .deflate
 
@@ -95,23 +105,62 @@ public struct GzipHeader {
 
         isTextFile = flags.contains(.ftext)
 
-        // Some archives may contain extra fields
+        // Some archives may contain extra fields.
+        extraFields = [ExtraField]()
         if flags.contains(.fextra) {
+            guard reader.bytesLeft >= 2
+            else { throw GzipError.wrongMagic }
             var xlen = 0
             for i in 0 ..< 2 {
                 let byte = reader.byte()
                 xlen |= byte.toInt() << (8 * i)
                 headerBytes.append(byte)
             }
-            for _ in 0 ..< xlen {
-                headerBytes.append(reader.byte())
+
+            while xlen > 0 {
+                // There must be least four bytes of extra fields for SI1, SI2, and 2 bytes of the length parameter
+                // filled with zeros (minimal variant).
+                guard reader.bytesLeft >= xlen, xlen >= 4
+                else { throw GzipError.wrongMagic }
+
+                let si1 = reader.byte()
+                headerBytes.append(si1)
+
+                let si2 = reader.byte()
+                // IDs with zero in the second byte are reserved.
+                guard si2 != 0
+                else { throw GzipError.wrongFlags }
+                headerBytes.append(si2)
+
+                var len = 0
+                for i in 0 ..< 2 {
+                    let byte = reader.byte()
+                    len |= byte.toInt() << (8 * i)
+                    headerBytes.append(byte)
+                }
+                xlen -= 4
+
+                // Total remaining extra fields length must be larger than the length of the binary content of the
+                // current extra field.
+                guard xlen >= len
+                else { throw GzipError.wrongMagic }
+                var extraFieldBytes = [UInt8]()
+                for _ in 0 ..< len {
+                    let byte = reader.byte()
+                    extraFieldBytes.append(byte)
+                    headerBytes.append(byte)
+                }
+                extraFields.append(ExtraField(si1, si2, extraFieldBytes))
+                xlen -= len
             }
         }
 
-        // Some archives may contain source file name (this part ends with zero byte)
+        // Some archives may contain source file name (this part ends with a zero byte)
         if flags.contains(.fname) {
             var fnameBytes: [UInt8] = []
             while true {
+                guard !reader.isFinished
+                else { throw GzipError.wrongMagic }
                 let byte = reader.byte()
                 headerBytes.append(byte)
                 guard byte != 0 else { break }
@@ -126,6 +175,8 @@ public struct GzipHeader {
         if flags.contains(.fcomment) {
             var fcommentBytes: [UInt8] = []
             while true {
+                guard !reader.isFinished
+                else { throw GzipError.wrongMagic }
                 let byte = reader.byte()
                 headerBytes.append(byte)
                 guard byte != 0 else { break }
@@ -138,9 +189,12 @@ public struct GzipHeader {
 
         // Some archives may contain 2-bytes checksum
         if flags.contains(.fhcrc) {
-            // Note: it is not actual CRC-16, it is just two least significant bytes of CRC-32.
+            // It is not an actual CRC-16, it's just two least significant bytes of CRC-32.
+            guard reader.bytesLeft >= 2
+            else { throw GzipError.wrongMagic }
             let crc16 = reader.uint16()
-            guard CheckSums.crc32(headerBytes) & 0xFFFF == crc16 else { throw GzipError.wrongHeaderCRC }
+            guard CheckSums.crc32(headerBytes) & 0xFFFF == crc16
+            else { throw GzipError.wrongHeaderCRC }
         }
     }
 }

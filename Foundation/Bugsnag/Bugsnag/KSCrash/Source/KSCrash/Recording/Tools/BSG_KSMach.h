@@ -35,6 +35,7 @@ extern "C" {
 #endif
 
 #include "BSG_KSArchSpecific.h"
+#include "BSGDefines.h"
 
 #include <mach/mach.h>
 #include <pthread.h>
@@ -42,30 +43,8 @@ extern "C" {
 #include <sys/ucontext.h>
 
 // ============================================================================
-#pragma mark - Initialization -
-// ============================================================================
-
-/** Initializes KSMach.
- * Some functions (currently only bsg_ksmachpthreadFromMachThread and
- * bsg_ksmachfreeMemory) require initialization before use.
- */
-void bsg_ksmach_init(void);
-
-// ============================================================================
 #pragma mark - General Information -
 // ============================================================================
-
-/** Get the total memory that is currently free.
- *
- * @return total free memory.
- */
-uint64_t bsg_ksmachfreeMemory(void);
-
-/** Get the total memory that is currently usable.
- *
- * @return total usable memory.
- */
-uint64_t bsg_ksmachusableMemory(void);
 
 /** Get the current CPU architecture.
  *
@@ -93,6 +72,7 @@ const char *bsg_ksmachkernelReturnCodeName(const kern_return_t returnCode);
 #pragma mark - Thread State Info -
 // ============================================================================
 
+#if BSG_HAVE_MACH_THREADS
 /** Fill in state information about a thread.
  *
  * @param thread The thread to get information about.
@@ -108,6 +88,7 @@ const char *bsg_ksmachkernelReturnCodeName(const kern_return_t returnCode);
 bool bsg_ksmachfillState(thread_t thread, thread_state_t state,
                          thread_state_flavor_t flavor,
                          mach_msg_type_number_t stateCount);
+#endif
 
 /** Get the frame pointer for a machine context.
  * The frame pointer marks the top of the call stack.
@@ -153,6 +134,7 @@ uintptr_t bsg_ksmachlinkRegister(const BSG_STRUCT_MCONTEXT_L *machineContext);
  */
 uintptr_t bsg_ksmachfaultAddress(const BSG_STRUCT_MCONTEXT_L *machineContext);
 
+#if BSG_HAVE_MACH_THREADS
 /** Get a thread's thread state and place it in a machine context.
  *
  * @param thread The thread to fetch state for.
@@ -185,6 +167,7 @@ bool bsg_ksmachfloatState(thread_t thread,
  */
 bool bsg_ksmachexceptionState(thread_t thread,
                               BSG_STRUCT_MCONTEXT_L *machineContext);
+#endif
 
 /** Get the number of normal (not floating point or exception) registers the
  *  currently running CPU has.
@@ -290,22 +273,6 @@ integer_t bsg_ksmachgetThreadState(const thread_t thread);
  */
 thread_t bsg_ksmachthread_self(void);
 
-/** Get a mach thread's corresponding posix thread.
- *
- * @param thread The mach thread.
- *
- * @return The corresponding posix thread, or 0 if an error occurred.
- */
-pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread);
-
-/** Get a posix thread's corresponding mach thread.
- *
- * @param pthread The posix thread.
- *
- * @return The corresponding mach thread, or 0 if an error occurred.
- */
-thread_t bsg_ksmachmachThreadFromPThread(const pthread_t pthread);
-
 /** Get a list of all current threads. This list is kernel-allocated, and so must be freed using bsg_ksmachfreeThreads.
  *
  * @param threadCount pointer to location to store the count of all threads.
@@ -352,6 +319,7 @@ unsigned bsg_ksmachremoveThreadsFromList(thread_t *srcThreads, unsigned srcThrea
                                          thread_t *omitThreads, unsigned omitThreadsCount,
                                          thread_t *dstThreads, unsigned maxDstThreads);
 
+#if BSG_HAVE_MACH_THREADS
 /** Suspend a list of threads.
  * Note: The current thread cannot be suspended via this function.
  *
@@ -369,6 +337,7 @@ void bsg_ksmachsuspendThreads(thread_t *threads, unsigned threadsCount);
  * @param threadsCount The number of threads in the list.
  */
 void bsg_ksmachresumeThreads(thread_t *threads, unsigned threadsCount);
+#endif
 
 /** Copy memory safely. If the memory is not accessible, returns false
  * rather than crashing.
@@ -382,20 +351,6 @@ void bsg_ksmachresumeThreads(thread_t *threads, unsigned threadsCount);
  * @return KERN_SUCCESS or an error code.
  */
 kern_return_t bsg_ksmachcopyMem(const void *src, void *dst, size_t numBytes);
-
-/** Copies up to numBytes of data from src to dest, stopping if memory
- * becomes inaccessible.
- *
- * @param src The source location to copy from.
- *
- * @param dst The location to copy to.
- *
- * @param numBytes The number of bytes to copy.
- *
- * @return The number of bytes actually copied.
- */
-size_t bsg_ksmachcopyMaxPossibleMem(const void *src, void *dst,
-                                    size_t numBytes);
 
 /** Get the difference in seconds between two timestamps fetched via
  * mach_absolute_time().

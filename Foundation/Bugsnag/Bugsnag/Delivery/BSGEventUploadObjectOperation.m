@@ -9,8 +9,10 @@
 #import "BSGEventUploadObjectOperation.h"
 
 #import "BugsnagEvent+Private.h"
+#import "BugsnagInternals.h"
 #import "BugsnagLogger.h"
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BSGEventUploadObjectOperation
 
 - (instancetype)initWithEvent:(BugsnagEvent *)event delegate:(id<BSGEventUploadOperationDelegate>)delegate {
@@ -20,13 +22,18 @@
     return self;
 }
 
-- (BugsnagEvent *)loadEventAndReturnError:(__attribute__((unused)) NSError * __autoreleasing *)errorPtr {
+- (BugsnagEvent *)loadEventAndReturnError:(__unused NSError * __autoreleasing *)errorPtr {
     [self.event symbolicateIfNeeded];
     return self.event;
 }
 
-- (BOOL)shouldStoreEventPayloadForRetry {
-    return YES;
+- (void)prepareForRetry:(NSDictionary *)payload HTTPBodySize:(NSUInteger)HTTPBodySize {
+    if (HTTPBodySize > MaxPersistedSize) {
+        bsg_log_debug(@"Not persisting %@ because HTTP body size (%lu bytes) exceeds MaxPersistedSize",
+                      self.name, (unsigned long)HTTPBodySize);
+        return;
+    }
+    [self.delegate storeEventPayload:payload];
 }
 
 - (NSString *)name {

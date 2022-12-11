@@ -10,12 +10,13 @@
 
 #import "BSGFileLocations.h"
 #import "BSGInternalErrorReporter.h"
+#import "BSGJSONSerialization.h"
 #import "BSGKeys.h"
-#import "BSG_RFC3339DateTool.h"
 #import "BugsnagAppWithState+Private.h"
 #import "BugsnagConfiguration+Private.h"
 #import "BugsnagError+Private.h"
 #import "BugsnagEvent+Private.h"
+#import "BugsnagInternals.h"
 #import "BugsnagLogger.h"
 #import "BugsnagNotifier.h"
 
@@ -76,12 +77,12 @@ typedef NS_ENUM(NSUInteger, BSGEventUploadOperationState) {
         return;
     }
     
-    NSDictionary *_Nullable originalPayload = nil;
+    NSDictionary *retryPayload = nil;
     for (BugsnagOnSendErrorBlock block in configuration.onSendBlocks) {
         @try {
-            if (!originalPayload) {
+            if (!retryPayload) {
                 // If OnSendError modifies the event and delivery fails, we need to persist the original state of the event.
-                originalPayload = [event toJsonWithRedactedKeys:configuration.redactedKeys];
+                retryPayload = [event toJsonWithRedactedKeys:configuration.redactedKeys];
             }
             if (!block(event)) {
                 [self deleteEvent];
@@ -95,17 +96,19 @@ typedef NS_ENUM(NSUInteger, BSGEventUploadOperationState) {
     
     NSDictionary *eventPayload;
     @try {
+        [event truncateStrings:configuration.maxStringValueLength];
         eventPayload = [event toJsonWithRedactedKeys:configuration.redactedKeys];
+        if (!retryPayload || [retryPayload isEqualToDictionary:eventPayload]) {
+            retryPayload = eventPayload;
+        }
     } @catch (NSException *exception) {
-        bsg_log_err(@"Discarding event %@ because an exception was thrown by -toJsonWithRedactedKeys: %@", self.name, exception);
+        bsg_log_err(@"Discarding event %@ due to exception %@", self.name, exception);
+        [BSGInternalErrorReporter.sharedInstance reportException:exception diagnostics:nil groupingHash:
+         [NSString stringWithFormat:@"BSGEventUploadOperation -[runWithDelegate:completionHandler:] %@ %@",
+          exception.name, exception.reason]];
         [self deleteEvent];
         completionHandler();
         return;
-    }
-    
-    if ([originalPayload isEqual:eventPayload]) {
-        // Save memory if payload has not changed
-        originalPayload = nil;
     }
     
     NSString *apiKey = event.apiKey ?: configuration.apiKey;
@@ -119,7 +122,6 @@ typedef NS_ENUM(NSUInteger, BSGEventUploadOperationState) {
     NSMutableDictionary *requestHeaders = [NSMutableDictionary dictionary];
     requestHeaders[BugsnagHTTPHeaderNameApiKey] = apiKey;
     requestHeaders[BugsnagHTTPHeaderNamePayloadVersion] = EventPayloadVersion;
-    requestHeaders[BugsnagHTTPHeaderNameSentAt] = [BSG_RFC3339DateTool stringFromDate:[NSDate date]];
     requestHeaders[BugsnagHTTPHeaderNameStacktraceTypes] = [event.stacktraceTypes componentsJoinedByString:@","];
     
     NSURL *notifyURL = configuration.notifyURL;
@@ -129,38 +131,67 @@ typedef NS_ENUM(NSUInteger, BSGEventUploadOperationState) {
         return;
     }
     
-    [delegate.apiClient sendJSONPayload:requestPayload headers:requestHeaders toURL:notifyURL
-                      completionHandler:^(BugsnagApiClientDeliveryStatus status, __attribute__((unused)) NSError *deliveryError) {
-        
+    NSData *data = BSGJSONDataFromDictionary(requestPayload, NULL);
+    if (!data) {
+        bsg_log_debug(@"Encoding failed; will discard event %@", self.name);
+        [self deleteEvent];
+        completionHandler();
+        return;
+    }
+    
+    if (data.length > MaxPersistedSize) {
+        // Trim extra bytes to make space for "removed" message and usage telemetry.
+        NSUInteger bytesToRemove = data.length - (MaxPersistedSize - 300);
+        bsg_log_debug(@"Trimming breadcrumbs; bytesToRemove = %lu", (unsigned long)bytesToRemove);
+        @try {
+            [event trimBreadcrumbs:bytesToRemove];
+            eventPayload = [event toJsonWithRedactedKeys:configuration.redactedKeys];
+            requestPayload[BSGKeyEvents] = @[eventPayload];
+            data = BSGJSONDataFromDictionary(requestPayload, NULL);
+        } @catch (NSException *exception) {
+            bsg_log_err(@"Discarding event %@ due to exception %@", self.name, exception);
+            [BSGInternalErrorReporter.sharedInstance reportException:exception diagnostics:nil groupingHash:
+             [NSString stringWithFormat:@"BSGEventUploadOperation -[runWithDelegate:completionHandler:] %@ %@",
+              exception.name, exception.reason]];
+            [self deleteEvent];
+            completionHandler();
+            return;
+        }
+    }
+    
+    BSGPostJSONData(configuration.session, data, requestHeaders, notifyURL, ^(BSGDeliveryStatus status, __unused NSError *deliveryError) {
         switch (status) {
-            case BugsnagApiClientDeliveryStatusDelivered:
+            case BSGDeliveryStatusDelivered:
                 bsg_log_debug(@"Uploaded event %@", self.name);
                 [self deleteEvent];
                 break;
                 
-            case BugsnagApiClientDeliveryStatusFailed:
-                bsg_log_debug(@"Upload failed; will retry event %@", self.name);
-                if (self.shouldStoreEventPayloadForRetry) {
-                    [delegate storeEventPayload:originalPayload ?: eventPayload];
-                }
+            case BSGDeliveryStatusFailed:
+                bsg_log_debug(@"Upload failed retryably for event %@", self.name);
+                [self prepareForRetry:retryPayload HTTPBodySize:data.length];
                 break;
                 
-            case BugsnagApiClientDeliveryStatusUndeliverable:
+            case BSGDeliveryStatusUndeliverable:
                 bsg_log_debug(@"Upload failed; will discard event %@", self.name);
                 [self deleteEvent];
                 break;
         }
         
         completionHandler();
-    }];
+    });
 }
 
 // MARK: Subclassing
 
-- (BugsnagEvent *)loadEventAndReturnError:(__attribute__((unused)) NSError * __autoreleasing *)errorPtr {
+- (BugsnagEvent *)loadEventAndReturnError:(__unused NSError * __autoreleasing *)errorPtr {
     // Must be implemented by all subclasses
     [self doesNotRecognizeSelector:_cmd];
     return nil;
+}
+
+- (void)prepareForRetry:(__unused NSDictionary *)payload HTTPBodySize:(__unused NSUInteger)HTTPBodySize {
+    // Must be implemented by all subclasses
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)deleteEvent {

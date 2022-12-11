@@ -8,6 +8,8 @@
 
 #import "BSGEventUploadOperation.h"
 
+#import "BSGDefines.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -15,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * If the upload needs to be retried, the event will be persisted to disk.
  */
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGEventUploadObjectOperation : BSGEventUploadOperation
 
 - (instancetype)initWithEvent:(BugsnagEvent *)event delegate:(id<BSGEventUploadOperationDelegate>)delegate;

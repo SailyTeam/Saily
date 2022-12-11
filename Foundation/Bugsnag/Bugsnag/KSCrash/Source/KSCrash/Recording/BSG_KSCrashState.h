@@ -96,10 +96,8 @@ const BSG_KSCrash_State *bsg_kscrashstate_currentState(void);
 /**
  * Updates the stats for duration in foreground/background. This needs to
  * be updated whenever an error report is captured.
- *
- * @param state the kscrash state
  */
-void bsg_kscrashstate_updateDurationStats(BSG_KSCrash_State *const state);
+void bsg_kscrashstate_updateDurationStats(void);
 
 #ifdef __cplusplus
 }

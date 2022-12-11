@@ -1,10 +1,4 @@
-//
-//  UIImageViewExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/25/16.
-//  Copyright © 2016 SwifterSwift
-//
+// UIImageViewExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(UIKit) && !os(watchOS)
     import UIKit
@@ -18,7 +12,7 @@
         ///   - url: URL of image.
         ///   - contentMode: imageView content mode (default is .scaleAspectFit).
         ///   - placeHolder: optional placeholder image
-        ///   - completionHandler: optional completion handler to run when download finishs (default is nil).
+        ///   - completionHandler: optional completion handler to run when download finishes (default is nil).
         func download(
             from url: URL,
             contentMode: UIView.ContentMode = .scaleAspectFit,
@@ -44,7 +38,7 @@
             }.resume()
         }
 
-        /// SwifterSwift: Make image view blurry
+        /// SwifterSwift: Make image view blurry.
         ///
         /// - Parameter style: UIBlurEffectStyle (default is .light).
         func blur(withStyle style: UIBlurEffect.Style = .light) {
@@ -56,7 +50,7 @@
             clipsToBounds = true
         }
 
-        /// SwifterSwift: Blurred version of an image view
+        /// SwifterSwift: Blurred version of an image view.
         ///
         /// - Parameter style: UIBlurEffectStyle (default is .light).
         /// - Returns: blurred version of self.

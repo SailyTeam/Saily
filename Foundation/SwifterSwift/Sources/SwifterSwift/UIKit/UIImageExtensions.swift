@@ -1,10 +1,4 @@
-//
-//  UIImageExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/6/16.
-//  Copyright © 2016 SwifterSwift
-//
+// UIImageExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(UIKit)
     import UIKit
@@ -12,12 +6,12 @@
     // MARK: - Properties
 
     public extension UIImage {
-        /// SwifterSwift: Size in bytes of UIImage
+        /// SwifterSwift: Size in bytes of UIImage.
         var bytesSize: Int {
             jpegData(compressionQuality: 1)?.count ?? 0
         }
 
-        /// SwifterSwift: Size in kilo bytes of UIImage
+        /// SwifterSwift: Size in kilo bytes of UIImage.
         var kilobytesSize: Int {
             (jpegData(compressionQuality: 1)?.count ?? 0) / 1024
         }
@@ -31,6 +25,37 @@
         var template: UIImage {
             withRenderingMode(.alwaysTemplate)
         }
+
+        #if canImport(CoreImage)
+            /// SwifterSwift: Average color for this image.
+            func averageColor() -> UIColor? {
+                // https://stackoverflow.com/questions/26330924
+                guard let ciImage = ciImage ?? CIImage(image: self) else { return nil }
+
+                // CIAreaAverage returns a single-pixel image that contains the average color for a given region of an image.
+                let parameters = [kCIInputImageKey: ciImage, kCIInputExtentKey: CIVector(cgRect: ciImage.extent)]
+                guard let outputImage = CIFilter(name: "CIAreaAverage", parameters: parameters)?.outputImage else {
+                    return nil
+                }
+
+                // After getting the single-pixel image from the filter extract pixel's RGBA8 data
+                var bitmap = [UInt8](repeating: 0, count: 4)
+                let workingColorSpace: Any = cgImage?.colorSpace ?? NSNull()
+                let context = CIContext(options: [.workingColorSpace: workingColorSpace])
+                context.render(outputImage,
+                               toBitmap: &bitmap,
+                               rowBytes: 4,
+                               bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
+                               format: .RGBA8,
+                               colorSpace: nil)
+
+                // Convert pixel data to UIColor
+                return UIColor(red: CGFloat(bitmap[0]) / 255.0,
+                               green: CGFloat(bitmap[1]) / 255.0,
+                               blue: CGFloat(bitmap[2]) / 255.0,
+                               alpha: CGFloat(bitmap[3]) / 255.0)
+            }
+        #endif
     }
 
     // MARK: - Methods
@@ -114,7 +139,7 @@
                                          width: destRect.width.rounded(),
                                          height: destRect.height.rounded())
 
-            UIGraphicsBeginImageContext(roundedDestRect.size)
+            UIGraphicsBeginImageContextWithOptions(roundedDestRect.size, false, scale)
             guard let contextRef = UIGraphicsGetCurrentContext() else { return nil }
 
             contextRef.translateBy(x: roundedDestRect.width / 2, y: roundedDestRect.height / 2)
@@ -144,7 +169,7 @@
                                          width: destRect.width.rounded(),
                                          height: destRect.height.rounded())
 
-            UIGraphicsBeginImageContext(roundedDestRect.size)
+            UIGraphicsBeginImageContextWithOptions(roundedDestRect.size, false, scale)
             guard let contextRef = UIGraphicsGetCurrentContext() else { return nil }
 
             contextRef.translateBy(x: roundedDestRect.width / 2, y: roundedDestRect.height / 2)
@@ -194,11 +219,12 @@
             return newImage
         }
 
-        /// SwifterSwift: UIImage tinted with color
+        /// SwifterSwift: UIImage tinted with color.
         ///
         /// - Parameters:
         ///   - color: color to tint image with.
-        ///   - blendMode: how to blend the tint
+        ///   - blendMode: how to blend the tint.
+        ///   - alpha: alpha value used to draw.
         /// - Returns: UIImage tinted with given color.
         func tint(_ color: UIColor, blendMode: CGBlendMode, alpha: CGFloat = 1.0) -> UIImage {
             let drawRect = CGRect(origin: .zero, size: size)
@@ -226,11 +252,11 @@
             return UIGraphicsGetImageFromCurrentImageContext()!
         }
 
-        /// SwifterSwift: UImage with background color
+        /// SwifterSwift: UImage with background color.
         ///
         /// - Parameters:
-        ///   - backgroundColor: Color to use as background color
-        /// - Returns: UIImage with a background color that is visible where alpha < 1
+        ///   - backgroundColor: Color to use as background color.
+        /// - Returns: UIImage with a background color that is visible where alpha < 1.
         func withBackgroundColor(_ backgroundColor: UIColor) -> UIImage {
             #if !os(watchOS)
                 if #available(tvOS 10.0, *) {
@@ -254,11 +280,11 @@
             return UIGraphicsGetImageFromCurrentImageContext()!
         }
 
-        /// SwifterSwift: UIImage with rounded corners
+        /// SwifterSwift: UIImage with rounded corners.
         ///
         /// - Parameters:
-        ///   - radius: corner radius (optional), resulting image will be round if unspecified
-        /// - Returns: UIImage with all corners rounded
+        ///   - radius: corner radius (optional), resulting image will be round if unspecified.
+        /// - Returns: UIImage with all corners rounded.
         func withRoundedCorners(radius: CGFloat? = nil) -> UIImage? {
             let maxRadius = min(size.width, size.height) / 2
             let cornerRadius: CGFloat
@@ -281,17 +307,27 @@
 
         /// SwifterSwift: Base 64 encoded PNG data of the image.
         ///
-        /// - returns: Base 64 encoded PNG data of the image as a String.
+        /// - Returns: Base 64 encoded PNG data of the image as a String.
         func pngBase64String() -> String? {
             pngData()?.base64EncodedString()
         }
 
         /// SwifterSwift: Base 64 encoded JPEG data of the image.
         ///
-        /// - parameter compressionQuality: The quality of the resulting JPEG image, expressed as a value from 0.0 to 1.0. The value 0.0 represents the maximum compression (or lowest quality) while the value 1.0 represents the least compression (or best quality).
-        /// - returns: Base 64 encoded JPEG data of the image as a String.
+        /// - Parameter: compressionQuality: The quality of the resulting JPEG image, expressed as a value from 0.0 to 1.0. The value 0.0 represents the maximum compression (or lowest quality) while the value 1.0 represents the least compression (or best quality).
+        /// - Returns: Base 64 encoded JPEG data of the image as a String.
         func jpegBase64String(compressionQuality: CGFloat) -> String? {
             jpegData(compressionQuality: compressionQuality)?.base64EncodedString()
+        }
+
+        /// SwifterSwift: UIImage with color uses .alwaysOriginal rendering mode.
+        ///
+        /// - Parameters:
+        ///   - color: Color of image.
+        /// - Returns: UIImage with color.
+        @available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        func withAlwaysOriginalTintColor(_ color: UIColor) -> UIImage {
+            withTintColor(color, renderingMode: .alwaysOriginal)
         }
     }
 

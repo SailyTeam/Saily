@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Timofey Solomko
+// Copyright (c) 2022 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -22,7 +22,7 @@ extension Data {
     }
 
     @inlinable @inline(__always)
-    func toByteArray(_: Int) -> [UInt8] {
+    func toByteArray() -> [UInt8] {
         withUnsafeBytes { $0.map { $0 } }
     }
 }

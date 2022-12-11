@@ -26,21 +26,16 @@
 
 #import "Bugsnag.h"
 
-#import "BSGKeys.h"
-#import "BSG_KSCrash.h"
+#import "BSGStorageMigratorV0V1.h"
 #import "Bugsnag+Private.h"
 #import "BugsnagBreadcrumbs.h"
-#import "BugsnagLogger.h"
 #import "BugsnagClient+Private.h"
-#import "BugsnagConfiguration+Private.h"
-#import "BugsnagMetadata+Private.h"
-#import "BugsnagPlugin.h"
-#import "BugsnagHandledState.h"
-#import "BugsnagSystemState.h"
-#import "BSGStorageMigratorV0V1.h"
+#import "BugsnagInternals.h"
+#import "BugsnagLogger.h"
 
 static BugsnagClient *bsg_g_bugsnag_client = NULL;
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation Bugsnag
 
 + (BugsnagClient *_Nonnull)start {
@@ -56,8 +51,8 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
 
 + (BugsnagClient *_Nonnull)startWithConfiguration:(BugsnagConfiguration *_Nonnull)configuration {
     @synchronized(self) {
-        [BSGStorageMigratorV0V1 migrate];
         if (bsg_g_bugsnag_client == nil) {
+            [BSGStorageMigratorV0V1 migrate];
             bsg_g_bugsnag_client = [[BugsnagClient alloc] initWithConfiguration:configuration];
             [bsg_g_bugsnag_client start];
         } else {
@@ -73,17 +68,6 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
  */
 + (void)purge {
     bsg_g_bugsnag_client = nil;
-}
-
-+ (BugsnagConfiguration *)configuration {
-    if ([self bugsnagStarted]) {
-        return self.client.configuration;
-    }
-    return nil;
-}
-
-+ (BugsnagConfiguration *)instance {
-    return [self configuration];
 }
 
 + (BugsnagClient *)client {
@@ -134,18 +118,6 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
     }
 }
 
-/**
- * Intended for use by other clients (React Native/Unity). Calling this method
- * directly from iOS is not supported.
- */
-+ (void)notifyInternal:(BugsnagEvent *_Nonnull)event
-                 block:(BugsnagOnErrorBlock)block {
-    if ([self bugsnagStarted]) {
-        [self.client notifyInternal:event
-                              block:block];
-    }
-}
-
 + (BOOL)bugsnagStarted {
     if (!self.client.started) {
         bsg_log_err(@"Ensure you have started Bugsnag with startWithApiKey: "
@@ -159,13 +131,6 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
 + (void)leaveBreadcrumbWithMessage:(NSString *)message {
     if ([self bugsnagStarted]) {
         [self.client leaveBreadcrumbWithMessage:message];
-    }
-}
-
-+ (void)leaveBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block {
-    if ([self bugsnagStarted]) {
-        [self.client addBreadcrumbWithBlock:block];
     }
 }
 
@@ -187,9 +152,16 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
     }
 }
 
++ (void)leaveNetworkRequestBreadcrumbForTask:(NSURLSessionTask *)task
+                                     metrics:(NSURLSessionTaskMetrics *)metrics {
+    if ([self bugsnagStarted]) {
+        [self.client leaveNetworkRequestBreadcrumbForTask:task metrics:metrics];
+    }
+}
+
 + (NSArray<BugsnagBreadcrumb *> *_Nonnull)breadcrumbs {
     if ([self bugsnagStarted]) {
-        return self.client.breadcrumbs.breadcrumbs ?: @[];
+        return self.client.breadcrumbs;
     } else {
         return @[];
     }
@@ -212,13 +184,6 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
         return [self.client resumeSession];
     } else {
         return false;
-    }
-}
-
-+ (void)addRuntimeVersionInfo:(NSString *)info
-                      withKey:(NSString *)key {
-    if ([self bugsnagStarted]) {
-        [self.client addRuntimeVersionInfo:info withKey:key];
     }
 }
 
@@ -367,15 +332,6 @@ static BugsnagClient *bsg_g_bugsnag_client = NULL;
 {
     if ([self bugsnagStarted]) {
         [self.client removeOnSessionBlock:block];
-    }
-}
-
-/**
- * Intended for internal use only - sets the code bundle id for React Native
- */
-+ (void)updateCodeBundleId:(NSString *)codeBundleId {
-    if ([self bugsnagStarted]) {
-        self.client.codeBundleId = codeBundleId;
     }
 }
 

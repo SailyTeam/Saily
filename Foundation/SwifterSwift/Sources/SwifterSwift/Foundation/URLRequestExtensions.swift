@@ -1,10 +1,4 @@
-//
-//  URLRequestExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 9/5/17.
-//  Copyright © 2017 SwifterSwift
-//
+// URLRequestExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(Foundation)
     import Foundation

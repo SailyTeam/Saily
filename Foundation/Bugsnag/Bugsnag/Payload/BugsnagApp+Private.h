@@ -8,7 +8,11 @@
 
 #import <Bugsnag/BugsnagApp.h>
 
+#import "BSGDefines.h"
+
 @class BugsnagConfiguration;
+
+struct BSGRunContext;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BugsnagApp *)appWithDictionary:(NSDictionary *)event config:(BugsnagConfiguration *)config codeBundleId:(NSString *)codeBundleId;
 
-+ (BugsnagApp *)deserializeFromJson:(NSDictionary *)json;
++ (BugsnagApp *)deserializeFromJson:(nullable NSDictionary *)json;
 
 + (void)populateFields:(BugsnagApp *)app dictionary:(NSDictionary *)event config:(BugsnagConfiguration *)config codeBundleId:(NSString *)codeBundleId;
 
@@ -27,5 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NSDictionary *BSGParseAppMetadata(NSDictionary *event);
+
+NSDictionary *BSGAppMetadataFromRunContext(const struct BSGRunContext *context);
 
 NS_ASSUME_NONNULL_END

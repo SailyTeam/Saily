@@ -25,13 +25,7 @@
 //
 #import <Foundation/Foundation.h>
 
-#ifndef NS_DESIGNATED_INITIALIZER
-#if __has_attribute(objc_designated_initializer)
-#define NS_DESIGNATED_INITIALIZER __attribute__((objc_designated_initializer))
-#else
-#define NS_DESIGNATED_INITIALIZER
-#endif
-#endif
+#import <Bugsnag/BugsnagDefines.h>
 
 /**
  * Types of breadcrumbs
@@ -97,6 +91,7 @@ typedef NS_OPTIONS(NSUInteger, BSGEnabledBreadcrumbType) {
  */
 @class BugsnagBreadcrumb;
 
+BUGSNAG_EXTERN
 @interface BugsnagBreadcrumb : NSObject
 
 /**
@@ -125,6 +120,9 @@ typedef NS_OPTIONS(NSUInteger, BSGEnabledBreadcrumbType) {
 
 #pragma mark -
 
+/// Internal protocol, not for public use.
+/// Will be removed from public headers in next major release.
+/// :nodoc:
 @protocol BSGBreadcrumbSink <NSObject>
 
 - (void)leaveBreadcrumbWithMessage:(nonnull NSString *)message metadata:(nullable NSDictionary *)metadata andType:(BSGBreadcrumbType)type

@@ -26,15 +26,12 @@
 
 #import "BSG_KSCrash.h"
 
+#import "BSGAppKit.h"
+#import "BSGDefines.h"
+#import "BSGUIKit.h"
+#import "BSGWatchKit.h"
 #import "BSG_KSCrashC.h"
 #import "BSG_KSCrashIdentifier.h"
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-#import "BSGUIKit.h"
-#endif
-#if TARGET_OS_OSX
-#import "BSGAppKit.h"
-#endif
 
 // ============================================================================
 #pragma mark - Constants -
@@ -74,7 +71,34 @@
     free(recrashReportPath);
     
     NSNotificationCenter *nCenter = [NSNotificationCenter defaultCenter];
-#if TARGET_OS_IOS || TARGET_OS_TV
+#if TARGET_OS_OSX
+    // MacOS "active" serves the same purpose as "foreground" in iOS
+    [nCenter addObserver:self
+                selector:@selector(applicationDidEnterBackground)
+                    name:NSApplicationDidResignActiveNotification
+                  object:nil];
+    [nCenter addObserver:self
+                selector:@selector(applicationWillEnterForeground)
+                    name:NSApplicationDidBecomeActiveNotification
+                  object:nil];
+#elif TARGET_OS_WATCH
+    [nCenter addObserver:self
+                selector:@selector(applicationDidBecomeActive)
+                    name:WKApplicationDidBecomeActiveNotification
+                  object:nil];
+    [nCenter addObserver:self
+                selector:@selector(applicationWillResignActive)
+                    name:WKApplicationWillResignActiveNotification
+                  object:nil];
+    [nCenter addObserver:self
+                selector:@selector(applicationDidEnterBackground)
+                    name:WKApplicationDidEnterBackgroundNotification
+                  object:nil];
+    [nCenter addObserver:self
+                selector:@selector(applicationWillEnterForeground)
+                    name:WKApplicationWillEnterForegroundNotification
+                  object:nil];
+#else
     [nCenter addObserver:self
                 selector:@selector(applicationDidBecomeActive)
                     name:UIApplicationDidBecomeActiveNotification
@@ -90,16 +114,6 @@
     [nCenter addObserver:self
                 selector:@selector(applicationWillEnterForeground)
                     name:UIApplicationWillEnterForegroundNotification
-                  object:nil];
-#elif TARGET_OS_OSX
-    // MacOS "active" serves the same purpose as "foreground" in iOS
-    [nCenter addObserver:self
-                selector:@selector(applicationDidEnterBackground)
-                    name:NSApplicationDidResignActiveNotification
-                  object:nil];
-    [nCenter addObserver:self
-                selector:@selector(applicationWillEnterForeground)
-                    name:NSApplicationDidBecomeActiveNotification
                   object:nil];
 #endif
 

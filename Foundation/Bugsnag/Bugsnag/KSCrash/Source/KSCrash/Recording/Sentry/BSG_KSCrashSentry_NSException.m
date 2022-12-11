@@ -25,9 +25,14 @@
 //
 
 #import "BSG_KSCrashSentry_NSException.h"
+
+#import "BSGDefines.h"
+#import "BSGJSONSerialization.h"
+#import "BSGUtils.h"
+#import "BSG_KSCrashC.h"
 #import "BSG_KSCrashSentry_Private.h"
-#include "BSG_KSMach.h"
-#include "BSG_KSCrashC.h"
+#import "BSG_KSMach.h"
+#import "BugsnagCollections.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #import "BSG_KSLogger.h"
@@ -55,6 +60,12 @@ static NSException *bsg_lastHandledException = NULL;
 static char * CopyUTF8String(NSString *string) {
     const char *UTF8String = [string UTF8String];
     return UTF8String ? strdup(UTF8String) : NULL;
+}
+
+static char * CopyJSON(NSDictionary *userInfo) {
+    NSDictionary *json = BSGJSONDictionary(userInfo);
+    NSData *data = BSGJSONDataFromDictionary(json, NULL);
+    return BSGCStringWithData(data);
 }
 
 // ============================================================================
@@ -86,6 +97,14 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
         BSG_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
         bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAll);
+
+        // Must run before endHandlingCrash unblocks secondary crashed threads.
+        BSG_KSCrash_Context *context = crashContext();
+        if (context->crash.attemptDelivery) {
+            BSG_KSLOG_DEBUG("Attempting delivery.");
+            context->crash.attemptDelivery();
+        }
+
         bsg_kscrashsentry_endHandlingCrash();
     }
 
@@ -120,17 +139,28 @@ void bsg_recordException(NSException *exception) {
         bsg_g_context->offendingThread = bsg_ksmachthread_self();
         bsg_g_context->registersAreValid = false;
         bsg_g_context->NSException.name = CopyUTF8String([exception name]);
+        bsg_g_context->NSException.userInfo = CopyJSON([exception userInfo]);
         bsg_g_context->crashReason = CopyUTF8String([exception reason]);
         bsg_g_context->stackTrace = callstack;
         bsg_g_context->stackTraceLength = callstack ? (int)numFrames : 0;
 
+#if BSG_HAVE_MACH_THREADS
         BSG_KSLOG_DEBUG("Suspending all threads.");
         bsg_kscrashsentry_suspendThreads();
+#else
+        // We still need the threads list for other purposes:
+        // - Stack traces
+        // - Thread names
+        // - Thread states
+        bsg_g_context->allThreads = bsg_ksmachgetAllThreads(&bsg_g_context->allThreadsCount);
+#endif
 
         BSG_KSLOG_DEBUG("Calling main crash handler.");
         bsg_g_context->onCrash(crashContext());
-        
+
+#if BSG_HAVE_MACH_THREADS
         bsg_kscrashsentry_resumeThreads();
+#endif
     }
 }
 
@@ -160,7 +190,7 @@ static void bsg_reportException(id self, SEL _cmd, NSException *exception) {
         bsg_kscrashsentry_endHandlingCrash();
     }
 
-#if TARGET_OS_MACCATALYST
+#if defined(TARGET_OS_MACCATALYST) && TARGET_OS_MACCATALYST
     // Mac Catalyst apps continue to run after an uncaught exception is thrown
     // while handling a UI event. Our crash sentries should remain installed to
     // catch any subsequent unhandled exceptions or crashes.

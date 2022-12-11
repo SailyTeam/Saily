@@ -74,8 +74,10 @@ public class GzipArchive: Archive {
     }
 
     private static func processMember(_ bitReader: LsbBitReader) throws -> Member {
-        // Valid GZip archive must contain at least 33 bytes of data.
-        guard bitReader.bitsLeft >= 33 * 8
+        // Valid GZip archive must contain at least 20 bytes of data (10 for the header, 2 for an empty Deflate block,
+        // and 8 for checksums). In addition, since GZip format is "byte-oriented" we should ensure that members are
+        // byte-aligned.
+        guard bitReader.isAligned, bitReader.bytesLeft >= 20
         else { throw GzipError.wrongMagic }
 
         let header = try GzipHeader(bitReader)
@@ -83,6 +85,8 @@ public class GzipArchive: Archive {
         let memberData = try Deflate.decompress(bitReader)
         bitReader.align()
 
+        guard bitReader.bytesLeft >= 8
+        else { throw GzipError.wrongMagic }
         let crc32 = bitReader.uint32()
         let isize = bitReader.uint64(fromBytes: 4)
         guard UInt64(truncatingIfNeeded: memberData.count) % (UInt64(truncatingIfNeeded: 1) << 32) == isize
@@ -106,14 +110,20 @@ public class GzipArchive: Archive {
      - Parameter isTextFile: Set to true, if the file which will be archived is text file or ASCII-file.
      - Parameter osType: Type of the system on which this archive will be created.
      - Parameter modificationTime: Last time the file was modified.
+     - Parameter extraFields: Any extra fields. Note that no extra field is allowed to have second byte of the extra
+     field (subfield) ID equal to zero. In addition, the length of a field's binary content must be less than
+     `UInt16.max`, while the total sum of the binary content length of all extra fields plus 4 for each field must also
+     not exceed `UInt16.max`. See GZip format specification for more details.
 
-     - Throws: `GzipError.cannotEncodeISOLatin1` if file name of comment cannot be encoded with ISO-Latin-1 encoding.
+     - Throws: `GzipError.cannotEncodeISOLatin1` if a file name or a comment cannot be encoded with ISO-Latin-1 encoding
+     or if the total sum of the binary content length of all extra fields plus 4 for each field exceeds `UInt16.max`.
 
      - Returns: Resulting archive's data.
      */
     public static func archive(data: Data, comment: String? = nil, fileName: String? = nil,
                                writeHeaderCRC: Bool = false, isTextFile: Bool = false,
-                               osType: FileSystemType? = nil, modificationTime: Date? = nil) throws -> Data
+                               osType: FileSystemType? = nil, modificationTime: Date? = nil,
+                               extraFields: [GzipHeader.ExtraField] = []) throws -> Data
     {
         var flags: UInt8 = 0
 
@@ -143,6 +153,10 @@ public class GzipArchive: Archive {
             }
         }
 
+        if !extraFields.isEmpty {
+            flags |= 1 << 2
+        }
+
         if writeHeaderCRC {
             flags |= 1 << 1
         }
@@ -164,13 +178,34 @@ public class GzipArchive: Archive {
         var headerBytes: [UInt8] = [
             0x1F, 0x8B, // 'magic' bytes.
             8, // Compression method (DEFLATE).
-            flags, // Flags; currently no flags are set.
+            flags,
         ]
         for i in 0 ..< 4 {
             headerBytes.append(mtimeBytes[i])
         }
         headerBytes.append(2) // Extra flags; 2 means that DEFLATE used slowest algorithm.
         headerBytes.append(os)
+
+        if !extraFields.isEmpty {
+            let xlen = extraFields.reduce(0) { $0 + 4 + $1.bytes.count }
+            guard xlen <= UInt16.max
+            else { throw GzipError.cannotEncodeISOLatin1 }
+            headerBytes.append((xlen & 0xFF).toUInt8())
+            headerBytes.append(((xlen >> 8) & 0xFF).toUInt8())
+
+            for extraField in extraFields {
+                headerBytes.append(extraField.si1)
+                headerBytes.append(extraField.si2)
+
+                let len = extraField.bytes.count
+                headerBytes.append((len & 0xFF).toUInt8())
+                headerBytes.append(((len >> 8) & 0xFF).toUInt8())
+
+                for byte in extraField.bytes {
+                    headerBytes.append(byte)
+                }
+            }
+        }
 
         var outData = Data(headerBytes)
 

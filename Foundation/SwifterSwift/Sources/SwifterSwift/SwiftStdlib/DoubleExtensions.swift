@@ -1,10 +1,4 @@
-//
-//  DoubleExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/6/16.
-//  Copyright © 2016 SwifterSwift
-//
+// DoubleExtensions.swift - Copyright 2021 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics
@@ -47,20 +41,7 @@ infix operator **: PowerPrecedence
 ///   - lhs: base double.
 ///   - rhs: exponent double.
 /// - Returns: exponentiation result (example: 4.4 ** 0.5 = 2.0976176963).
-func ** (lhs: Double, rhs: Double) -> Double {
+public func ** (lhs: Double, rhs: Double) -> Double {
     // http://nshipster.com/swift-operators/
     pow(lhs, rhs)
 }
-
-// swiftlint:disable identifier_name
-prefix operator √
-/// SwifterSwift: Square root of double.
-///
-/// - Parameter double: double value to find square root for.
-/// - Returns: square root of given double.
-public prefix func √ (double: Double) -> Double {
-    // http://nshipster.com/swift-operators/
-    sqrt(double)
-}
-
-// swiftlint:enable identifier_name

@@ -6,11 +6,10 @@
 //  Copyright © 2021 Bugsnag Inc. All rights reserved.
 //
 
-#import <Bugsnag/BugsnagFeatureFlag.h>
+#import "BugsnagInternals.h"
+#import "BSGDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NSMutableDictionary<NSString *, id> BSGFeatureFlagStore;
 
 void BSGFeatureFlagStoreAddFeatureFlag(BSGFeatureFlagStore *store, NSString *name, NSString *_Nullable variant);
 
@@ -21,5 +20,25 @@ void BSGFeatureFlagStoreClear(BSGFeatureFlagStore *store, NSString *_Nullable na
 NSArray<NSDictionary *> * BSGFeatureFlagStoreToJSON(BSGFeatureFlagStore *store);
 
 BSGFeatureFlagStore * BSGFeatureFlagStoreFromJSON(id _Nullable json);
+
+
+BSG_OBJC_DIRECT_MEMBERS
+@interface BSGFeatureFlagStore ()
+
+@property(nonatomic,nonnull,readonly) NSArray<BugsnagFeatureFlag *> * allFlags;
+
++ (nonnull BSGFeatureFlagStore *) fromJSON:(nonnull id)json;
+
+- (NSUInteger) count;
+
+- (void) addFeatureFlag:(nonnull NSString *)name withVariant:(nullable NSString *)variant;
+
+- (void) addFeatureFlags:(nonnull NSArray<BugsnagFeatureFlag *> *)featureFlags;
+
+- (void) clear:(nullable NSString *)name;
+
+- (nonnull NSArray<NSDictionary *> *) toJSON;
+
+@end
 
 NS_ASSUME_NONNULL_END

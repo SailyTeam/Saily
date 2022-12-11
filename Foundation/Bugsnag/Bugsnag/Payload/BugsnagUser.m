@@ -8,8 +8,9 @@
 
 #import "BugsnagUser+Private.h"
 
-#import "BugsnagCollections.h"
+#import "BSG_KSSystemInfo.h"
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BugsnagUser
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
@@ -21,18 +22,13 @@
     return self;
 }
 
-- (instancetype)initWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
-    self = [super init];
-    if (self) {
-        _id = userId;
+- (instancetype)initWithId:(NSString *)id name:(NSString *)name emailAddress:(NSString *)emailAddress {
+    if ((self = [super init])) {
+        _id = id;
         _name = name;
         _email = emailAddress;
     }
     return self;
-}
-
-+ (instancetype)userWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
-    return [[self alloc] initWithUserId:userId name:name emailAddress:emailAddress];
 }
 
 - (NSDictionary *)toJson {
@@ -43,4 +39,34 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
+- (BugsnagUser *)withId {
+    if (self.id) {
+        return self;
+    } else {
+        return [[BugsnagUser alloc] initWithId:[BSG_KSSystemInfo deviceAndAppHash]
+                                          name:self.name
+                                  emailAddress:self.email];
+    }
+}
+
 @end
+
+// MARK: - User Persistence
+
+static NSString * const BugsnagUserEmailAddressKey = @"BugsnagUserEmailAddress";
+static NSString * const BugsnagUserIdKey           = @"BugsnagUserUserId";
+static NSString * const BugsnagUserNameKey         = @"BugsnagUserName";
+
+BugsnagUser * BSGGetPersistedUser(void) {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[BugsnagUser alloc] initWithId:[userDefaults stringForKey:BugsnagUserIdKey]
+                                      name:[userDefaults stringForKey:BugsnagUserNameKey]
+                              emailAddress:[userDefaults stringForKey:BugsnagUserEmailAddressKey]];
+}
+
+void BSGSetPersistedUser(BugsnagUser *user) {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:user.email forKey:BugsnagUserEmailAddressKey];
+    [userDefaults setObject:user.id forKey:BugsnagUserIdKey];
+    [userDefaults setObject:user.name forKey:BugsnagUserNameKey];
+}

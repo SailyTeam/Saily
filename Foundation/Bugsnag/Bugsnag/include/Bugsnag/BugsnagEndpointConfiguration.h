@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Bugsnag/BugsnagDefines.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -15,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  * https://notify.bugsnag.com, and sessions to https://sessions.bugsnag.com, but you can
  * override this if you are using Bugsnag Enterprise to point to your own Bugsnag endpoints.
  */
+BUGSNAG_EXTERN
 @interface BugsnagEndpointConfiguration : NSObject
 
 /**

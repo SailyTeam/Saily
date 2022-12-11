@@ -85,12 +85,39 @@
     };
 }
 
+#pragma mark - NSProxy correctness
+
+- (void)testConformsToProtocol {
+    id sessionDelegate = [[BSGURLSessionTracingProxyTests_DidReceiveDataStub alloc] init];
+    id tracingDelegate = [[BSGURLSessionTracingProxyTests_TracingStub alloc] init];
+    id proxy = [[BSGURLSessionTracingProxy alloc] initWithDelegate:sessionDelegate tracingDelegate:tracingDelegate];
+    XCTAssertTrue([proxy conformsToProtocol:@protocol(NSURLSessionDataDelegate)]);
+    XCTAssertFalse([proxy conformsToProtocol:@protocol(NSURLSessionStreamDelegate)]);
+}
+
 - (void)testExceptionIsThrownForUnimplementedMethod {
-    BSGURLSessionTracingProxyTests_DidReceiveDataStub *sessionDelegate =
-    [[BSGURLSessionTracingProxyTests_DidReceiveDataStub alloc] init];
-    BSGURLSessionTracingProxyTests_TracingStub *tracingDelegate = [[BSGURLSessionTracingProxyTests_TracingStub alloc] init];
-    id proxy = [[BSGURLSessionTracingProxy alloc] initWithDelegate:sessionDelegate tracingDelegate:(id)tracingDelegate];
+    id sessionDelegate = [[BSGURLSessionTracingProxyTests_DidReceiveDataStub alloc] init];
+    id tracingDelegate = [[BSGURLSessionTracingProxyTests_TracingStub alloc] init];
+    id proxy = [[BSGURLSessionTracingProxy alloc] initWithDelegate:sessionDelegate tracingDelegate:tracingDelegate];
     XCTAssertThrowsSpecificNamed([proxy testExceptionIsThrownForUnimplementedMethod], NSException, NSInvalidArgumentException);
+}
+
+- (void)testIsKindOfClass {
+    id sessionDelegate = [[BSGURLSessionTracingProxyTests_DidReceiveDataStub alloc] init];
+    id tracingDelegate = [[BSGURLSessionTracingProxyTests_TracingStub alloc] init];
+    id proxy = [[BSGURLSessionTracingProxy alloc] initWithDelegate:sessionDelegate tracingDelegate:tracingDelegate];
+    XCTAssertTrue([proxy isKindOfClass:[NSObject class]]);
+    XCTAssertTrue([proxy isKindOfClass:[sessionDelegate class]]);
+    XCTAssertFalse([proxy isKindOfClass:[tracingDelegate class]]);
+}
+
+- (void)testRespondsToSelector {
+    id sessionDelegate = [[BSGURLSessionTracingProxyTests_DidReceiveDataStub alloc] init];
+    id tracingDelegate = [[BSGURLSessionTracingProxyTests_TracingStub alloc] init];
+    id proxy = [[BSGURLSessionTracingProxy alloc] initWithDelegate:sessionDelegate tracingDelegate:tracingDelegate];
+    XCTAssertTrue([proxy respondsToSelector:@selector(URLSession:dataTask:didReceiveData:)]);
+    XCTAssertTrue([proxy respondsToSelector:@selector(URLSession:task:didFinishCollectingMetrics:)]);
+    XCTAssertFalse([sessionDelegate respondsToSelector:@selector(URLSession:task:didFinishCollectingMetrics:)]);
 }
 
 @end

@@ -8,10 +8,12 @@
 
 #import "BSGAppHangDetector.h"
 
+#if BSG_HAVE_APP_HANG_DETECTION
+
 #import <Bugsnag/BugsnagConfiguration.h>
 #import <Bugsnag/BugsnagErrorTypes.h>
 
-#import "BSG_KSCrashState.h"
+#import "BSGRunContext.h"
 #import "BSG_KSMach.h"
 #import "BSG_KSSystemInfo.h"
 #import "BugsnagCollections.h"
@@ -19,19 +21,22 @@
 #import "BugsnagThread+Private.h"
 
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGAppHangDetector ()
 
 @property (weak, nonatomic) id<BSGAppHangDetectorDelegate> delegate;
-@property (nonatomic) BOOL recordAllThreads;
 @property (nonatomic) CFRunLoopObserverRef observer;
 @property (atomic) dispatch_time_t processingDeadline;
 @property (nonatomic) dispatch_semaphore_t processingStarted;
 @property (nonatomic) dispatch_semaphore_t processingFinished;
-@property (weak, nonatomic) NSThread *thread;
+@property (nonatomic) BOOL shouldStop;
 
 @end
 
 
+static void * DetectAppHangs(void *object);
+
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BSGAppHangDetector
 
 - (void)startWithDelegate:(id<BSGAppHangDetectorDelegate>)delegate {
@@ -66,14 +71,13 @@
     bsg_log_debug(@"Starting App Hang detector with threshold = %g seconds", threshold);
     
     self.delegate = delegate;
-    self.recordAllThreads = configuration.sendThreads == BSGThreadSendPolicyAlways;
     self.processingStarted = dispatch_semaphore_create(0);
     self.processingFinished = dispatch_semaphore_create(0);
     
     __block BOOL isProcessing = NO;
     
     void (^ observerBlock)(CFRunLoopObserverRef, CFRunLoopActivity) =
-    ^(__attribute__((unused)) CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+    ^(__unused CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
         
         if (activity == kCFRunLoopAfterWaiting || activity == kCFRunLoopBeforeSources) {
             if (isProcessing) {
@@ -110,55 +114,56 @@
     
     CFRunLoopAddObserver(CFRunLoopGetMain(), self.observer, kCFRunLoopCommonModes);
     
-    [NSThread detachNewThreadSelector:@selector(detectAppHangs) toTarget:self withObject:nil];
+    pthread_t thread;
+    pthread_create(&thread, NULL, DetectAppHangs, (__bridge void *)(self));
 }
 
 - (void)detectAppHangs {
     NSThread.currentThread.name = @"com.bugsnag.app-hang-detector";
     
-    self.thread = NSThread.currentThread;
-    
-    while (!NSThread.currentThread.isCancelled) {
-        if (dispatch_semaphore_wait(self.processingStarted, DISPATCH_TIME_FOREVER) != 0) {
-            bsg_log_err(@"BSGAppHangDetector: dispatch_semaphore_wait failed unexpectedly");
-            return;
-        }
-        
-        const dispatch_time_t deadline = self.processingDeadline;
-        
-        if (dispatch_semaphore_wait(self.processingFinished, deadline) == 0) {
-            // Run loop finished within the deadline
-            continue;
-        }
-        
-        BOOL shouldReportAppHang = YES;
-        
-        if (dispatch_time(DISPATCH_TIME_NOW, 0) > dispatch_time(deadline, 1 * NSEC_PER_SEC)) {
-            // If this thread has woken up long after the deadline, the app may have been suspended.
-            bsg_log_debug(@"Ignoring potential false positive app hang");
-            shouldReportAppHang = NO;
-        }
-        
-#if DEBUG
-        if (shouldReportAppHang && bsg_ksmachisBeingTraced()) {
-            bsg_log_debug(@"Ignoring app hang because debugger is attached");
-            shouldReportAppHang = NO;
-        }
+    while (!self.shouldStop) {
+        @autoreleasepool {
+            if (dispatch_semaphore_wait(self.processingStarted, DISPATCH_TIME_FOREVER) != 0) {
+                bsg_log_err(@"BSGAppHangDetector: dispatch_semaphore_wait failed unexpectedly");
+                return;
+            }
+
+            const dispatch_time_t deadline = self.processingDeadline;
+
+            if (dispatch_semaphore_wait(self.processingFinished, deadline) == 0) {
+                // Run loop finished within the deadline
+                continue;
+            }
+
+            BOOL shouldReportAppHang = YES;
+
+            if (dispatch_time(DISPATCH_TIME_NOW, 0) > dispatch_time(deadline, 1 * NSEC_PER_SEC)) {
+                // If this thread has woken up long after the deadline, the app may have been suspended.
+                bsg_log_debug(@"Ignoring potential false positive app hang");
+                shouldReportAppHang = NO;
+            }
+
+#if defined(DEBUG) && DEBUG
+            if (shouldReportAppHang && bsg_ksmachisBeingTraced()) {
+                bsg_log_debug(@"Ignoring app hang because debugger is attached");
+                shouldReportAppHang = NO;
+            }
 #endif
-        
-        if (shouldReportAppHang && !bsg_kscrashstate_currentState()->applicationIsInForeground) {
-            bsg_log_debug(@"Ignoring app hang because app is in the background");
-            shouldReportAppHang = NO;
-        }
-        
-        if (shouldReportAppHang) {
-            [self appHangDetected];
-        }
-        
-        dispatch_semaphore_wait(self.processingFinished, DISPATCH_TIME_FOREVER);
-        
-        if (shouldReportAppHang) {
-            [self appHangEnded];
+
+            if (shouldReportAppHang && !bsg_runContext->isForeground && !self.delegate.configuration.reportBackgroundAppHangs) {
+                bsg_log_debug(@"Ignoring app hang because app is in the background");
+                shouldReportAppHang = NO;
+            }
+
+            if (shouldReportAppHang) {
+                [self appHangDetected];
+            }
+
+            dispatch_semaphore_wait(self.processingFinished, DISPATCH_TIME_FOREVER);
+
+            if (shouldReportAppHang) {
+                [self appHangEnded];
+            }
         }
     }
 }
@@ -171,20 +176,21 @@
     
     NSDate *date = [NSDate date];
     NSDictionary *systemInfo = [BSG_KSSystemInfo systemInfo];
+    id<BSGAppHangDetectorDelegate> delegate = self.delegate;
     
     NSArray<BugsnagThread *> *threads = nil;
-    if (self.recordAllThreads) {
+    if (delegate.configuration.sendThreads == BSGThreadSendPolicyAlways) {
         threads = [BugsnagThread allThreads:YES callStackReturnAddresses:NSThread.callStackReturnAddresses];
         // By default the calling thread is marked as "Error reported from this thread", which is not correct case for app hangs.
         [threads enumerateObjectsUsingBlock:^(BugsnagThread * _Nonnull thread, NSUInteger idx,
-                                              __attribute__((unused)) BOOL * _Nonnull stop) {
+                                              __unused BOOL * _Nonnull stop) {
             thread.errorReportingThread = idx == 0;
         }];
     } else {
         threads = BSGArrayWithObject([BugsnagThread mainThread]);
     }
     
-    [self.delegate appHangDetectedAtDate:date withThreads:threads systemInfo:systemInfo];
+    [delegate appHangDetectedAtDate:date withThreads:threads systemInfo:systemInfo];
 }
 
 - (void)appHangEnded {
@@ -194,7 +200,7 @@
 }
 
 - (void)stop {
-    [self.thread cancel];
+    self.shouldStop = YES;
     self.processingDeadline = DISPATCH_TIME_FOREVER;
     dispatch_semaphore_signal(self.processingStarted);
     dispatch_semaphore_signal(self.processingFinished);
@@ -205,3 +211,10 @@
 }
 
 @end
+
+static void * DetectAppHangs(void *object) {
+    [(__bridge BSGAppHangDetector *)object detectAppHangs];
+    return NULL;
+}
+
+#endif

@@ -24,7 +24,25 @@
 // THE SOFTWARE.
 //
 
+#ifndef HDR_BSG_KSLogger_h
+#define HDR_BSG_KSLogger_h
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <Bugsnag/BugsnagDefines.h>
+
 #include "BugsnagLogger.h"
+
+/**
+ * Enables low-level logging.
+ *
+ * Keep this disabled in production as it increases the binary size.
+ */
+#ifndef BSG_KSLOG_ENABLED
+#define BSG_KSLOG_ENABLED 0
+#endif
 
 /**
  * BSG_KSLogger
@@ -119,13 +137,6 @@
 #pragma mark - (internal) -
 // ============================================================================
 
-#ifndef HDR_BSG_KSLogger_h
-#define HDR_BSG_KSLogger_h
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdbool.h>
 #include <sys/cdefs.h>
 
@@ -133,6 +144,7 @@ void bsg_i_kslog_logC(const char *level, const char *file, int line,
                       const char *function, const char *fmt, ...)
                                                 __printflike(5, 6);
 
+BUGSNAG_EXTERN
 void bsg_i_kslog_logCBasic(const char *fmt, ...) __printflike(1, 2);
 
 #define i_KSLOG_FULL bsg_i_kslog_logC
@@ -182,6 +194,13 @@ void bsg_i_kslog_logCBasic(const char *fmt, ...) __printflike(1, 2);
 #define BSG_KSLogger_LocalLevel BSG_KSLogger_Level_None
 #endif
 
+#if !BSG_KSLOG_ENABLED
+#undef BSG_LOG_LEVEL
+#define BSG_LOG_LEVEL BSG_KSLogger_Level_None
+#undef BSG_KSLogger_LocalLevel
+#define BSG_KSLogger_LocalLevel BSG_KSLogger_Level_None
+#endif
+
 #define a_KSLOG_FULL(LEVEL, FMT, ...)                                          \
     i_KSLOG_FULL(LEVEL, __FILE__, __LINE__, __func__, FMT, ##__VA_ARGS__)
 
@@ -195,6 +214,7 @@ void bsg_i_kslog_logCBasic(const char *fmt, ...) __printflike(1, 2);
  *
  * @param overwrite If true, overwrite the log file.
  */
+BUGSNAG_EXTERN
 bool bsg_kslog_setLogFilename(const char *filename, bool overwrite);
 
 /** Tests if the logger would print at the specified level.

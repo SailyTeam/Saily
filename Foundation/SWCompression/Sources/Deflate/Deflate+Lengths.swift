@@ -7,7 +7,6 @@ import Foundation
 
 // Deflate specific functions for generation of HuffmanLength arrays from different inputs.
 extension Deflate {
-    // TODO: Make this work for both arrays and array slices.
     /// - Note: Skips zero codeLengths.
     static func lengths(from orderedCodeLengths: [Int]) -> [CodeLength] {
         var lengths = [CodeLength]()

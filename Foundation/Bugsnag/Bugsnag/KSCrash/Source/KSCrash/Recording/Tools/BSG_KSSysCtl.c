@@ -42,24 +42,6 @@
         return 0;                                                              \
     }
 
-#define CHECK_SYSCTL_CMD(TYPE, CALL)                                           \
-    if (0 != (CALL)) {                                                         \
-        BSG_KSLOG_ERROR("Could not get %s value for %d,%d: %s", #CALL,         \
-                        major_cmd, minor_cmd, strerror(errno));                \
-        return 0;                                                              \
-    }
-
-int32_t bsg_kssysctl_int32(const int major_cmd, const int minor_cmd) {
-    int cmd[2] = {major_cmd, minor_cmd};
-    int32_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_CMD(
-        int32, sysctl(cmd, sizeof(cmd) / sizeof(*cmd), &value, &size, NULL, 0));
-
-    return value;
-}
-
 int32_t bsg_kssysctl_int32ForName(const char *const name) {
     int32_t value = 0;
     size_t size = sizeof(value);
@@ -69,77 +51,6 @@ int32_t bsg_kssysctl_int32ForName(const char *const name) {
     return value;
 }
 
-uint32_t bsg_kssysctl_uint32(const int major_cmd, const int minor_cmd) {
-    int cmd[2] = {major_cmd, minor_cmd};
-    uint32_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_CMD(uint32, sysctl(cmd, sizeof(cmd) / sizeof(*cmd), &value,
-                                    &size, NULL, 0));
-
-    return value;
-}
-
-uint32_t bsg_kssysctl_uint32ForName(const char *const name) {
-    uint32_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_NAME(uint32, sysctlbyname(name, &value, &size, NULL, 0));
-
-    return value;
-}
-
-int64_t bsg_kssysctl_int64(const int major_cmd, const int minor_cmd) {
-    int cmd[2] = {major_cmd, minor_cmd};
-    int64_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_CMD(
-        int64, sysctl(cmd, sizeof(cmd) / sizeof(*cmd), &value, &size, NULL, 0));
-
-    return value;
-}
-
-int64_t bsg_kssysctl_int64ForName(const char *const name) {
-    int64_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_NAME(int64, sysctlbyname(name, &value, &size, NULL, 0));
-
-    return value;
-}
-
-uint64_t bsg_kssysctl_uint64(const int major_cmd, const int minor_cmd) {
-    int cmd[2] = {major_cmd, minor_cmd};
-    uint64_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_CMD(uint64, sysctl(cmd, sizeof(cmd) / sizeof(*cmd), &value,
-                                    &size, NULL, 0));
-
-    return value;
-}
-
-uint64_t bsg_kssysctl_uint64ForName(const char *const name) {
-    uint64_t value = 0;
-    size_t size = sizeof(value);
-
-    CHECK_SYSCTL_NAME(uint64, sysctlbyname(name, &value, &size, NULL, 0));
-
-    return value;
-}
-
-size_t bsg_kssysctl_string(const int major_cmd, const int minor_cmd,
-                           char *const value, const size_t maxSize) {
-    int cmd[2] = {major_cmd, minor_cmd};
-    size_t size = value == NULL ? 0 : maxSize;
-
-    CHECK_SYSCTL_CMD(
-        string, sysctl(cmd, sizeof(cmd) / sizeof(*cmd), value, &size, NULL, 0));
-
-    return size;
-}
-
 size_t bsg_kssysctl_stringForName(const char *const name, char *const value,
                                   const size_t maxSize) {
     size_t size = value == NULL ? 0 : maxSize;
@@ -147,45 +58,6 @@ size_t bsg_kssysctl_stringForName(const char *const name, char *const value,
     CHECK_SYSCTL_NAME(string, sysctlbyname(name, value, &size, NULL, 0));
 
     return size;
-}
-
-struct timeval bsg_kssysctl_timeval(const int major_cmd, const int minor_cmd) {
-    int cmd[2] = {major_cmd, minor_cmd};
-    struct timeval value = {0};
-    size_t size = sizeof(value);
-
-    if (0 != sysctl(cmd, sizeof(cmd) / sizeof(*cmd), &value, &size, NULL, 0)) {
-        BSG_KSLOG_ERROR("Could not get timeval value for %d,%d: %s", major_cmd,
-                        minor_cmd, strerror(errno));
-    }
-
-    return value;
-}
-
-struct timeval bsg_kssysctl_timevalForName(const char *const name) {
-    struct timeval value = {0};
-    size_t size = sizeof(value);
-
-    if (0 != sysctlbyname(name, &value, &size, NULL, 0)) {
-        BSG_KSLOG_ERROR("Could not get timeval value for %s: %s", name,
-                        strerror(errno));
-    }
-
-    return value;
-}
-
-bool bsg_kssysctl_getProcessInfo(const int pid,
-                                 struct kinfo_proc *const procInfo) {
-    int cmd[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
-    size_t size = sizeof(*procInfo);
-
-    if (0 !=
-        sysctl(cmd, sizeof(cmd) / sizeof(*cmd), procInfo, &size, NULL, 0)) {
-        BSG_KSLOG_ERROR("Could not get the name for process %d: %s", pid,
-                        strerror(errno));
-        return false;
-    }
-    return true;
 }
 
 bool bsg_kssysctl_getMacAddress(const char *const name,

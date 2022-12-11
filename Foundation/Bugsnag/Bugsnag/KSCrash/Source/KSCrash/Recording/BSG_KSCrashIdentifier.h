@@ -9,11 +9,6 @@ extern "C" {
 void bsg_kscrash_generate_report_initialize(const char *directory);
 
 /**
- * Generates a new UUID. Not async signal safe. Caller responsible for
- * freeing allocated string.
- */
-char *bsg_kscrash_generate_report_identifier(void);
-/**
  * Generates a new path string. Not async signal safe. Caller responsible
  * for freeing allocated string.
  */

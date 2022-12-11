@@ -1,10 +1,4 @@
-//
-//  CGFloatExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/23/16.
-//  Copyright © 2016 SwifterSwift
-//
+// CGFloatExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics

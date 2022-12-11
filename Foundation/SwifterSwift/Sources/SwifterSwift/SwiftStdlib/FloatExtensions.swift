@@ -1,10 +1,4 @@
-//
-//  FloatExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/8/16.
-//  Copyright © 2016 SwifterSwift
-//
+// FloatExtensions.swift - Copyright 2021 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics
@@ -47,20 +41,7 @@ infix operator **: PowerPrecedence
 ///   - lhs: base float.
 ///   - rhs: exponent float.
 /// - Returns: exponentiation result (4.4 ** 0.5 = 2.0976176963).
-func ** (lhs: Float, rhs: Float) -> Float {
+public func ** (lhs: Float, rhs: Float) -> Float {
     // http://nshipster.com/swift-operators/
     pow(lhs, rhs)
 }
-
-// swiftlint:disable identifier_name
-prefix operator √
-/// SwifterSwift: Square root of float.
-///
-/// - Parameter float: float value to find square root for
-/// - Returns: square root of given float.
-public prefix func √ (float: Float) -> Float {
-    // http://nshipster.com/swift-operators/
-    sqrt(float)
-}
-
-// swiftlint:enable identifier_name

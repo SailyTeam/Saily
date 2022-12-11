@@ -32,6 +32,7 @@
 #import "BugsnagLogger.h"
 
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BugsnagMetadata ()
 
 @property(atomic, readwrite, strong) NSMutableArray *stateEventBlocks;
@@ -45,6 +46,7 @@
 
 // MARK: -
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BugsnagMetadata
 
 - (instancetype)init {
@@ -56,51 +58,13 @@
     if ((self = [super init])) {
         // Ensure that the instantiating dictionary is mutable.
         // Saves checks later.
-        _dictionary = [self sanitizeDictionary:dict];
+        _dictionary = BSGSanitizeDict(dict);
         self.stateEventBlocks = [NSMutableArray new];
     }
     if (self.observer) {
         self.observer(self);
     }
     return self;
-}
-
-/**
- * Sanitizes the given dictionary to prevent [NSNull null] values from being added
- * to the metadata when deserializing a payload.
- *
- * @param dictionary the input dictionary
- * @return a sanitized dictionary
- */
-- (NSMutableDictionary *)sanitizeDictionary:(NSDictionary *)dictionary {
-    NSMutableDictionary *input = [dictionary mutableCopy];
-
-    for (NSString *key in [input allKeys]) {
-        id obj = input[key];
-
-        if (obj == [NSNull null]) {
-            [input removeObjectForKey:key];
-        } else if ([obj isKindOfClass:[NSDictionary class]]) {
-            input[key] = [self sanitizeDictionary:obj];
-        } else if ([obj isKindOfClass:[NSArray class]]) {
-            input[key] = [self sanitizeArray:obj];
-        }
-    }
-    return input;
-}
-
-- (NSMutableArray *)sanitizeArray:(NSArray *)obj {
-    NSMutableArray *ary = [obj mutableCopy];
-    [ary removeObject:[NSNull null]];
-
-    for (NSUInteger k = 0; k < [ary count]; ++k) {
-        if ([ary[k] isKindOfClass:[NSDictionary class]]) {
-            ary[k] = [self sanitizeDictionary:ary[k]];
-        } else if ([ary[k] isKindOfClass:[NSArray class]]) {
-            ary[k] = [self sanitizeArray:ary[k]];
-        }
-    }
-    return ary;
 }
 
 - (NSDictionary *)toDictionary {
@@ -111,16 +75,9 @@
 
 // MARK: - <NSCopying>
 
-- (id)copyWithZone:(__attribute__((unused)) NSZone *)zone {
-    return [self deepCopy];
-}
-
-// MARK: - <NSMutableCopying>
-
-- (instancetype)mutableCopyWithZone:(__attribute__((unused)) NSZone *)zone {
+- (id)copyWithZone:(NSZone *)zone {
     @synchronized(self) {
-        NSMutableDictionary *dict = [self.dictionary mutableCopy];
-        return [[BugsnagMetadata alloc] initWithDictionary:dict];
+        return [[BugsnagMetadata allocWithZone:zone] initWithDictionary:self.dictionary];
     }
 }
 
@@ -135,12 +92,6 @@
 {
     @synchronized(self) {
         return self.dictionary[sectionName][key];
-    }
-}
-
-- (instancetype)deepCopy {
-    @synchronized(self) {
-        return [[BugsnagMetadata alloc] initWithDictionary:self.dictionary];
     }
 }
 
@@ -240,7 +191,7 @@
 
 - (void)serialize {
     NSError *error = nil;
-    NSData *data = [BSGJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:&error];
+    NSData *data = BSGJSONDataFromDictionary([self dictionary], &error);
     if (!data) {
         bsg_log_err(@"%s: %@", __FUNCTION__, error);
         return;
@@ -257,13 +208,10 @@
 // Metadata is stored in memory as a JSON encoded C string so that it is accessible at crash time.
 //
 - (void)writeData:(NSData *)data toBuffer:(char **)buffer {
-    char *newbuffer = calloc(1, data.length + 1);
+    char *newbuffer = BSGCStringWithData(data);
     if (!newbuffer) {
         return;
     }
-    [data enumerateByteRangesUsingBlock:^(const void * _Nonnull bytes, NSRange byteRange, __unused BOOL * _Nonnull stop) {
-        memcpy(newbuffer + byteRange.location, bytes, byteRange.length);
-    }];
     char *oldbuffer = *buffer;
     *buffer = newbuffer;
     free(oldbuffer);

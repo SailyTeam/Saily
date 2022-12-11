@@ -28,16 +28,12 @@
 
 #import <Bugsnag/BSG_KSCrashReportWriter.h>
 #import <Bugsnag/BugsnagBreadcrumb.h>
+#import <Bugsnag/BugsnagDefines.h>
 #import <Bugsnag/BugsnagEvent.h>
 #import <Bugsnag/BugsnagFeatureFlagStore.h>
 #import <Bugsnag/BugsnagMetadata.h>
 #import <Bugsnag/BugsnagMetadataStore.h>
 #import <Bugsnag/BugsnagPlugin.h>
-
-/**
- * Annotates methods and properties that will be removed in the next major release of Bugsnag.
- */
-#define BSG_DEPRECATED_WITH_REPLACEMENT(REPLACEMENT) __attribute__((deprecated("", REPLACEMENT)))
 
 @class BugsnagUser;
 @class BugsnagEndpointConfiguration;
@@ -68,10 +64,31 @@ typedef NS_ENUM(NSInteger, BSGThreadSendPolicy) {
 };
 
 /**
+ * Types of telemetry that may be sent to Bugsnag for product improvement purposes.
+ */
+typedef NS_OPTIONS(NSUInteger, BSGTelemetryOptions) {
+
+    /**
+     * Errors within the Bugsnag SDK.
+     */
+    BSGTelemetryInternalErrors = (1UL << 0),
+
+    /**
+     * Information about how Bugsnag has been configured.
+     */
+    BSGTelemetryUsage = (1UL << 1),
+
+    /**
+     * All types of telemetry are enabled by default.
+     */
+    BSGTelemetryAll = (BSGTelemetryInternalErrors | BSGTelemetryUsage)
+};
+
+/**
  * Setting `BugsnagConfiguration.appHangThresholdMillis` to this value disables the reporting of
  * app hangs that ended before the app was terminated.
  */
-extern const NSUInteger BugsnagAppHangThresholdFatalOnly;
+BUGSNAG_EXTERN const NSUInteger BugsnagAppHangThresholdFatalOnly API_UNAVAILABLE(watchos);
 
 /**
  *  A configuration block for modifying an error report
@@ -128,6 +145,7 @@ typedef id<NSObject> BugsnagOnSessionRef;
 /**
  * Contains user-provided configuration, including API key and endpoints.
  */
+BUGSNAG_EXTERN
 @interface BugsnagConfiguration : NSObject <BugsnagFeatureFlagStore, BugsnagMetadataStore>
 
 /**
@@ -216,7 +234,7 @@ typedef id<NSObject> BugsnagOnSessionRef;
  * BSGThreadSendPolicyNever to disable or BSGThreadSendPolicyUnhandledOnly
  * to only do so for unhandled errors.
  */
-@property (nonatomic) BSGThreadSendPolicy sendThreads;
+@property (nonatomic) BSGThreadSendPolicy sendThreads API_UNAVAILABLE(watchos);
 
 /**
  *  Optional handler invoked when an error or crash occurs
@@ -238,7 +256,14 @@ typedef id<NSObject> BugsnagOnSessionRef;
  * By default this is `BugsnagAppHangThresholdFatalOnly`, and can be set to a minimum of 250
  * milliseconds.
  */
-@property (nonatomic) NSUInteger appHangThresholdMillis;
+@property (nonatomic) NSUInteger appHangThresholdMillis API_UNAVAILABLE(watchos);
+
+/**
+ * Whether Bugsnag should report app hangs that occur while the app is in the background.
+ *
+ * By default this is false.
+ */
+@property (nonatomic) BOOL reportBackgroundAppHangs API_UNAVAILABLE(watchos);
 
 /**
  * Determines whether app sessions should be tracked automatically. By default this value is true.
@@ -274,6 +299,30 @@ typedef id<NSObject> BugsnagOnSessionRef;
 @property (nonatomic) BOOL sendLaunchCrashesSynchronously;
 
 /**
+ * Whether Bugsnag should try to send crashing errors prior to app termination.
+ *
+ * Delivery will only be attempted for uncaught Objective-C exceptions and Mach
+ * exceptions, and while in progress will block the crashing thread for up to 3
+ * seconds.
+ *
+ * Delivery will be unreliable due to the necessary short timeout and potential
+ * memory corruption that caused the crashing error in the first place.
+ *
+ * If it fails prior to termination, delivery will be reattempted at next launch
+ * (the default behavior). 
+ *
+ * Use of this feature is discouraged because it:
+ * - may cause the app to hang while delivery occurs and impact the hang rate
+ *   reported in Xcode Organizer
+ * - will result in duplicate crashes in your dashboard for crashes that were
+ *   fully sent but without receiving an HTTP response within the timeout
+ * - may prevent other crash reporters from detecting the crash.
+ *
+ * By default this value is false.
+ */
+@property (nonatomic) BOOL attemptDeliveryOnCrash;
+
+/**
  * The types of breadcrumbs which will be captured. By default, this is all types.
  */
 @property (nonatomic) BSGEnabledBreadcrumbType enabledBreadcrumbTypes;
@@ -305,19 +354,24 @@ typedef id<NSObject> BugsnagOnSessionRef;
  * Sets the maximum number of breadcrumbs which will be stored. Once the threshold is reached,
  * the oldest breadcrumbs will be deleted.
  *
- * By default, 25 breadcrumbs are stored: this can be amended up to a maximum of 100.
+ * By default, 100 breadcrumbs are stored: this can be amended up to a maximum of 500.
  */
 @property (nonatomic) NSUInteger maxBreadcrumbs;
+
+/**
+ * The maximum length of breadcrumb messages and metadata string values.
+ * 
+ * Values longer than this will be truncated prior to sending, after running any OnSendError blocks.
+ *
+ * The default value is 10000.
+ */
+@property (nonatomic) NSUInteger maxStringValueLength;
 
 /**
  * Whether User information should be persisted to disk between application runs.
  * Defaults to True.
  */
 @property (nonatomic) BOOL persistUser;
-
-// -----------------------------------------------------------------------------
-// MARK: - Methods
-// -----------------------------------------------------------------------------
 
 /**
  * A class defining the types of error that are reported. By default,
@@ -351,6 +405,8 @@ typedef id<NSObject> BugsnagOnSessionRef;
  *  @param userId ID of the user
  *  @param name   Name of the user
  *  @param email  Email address of the user
+ *
+ *  If user ID is nil, a Bugsnag-generated Device ID is used for the `user.id` property of events and sessions.
  */
 - (void)setUser:(NSString *_Nullable)userId
       withEmail:(NSString *_Nullable)email
@@ -382,7 +438,7 @@ typedef id<NSObject> BugsnagOnSessionRef;
  * Deprecated
  */
 - (void)removeOnSessionBlock:(BugsnagOnSessionBlock)block
-    BSG_DEPRECATED_WITH_REPLACEMENT("removeOnSession:")
+    BUGSNAG_DEPRECATED_WITH_REPLACEMENT("removeOnSession:")
     NS_SWIFT_NAME(removeOnSession(block:));
 
 // =============================================================================
@@ -412,7 +468,7 @@ typedef id<NSObject> BugsnagOnSessionRef;
  * Deprecated
  */
 - (void)removeOnSendErrorBlock:(BugsnagOnSendErrorBlock)block
-    BSG_DEPRECATED_WITH_REPLACEMENT("removeOnSendError:")
+    BUGSNAG_DEPRECATED_WITH_REPLACEMENT("removeOnSendError:")
     NS_SWIFT_NAME(removeOnSendError(block:));
 
 // =============================================================================
@@ -442,8 +498,19 @@ typedef id<NSObject> BugsnagOnSessionRef;
  * Deprecated
  */
 - (void)removeOnBreadcrumbBlock:(BugsnagOnBreadcrumbBlock)block
-    BSG_DEPRECATED_WITH_REPLACEMENT("removeOnBreadcrumb:")
+    BUGSNAG_DEPRECATED_WITH_REPLACEMENT("removeOnBreadcrumb:")
     NS_SWIFT_NAME(removeOnBreadcrumb(block:));
+
+// =============================================================================
+// MARK: - Telemetry
+// =============================================================================
+
+/**
+ * The types of telemetry that may be sent to Bugsnag for product improvement purposes.
+ *
+ * By default all types of telemetry are enabled.
+ */
+@property (nonatomic) BSGTelemetryOptions telemetry;
 
 // =============================================================================
 // MARK: - Plugins

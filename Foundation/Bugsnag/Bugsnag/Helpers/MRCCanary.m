@@ -10,3 +10,5 @@
 // This file is compiled with ARC disabled to expose any build warnings that may arise in the public headers.
 //
 #import <Bugsnag/Bugsnag.h>
+
+#import "BugsnagInternals.h"

@@ -27,6 +27,8 @@
 #import "BSGConnectivity.h"
 #import "Bugsnag.h"
 
+#if BSG_HAVE_REACHABILITY
+
 static const SCNetworkReachabilityFlags kSCNetworkReachabilityFlagsUninitialized = UINT32_MAX;
 
 static SCNetworkReachabilityRef bsg_reachability_ref;
@@ -43,7 +45,7 @@ static NSString *const BSGConnectivityNone = @"none";
  * @return YES if the connectivity change should be reported
  */
 BOOL BSGConnectivityShouldReportChange(SCNetworkReachabilityFlags flags) {
-    #if TARGET_OS_IOS || TARGET_OS_TV
+    #if BSG_HAVE_REACHABILITY_WWAN
         // kSCNetworkReachabilityFlagsIsWWAN does not exist on macOS
         const SCNetworkReachabilityFlags importantFlags = kSCNetworkReachabilityFlagsIsWWAN | kSCNetworkReachabilityFlagsReachable;
     #else
@@ -73,7 +75,7 @@ BOOL BSGConnectivityShouldReportChange(SCNetworkReachabilityFlags flags) {
  */
 NSString *BSGConnectivityFlagRepresentation(SCNetworkReachabilityFlags flags) {
     BOOL connected = (flags & kSCNetworkReachabilityFlagsReachable) != 0;
-    #if TARGET_OS_IOS || TARGET_OS_TV
+    #if BSG_HAVE_REACHABILITY_WWAN
         return connected
             ? ((flags & kSCNetworkReachabilityFlagsIsWWAN) ? BSGConnectivityCellular : BSGConnectivityWiFi)
             : BSGConnectivityNone;
@@ -86,9 +88,9 @@ NSString *BSGConnectivityFlagRepresentation(SCNetworkReachabilityFlags flags) {
  * Callback invoked by SCNetworkReachability, which calls an Objective-C block
  * that handles the connection change.
  */
-void BSGConnectivityCallback(__attribute__((unused)) SCNetworkReachabilityRef target,
+void BSGConnectivityCallback(__unused SCNetworkReachabilityRef target,
                              SCNetworkReachabilityFlags flags,
-                             __attribute__((unused)) void *info)
+                             __unused void *info)
 {
     if (bsg_reachability_change_block && BSGConnectivityShouldReportChange(flags)) {
         BOOL connected = (flags & kSCNetworkReachabilityFlagsReachable) != 0;
@@ -142,3 +144,5 @@ void BSGConnectivityCallback(__attribute__((unused)) SCNetworkReachabilityRef ta
 }
 
 @end
+
+#endif

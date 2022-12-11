@@ -26,28 +26,27 @@
 
 #import "BSG_KSSystemInfo.h"
 
+#import "BSGDefines.h"
+#import "BSGJSONSerialization.h"
 #import "BSGKeys.h"
+#import "BSGRunContext.h"
+#import "BSGUIKit.h"
+#import "BSGUtils.h"
 #import "BSG_Jailbreak.h"
-#import "BSG_KSCrash.h"
 #import "BSG_KSCrashC.h"
 #import "BSG_KSCrashReportFields.h"
 #import "BSG_KSFileUtils.h"
-#import "BSG_KSJSONCodecObjC.h"
-#import "BSG_KSLogger.h"
 #import "BSG_KSMach.h"
 #import "BSG_KSMach.h"
 #import "BSG_KSMachHeaders.h"
 #import "BSG_KSSysCtl.h"
 #import "BSG_KSSystemInfoC.h"
 #import "BugsnagCollections.h"
+#import "BugsnagInternals.h"
+#import "BugsnagLogger.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #import <mach-o/dyld.h>
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-#import "BSGUIKit.h"
-#endif
-
 
 static inline bool is_jailbroken() {
     static bool initialized_jb;
@@ -77,7 +76,11 @@ static NSDictionary * bsg_systemversion() {
     int fd = -1;
     char buffer[1024] = {0};
     const char *file = "/System/Library/CoreServices/SystemVersion.plist";
+#if BSG_HAVE_SYSCALL
     bsg_syscall_open(file, O_RDONLY, 0, &fd);
+#else
+    fd = open(file, O_RDONLY);
+#endif
     if (fd < 0) {
         bsg_log_err(@"Could not open SystemVersion.plist");
         return nil;
@@ -106,33 +109,12 @@ static NSDictionary * bsg_systemversion() {
 }
 #endif
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BSG_KSSystemInfo
 
 // ============================================================================
 #pragma mark - Utility -
 // ============================================================================
-
-/** Get a sysctl value as an NSNumber.
- *
- * @param name The sysctl name.
- *
- * @return The result of the sysctl call.
- */
-+ (NSNumber *)int32Sysctl:(NSString *)name {
-    return @(bsg_kssysctl_int32ForName(
-            [name cStringUsingEncoding:NSUTF8StringEncoding]));
-}
-
-/** Get a sysctl value as an NSNumber.
- *
- * @param name The sysctl name.
- *
- * @return The result of the sysctl call.
- */
-+ (NSNumber *)int64Sysctl:(NSString *)name {
-    return @(bsg_kssysctl_int64ForName([name
-            cStringUsingEncoding:NSUTF8StringEncoding]));
-}
 
 /** Get a sysctl value as an NSString.
  *
@@ -161,65 +143,26 @@ static NSDictionary * bsg_systemversion() {
     return str;
 }
 
-/** Get a sysctl value as an NSDate.
- *
- * @param name The sysctl name.
- *
- * @return The result of the sysctl call.
- */
-+ (NSDate *)dateSysctl:(NSString *)name {
-    NSDate *result = nil;
-
-    struct timeval value = bsg_kssysctl_timevalForName(
-        [name cStringUsingEncoding:NSUTF8StringEncoding]);
-    if (!(value.tv_sec == 0 && value.tv_usec == 0)) {
-        result =
-            [NSDate dateWithTimeIntervalSince1970:(NSTimeInterval)value.tv_sec];
-    }
-
-    return result;
-}
-
-/** Convert raw UUID bytes to a human-readable string.
- *
- * @param uuidBytes The UUID bytes (must be 16 bytes long).
- *
- * @return The human readable form of the UUID.
- */
-+ (NSString *)uuidBytesToString:(const uint8_t *)uuidBytes {
-    CFUUIDRef uuidRef =
-        CFUUIDCreateFromUUIDBytes(NULL, *((const CFUUIDBytes *)uuidBytes));
-    NSString *str =
-        (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuidRef);
-    CFRelease(uuidRef);
-
-    return str;
-}
-
 /** Get this application's UUID.
  *
  * @return The UUID.
  */
 + (NSString *)appUUID {
     BSG_Mach_Header_Info *image = bsg_mach_headers_get_main_image();
-    return (image && image->uuid) ? [self uuidBytesToString:image->uuid] : nil;
+    if (image && image->uuid) {
+        return [[[NSUUID alloc] initWithUUIDBytes:image->uuid] UUIDString];
+    }
+    return nil;
 }
 
 + (NSString *)deviceAndAppHash {
-    NSMutableData *data = nil;
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-    if ([[UIDEVICE currentDevice]
-            respondsToSelector:@selector(identifierForVendor)]) {
-        data = [NSMutableData dataWithLength:16];
-        [[UIDEVICE currentDevice].identifierForVendor
-            getUUIDBytes:data.mutableBytes];
-    } else
+#if BSG_HAVE_UIDEVICE
+    NSMutableData *data = [NSMutableData dataWithLength:16];
+    [[UIDEVICE currentDevice].identifierForVendor getUUIDBytes:data.mutableBytes];
+#else
+    NSMutableData *data = [NSMutableData dataWithLength:6];
+    bsg_kssysctl_getMacAddress(BSGKeyDefaultMacName, [data mutableBytes]);
 #endif
-    {
-        data = [NSMutableData dataWithLength:6];
-        bsg_kssysctl_getMacAddress(BSGKeyDefaultMacName, [data mutableBytes]);
-    }
 
     // Append some device-specific data.
     [data appendData:(NSData * _Nonnull)[[self stringSysctl:@"hw.machine"]
@@ -282,6 +225,10 @@ static NSDictionary * bsg_systemversion() {
             return @"arm64";
         }
     }
+    case CPU_TYPE_ARM64_32: {
+        // Ignore arm64_32_v8 subtype
+        return @"arm64_32";
+    }
     case CPU_TYPE_X86:
         return @"x86";
     case CPU_TYPE_X86_64:
@@ -293,8 +240,8 @@ static NSDictionary * bsg_systemversion() {
 
 + (NSString *)currentCPUArch {
     NSString *result =
-        [self CPUArchForCPUType:bsg_kssysctl_int32ForName(BSGKeyHwCputype)
-                        subType:bsg_kssysctl_int32ForName(BSGKeyHwCpusubtype)];
+        [self CPUArchForCPUType:bsg_kssysctl_int32ForName("hw.cputype")
+                        subType:bsg_kssysctl_int32ForName("hw.cpusubtype")];
 
     return result ?: [NSString stringWithUTF8String:bsg_ksmachcurrentCPUArch()];
 }
@@ -341,6 +288,8 @@ static NSDictionary * bsg_systemversion() {
     sysInfo[@BSG_KSSystemField_SystemName] = @"iOS";
 #elif TARGET_OS_TV
     sysInfo[@BSG_KSSystemField_SystemName] = @"tvOS";
+#elif TARGET_OS_WATCH
+    sysInfo[@BSG_KSSystemField_SystemName] = @"watchOS";
 #endif // TARGET_OS_IOS
 
     NSDictionary *env = NSProcessInfo.processInfo.environment;
@@ -369,6 +318,8 @@ static NSDictionary * bsg_systemversion() {
     }
 #elif TARGET_OS_TV
     NSString *systemName = @"tvOS";
+#elif TARGET_OS_WATCH
+    NSString *systemName = @"watchOS";
 #endif
 
     sysInfo[@BSG_KSSystemField_SystemName] = systemName;
@@ -399,7 +350,6 @@ static NSDictionary * bsg_systemversion() {
 #endif // TARGET_OS_SIMULATOR
 
     sysInfo[@BSG_KSSystemField_OSVersion] = [self osBuildVersion];
-    sysInfo[@BSG_KSSystemField_BootTime] = [self dateSysctl:@"kern.boottime"];
     sysInfo[@BSG_KSSystemField_BundleID] = infoDict[@"CFBundleIdentifier"];
     sysInfo[@BSG_KSSystemField_BundleName] = infoDict[@"CFBundleName"];
     sysInfo[@BSG_KSSystemField_BundleExecutable] = infoDict[@"CFBundleExecutable"];
@@ -410,7 +360,7 @@ static NSDictionary * bsg_systemversion() {
     sysInfo[@BSG_KSSystemField_BinaryArch] = [self CPUArchForCPUType:header->cputype subType:header->cpusubtype];
     sysInfo[@BSG_KSSystemField_DeviceAppHash] = [self deviceAndAppHash];
 
-#if TARGET_OS_OSX || TARGET_OS_MACCATALYST || TARGET_OS_SIMULATOR
+#if TARGET_OS_OSX || (defined(TARGET_OS_MACCATALYST) && TARGET_OS_MACCATALYST) || TARGET_OS_SIMULATOR
     // https://developer.apple.com/documentation/apple-silicon/about-the-rosetta-translation-environment
     int proc_translated = 0;
     size_t size = sizeof(proc_translated);
@@ -428,9 +378,8 @@ static NSDictionary * bsg_systemversion() {
     sysInfo[@BSG_KSSystemField_Jailbroken] = @(is_jailbroken());
     sysInfo[@BSG_KSSystemField_TimeZone] = [[NSTimeZone localTimeZone] abbreviation];
     sysInfo[@BSG_KSSystemField_Memory] = @{
-        @BSG_KSCrashField_Free: @(bsg_ksmachfreeMemory()),
-        @BSG_KSCrashField_Usable: @(bsg_ksmachusableMemory()),
-        @BSG_KSSystemField_Size: [self int64Sysctl:@"hw.memsize"]
+        @BSG_KSCrashField_Free: @(bsg_runContext->hostMemoryFree),
+        @BSG_KSCrashField_Size: @(NSProcessInfo.processInfo.physicalMemory)
     };
 
     NSString *dir = NSSearchPathForDirectoriesInDomains(
@@ -446,8 +395,8 @@ static NSDictionary * bsg_systemversion() {
         }
     }
 
+    bsg_kscrashstate_updateDurationStats();
     BSG_KSCrash_State state = crashContext()->state;
-    bsg_kscrashstate_updateDurationStats(&state);
     NSMutableDictionary *statsInfo = [NSMutableDictionary dictionary];
     statsInfo[@ BSG_KSCrashField_ActiveTimeSinceLaunch] = @(state.foregroundDurationSinceLaunch);
     statsInfo[@ BSG_KSCrashField_BGTimeSinceLaunch] = @(state.backgroundDurationSinceLaunch);
@@ -474,28 +423,27 @@ static NSDictionary * bsg_systemversion() {
 @end
 
 char *bsg_kssysteminfo_toJSON(void) {
-    NSError *error;
     NSMutableDictionary *systemInfo = [[BSG_KSSystemInfo systemInfo] mutableCopy];
 
     // Make sure the jailbroken status didn't get patched out.
     systemInfo[@BSG_KSSystemField_Jailbroken] = @(is_jailbroken());
 
-    NSMutableData *jsonData =
-        (NSMutableData *)[BSG_KSJSONCodec encode:systemInfo
-                                         options:BSG_KSJSONEncodeOptionSorted
-                                           error:&error];
-    if (error != nil) {
-        bsg_log_err(@"Could not serialize system info: %@", error);
-        return NULL;
+    NSData *data = BSGJSONDataFromDictionary(systemInfo, NULL);
+    if (!data) {
+        bsg_log_err(@"Could not serialize system info. "
+                    "Crash reports will be missing vital data.");
     }
-    if (![jsonData isKindOfClass:[NSMutableData class]]) {
-        jsonData = [NSMutableData dataWithData:jsonData];
-    }
-
-    [jsonData appendBytes:"\0" length:1];
-    return strdup([jsonData bytes]);
+    return BSGCStringWithData(data);
 }
 
 char *bsg_kssysteminfo_copyProcessName(void) {
     return strdup([[NSProcessInfo processInfo].processName UTF8String]);
+}
+
+NSString * BSGGetDefaultDeviceId(void) {
+    return [BSG_KSSystemInfo deviceAndAppHash];
+}
+
+NSDictionary * BSGGetSystemInfo(void) {
+    return [BSG_KSSystemInfo systemInfo];
 }

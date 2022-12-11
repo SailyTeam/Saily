@@ -1,10 +1,4 @@
-//
-//  CGColorExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 03/02/2017.
-//  Copyright © 2017 SwifterSwift
-//
+// CGColorExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(CoreGraphics)
     import CoreGraphics

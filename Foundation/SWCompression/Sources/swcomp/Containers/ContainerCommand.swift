@@ -11,6 +11,7 @@ protocol ContainerCommand: Command {
     associatedtype ContainerType: Container
 
     var info: Bool { get }
+    var list: Bool { get }
     var extract: String? { get }
     var verbose: Bool { get }
     var input: String { get }
@@ -23,11 +24,12 @@ extension ContainerCommand {
         if info {
             let entries = try ContainerType.info(container: fileData)
             swcomp.printInfo(entries)
+        } else if list {
+            let entries = try ContainerType.info(container: fileData)
+            swcomp.printList(entries)
         } else if let outputPath = extract {
-            if try !isValidOutputDirectory(outputPath, create: true) {
-                print("ERROR: Specified output path already exists and is not a directory.")
-                exit(1)
-            }
+            guard try isValidOutputDirectory(outputPath, create: true)
+            else { swcompExit(.containerOutPathExistsNotDir) }
 
             let entries = try ContainerType.open(container: fileData)
             try swcomp.write(entries, outputPath, verbose)

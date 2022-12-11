@@ -1,10 +1,4 @@
-//
-//  SCNBoxExtensions.swift
-//  SwifterSwift
-//
-//  Created by Max Härtwig on 06.04.19.
-//  Copyright © 2019 SwifterSwift
-//
+// SCNBoxExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(SceneKit)
     import SceneKit
@@ -39,7 +33,13 @@
         ///   - length: The length of the box along the z-axis of its local coordinate space.
         ///   - chamferRadius: The radius of curvature for the edges and corners of the box.
         ///   - material: The material of the geometry.
-        convenience init(width: CGFloat, height: CGFloat, length: CGFloat, chamferRadius: CGFloat = 0, material: SCNMaterial) {
+        convenience init(
+            width: CGFloat,
+            height: CGFloat,
+            length: CGFloat,
+            chamferRadius: CGFloat = 0,
+            material: SCNMaterial
+        ) {
             self.init(width: width, height: height, length: length, chamferRadius: chamferRadius)
             materials = [material]
         }

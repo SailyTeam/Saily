@@ -8,7 +8,10 @@
 
 #import "BugsnagSessionTracker.h"
 
-#import "BSGSessionUploader.h"
+#import "BSGAppKit.h"
+#import "BSGDefines.h"
+#import "BSGUIKit.h"
+#import "BSGWatchKit.h"
 #import "BSG_KSSystemInfo.h"
 #import "BugsnagApp+Private.h"
 #import "BugsnagClient+Private.h"
@@ -17,48 +20,36 @@
 #import "BugsnagDevice+Private.h"
 #import "BugsnagLogger.h"
 #import "BugsnagSession+Private.h"
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-#import "BSGUIKit.h"
-#elif TARGET_OS_OSX
-#import "BSGAppKit.h"
-#endif
+#import "BugsnagUser+Private.h"
 
 /**
  Number of seconds in background required to make a new session
  */
 static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BugsnagSessionTracker ()
 @property (strong, nonatomic) BugsnagConfiguration *config;
 @property (weak, nonatomic) BugsnagClient *client;
-@property (strong, nonatomic) BSGSessionUploader *sessionUploader;
 @property (strong, nonatomic) NSDate *backgroundStartTime;
-
-/**
- * Called when a session is altered
- */
-@property (nonatomic, strong, readonly) SessionTrackerCallback callback;
-
 @property (nonatomic) NSMutableDictionary *extraRuntimeInfo;
 @end
 
+BSG_OBJC_DIRECT_MEMBERS
 @implementation BugsnagSessionTracker
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)config
-                        client:(BugsnagClient *)client
-            postRecordCallback:(void(^)(BugsnagSession *))callback {
+- (instancetype)initWithConfig:(BugsnagConfiguration *)config client:(BugsnagClient *)client {
     if ((self = [super init])) {
         _config = config;
         _client = client;
         _sessionUploader = [[BSGSessionUploader alloc] initWithConfig:config notifier:client.notifier];
-        _callback = callback;
         _extraRuntimeInfo = [NSMutableDictionary new];
     }
     return self;
 }
 
 - (void)startWithNotificationCenter:(NSNotificationCenter *)notificationCenter isInForeground:(BOOL)isInForeground {
+#if !TARGET_OS_WATCH
     if ([BSG_KSSystemInfo isRunningInAppExtension]) {
         // UIApplication lifecycle notifications and UIApplicationState, which the automatic session tracking logic
         // depends on, are not available in app extensions.
@@ -67,6 +58,7 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
         }
         return;
     }
+#endif
     
     if (isInForeground) {
         [self startNewSessionIfAutoCaptureEnabled];
@@ -74,25 +66,7 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
         bsg_log_debug(@"Not starting session because app is not in the foreground");
     }
 
-#if TARGET_OS_IOS || TARGET_OS_TV
-
-    [notificationCenter addObserver:self
-               selector:@selector(handleAppForegroundEvent)
-                   name:UIApplicationWillEnterForegroundNotification
-                 object:nil];
-
-    [notificationCenter addObserver:self
-               selector:@selector(handleAppForegroundEvent)
-                   name:UIApplicationDidBecomeActiveNotification
-                 object:nil];
-
-    [notificationCenter addObserver:self
-               selector:@selector(handleAppBackgroundEvent)
-                   name:UIApplicationDidEnterBackgroundNotification
-                 object:nil];
-
-#elif TARGET_OS_OSX
-
+#if TARGET_OS_OSX
     [notificationCenter addObserver:self
                selector:@selector(handleAppForegroundEvent)
                    name:NSApplicationWillBecomeActiveNotification
@@ -107,42 +81,57 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
                selector:@selector(handleAppBackgroundEvent)
                    name:NSApplicationDidResignActiveNotification
                  object:nil];
-#endif
-}
+#elif TARGET_OS_WATCH
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:WKApplicationWillEnterForegroundNotification
+                 object:nil];
 
-- (void)setCodeBundleId:(NSString *)codeBundleId {
-    _codeBundleId = codeBundleId;
-    self.sessionUploader.codeBundleId = codeBundleId;
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:WKApplicationDidBecomeActiveNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppBackgroundEvent)
+                   name:WKApplicationDidEnterBackgroundNotification
+                 object:nil];
+#else
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:UIApplicationWillEnterForegroundNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppForegroundEvent)
+                   name:UIApplicationDidBecomeActiveNotification
+                 object:nil];
+
+    [notificationCenter addObserver:self
+               selector:@selector(handleAppBackgroundEvent)
+                   name:UIApplicationDidEnterBackgroundNotification
+                 object:nil];
+#endif
 }
 
 #pragma mark - Creating and sending a new session
 
-- (void)startNewSession {
-    [self startNewSessionWithAutoCaptureValue:NO];
-}
-
 - (void)pauseSession {
-    [[self currentSession] stop];
+    self.currentSession.stopped = YES;
 
-    if (self.callback) {
-        self.callback(nil);
-    }
-    [self postUpdateNotice];
+    BSGSessionUpdateRunContext(nil);
 }
 
 - (BOOL)resumeSession {
     BugsnagSession *session = self.currentSession;
 
     if (session == nil) {
-        [self startNewSessionWithAutoCaptureValue:NO];
+        [self startNewSession];
         return NO;
     } else {
         BOOL stopped = session.isStopped;
-        [session resume];
-        if (self.callback) {
-            self.callback(session);
-        }
-        [self postUpdateNotice];
+        session.stopped = NO;
+        BSGSessionUpdateRunContext(session);
         return stopped;
     }
 }
@@ -158,11 +147,11 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
 
 - (void)startNewSessionIfAutoCaptureEnabled {
     if (self.config.autoTrackSessions) {
-        [self startNewSessionWithAutoCaptureValue:YES];
+        [self startNewSession];
     }
 }
 
-- (void)startNewSessionWithAutoCaptureValue:(BOOL)isAutoCaptured {
+- (void)startNewSession {
     NSSet<NSString *> *releaseStages = self.config.enabledReleaseStages;
     if (releaseStages != nil && ![releaseStages containsObject:self.config.releaseStage ?: @""]) {
         return;
@@ -180,9 +169,8 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
     [device appendRuntimeInfo:self.extraRuntimeInfo];
 
     BugsnagSession *newSession = [[BugsnagSession alloc] initWithId:[[NSUUID UUID] UUIDString]
-                                                          startDate:[NSDate date]
-                                                               user:self.client.user
-                                                       autoCaptured:isAutoCaptured
+                                                          startedAt:[NSDate date]
+                                                               user:[self.client.user withId]
                                                                 app:app
                                                              device:device];
 
@@ -198,10 +186,7 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
 
     self.currentSession = newSession;
 
-    if (self.callback) {
-        self.callback(self.currentSession);
-    }
-    [self postUpdateNotice];
+    BSGSessionUpdateRunContext(newSession);
 
     [self.sessionUploader uploadSession:newSession];
 }
@@ -211,33 +196,6 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
     if (info != nil && key != nil) {
         self.extraRuntimeInfo[key] = info;
     }
-}
-
-- (void)registerExistingSession:(NSString *)sessionId
-                      startedAt:(NSDate *)startedAt
-                           user:(BugsnagUser *)user
-                   handledCount:(NSUInteger)handledCount
-                 unhandledCount:(NSUInteger)unhandledCount {
-    if (sessionId == nil || startedAt == nil) {
-        self.currentSession = nil;
-    } else {
-        self.currentSession = [[BugsnagSession alloc] initWithId:sessionId
-                                                       startDate:startedAt
-                                                            user:user
-                                                    handledCount:handledCount
-                                                  unhandledCount:unhandledCount
-                                                             app:[BugsnagApp new]
-                                                          device:[BugsnagDevice new]];
-    }
-    if (self.callback) {
-        self.callback(self.currentSession);
-    }
-    [self postUpdateNotice];
-}
-
-- (void)postUpdateNotice {
-    [[NSNotificationCenter defaultCenter] postNotificationName:BSGSessionUpdateNotification
-                                                        object:[self.runningSession toDictionary]];
 }
 
 #pragma mark - Handling events
@@ -267,10 +225,7 @@ static NSTimeInterval const BSGNewSessionBackgroundDuration = 30;
         } else {
             session.handledCount++;
         }
-        if (self.callback) {
-            self.callback(session);
-        }
-        [self postUpdateNotice];
+        BSGSessionUpdateRunContext(session);
     }
 }
 

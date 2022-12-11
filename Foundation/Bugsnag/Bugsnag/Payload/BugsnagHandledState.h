@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, SeverityReasonType) {
  *  @return converted severity level or BSGSeverityError if no conversion is
  * found
  */
-BSGSeverity BSGParseSeverity(NSString *severity);
+BUGSNAG_EXTERN BSGSeverity BSGParseSeverity(NSString *severity);
 
 /**
  *  Serialize a severity for JSON payloads
@@ -43,6 +43,7 @@ BSGSeverity BSGParseSeverity(NSString *severity);
  */
 NSString *BSGFormatSeverity(BSGSeverity severity);
 
+BUGSNAG_EXTERN
 @interface BugsnagHandledState : NSObject
 
 @property(nonatomic) BOOL unhandled;

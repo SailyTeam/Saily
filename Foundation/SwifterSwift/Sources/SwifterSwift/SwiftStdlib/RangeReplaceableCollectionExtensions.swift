@@ -1,10 +1,4 @@
-//
-//  RangeReplaceableCollectionExtensions.swift
-//  SwifterSwift
-//
-//  Created by Luciano Almeida on 7/2/18.
-//  Copyright © 2018 SwifterSwift
-//
+// RangeReplaceableCollectionExtensions.swift - Copyright 2020 SwifterSwift
 
 // MARK: - Initializers
 
@@ -39,7 +33,7 @@ public extension RangeReplaceableCollection {
     ///     [1, 2, 3, 4].rotated(by: 3) -> [2,3,4,1]
     ///     [1, 2, 3, 4].rotated(by: -1) -> [2,3,4,1]
     ///
-    /// - Parameter places: Number of places that the array be rotated. If the value is positive the end becomes the start, if it negative it's that start becom the end.
+    /// - Parameter places: Number of places that the array be rotated. If the value is positive the end becomes the start, if it negative it's that start become the end.
     /// - Returns: The new rotated collection.
     func rotated(by places: Int) -> Self {
         // Inspired by: https://ruby-doc.org/core-2.2.0/Array.html#method-i-rotate
@@ -149,5 +143,54 @@ public extension RangeReplaceableCollection {
     mutating func removeDuplicates<E: Hashable>(keyPath path: KeyPath<Element, E>) {
         var set = Set<E>()
         removeAll { !set.insert($0[keyPath: path]).inserted }
+    }
+
+    /// SwifterSwift: Accesses the element at the specified position.
+    ///
+    /// - Parameter offset: The offset position of the element to access. `offset` must be a valid index offset of the collection that is not equal to the `endIndex` property.
+    subscript(offset: Int) -> Element {
+        get {
+            self[index(startIndex, offsetBy: offset)]
+        }
+        set {
+            let offsetIndex = index(startIndex, offsetBy: offset)
+            replaceSubrange(offsetIndex ..< index(after: offsetIndex), with: [newValue])
+        }
+    }
+
+    /// SwifterSwift: Accesses a contiguous subrange of the collection’s elements.
+    ///
+    /// - Parameter range: A range of the collection’s indices offsets. The bounds of the range must be valid indices of the collection.
+    subscript<R>(range: R) -> SubSequence where R: RangeExpression, R.Bound == Int {
+        get {
+            let indexRange = range.relative(to: 0 ..< count)
+            return self[index(startIndex, offsetBy: indexRange.lowerBound) ..< index(startIndex,
+                                                                                     offsetBy: indexRange.upperBound)]
+        }
+        set {
+            let indexRange = range.relative(to: 0 ..< count)
+            replaceSubrange(
+                index(startIndex, offsetBy: indexRange.lowerBound) ..< index(startIndex, offsetBy: indexRange.upperBound),
+                with: newValue
+            )
+        }
+    }
+
+    /**
+     SwifterSwift: Adds a new element at the end of the array, mutates the array in place
+     - Parameter newElement: The optional element to append to the array
+     */
+    mutating func appendIfNonNil(_ newElement: Element?) {
+        guard let newElement = newElement else { return }
+        append(newElement)
+    }
+
+    /**
+     SwifterSwift: Adds the elements of a sequence to the end of the array, mutates the array in place
+     - Parameter newElements: The optional sequence to append to the array
+     */
+    mutating func appendIfNonNil<S>(contentsOf newElements: S?) where Element == S.Element, S: Sequence {
+        guard let newElements = newElements else { return }
+        append(contentsOf: newElements)
     }
 }

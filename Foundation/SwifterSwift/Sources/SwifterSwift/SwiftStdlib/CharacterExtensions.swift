@@ -1,10 +1,4 @@
-//
-//  CharacterExtensions.swift
-//  SwifterSwift
-//
-//  Created by Omar Albeik on 8/8/16.
-//  Copyright © 2016 SwifterSwift
-//
+// CharacterExtensions.swift - Copyright 2020 SwifterSwift
 
 // MARK: - Properties
 

@@ -1,10 +1,4 @@
-//
-//  CLLocationExtensions.swift
-//  SwifterSwift
-//
-//  Created by Luciano Almeida on 21/04/17.
-//  Copyright © 2017 SwifterSwift
-//
+// CLLocationExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(CoreLocation)
     import CoreLocation

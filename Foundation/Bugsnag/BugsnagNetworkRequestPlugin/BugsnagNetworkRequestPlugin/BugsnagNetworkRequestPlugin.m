@@ -25,12 +25,12 @@
     }
 }
 
-- (void)load:(BugsnagClient * _Nonnull)client {
-    [BSGURLSessionTracingDelegate setSink:client];
+- (void)load:(BugsnagClient *)client {
+    [BSGURLSessionTracingDelegate setClient:client];
 }
 
 - (void)unload {
-    [BSGURLSessionTracingDelegate setSink:nil];
+    [BSGURLSessionTracingDelegate setClient:nil];
 }
 
 @end

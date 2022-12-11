@@ -74,18 +74,18 @@ extension LTMorphingLabel {
         progressClosures["Sparkle\(LTMorphingPhases.progress)"] = {
             (index: Int, progress: Float, isNewChar: Bool) in
 
-                if !isNewChar {
-                    return min(1.0, max(0.0, progress))
-                }
+            if !isNewChar {
+                return min(1.0, max(0.0, progress))
+            }
 
-                let j = Float(sin(Float(index))) * 1.5
-                return min(
-                    1.0,
-                    max(
-                        0.0001,
-                        progress + self.morphingCharacterDelay * j
-                    )
+            let j = Float(sin(Float(index))) * 1.5
+            return min(
+                1.0,
+                max(
+                    0.0001,
+                    progress + self.morphingCharacterDelay * j
                 )
+            )
         }
 
         effectClosures["Sparkle\(LTMorphingPhases.disappear)"] = {
@@ -144,17 +144,17 @@ extension LTMorphingLabel {
         drawingClosures["Sparkle\(LTMorphingPhases.draw)"] = {
             (charLimbo: LTCharacterLimbo) in
 
-                if charLimbo.drawingProgress > 0.0 {
-                    let (charImage, rect) = self.maskedImageForCharLimbo(
-                        charLimbo,
-                        withProgress: charLimbo.drawingProgress
-                    )
-                    charImage.draw(in: rect)
+            if charLimbo.drawingProgress > 0.0 {
+                let (charImage, rect) = self.maskedImageForCharLimbo(
+                    charLimbo,
+                    withProgress: charLimbo.drawingProgress
+                )
+                charImage.draw(in: rect)
 
-                    return true
-                }
+                return true
+            }
 
-                return false
+            return false
         }
 
         skipFramesClosures["Sparkle\(LTMorphingPhases.skipFrames)"] = {

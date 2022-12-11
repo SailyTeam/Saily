@@ -6,7 +6,9 @@
 //  Copyright © 2020 Bugsnag Inc. All rights reserved.
 //
 
-#import <Bugsnag/BugsnagDeviceWithState.h>
+#import "BugsnagInternals.h"
+
+struct BSGRunContext;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,10 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)appendRuntimeInfo:(NSDictionary *)info;
 
-- (NSDictionary *)toDictionary;
-
 @end
 
 NSMutableDictionary *BSGParseDeviceMetadata(NSDictionary *event);
+
+NSDictionary * BSGDeviceMetadataFromRunContext(const struct BSGRunContext *context);
 
 NS_ASSUME_NONNULL_END

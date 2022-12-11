@@ -6,6 +6,10 @@
 //  Copyright © 2021 Bugsnag Inc. All rights reserved.
 //
 
+#import "BSGDefines.h"
+
+#if BSG_HAVE_APP_HANG_DETECTION
+
 #import <Foundation/Foundation.h>
 
 @class BugsnagConfiguration;
@@ -17,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol BSGAppHangDetectorDelegate;
 
 
+BSG_OBJC_DIRECT_MEMBERS
 @interface BSGAppHangDetector : NSObject
 
 - (void)startWithDelegate:(id<BSGAppHangDetectorDelegate>)delegate;
@@ -37,3 +42,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

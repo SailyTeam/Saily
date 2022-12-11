@@ -30,6 +30,11 @@ public class Deflate: DecompressionAlgorithm {
         /// An array for storing output data
         var out: [UInt8] = []
 
+        // The smallest possible deflate block consists of 10 bits: `isLastBit`, `blockType` (2 bits), and the
+        // end-of-block Huffman-encoded symbol (7 bits).
+        guard bitReader.bitsLeft >= 10
+        else { throw DeflateError.wrongBlockType }
+
         while true {
             /// Is this a last block?
             let isLastBit = bitReader.bit()
@@ -38,12 +43,21 @@ public class Deflate: DecompressionAlgorithm {
 
             if blockType == 0 { // Uncompressed block.
                 bitReader.align()
+                // The uncompressed block consists at the very least of 32 bits or 4 bytes since they are byte-aligned.
+                guard bitReader.bytesLeft >= 4
+                else { throw DeflateError.wrongUncompressedBlockLengths }
+
                 /// Length of the uncompressed data.
                 let length = bitReader.uint16()
                 /// 1-complement of the length.
                 let nlength = bitReader.uint16()
                 // Check if lengths are OK (nlength should be a 1-complement of length).
-                guard length & nlength == 0 else { throw DeflateError.wrongUncompressedBlockLengths }
+                guard length & nlength == 0
+                else { throw DeflateError.wrongUncompressedBlockLengths }
+
+                guard bitReader.bytesLeft >= length
+                else { throw DeflateError.wrongUncompressedBlockLengths }
+
                 // Process uncompressed data into the output
                 for _ in 0 ..< length {
                     out.append(bitReader.byte())
@@ -62,23 +76,27 @@ public class Deflate: DecompressionAlgorithm {
                 if blockType == 1 { // Static Huffman
                     // In this case codes for literals and distances are fixed.
                     // Initialize trees from bootstraps.
-                    mainLiterals = DecodingTree(codes: Constants.staticHuffmanBootstrap.codes,
-                                                maxBits: Constants.staticHuffmanBootstrap.maxBits, bitReader)
-                    mainDistances = DecodingTree(codes: Constants.staticHuffmanDistancesBootstrap.codes,
-                                                 maxBits: Constants.staticHuffmanDistancesBootstrap.maxBits, bitReader)
+                    mainLiterals = DecodingTree(codes: Constants.staticHuffmanLiteralCodes, maxBits: 9, bitReader)
+                    mainDistances = DecodingTree(codes: Constants.staticHuffmanDistanceCodes, maxBits: 5, bitReader)
                 } else { // Dynamic Huffman
                     // In this case there are Huffman codes for two alphabets in data right after block header.
                     // Each code defined by a sequence of code lengths (which are compressed themselves with Huffman).
+
+                    guard bitReader.bitsLeft >= 14
+                    else { throw DeflateError.symbolNotFound }
 
                     /// Number of literals codes.
                     let literals = bitReader.int(fromBits: 5) + 257
                     /// Number of distances codes.
                     let distances = bitReader.int(fromBits: 5) + 1
                     /// Number of code lengths codes.
-                    let codeLengthsLength = bitReader.int(fromBits: 4) + 4
+                    let codeLengthsCount = bitReader.int(fromBits: 4) + 4
+
+                    guard bitReader.bitsLeft >= 3 * codeLengthsCount
+                    else { throw DeflateError.symbolNotFound }
 
                     var orderedCodeLengths = Array(repeating: 0, count: 19)
-                    for i in 0 ..< codeLengthsLength {
+                    for i in 0 ..< codeLengthsCount {
                         orderedCodeLengths[Constants.codeLengthOrders[i]] = bitReader.int(fromBits: 3)
                     }
                     let dynamicCodes = Code.huffmanCodes(from: Deflate.lengths(from: orderedCodeLengths))
@@ -103,16 +121,25 @@ public class Deflate: DecompressionAlgorithm {
                         } else if symbol == 16 {
                             // Copy previous code length 3 to 6 times.
                             // Next two bits show how many times we need to copy.
+                            guard bitReader.bitsLeft >= 2
+                            else { throw DeflateError.symbolNotFound }
+
                             count = bitReader.int(fromBits: 2) + 3
                             what = codeLengths.last!
                         } else if symbol == 17 {
-                            // Repeat code length 0 for from 3 to 10 times.
+                            // Repeat code length 0 from 3 to 10 times.
                             // Next three bits show how many times we need to copy.
+                            guard bitReader.bitsLeft >= 3
+                            else { throw DeflateError.symbolNotFound }
+
                             count = bitReader.int(fromBits: 3) + 3
                             what = 0
                         } else if symbol == 18 {
-                            // Repeat code length 0 for from 11 to 138 times.
+                            // Repeat code length 0 from 11 to 138 times.
                             // Next seven bits show how many times we need to do this.
+                            guard bitReader.bitsLeft >= 7
+                            else { throw DeflateError.symbolNotFound }
+
                             count = bitReader.int(fromBits: 7) + 11
                             what = 0
                         } else {
@@ -137,7 +164,8 @@ public class Deflate: DecompressionAlgorithm {
                     // Read next symbol from data.
                     // It will be either literal symbol or a length of (previous) data we will need to copy.
                     let nextSymbol = mainLiterals.findNextSymbol()
-                    guard nextSymbol != -1 else { throw DeflateError.symbolNotFound }
+                    guard nextSymbol != -1
+                    else { throw DeflateError.symbolNotFound }
 
                     if nextSymbol >= 0, nextSymbol <= 255 {
                         // It is a literal symbol so we add it straight to the output data.
@@ -152,12 +180,16 @@ public class Deflate: DecompressionAlgorithm {
                         let extraLength = (nextSymbol >= 257 && nextSymbol <= 260) || nextSymbol == 285 ?
                             0 : (((nextSymbol - 257) >> 2) - 1)
                         // Actually, nextSymbol is not a starting value of length,
-                        //  but an index for special array of starting values.
+                        // but an index for special array of starting values.
+                        guard bitReader.bitsLeft >= extraLength
+                        else { throw DeflateError.symbolNotFound }
+
                         let length = Constants.lengthBase[nextSymbol - 257] + bitReader.int(fromBits: extraLength)
 
                         // Then we need to get distance code.
                         let distanceCode = mainDistances.findNextSymbol()
-                        guard distanceCode != -1 else { throw DeflateError.symbolNotFound }
+                        guard distanceCode != -1
+                        else { throw DeflateError.symbolNotFound }
                         guard distanceCode >= 0 && distanceCode <= 29
                         else { throw DeflateError.wrongSymbol }
 
@@ -165,6 +197,9 @@ public class Deflate: DecompressionAlgorithm {
                         // which we need to combine with distanceCode to get the actual distance.
                         let extraDistance = distanceCode == 0 || distanceCode == 1 ? 0 : ((distanceCode >> 1) - 1)
                         // And yes, distanceCode is not a first part of distance but rather an index for special array.
+                        guard bitReader.bitsLeft >= extraDistance
+                        else { throw DeflateError.symbolNotFound }
+
                         let distance = Constants.distanceBase[distanceCode] + bitReader.int(fromBits: extraDistance)
 
                         // We should repeat last 'distance' amount of data.

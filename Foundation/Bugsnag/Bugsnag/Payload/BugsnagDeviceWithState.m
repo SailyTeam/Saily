@@ -6,15 +6,19 @@
 //  Copyright © 2020 Bugsnag. All rights reserved.
 //
 
+#import "BugsnagDeviceWithState.h"
+
+#import "BSGHardware.h"
+#import "BSGRunContext.h"
+#import "BSGUtils.h"
 #import "BSG_KSCrashReportFields.h"
 #import "BSG_KSSystemInfo.h"
 #import "BSG_RFC3339DateTool.h"
-#import "BugsnagDevice+Private.h"
-#import "BugsnagDeviceWithState.h"
+#import "Bugsnag.h"
 #import "BugsnagCollections.h"
+#import "BugsnagDevice+Private.h"
 #import "BugsnagLogger.h"
 #import "BugsnagSystemState.h"
-#import "Bugsnag.h"
 
 NSMutableDictionary *BSGParseDeviceMetadata(NSDictionary *event) {
     NSMutableDictionary *device = [NSMutableDictionary new];
@@ -30,6 +34,19 @@ NSMutableDictionary *BSGParseDeviceMetadata(NSDictionary *event) {
 #endif
 
     device[@"wordSize"] = @(PLATFORM_WORD_SIZE);
+    return device;
+}
+
+NSDictionary * BSGDeviceMetadataFromRunContext(const struct BSGRunContext *context) {
+    NSMutableDictionary *device = [NSMutableDictionary dictionary];
+#if BSG_HAVE_BATTERY
+    device[BSGKeyBatteryLevel] = @(context->batteryLevel);
+    // Our intepretation of "charging" really means "plugged in"
+    device[BSGKeyCharging] = BSGIsBatteryCharging(context->batteryState) ? @YES : @NO;
+#endif
+    if (@available(iOS 11.0, tvOS 11.0, watchOS 4.0, *)) {
+        device[BSGKeyThermalState] = BSGStringFromThermalState(context->thermalState);
+    }
     return device;
 }
 

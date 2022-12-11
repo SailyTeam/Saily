@@ -25,6 +25,12 @@ func printInfo(_ entries: [ContainerEntryInfo]) {
     }
 }
 
+func printList(_ entries: [ContainerEntryInfo]) {
+    for entry in entries {
+        print(entry.name)
+    }
+}
+
 func write<T: ContainerEntry>(_ entries: [T], _ outputPath: String, _ verbose: Bool) throws {
     let fileManager = FileManager.default
     let outputURL = URL(fileURLWithPath: outputPath)
@@ -90,31 +96,34 @@ func writeFile<T: ContainerEntry>(_ entry: T, _ outputURL: URL, _ verbose: Bool)
         if let tarEntry = entry as? TarEntry {
             destinationPath = tarEntry.info.linkName
         } else {
-            guard let entryData = entry.data else {
-                print("ERROR: Unable to get destination path for symbolic link \(entryName).")
-                exit(1)
-            }
+            guard let entryData = entry.data
+            else { swcompExit(.containerSymLinkDestPath(entryName)) }
             destinationPath = String(data: entryData, encoding: .utf8)
         }
-        guard destinationPath != nil else {
-            print("ERROR: Unable to get destination path for symbolic link \(entryName).")
-            exit(1)
-        }
-        let endURL = entryFullURL.deletingLastPathComponent().appendingPathComponent(destinationPath!)
+        guard destinationPath != nil
+        else { swcompExit(.containerSymLinkDestPath(entryName)) }
         if verbose {
-            print("l: \(entryName) -> \(endURL.path)")
+            print("l: \(entryName) -> \(destinationPath!)")
         }
-        try fileManager.createSymbolicLink(atPath: entryFullURL.path, withDestinationPath: endURL.path)
-        // We cannot apply attributes to symbolic link.
+        try fileManager.createSymbolicLink(atPath: entryFullURL.path, withDestinationPath: destinationPath!)
+        // We cannot apply attributes to symbolic links.
+        return
+    } else if entry.info.type == .hardLink {
+        guard let destinationPath = (entry as? TarEntry)?.info.linkName
+        else { swcompExit(.containerHardLinkDestPath(entryName)) }
+        if verbose {
+            print("hl: \(entryName) -> \(destinationPath)")
+        }
+        // Note that the order of parameters is inversed for hard links.
+        try fileManager.linkItem(atPath: destinationPath, toPath: entryFullURL.path)
+        // We cannot apply attributes to hard links.
         return
     } else if entry.info.type == .regular {
         if verbose {
             print("f: \(entryName)")
         }
-        guard let entryData = entry.data else {
-            print("ERROR: Unable to get data for the entry \(entryName).")
-            exit(1)
-        }
+        guard let entryData = entry.data
+        else { swcompExit(.containerNoEntryData(entryName)) }
         try entryData.write(to: entryFullURL)
     } else {
         print("WARNING: Unknown file type \(entry.info.type) for entry \(entryName). Skipping this entry.")

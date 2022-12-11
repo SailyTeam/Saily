@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BSG_KSCrashDoctor : NSObject
+#import "BSGDefines.h"
 
-+ (BSG_KSCrashDoctor *)doctor;
+BSG_OBJC_DIRECT_MEMBERS
+@interface BSG_KSCrashDoctor : NSObject
 
 - (NSString *)diagnoseCrash:(NSDictionary *)crashReport;
 

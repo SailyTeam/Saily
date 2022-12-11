@@ -26,4 +26,24 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (object == nil) {
+        return NO;
+    }
+
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:[BugsnagFeatureFlag class]]) {
+        return NO;
+    }
+
+    BugsnagFeatureFlag *obj = (BugsnagFeatureFlag *)object;
+
+    // Ignore the variant when checking for equality. We only care if the name matches
+    // when checking for duplicates.
+    return [obj.name isEqualToString:self.name];
+}
+
 @end

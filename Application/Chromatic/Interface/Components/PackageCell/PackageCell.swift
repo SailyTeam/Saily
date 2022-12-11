@@ -73,7 +73,7 @@ class PackageCell: UIView, PackageCellFunction {
         }
 
         indicator.backgroundColor = .clear
-        indicator.cornerRadius = 8
+        indicator.layer.cornerRadius = 8
         indicator.clipsToBounds = true
         indicator.snp.makeConstraints { x in
             x.centerX.equalTo(avatar.snp.right).offset(-4)

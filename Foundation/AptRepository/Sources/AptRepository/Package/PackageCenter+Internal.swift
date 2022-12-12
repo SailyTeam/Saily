@@ -217,7 +217,7 @@ extension PackageCenter {
                                                             lastModification: nil)
                         }
                     } else {
-                        if let repoRef = repoRef,
+                        if let repoRef,
                            let repo = RepositoryCenter
                            .default
                            .obtainImmutableRepository(withUrl: repoRef),

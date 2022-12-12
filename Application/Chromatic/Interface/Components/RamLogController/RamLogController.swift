@@ -86,7 +86,7 @@ class RamLogController: UIViewController {
         hideKeyboardWhenTappedAround()
 
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             let read = Dog.shared.obtainCurrentLogContent()
             if read != self.textView.text {
                 self.textView.text = read

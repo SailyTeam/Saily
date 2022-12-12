@@ -63,7 +63,7 @@ public struct Package: Codable, Hashable, Identifiable {
     // MARK: - Computed
 
     public var latestMetadata: Metadata? {
-        if let latestVersion = latestVersion {
+        if let latestVersion {
             return payload[latestVersion]
         }
         return nil
@@ -127,7 +127,7 @@ public struct Package: Codable, Hashable, Identifiable {
 
     public static
     func propertyListDecoded(with data: Data?) -> Self? {
-        guard let data = data else {
+        guard let data else {
             return nil
         }
         return try? PropertyListDecoder().decode(self, from: data)

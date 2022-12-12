@@ -102,7 +102,7 @@ extension DTPhotoViewerController: UICollectionViewDelegateFlowLayout {
         let index = currentPhotoIndex
 
         // Update image view before pan gesture happens
-        if let dataSource = dataSource, dataSource.numberOfItems(in: self) > 0 {
+        if let dataSource, dataSource.numberOfItems(in: self) > 0 {
             dataSource.photoViewerController(self, configurePhotoAt: index, withImageView: imageView)
         }
 

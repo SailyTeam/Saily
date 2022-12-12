@@ -36,7 +36,7 @@ extension InstalledController {
                     .default
                     .obtainLastModification(for: item.identity, and: .install)
                 var section: String
-                if let lastModifiedDate = lastModifiedDate {
+                if let lastModifiedDate {
                     section = formatter.string(from: lastModifiedDate)
                 } else {
                     section = NSLocalizedString("NOT_MODIFIED", comment: "Not Modified")
@@ -57,7 +57,7 @@ extension InstalledController {
                     pairA.0 ?? Date() > pairB.0 ?? Date()
                 }
             var result = constructor.map(\.1)
-            if let none = none { result.append(none) }
+            if let none { result.append(none) }
             if sortReversed { result = result.reversed() }
             dataSource = result
         }

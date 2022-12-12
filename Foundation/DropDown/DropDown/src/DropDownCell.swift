@@ -46,7 +46,7 @@
 
         override open func setSelected(_ selected: Bool, animated: Bool) {
             let executeSelection: () -> Void = { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if let selectedBackgroundColor = self.selectedBackgroundColor {
                     if selected {

@@ -150,7 +150,7 @@ public extension AuxiliaryExecute {
             commandLocation = binaryLocationFor(command: command)
         }
         // make sure we find the command
-        guard let commandLocation = commandLocation else {
+        guard let commandLocation else {
             return ExecuteRecipe.failure(error: .commandNotFound)
         }
         // now, let's validate the command

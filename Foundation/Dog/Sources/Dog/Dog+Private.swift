@@ -37,7 +37,7 @@ internal extension Dog {
         let dateStrB = String(b.dropFirst(prefixLenth).dropLast(suffixLenth))
         let dateA = Dog.shared.formatter.date(from: dateStrA)
         let dateB = Dog.shared.formatter.date(from: dateStrB)
-        if let dateA = dateA, let dateB = dateB {
+        if let dateA, let dateB {
             // a is early then b
             return dateA.timeIntervalSince(dateB) < 0
         } else {

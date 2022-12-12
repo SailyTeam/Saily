@@ -41,7 +41,7 @@ class DepictionButtonView: DepictionBaseView {
             depictView = DepictionBaseView.view(dictionary: dict, viewController: viewController, tintColor: color, isActionable: true)
         }
 
-        if let depictView = depictView {
+        if let depictView {
             depictView.isUserInteractionEnabled = false
             subView = depictView
 

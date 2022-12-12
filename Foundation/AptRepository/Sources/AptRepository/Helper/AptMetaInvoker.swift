@@ -95,7 +95,7 @@ internal func invokeSingleAptMeta(withContext original: String) -> [String: Stri
             }
             clearedLine = clearedLine.trimmingCharacters(in: .whitespaces)
             if line.hasPrefix(" "), // belongs to previous line
-               let lastBuildingKey = lastBuildingKey, lastBuildingKey.count > 0, // for robuster
+               let lastBuildingKey, lastBuildingKey.count > 0, // for robuster
                var lastBuildingValue = resultBuilder[lastBuildingKey]
             { // or invalid line
                 // appending this line to lastBuildingValue

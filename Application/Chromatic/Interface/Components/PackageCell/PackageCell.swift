@@ -179,7 +179,7 @@ class PackageCell: UIView, PackageCellFunction {
                 .loadImage(with: url,
                            options: .highPriority,
                            progress: nil) { [weak self] image, _, _, _, _, _ in
-                    if let image = image, self?.currentToken == token {
+                    if let image, self?.currentToken == token {
                         self?.avatar.image = image
                     }
                 }
@@ -202,7 +202,7 @@ class PackageCell: UIView, PackageCellFunction {
     @objc
     func updateIndicator() {
         clearIndicator()
-        if let represent = represent {
+        if let represent {
             // if is in queue
             if TaskManager.shared.isQueueContains(package: represent.identity) {
                 let actions = TaskManager.shared.copyEveryActions()
@@ -290,7 +290,7 @@ class PackageCell: UIView, PackageCellFunction {
     }
 
     func updateDownloadProgress() {
-        guard let represent = represent else { return }
+        guard let represent else { return }
         let url = represent.obtainDownloadLink()
         guard let status = CariolNetwork
             .shared
@@ -303,7 +303,7 @@ class PackageCell: UIView, PackageCellFunction {
 
     @objc
     func downloadProgressUpdate(notification: Notification) {
-        guard let represent = represent,
+        guard let represent,
               let info = notification.object as? CariolNetwork.DownloadNotification,
               let packageId = info.represent?.identity,
               packageId == represent.identity
@@ -318,7 +318,7 @@ class PackageCell: UIView, PackageCellFunction {
     func setDownloadLabels(with info: CariolNetwork.DownloadNotification,
                            confirmationIdentity: String)
     {
-        guard let represent = represent,
+        guard let represent,
               represent.identity == confirmationIdentity
         else {
             return

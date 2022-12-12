@@ -72,7 +72,7 @@ public class DepictionBaseView: UIView, DepictionViewProtocol {
         if let superDepictionView = superview as? DepictionViewDelegate {
             superDepictionView.subviewHeightChanged()
         }
-        if let delegate = delegate {
+        if let delegate {
             delegate.subviewHeightChanged()
         }
     }

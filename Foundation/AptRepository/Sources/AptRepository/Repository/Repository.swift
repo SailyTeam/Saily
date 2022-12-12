@@ -34,7 +34,7 @@ public struct Repository: Codable, Hashable, Identifiable {
     }
 
     public var metaReleaseUrl: URL {
-        guard let distribution = distribution else {
+        guard let distribution else {
             return url.appendingPathComponent("Release")
         }
         return url
@@ -51,10 +51,10 @@ public struct Repository: Codable, Hashable, Identifiable {
     }
 
     public var metaPackageUrl: URL {
-        guard let distribution = distribution else {
+        guard let distribution else {
             return url.appendingPathComponent("Packages")
         }
-        guard let component = component else {
+        guard let component else {
             return url
                 .appendingPathComponent("dists")
                 .appendingPathComponent(distribution)

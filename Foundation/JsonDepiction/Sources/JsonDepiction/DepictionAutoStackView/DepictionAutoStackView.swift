@@ -39,7 +39,7 @@ class DepictionAutoStackView: DepictionBaseView {
                 continue
             }
             let view = DepictionBaseView.view(dictionary: viewDict, viewController: viewController, tintColor: tintColor, isActionable: isActionable)
-            if let view = view {
+            if let view {
                 self.views.append(view)
                 viewWidths.append(preferredWidth)
                 addSubview(view)

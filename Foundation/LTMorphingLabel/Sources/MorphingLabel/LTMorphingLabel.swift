@@ -231,7 +231,7 @@ typealias LTMorphingSkipFramesClosure =
 
 extension LTMorphingLabel {
     public func updateProgress(progress: Float) {
-        guard let displayLink = displayLink else { return }
+        guard let displayLink else { return }
         if displayLink.duration > 0.0, totalFrames == 0 {
             var frameRate = Float(0)
             if #available(iOS 10.0, tvOS 10.0, *) {

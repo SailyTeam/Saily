@@ -30,7 +30,7 @@ class DepictionMinVersionForceView: DepictionBaseView {
     }
 
     override func depictionHeight(width: CGFloat) -> CGFloat {
-        guard let containedView = containedView else {
+        guard let containedView else {
             return 0
         }
         return containedView.depictionHeight(width: width)

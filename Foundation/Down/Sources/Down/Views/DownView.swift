@@ -52,7 +52,7 @@
                 self.didLoadSuccessfully = didLoadSuccessfully
                 self.writableBundle = writableBundle
 
-                if let templateBundle = templateBundle {
+                if let templateBundle {
                     bundle = templateBundle
                 } else {
                     let moduleBundle = Bundle.moduleBundle ?? Bundle(for: DownView.self)
@@ -99,11 +99,11 @@
             {
                 // Note: As the init method sets this initially, we only overwrite them if
                 // a non-nil value is passed in.
-                if let options = options {
+                if let options {
                     self.options = options
                 }
 
-                if let didLoadSuccessfully = didLoadSuccessfully {
+                if let didLoadSuccessfully {
                     self.didLoadSuccessfully = didLoadSuccessfully
                 }
 
@@ -196,7 +196,7 @@
 
                 @objc
                 func clearTemporaryDirectory() {
-                    if let temporaryDirectoryURL = temporaryDirectoryURL {
+                    if let temporaryDirectoryURL {
                         try? FileManager.default.removeItem(at: temporaryDirectoryURL)
                     }
                 }

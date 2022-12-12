@@ -17,7 +17,7 @@ extension GzipHeader: CustomStringConvertible {
         if let mtime = modificationTime {
             output += "Modification time: \(mtime)\n"
         }
-        if let comment = comment {
+        if let comment {
             output += "Comment: \(comment)\n"
         }
         output += "Is text file: \(isTextFile)"

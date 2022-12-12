@@ -90,7 +90,7 @@ internal class CSTextRenderView: UIView {
 
         links = []
 
-        guard let attributedText = attributedText else {
+        guard let attributedText else {
             return
         }
 

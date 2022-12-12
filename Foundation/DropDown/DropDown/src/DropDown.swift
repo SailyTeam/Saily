@@ -150,7 +150,7 @@
          */
         public var arrowIndicationX: CGFloat? {
             didSet {
-                if let arrowIndicationX = arrowIndicationX {
+                if let arrowIndicationX {
                     tableViewContainer.addSubview(arrowIndication)
                     arrowIndication.tintColor = tableViewBackgroundColor
                     arrowIndication.frame.origin.x = arrowIndicationX
@@ -819,7 +819,7 @@
 
             var info = [AnyHashable: Any]()
             info["canBeDisplayed"] = canBeDisplayed
-            if let offScreenHeight = offScreenHeight {
+            if let offScreenHeight {
                 info["offScreenHeight"] = offScreenHeight
             }
 
@@ -927,7 +927,7 @@
                     self?.setHiddentState()
                 },
                 completion: { [weak self] _ in
-                    guard let self = self else { return }
+                    guard let self else { return }
 
                     self.isHidden = true
                     self.removeFromSuperview()
@@ -970,7 +970,7 @@
 
         /// (Pre)selects a row at a certain index.
         func selectRow(at index: Index?, scrollPosition: UITableView.ScrollPosition = .none) {
-            if let index = index {
+            if let index {
                 tableView.selectRow(
                     at: IndexPath(row: index, section: 0), animated: true, scrollPosition: scrollPosition
                 )
@@ -993,7 +993,7 @@
         }
 
         func deselectRow(at index: Index?) {
-            guard let index = index,
+            guard let index,
                   index >= 0
             else { return }
 
@@ -1075,7 +1075,7 @@
             cell.highlightTextColor = selectedTextColor
             cell.normalTextColor = textColor
 
-            if let cellConfiguration = cellConfiguration {
+            if let cellConfiguration {
                 cell.optionLabel.text = cellConfiguration(index, dataSource[index])
             } else {
                 cell.optionLabel.text = dataSource[index]

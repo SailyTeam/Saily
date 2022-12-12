@@ -86,7 +86,7 @@
                 })
                 alertController.addAction(action)
                 // Check which button to highlight
-                if let highlightedButtonIndex = highlightedButtonIndex, index == highlightedButtonIndex {
+                if let highlightedButtonIndex, index == highlightedButtonIndex {
                     alertController.preferredAction = action
                 }
             }
@@ -134,7 +134,7 @@
             ) {
                 popoverContent.modalPresentationStyle = .popover
 
-                if let size = size {
+                if let size {
                     popoverContent.preferredContentSize = size
                 }
 

@@ -84,7 +84,7 @@ class DepictionTableButtonView: DepictionBaseView, UIGestureRecognizerDelegate {
     }
 
     @objc func buttonTapped(_ gestureRecognizer: UIGestureRecognizer?) {
-        if let gestureRecognizer = gestureRecognizer {
+        if let gestureRecognizer {
             if gestureRecognizer.state == .began {
                 selectionView.alpha = 1
             } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled || gestureRecognizer.state == .failed {

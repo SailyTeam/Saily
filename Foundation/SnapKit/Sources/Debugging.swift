@@ -43,7 +43,7 @@ public extension LayoutConstraint {
 
         description += " \(descriptionForRelation(relation))"
 
-        if let secondItem = secondItem {
+        if let secondItem {
             description += " \(descriptionForObject(secondItem))"
         }
 

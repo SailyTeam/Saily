@@ -62,11 +62,11 @@
         }
 
         private func drawCustomBackgrounds(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
-            guard let context = context else { return }
+            guard let context else { return }
             push(context: context)
             defer { popContext() }
 
-            guard let textStorage = textStorage else { return }
+            guard let textStorage else { return }
 
             let characterRange = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
 
@@ -110,7 +110,7 @@
         }
 
         private func drawThematicBreakIfNeeded(in characterRange: NSRange, at origin: CGPoint) {
-            guard let context = context else { return }
+            guard let context else { return }
             push(context: context)
             defer { popContext() }
 
@@ -149,7 +149,7 @@
         }
 
         private func drawQuoteStripeIfNeeded(in characterRange: NSRange, at origin: CGPoint) {
-            guard let context = context else { return }
+            guard let context else { return }
             push(context: context)
             defer { popContext() }
 
@@ -204,7 +204,7 @@
         }
     }
 
-    private extension Array where Element == NSRange {
+    private extension [NSRange] {
         func mergeNeighbors() -> [Element] {
             let sorted = sorted { $0.lowerBound <= $1.lowerBound }
 

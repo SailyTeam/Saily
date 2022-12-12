@@ -31,7 +31,7 @@ public typealias LTStringDiffResult = ([LTCharacterDiffResult], skipDrawingResul
 
 public extension String {
     func diffWith(_ anotherString: String?) -> LTStringDiffResult {
-        guard let anotherString = anotherString else {
+        guard let anotherString else {
             let diffResults: [LTCharacterDiffResult] =
                 Array(repeating: .delete, count: count)
             let skipDrawingResults: [Bool] = Array(repeating: false, count: count)

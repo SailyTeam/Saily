@@ -46,7 +46,7 @@ final class RunBenchmarkCommand: Command {
 
         var baseResults = [String: [(BenchmarkResult, UUID)]]()
         var baseMetadatas = [UUID: String]()
-        if let comparePath = comparePath {
+        if let comparePath {
             let baseSaveFile = try SaveFile.load(from: comparePath)
 
             baseMetadatas = Dictionary(uniqueKeysWithValues: zip(baseSaveFile.metadatas.keys, (1 ... baseSaveFile.metadatas.count).map { "(\($0))" }))
@@ -121,7 +121,7 @@ final class RunBenchmarkCommand: Command {
             print()
         }
 
-        if let savePath = savePath {
+        if let savePath {
             let metadata = try BenchmarkMetadata(description, preserveTimestamp)
             var saveFile: SaveFile
 

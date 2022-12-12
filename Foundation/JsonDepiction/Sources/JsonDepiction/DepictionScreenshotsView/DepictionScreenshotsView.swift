@@ -93,7 +93,7 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
                     videoView?.layer.cornerRadius = itemCornerRadius
                     videoView?.clipsToBounds = true
                 }
-                if let videoView = videoView {
+                if let videoView {
                     screenshotViews.append(videoView)
                     scrollView.addSubview(videoView)
                 }
@@ -131,7 +131,7 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
     }
 
     func fullViewHeight() -> CGFloat {
-        guard let parentViewController = parentViewController else {
+        guard let parentViewController else {
             return 0
         }
         let verticalInsets = parentViewController.view.safeAreaInsets.top + parentViewController.view.safeAreaInsets.bottom
@@ -255,7 +255,7 @@ class DepictionScreenshotsView: DepictionBaseView, UIScrollViewDelegate {
 
     func viewSegmentWidth() -> CGFloat {
         let spacing = CGFloat(16)
-        guard let parentViewController = parentViewController else {
+        guard let parentViewController else {
             return 0
         }
         return parentViewController.view.bounds.width - (spacing * 3)

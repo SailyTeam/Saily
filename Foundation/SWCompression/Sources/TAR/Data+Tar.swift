@@ -14,7 +14,7 @@ extension Data {
     }
 
     mutating func append(tarInt value: Int?, maxLength: Int) {
-        guard var value = value else {
+        guard var value else {
             // No value; fill field with NULLs.
             append(Data(count: maxLength))
             return
@@ -41,7 +41,7 @@ extension Data {
     }
 
     mutating func append(tarString string: String?, maxLength: Int) {
-        guard let string = string else {
+        guard let string else {
             // No value; fill field with NULLs.
             append(Data(count: maxLength))
             return

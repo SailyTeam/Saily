@@ -18,10 +18,10 @@ extension UILabel {
         let range: NSRange = attribText.mutableString.range(of: target, options: .caseInsensitive)
 
         var attributes: [NSAttributedString.Key: Any] = [:]
-        if let font = font {
+        if let font {
             attributes[.font] = font
         }
-        if let color = color {
+        if let color {
             attributes[.foregroundColor] = color
         }
         attribText.addAttributes(attributes, range: range)
@@ -46,10 +46,10 @@ extension UILabel {
         let range: NSRange = attribText.mutableString.range(of: target, options: .caseInsensitive)
 
         var attributes: [NSAttributedString.Key: Any] = [:]
-        if let font = font {
+        if let font {
             attributes[.font] = font
         }
-        if let color = color {
+        if let color {
             attributes[.foregroundColor] = color
         }
         attribText.addAttributes(attributes, range: range)

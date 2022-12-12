@@ -20,7 +20,7 @@
 
         /// SwifterSwift: cURL command representation of this URL request.
         var curlString: String {
-            guard let url = url else { return "" }
+            guard let url else { return "" }
 
             var baseCommand = "curl \(url.absoluteString)"
             if httpMethod == "HEAD" {

@@ -33,7 +33,7 @@ public enum LogLevel {
     case high, low, none
 }
 
-public func diggerLog<T>(_ info: T, file: NSString = #file, method: String = #function, line: Int = #line) {
+public func diggerLog(_ info: some Any, file: NSString = #file, method: String = #function, line: Int = #line) {
     switch DiggerManager.shared.logLevel {
     case .none:
         _ = ""

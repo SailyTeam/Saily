@@ -137,7 +137,7 @@ class PackageCollectionController: UIViewController, UICollectionViewDelegate, U
 
     func collectionView(_: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
         guard let data = dataSource[safe: indexPath.row],
-              let view = view
+              let view
         else {
             return nil
         }

@@ -43,7 +43,7 @@ private let paymentActions: [DropDownActions] = [
                           .shared
                           .obtainUserAccountInfo(for: repo.url) { account in
                               DispatchQueue.main.async {
-                                  guard let account = account else {
+                                  guard let account else {
                                       alert.dismiss(animated: true, completion: nil)
                                       return
                                   }
@@ -113,14 +113,14 @@ class RepoPaymentView: UIView {
             URLSession
                 .shared
                 .dataTask(with: request) { [weak self] data, _, _ in
-                    guard self != nil, let data = data else { return }
+                    guard self != nil, let data else { return }
                     let jsonDicRead = try? JSONSerialization
                         .jsonObject(with: data, options: .allowFragments)
                     guard let jsonDic = jsonDicRead as? [String: Any] else {
                         return
                     }
                     DispatchQueue.main.async { [weak self] in
-                        guard let self = self else { return }
+                        guard let self else { return }
                         let avatar = UIImageView()
                         let title = UILabel()
 
@@ -144,7 +144,7 @@ class RepoPaymentView: UIView {
                                                                options: .highPriority,
                                                                progress: nil)
                             { [weak self] image, _, _, _, _, _ in
-                                guard self != nil, let image = image else { return }
+                                guard self != nil, let image else { return }
                                 avatar.image = image
                                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
                                     avatar.snp.updateConstraints { x in

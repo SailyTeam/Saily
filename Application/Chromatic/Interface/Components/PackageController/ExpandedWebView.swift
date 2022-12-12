@@ -66,7 +66,7 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
             x.height.equalTo(2)
         }
         let heightWatcher = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             self.updateHeightIfNeeded()
         }
         RunLoop.main.add(heightWatcher, forMode: .common)
@@ -74,7 +74,7 @@ class ExpandedWebView: UIView, WKUIDelegate, WKNavigationDelegate {
 
         observation = webKitView.observe(\WKWebView.estimatedProgress, options: .new) { [weak self] _, change in
             debugPrint("\(#file) \(#function) estimatedProgress: \(change)")
-            guard let self = self else { return }
+            guard let self else { return }
             UIView.animate(withDuration: 0.2) {
                 let progress = Float(change.newValue ?? 0)
                 self.progressView.setProgress(progress, animated: true)

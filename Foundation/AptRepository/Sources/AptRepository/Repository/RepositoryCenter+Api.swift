@@ -54,7 +54,7 @@ public extension RepositoryCenter {
         accessLock.lock()
         let access = container[url]
         accessLock.unlock()
-        guard let access = access else {
+        guard let access else {
             Dog.shared.join(self, "repository \(url.absoluteString) was not found")
             return nil
         }
@@ -176,7 +176,7 @@ public extension RepositoryCenter {
             .filter { $0 != withUrl }
         currentUpdateProgress.removeValue(forKey: withUrl)
         accessLock.unlock()
-        if let deleted = deleted {
+        if let deleted {
             if historyRecordsEnabled { historyRecords.insert(deleted.url.absoluteString) }
             return deleted
         } else {

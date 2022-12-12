@@ -307,7 +307,7 @@ extension RepositoryCenter {
                     knockLock.lock()
                     knockCount -= 1
                     // have result this time, and no result currently available
-                    if let knockResult = knockResult, packageStr == nil {
+                    if let knockResult, packageStr == nil {
                         let builder = invokePackages(withContext: knockResult, fromRepo: target)
                         debugPrint("search path\(searchPath) with knockResult \(knockResult) getting \(builder.count)")
                         if builder.count > 0 {
@@ -359,12 +359,12 @@ extension RepositoryCenter {
             if let description = builder.repositoryDescription {
                 printDescription = description
             }
-            if let paymentEndpoint = paymentEndpoint {
+            if let paymentEndpoint {
                 builder.paymentInfo[.endpoint] = paymentEndpoint.absoluteString
             } else {
                 builder.paymentInfo.removeValue(forKey: .endpoint)
             }
-            if let featured = featured {
+            if let featured {
                 builder.attachment[.featured] = featured
             } else {
                 builder.attachment.removeValue(forKey: .featured)

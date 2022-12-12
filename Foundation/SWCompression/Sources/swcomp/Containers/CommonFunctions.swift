@@ -31,7 +31,7 @@ func printList(_ entries: [ContainerEntryInfo]) {
     }
 }
 
-func write<T: ContainerEntry>(_ entries: [T], _ outputPath: String, _ verbose: Bool) throws {
+func write(_ entries: [some ContainerEntry], _ outputPath: String, _ verbose: Bool) throws {
     let fileManager = FileManager.default
     let outputURL = URL(fileURLWithPath: outputPath)
 
@@ -56,7 +56,7 @@ func write<T: ContainerEntry>(_ entries: [T], _ outputPath: String, _ verbose: B
     }
 }
 
-func writeDirectory<T: ContainerEntry>(_ entry: T, _ outputURL: URL, _ verbose: Bool) throws -> ([FileAttributeKey: Any], String) {
+func writeDirectory(_ entry: some ContainerEntry, _ outputURL: URL, _ verbose: Bool) throws -> ([FileAttributeKey: Any], String) {
     let fileManager = FileManager.default
     let entryName = entry.info.name
     let entryFullURL = outputURL.appendingPathComponent(entryName, isDirectory: true)
@@ -86,7 +86,7 @@ func writeDirectory<T: ContainerEntry>(_ entry: T, _ outputURL: URL, _ verbose: 
     return (attributes, entryFullURL.path)
 }
 
-func writeFile<T: ContainerEntry>(_ entry: T, _ outputURL: URL, _ verbose: Bool) throws {
+func writeFile(_ entry: some ContainerEntry, _ outputURL: URL, _ verbose: Bool) throws {
     let fileManager = FileManager.default
     let entryName = entry.info.name
     let entryFullURL = outputURL.appendingPathComponent(entryName, isDirectory: false)

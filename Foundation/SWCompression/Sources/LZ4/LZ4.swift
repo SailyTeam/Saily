@@ -136,7 +136,7 @@ public enum LZ4: DecompressionAlgorithm {
                 throw DataError.corrupted
             }
 
-            if let out = out {
+            if let out {
                 result.append(out)
             }
         } while nextFrameOffset < data.endIndex
@@ -262,7 +262,7 @@ public enum LZ4: DecompressionAlgorithm {
             dictId = nil
         }
 
-        if let extDictId = extDictId, let dictId = dictId {
+        if let extDictId, let dictId {
             // If dictionary ID is present in the frame, and passed as an argument, then they must be equal.
             guard extDictId == dictId
             else { throw DataError.corrupted }
@@ -303,7 +303,7 @@ public enum LZ4: DecompressionAlgorithm {
                 if independentBlocks {
                     out.append(Data(try LZ4.process(block: blockData, dictionary)))
                 } else {
-                    if out.isEmpty, let dictionary = dictionary {
+                    if out.isEmpty, let dictionary {
                         out.append(Data(try LZ4.process(block: blockData,
                                                         dictionary[max(dictionary.endIndex - 64 * 1024, dictionary.startIndex)...])))
                     } else {

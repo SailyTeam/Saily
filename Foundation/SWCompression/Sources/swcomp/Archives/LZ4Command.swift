@@ -47,7 +47,7 @@ final class LZ4Command: Command {
 
     func execute() throws {
         let dictID: UInt32?
-        if let dictionaryID = dictionaryID {
+        if let dictionaryID {
             guard dictionaryID <= UInt32.max
             else { swcompExit(.lz4BigDictId) }
             dictID = UInt32(truncatingIfNeeded: dictionaryID)
@@ -56,7 +56,7 @@ final class LZ4Command: Command {
         }
 
         let dictData: Data?
-        if let dictionary = dictionary {
+        if let dictionary {
             dictData = try Data(contentsOf: URL(fileURLWithPath: dictionary), options: .mappedIfSafe)
         } else {
             dictData = nil
@@ -91,7 +91,7 @@ final class LZ4Command: Command {
             }
 
             let bs: Int
-            if let blockSize = blockSize {
+            if let blockSize {
                 guard blockSize < 4_194_304
                 else { swcompExit(.lz4BigBlockSize) }
                 bs = blockSize

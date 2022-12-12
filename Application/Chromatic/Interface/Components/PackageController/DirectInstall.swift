@@ -54,7 +54,7 @@ class DirectInstallController: UIViewController {
             .appendingPathComponent(UUID().uuidString)
         var copiedLocation = URL(fileURLWithPath: "")
         let meta = unpackPackage(from: url, toDir: targetDir, withCopiedPayload: &copiedLocation)
-        guard let meta = meta,
+        guard let meta,
               let build = Package(from: meta, injecting: [
                   DirectInstallInjectedPackageLocationKey:
                       copiedLocation.path,
@@ -88,7 +88,7 @@ class DirectInstallController: UIViewController {
             }
         }
         Dog.shared.join(self, "failed with reason: \(reason ?? "unknown")", level: .error)
-        if let reason = reason {
+        if let reason {
             let alert = UIAlertController(title: NSLocalizedString("ERROR", comment: "Error"),
                                           message: reason,
                                           preferredStyle: .alert)

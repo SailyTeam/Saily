@@ -39,7 +39,7 @@ final class ShowBenchmarkCommand: Command {
 
         var baseResults = [String: [(BenchmarkResult, UUID)]]()
         var baseMetadatas = [UUID: String]()
-        if let comparePath = comparePath {
+        if let comparePath {
             let baseSaveFile = try SaveFile.load(from: comparePath)
 
             baseMetadatas = Dictionary(uniqueKeysWithValues: zip(baseSaveFile.metadatas.keys, (1 ... baseSaveFile.metadatas.count).map { "(\($0))" }))
@@ -79,7 +79,7 @@ final class ShowBenchmarkCommand: Command {
     }
 }
 
-private extension Optional where Wrapped == Benchmark {
+private extension Benchmark? {
     func format(_ value: Double) -> String {
         switch self {
         case let .some(benchmark):

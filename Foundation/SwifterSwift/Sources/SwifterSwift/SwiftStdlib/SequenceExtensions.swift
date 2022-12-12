@@ -171,7 +171,7 @@ public extension Sequence {
     ///
     /// - Parameter keyPath: Key path to sort by. The key path type must be Comparable.
     /// - Returns: The sorted array.
-    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>) -> [Element] {
+    func sorted(by keyPath: KeyPath<Element, some Comparable>) -> [Element] {
         sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
     }
 
@@ -180,8 +180,8 @@ public extension Sequence {
     /// - Parameters:
     ///     - keyPath1: Key path to sort by. Must be Comparable.
     ///     - keyPath2: Key path to sort by in case the values of `keyPath1` match. Must be Comparable.
-    func sorted<T: Comparable, U: Comparable>(by keyPath1: KeyPath<Element, T>,
-                                              and keyPath2: KeyPath<Element, U>) -> [Element]
+    func sorted(by keyPath1: KeyPath<Element, some Comparable>,
+                and keyPath2: KeyPath<Element, some Comparable>) -> [Element]
     {
         sorted {
             if $0[keyPath: keyPath1] != $1[keyPath: keyPath1] {
@@ -197,9 +197,9 @@ public extension Sequence {
     ///     - keyPath1: Key path to sort by. Must be Comparable.
     ///     - keyPath2: Key path to sort by in case the values of `keyPath1` match. Must be Comparable.
     ///     - keyPath3: Key path to sort by in case the values of `keyPath1` and `keyPath2` match. Must be Comparable.
-    func sorted<T: Comparable, U: Comparable, V: Comparable>(by keyPath1: KeyPath<Element, T>,
-                                                             and keyPath2: KeyPath<Element, U>,
-                                                             and keyPath3: KeyPath<Element, V>) -> [Element]
+    func sorted(by keyPath1: KeyPath<Element, some Comparable>,
+                and keyPath2: KeyPath<Element, some Comparable>,
+                and keyPath3: KeyPath<Element, some Comparable>) -> [Element]
     {
         sorted {
             if $0[keyPath: keyPath1] != $1[keyPath: keyPath1] {

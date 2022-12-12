@@ -116,7 +116,7 @@ class LXMainController: UIViewController {
 
         debugPrint("\(#file) \(#function) \(#line)")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             // check if there is no view controller exists
             let top = self.navigationController?.topViewController
             if top == self { // fatal if nil, don't handle it

@@ -27,7 +27,7 @@ class Console {
         InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: true)
         while true {
             let command = readLine(strippingNewline: true)
-            guard let command = command else {
+            guard let command else {
                 fatalError("EOF returned from readLine()")
             }
             if command == "help" {

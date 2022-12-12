@@ -131,7 +131,7 @@ extension InstalledController {
     override func collectionView(_: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point _: CGPoint) -> UIContextMenuConfiguration? {
         guard let data = dataSource[safe: indexPath.section]?
             .package[safe: indexPath.row],
-            let view = view
+            let view
         else {
             return nil
         }

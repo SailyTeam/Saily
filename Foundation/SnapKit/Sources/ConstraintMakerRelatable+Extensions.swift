@@ -29,7 +29,7 @@
 
 public extension ConstraintMakerRelatable {
     @discardableResult
-    func equalToSuperview<T: ConstraintRelatableTarget>(_ closure: (ConstraintView) -> T, _ file: String = #file, line: UInt = #line) -> ConstraintMakerEditable {
+    func equalToSuperview(_ closure: (ConstraintView) -> some ConstraintRelatableTarget, _ file: String = #file, line: UInt = #line) -> ConstraintMakerEditable {
         guard let other = description.item.superview else {
             fatalError("Expected superview but found nil when attempting make constraint `equalToSuperview`.")
         }
@@ -37,7 +37,7 @@ public extension ConstraintMakerRelatable {
     }
 
     @discardableResult
-    func lessThanOrEqualToSuperview<T: ConstraintRelatableTarget>(_ closure: (ConstraintView) -> T, _ file: String = #file, line: UInt = #line) -> ConstraintMakerEditable {
+    func lessThanOrEqualToSuperview(_ closure: (ConstraintView) -> some ConstraintRelatableTarget, _ file: String = #file, line: UInt = #line) -> ConstraintMakerEditable {
         guard let other = description.item.superview else {
             fatalError("Expected superview but found nil when attempting make constraint `lessThanOrEqualToSuperview`.")
         }
@@ -45,7 +45,7 @@ public extension ConstraintMakerRelatable {
     }
 
     @discardableResult
-    func greaterThanOrEqualTo<T: ConstraintRelatableTarget>(_ closure: (ConstraintView) -> T, _ file: String = #file, line: UInt = #line) -> ConstraintMakerEditable {
+    func greaterThanOrEqualTo(_ closure: (ConstraintView) -> some ConstraintRelatableTarget, _ file: String = #file, line: UInt = #line) -> ConstraintMakerEditable {
         guard let other = description.item.superview else {
             fatalError("Expected superview but found nil when attempting make constraint `greaterThanOrEqualToSuperview`.")
         }

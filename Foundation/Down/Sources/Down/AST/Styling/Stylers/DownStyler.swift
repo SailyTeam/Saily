@@ -172,12 +172,12 @@
         }
 
         open func style(link str: NSMutableAttributedString, title _: String?, url: String?) {
-            guard let url = url else { return }
+            guard let url else { return }
             styleGenericLink(in: str, url: url)
         }
 
         open func style(image str: NSMutableAttributedString, title _: String?, url: String?) {
-            guard let url = url else { return }
+            guard let url else { return }
             styleGenericLink(in: str, url: url)
         }
 

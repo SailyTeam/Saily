@@ -86,7 +86,7 @@ public extension Dog {
                 .urls(for: .documentDirectory, in: .userDomainMask)
                 .first
         }
-        guard let dispathDir = dispathDir else {
+        guard let dispathDir else {
             throw NSError(domain: "wiki.qaq.chromatic", code: -1, userInfo: [:])
         }
 

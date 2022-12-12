@@ -83,7 +83,7 @@ extension LZ4: CompressionAlgorithm {
             }
         }
 
-        if let dictionaryID = dictionaryID {
+        if let dictionaryID {
             for i: UInt32 in 0 ..< 4 {
                 out.append(UInt8(truncatingIfNeeded: (dictionaryID & (0xFF << (i * 8))) >> (i * 8)))
             }
@@ -94,7 +94,7 @@ extension LZ4: CompressionAlgorithm {
         out.append(UInt8(truncatingIfNeeded: (headerChecksum >> 8) & 0xFF))
 
         var dict: Data
-        if let dictionary = dictionary {
+        if let dictionary {
             // The size of the provided dictionary may not match the standard size of 64 KB.
             dict = dictionary[max(dictionary.endIndex - 64 * 1024, dictionary.startIndex)...]
         } else {

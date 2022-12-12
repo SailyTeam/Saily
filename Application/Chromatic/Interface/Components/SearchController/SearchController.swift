@@ -290,7 +290,7 @@ extension SearchController: UISearchControllerDelegate, UISearchResultsUpdating,
                 return
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 // check if user tapped a cell, and view controller is away
                 if self.view.window?.topMostViewController != self.searchController {
                     // do not present

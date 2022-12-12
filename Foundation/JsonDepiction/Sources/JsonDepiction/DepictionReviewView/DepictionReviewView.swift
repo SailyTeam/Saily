@@ -85,7 +85,7 @@ class DepictionReviewView: DepictionBaseView {
     }
 
     override func depictionHeight(width: CGFloat) -> CGFloat {
-        guard let containedReviewView = containedReviewView else {
+        guard let containedReviewView else {
             return 0
         }
         return containedReviewView.depictionHeight(width: width - 40.0) + 40.0

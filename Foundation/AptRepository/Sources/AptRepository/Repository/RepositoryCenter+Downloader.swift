@@ -30,11 +30,11 @@ internal extension RepositoryCenter {
                 if let resp = resp as? HTTPURLResponse,
                    resp.statusCode == 200,
                    error == nil,
-                   let data = data
+                   let data
                 {
                     returningData = data
                 }
-                if let error = error {
+                if let error {
                     print(error.localizedDescription)
                 }
                 sem.signal()

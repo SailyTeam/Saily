@@ -92,7 +92,7 @@ class PaymentManager {
         let session = ASWebAuthenticationSession(url: authUrl, callbackURLScheme: "sileo") { url, err in
             defer { completionCallback() }
             _ = item // avoid dealloc
-            guard let url = url, err == nil else {
+            guard let url, err == nil else {
                 SPIndicator.present(title: NSLocalizedString("ERROR", comment: "Error"),
                                     message: NSLocalizedString("SIGNIN_FAILED", comment: "Signin Failed"),
                                     preset: .error,
@@ -181,7 +181,7 @@ class PaymentManager {
         URLSession
             .shared
             .dataTask(with: request) { data, _, _ in
-                if let data = data, let str = String(data: data, encoding: .utf8) {
+                if let data, let str = String(data: data, encoding: .utf8) {
                     Dog.shared.join(self, "signing out on \(repo.url.absoluteString) replied with \(str)")
                 }
             }
@@ -214,7 +214,7 @@ class PaymentManager {
             .dataTask(with: request) { data, _, _ in
                 var account: UserAccount?
                 defer { completion(account) }
-                if let data = data,
+                if let data,
                    let json = try? JSONSerialization
                    .jsonObject(with: data, options: .allowFragments) as? [String: Any]
                 {
@@ -260,7 +260,7 @@ class PaymentManager {
             .dataTask(with: request) { data, _, _ in
                 var info: PackageInfo?
                 defer { completion(info) }
-                if let data = data,
+                if let data,
                    let json = try? JSONSerialization
                    .jsonObject(with: data, options: .allowFragments) as? [String: Any]
                 {
@@ -309,7 +309,7 @@ class PaymentManager {
             .shared
             .dataTask(with: request) { data, _, _ in
                 defer { sem.signal() }
-                if let data = data,
+                if let data,
                    let read = try? JSONSerialization
                    .jsonObject(with: data, options: .allowFragments) as? [String: Any]
                 {
@@ -378,7 +378,7 @@ class PaymentManager {
             .shared
             .dataTask(with: request) { data, _, _ in
                 defer { sem.signal() }
-                if let data = data,
+                if let data,
                    let read = try? JSONSerialization
                    .jsonObject(with: data, options: .allowFragments) as? [String: Any]
                 {

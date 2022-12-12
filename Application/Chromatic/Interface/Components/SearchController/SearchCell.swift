@@ -169,7 +169,7 @@ class SearchCell: UITableViewCell {
                 .loadImage(with: iconUrl,
                            options: .highPriority,
                            progress: nil) { [weak self] img, _, _, _, _, _ in
-                    if let img = img, self?.displayToken == token {
+                    if let img, self?.displayToken == token {
                         self?.image.image = img
                     }
                 }

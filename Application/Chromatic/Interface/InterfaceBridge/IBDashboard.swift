@@ -144,7 +144,7 @@ extension InterfaceBridge {
                 pairA.0 ?? Date() > pairB.0 ?? Date()
             }
         var result = constructor.map(\.1)
-        if let none = none { result.append(none) }
+        if let none { result.append(none) }
 
         return DashboardDataSection(title: NSLocalizedString("RECENT_INSTALL", comment: "Recent Install"),
                                     package: result.flatMap { $0 },

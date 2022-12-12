@@ -17,7 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "BitByteData", url: "https://github.com/tsolomko/BitByteData",
-                 from: "2.0.0")
+                 from: "2.0.0"),
     ],
     targets: [
         .target(

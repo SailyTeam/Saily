@@ -62,7 +62,7 @@ public final class Dog {
     internal var logFileHandler: FileHandle? {
         didSet {
             #if DEBUG
-                if let oldValue = oldValue {
+                if let oldValue {
                     fatalError("[Dog] logFileHandler was being modified \(oldValue)")
                 }
             #endif

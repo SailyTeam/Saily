@@ -82,7 +82,7 @@ extension PackageController {
                 URLSession
                     .shared
                     .dataTask(with: url) { data, _, _ in
-                        if let data = data,
+                        if let data,
                            let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
                         {
                             if let urlStr = json["headerImage"] as? String,
@@ -95,8 +95,8 @@ extension PackageController {
                                                    options: .highPriority,
                                                    progress: nil)
                                     { [weak self] image, _, _, _, _, _ in
-                                        guard let self = self else { return }
-                                        if let image = image {
+                                        guard let self else { return }
+                                        if let image {
                                             self.bannerImageView.image = image
                                             self.bannerImageIconView.isHidden = true
                                         }

@@ -50,7 +50,7 @@
         }
 
         private func drawRect(_ rect: CGRect, color: CGColor) {
-            guard let context = context else { return }
+            guard let context else { return }
             push(context: context)
             defer { popContext() }
 

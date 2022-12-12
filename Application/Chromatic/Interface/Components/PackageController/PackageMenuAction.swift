@@ -186,7 +186,7 @@ class PackageMenuAction {
                 DispatchQueue.global().async {
                     PaymentManager.shared.obtainPackageInfo(for: repoUrl, withPackageIdentity: package.identity) { info in
                         DispatchQueue.main.async {
-                            guard let info = info else { return }
+                            guard let info else { return }
                             debugPrint(info)
                             if info.purchased == true {
                                 // MARK: - OK FOR DOWNLOAD

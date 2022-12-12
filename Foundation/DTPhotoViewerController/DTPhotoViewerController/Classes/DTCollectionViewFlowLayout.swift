@@ -17,7 +17,7 @@ class DTCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
 
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
-        if let index = currentIndex, let collectionView = collectionView {
+        if let index = currentIndex, let collectionView {
             currentIndex = nil
             return CGPoint(x: CGFloat(index) * collectionView.frame.size.width, y: 0)
         }

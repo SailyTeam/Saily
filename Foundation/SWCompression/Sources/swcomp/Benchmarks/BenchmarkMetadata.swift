@@ -68,12 +68,12 @@ struct BenchmarkMetadata: Codable, Equatable {
         Swift.print("OS Info: \(osInfo)", terminator: "")
         Swift.print("Swift version: \(swiftVersion)", terminator: "")
         Swift.print("SWC version: \(swcVersion)")
-        if let timestamp = timestamp {
+        if let timestamp {
             Swift.print("Timestamp: " +
                 DateFormatter.localizedString(from: Date(timeIntervalSinceReferenceDate: timestamp),
                                               dateStyle: .short, timeStyle: .short))
         }
-        if let description = description {
+        if let description {
             Swift.print("Description: \(description)")
         }
         Swift.print()

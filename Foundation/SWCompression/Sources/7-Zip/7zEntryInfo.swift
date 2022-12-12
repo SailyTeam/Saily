@@ -75,7 +75,7 @@ public struct SevenZipEntryInfo: ContainerEntryInfo {
            let unixType = ContainerEntryType((0xF000_0000 & attributes) >> 16)
         {
             type = unixType
-        } else if let dosAttributes = dosAttributes {
+        } else if let dosAttributes {
             if dosAttributes.contains(.directory) {
                 type = .directory
             } else {

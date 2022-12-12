@@ -178,7 +178,7 @@ open class DTPhotoViewerController: UIViewController {
             // Update image frame whenever image changes and when the imageView is not being visible
             // imageView is only being visible during presentation or dismissal
             // For that reason, we should not update frame of imageView no matter what.
-            if let strongSelf = self, let image = image, strongSelf.imageView.isHidden == true {
+            if let strongSelf = self, let image, strongSelf.imageView.isHidden == true {
                 strongSelf.imageView.frame.size = strongSelf.imageViewSizeForImage(image)
                 strongSelf.imageView.center = strongSelf.view.center
 
@@ -353,7 +353,7 @@ open class DTPhotoViewerController: UIViewController {
     }
 
     private func frameForReferencedView() -> CGRect {
-        if let referencedView = referencedView {
+        if let referencedView {
             if let superview = referencedView.superview {
                 var frame = (superview.convert(referencedView.frame, to: view))
 
@@ -490,7 +490,7 @@ open class DTPhotoViewerController: UIViewController {
     }
 
     private func imageViewSizeForImage(_ image: UIImage?) -> CGSize {
-        if let image = image {
+        if let image {
             let rect = AVMakeRect(aspectRatio: image.size, insideRect: view.bounds)
             return rect.size
         }
@@ -611,7 +611,7 @@ extension DTPhotoViewerController: UICollectionViewDataSource {
     }
 
     public func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        if let dataSource = dataSource {
+        if let dataSource {
             return dataSource.numberOfItems(in: self)
         }
         return 1
@@ -621,7 +621,7 @@ extension DTPhotoViewerController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kPhotoCollectionViewCellIdentifier, for: indexPath) as! DTPhotoCollectionViewCell
         cell.delegate = self
 
-        if let dataSource = dataSource {
+        if let dataSource {
             if dataSource.numberOfItems(in: self) > 0 {
                 dataSource.photoViewerController(self, configurePhotoAt: indexPath.row, withImageView: cell.imageView)
                 dataSource.photoViewerController?(self, configureCell: cell, forPhotoAt: indexPath.row)

@@ -128,7 +128,7 @@ public class GzipArchive: Archive {
         var flags: UInt8 = 0
 
         var commentData = Data()
-        if var comment = comment {
+        if var comment {
             flags |= 1 << 4
             if comment.last != "\u{00}" {
                 comment.append("\u{00}")
@@ -141,7 +141,7 @@ public class GzipArchive: Archive {
         }
 
         var fileNameData = Data()
-        if var fileName = fileName {
+        if var fileName {
             flags |= 1 << 3
             if fileName.last != "\u{00}" {
                 fileName.append("\u{00}")
@@ -168,7 +168,7 @@ public class GzipArchive: Archive {
         let os = osType?.osTypeByte ?? 255
 
         var mtimeBytes: [UInt8] = [0, 0, 0, 0]
-        if let modificationTime = modificationTime {
+        if let modificationTime {
             let timeInterval = Int(modificationTime.timeIntervalSince1970)
             for i in 0 ..< 4 {
                 mtimeBytes[i] = UInt8(truncatingIfNeeded: (timeInterval & (0xFF << (i * 8))) >> (i * 8))

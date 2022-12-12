@@ -152,51 +152,51 @@ struct TarExtendedHeader {
 
     func generateContainerData() -> Data {
         var headerString = ""
-        if let atime = atime {
+        if let atime {
             headerString += TarExtendedHeader.generateHeaderString("atime", String(atime))
         }
 
-        if let ctime = ctime {
+        if let ctime {
             headerString += TarExtendedHeader.generateHeaderString("ctime", String(ctime))
         }
 
-        if let mtime = mtime {
+        if let mtime {
             headerString += TarExtendedHeader.generateHeaderString("mtime", String(mtime))
         }
 
-        if let size = size {
+        if let size {
             headerString += TarExtendedHeader.generateHeaderString("size", String(size))
         }
 
-        if let uid = uid {
+        if let uid {
             headerString += TarExtendedHeader.generateHeaderString("uid", String(uid))
         }
 
-        if let gid = gid {
+        if let gid {
             headerString += TarExtendedHeader.generateHeaderString("gid", String(gid))
         }
 
-        if let uname = uname {
+        if let uname {
             headerString += TarExtendedHeader.generateHeaderString("uname", uname)
         }
 
-        if let gname = gname {
+        if let gname {
             headerString += TarExtendedHeader.generateHeaderString("gname", gname)
         }
 
-        if let path = path {
+        if let path {
             headerString += TarExtendedHeader.generateHeaderString("path", path)
         }
 
-        if let linkpath = linkpath {
+        if let linkpath {
             headerString += TarExtendedHeader.generateHeaderString("linkpath", linkpath)
         }
 
-        if let charset = charset {
+        if let charset {
             headerString += TarExtendedHeader.generateHeaderString("charset", charset)
         }
 
-        if let comment = comment {
+        if let comment {
             headerString += TarExtendedHeader.generateHeaderString("comment", comment)
         }
 

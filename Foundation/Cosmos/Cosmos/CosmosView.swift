@@ -113,7 +113,7 @@ import UIKit
         // Create text layer
         // ------------
 
-        if let text = text {
+        if let text {
             let textLayer = createTextLayer(text, layers: layers)
             layers = addTextLayer(textLayer: textLayer, layers: layers)
         }

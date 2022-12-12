@@ -89,7 +89,7 @@ public extension ContainerEntryInfo where Self: CustomStringConvertible {
             output += "Is anti-file: \(sevenZipEntry.isAnti)\n"
         }
 
-        if let size = size {
+        if let size {
             output += "Size: \(size) bytes\n"
         }
 

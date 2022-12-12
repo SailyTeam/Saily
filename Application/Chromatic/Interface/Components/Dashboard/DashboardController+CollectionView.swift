@@ -152,7 +152,7 @@ extension DashboardController {
         guard !(collectionView.cellForItem(at: indexPath) is LXDashboardMoreCell),
               let data = dataSource[safe: indexPath.section]?
               .package[safe: indexPath.row],
-              let view = view
+              let view
         else {
             return nil
         }

@@ -37,7 +37,7 @@ class NavigatorEnterViewController: UITabBarController {
     func setExceptedRootViewController() {
         if shouldUseLargeUI() {
             debugPrint("loading lx ui")
-            if let lxMain = lxMain {
+            if let lxMain {
                 viewControllers = [lxMain]
             } else {
                 let controller = LXSplitController()
@@ -46,7 +46,7 @@ class NavigatorEnterViewController: UITabBarController {
             }
         } else {
             debugPrint("loading handy ui")
-            if let hdMain = hdMain {
+            if let hdMain {
                 viewControllers = [hdMain]
             } else {
                 let controller = HandyTabBarController()

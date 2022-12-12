@@ -332,7 +332,7 @@ extension TaskManager {
                                 for candidate in candidates {
                                     let versions = [String](candidate.payload.keys)
                                     let targetVersion = eachElement.biggestVersionMatchRequirement(list: versions)
-                                    if let targetVersion = targetVersion,
+                                    if let targetVersion,
                                        let trimmedPackage = PackageCenter
                                        .default
                                        .trim(package: candidate, toVersion: targetVersion)
@@ -365,7 +365,7 @@ extension TaskManager {
                             }
 
                             // found a searchTarget
-                            if let searchTarget = searchTarget {
+                            if let searchTarget {
                                 let appendResult = resolveMissingItem(context: currentContextBuilder, install: searchTarget, depth: depth + 1)
                                 if appendResult.success {
                                     debugPrint("successfully found additional install")

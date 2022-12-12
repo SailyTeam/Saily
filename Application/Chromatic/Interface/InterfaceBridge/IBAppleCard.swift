@@ -45,7 +45,7 @@ private let allCardOptions: [CardOptions] = [
                         URLSession
                             .shared
                             .dataTask(with: request) { data, _, _ in
-                                if let data = data,
+                                if let data,
                                    let img = UIImage(data: data),
                                    let pngData = img.pngData(),
                                    pngData.count < 5_242_880 // limit on 5m

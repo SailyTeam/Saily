@@ -69,7 +69,7 @@ class PackageController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        if let previewContentSizeOverwrite = previewContentSizeOverwrite {
+        if let previewContentSizeOverwrite {
             preferredContentSize = previewContentSizeOverwrite
         } else {
             preferredContentSize = preferredPopOverSize
@@ -157,7 +157,7 @@ class PackageController: UIViewController {
         }
 
         downloadDepictionIfAvailable { [weak self] view in
-            guard let self = self, let view = view else {
+            guard let self, let view else {
                 return
             }
             self.depictionView = view

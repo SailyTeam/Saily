@@ -96,7 +96,7 @@ class DepictionMarkdownViewSlow: DepictionBaseView, CSTextViewActionHandler {
         let margins: CGFloat = useMargins ? 32 : 0
         let spacing: CGFloat = useSpacing ? 33 : 0
 
-        guard let attributedString = attributedString else {
+        guard let attributedString else {
             return 0
         }
 

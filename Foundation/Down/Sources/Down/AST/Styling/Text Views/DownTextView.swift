@@ -83,7 +83,7 @@
                 attributedText = markdown
 
             #elseif canImport(AppKit)
-                guard let textStorage = textStorage else { return }
+                guard let textStorage else { return }
                 let down = Down(markdownString: string)
                 let markdown = try down.toAttributedString(styler: styler)
                 textStorage.replaceCharacters(in: textStorage.wholeRange, with: markdown)

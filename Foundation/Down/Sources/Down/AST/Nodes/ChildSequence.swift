@@ -32,7 +32,7 @@ public extension ChildSequence {
         // MARK: - Methods
 
         public mutating func next() -> Node? {
-            guard let node = node else { return nil }
+            guard let node else { return nil }
             defer { self.node = cmark_node_next(node) }
 
             guard let result = node.wrap() else {

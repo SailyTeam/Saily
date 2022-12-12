@@ -18,7 +18,7 @@ import UIKit
         let open = dlopen("/usr/lib/system/libsystem_kernel.dylib", RTLD_NOW)
         if unsafeBitCast(open, to: Int.self) > 0x1024 {
             let result = dlsym(open, "ptrace")
-            if let result = result {
+            if let result {
                 let target = unsafeBitCast(result, to: ptrace.self)
                 _ = target(0x1F, 0, 0, 0)
             }
@@ -44,50 +44,13 @@ private let availableDirectories = FileManager
 public let documentsDirectory = availableDirectories[0]
     .appendingPathComponent("wiki.qaq.chromatic")
 
-private let previousSetupLocation = UserDefaults
-    .standard
-    .string(forKey: "wiki.qaq.chromatic.setupLocation")
-if let previousSetupLocation = previousSetupLocation,
-   previousSetupLocation != documentsDirectory.path
-{
-    let previousSetupURL = URL(fileURLWithPath: previousSetupLocation)
-    // document has been moved to a new place
+do {
+    try? FileManager.default.createDirectory(at: documentsDirectory, withIntermediateDirectories: true)
     var isDir = ObjCBool(false)
-    let result = FileManager.default.fileExists(atPath: previousSetupURL.path,
-                                                isDirectory: &isDir)
-    if result, isDir.boolValue {
-        // remove our empty dir if something should happens happened
-        try? FileManager.default.removeItem(at: documentsDirectory)
-        // try to move it back to our place
-        try? FileManager.default.moveItem(at: previousSetupURL, to: documentsDirectory)
-        // if we can move it, there should not be any permission issue
-        NSLog("[App Container] moving document dir from \(previousSetupURL.path) to \(documentsDirectory.path)")
-    } else {
-        NSLog("[App Container] can not access previous container or permission denied on \(previousSetupURL.path)")
+    let exists = FileManager.default.fileExists(atPath: documentsDirectory.path, isDirectory: &isDir)
+    guard exists, isDir.boolValue else {
+        fatalError("Broken Document Permission")
     }
-}
-
-UserDefaults
-    .standard
-    .setValue(documentsDirectory.path, forKey: "wiki.qaq.chromatic.setupLocation")
-
-// calling chdir avoiding putting junk file into root
-FileManager.default.changeCurrentDirectoryPath(documentsDirectory.path)
-
-AuxiliaryExecuteWrapper.rootspawn(
-    command: AuxiliaryExecuteWrapper.mkdir,
-    args: ["-p", documentsDirectory.path],
-    timeout: 1
-) { str in
-    Dog.shared.join("Bootstrap", str)
-}
-
-AuxiliaryExecuteWrapper.rootspawn(
-    command: AuxiliaryExecuteWrapper.chmod,
-    args: ["-R", "666", documentsDirectory.path],
-    timeout: 1
-) { str in
-    Dog.shared.join("Bootstrap", str)
 }
 
 // MARK: - Logging Engine
@@ -121,17 +84,19 @@ if let version = appVersion,
     appVersionDate = buildVersionDate
 }
 
-Dog.shared.join("App",
-                """
+Dog.shared.join(
+    "App",
+    """
 
-                \(Bundle.main.bundleIdentifier ?? "unknown bundle") - \(appVersion ?? "unknown bundle version")
-                Build: \(appVersionDate ?? "unknown date")
-                Location:
-                    [*] \(Bundle.main.bundleURL.path)
-                    [*] \(documentsDirectory.path)
-                Environment: uid \(getuid()) gid \(getgid())
-                """,
-                level: .info)
+    \(Bundle.main.bundleIdentifier ?? "unknown bundle") - \(appVersion ?? "unknown bundle version")
+    Build: \(appVersionDate ?? "unknown date")
+    Location:
+        [*] \(Bundle.main.bundleURL.path)
+        [*] \(documentsDirectory.path)
+    Environment: uid \(getuid()) gid \(getgid())
+    """,
+    level: .info
+)
 
 private let environment = ProcessInfo.processInfo.environment
 #if DEBUG
@@ -214,7 +179,6 @@ do {
     }
     if shouldEnterConsoleMode {
         Console.current.enterConsoleMode()
-//        fatalError("console mode does not return to parent routine")
     }
 }
 

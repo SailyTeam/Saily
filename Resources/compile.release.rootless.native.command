@@ -51,14 +51,14 @@ echo "Starting build at $WORKING_ROOT"
 
 # xcodebuild and echo to xcpretty
 xcodebuild -workspace "$GIT_ROOT/Chromatic.xcworkspace" \
- -scheme Chromatic -configuration Release \
- -derivedDataPath "$WORKING_ROOT/DerivedDataApp" \
- -destination 'generic/platform=iOS' \
- clean build \
- CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO" \
- GCC_GENERATE_DEBUGGING_SYMBOLS=YES STRIP_INSTALLED_PRODUCT=NO \
- COPY_PHASE_STRIP=NO UNSTRIPPED_PRODUCT=NO \
- | xcpretty
+    -scheme Chromatic -configuration Release \
+    -derivedDataPath "$WORKING_ROOT/DerivedDataApp" \
+    -destination 'generic/platform=iOS' \
+    clean build \
+    CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO" \
+    GCC_GENERATE_DEBUGGING_SYMBOLS=YES STRIP_INSTALLED_PRODUCT=NO \
+    COPY_PHASE_STRIP=NO UNSTRIPPED_PRODUCT=NO \
+    | xcpretty
 
 mkdir PackageBuilder
 cd PackageBuilder || exit

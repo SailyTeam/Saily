@@ -93,7 +93,7 @@ public final class PackageCenter {
         print(formatter.string(fromByteCount: Int64(data.count))) // 178 KB
      */
 
-    @UserDefaultsWrapper(key: "\(kPackageCenterIdentity).installationTrace", defaultValue: Data())
+    @PropertiesWrapper(key: "\(kPackageCenterIdentity).installationTrace", defaultValue: Data())
     private var _installationTrace: Data
     internal var installationTrace: [String: PackageTrace] = [:] {
         didSet {
@@ -101,7 +101,7 @@ public final class PackageCenter {
         }
     }
 
-    @UserDefaultsWrapper(key: "\(kPackageCenterIdentity).tableTrace", defaultValue: Data())
+    @PropertiesWrapper(key: "\(kPackageCenterIdentity).tableTrace", defaultValue: Data())
     private var _tableTrace: Data
     internal var tableTrace: [String: PackageTrace] = [:] {
         didSet {
@@ -110,14 +110,14 @@ public final class PackageCenter {
     }
 
     // update blocker
-    @UserDefaultsWrapper(key: "\(kPackageCenterIdentity).blockedUpdateTable", defaultValue: [])
+    @PropertiesWrapper(key: "\(kPackageCenterIdentity).blockedUpdateTable", defaultValue: [])
     public var blockedUpdateTable: [String] {
         didSet {
             dispatchNotification()
         }
     }
 
-    @UserDefaultsWrapper(key: "\(kPackageCenterIdentity).preferredDepiction", defaultValue: "")
+    @PropertiesWrapper(key: "\(kPackageCenterIdentity).preferredDepiction", defaultValue: "")
     private var _preferredDepiction: String
 
     public var preferredDepiction: PackageDepiction.PreferredDepiction {

@@ -12,7 +12,7 @@ import PropertyWrapper
 import UIKit
 
 enum InterfaceBridge {
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.collectedPackages", defaultValue: Data())
+    @PropertiesWrapper(key: "collectedPackages", defaultValue: Data())
     private static var _collectedPackages: Data
     static var collectedPackages: [Package] {
         get {
@@ -24,7 +24,7 @@ enum InterfaceBridge {
         }
     }
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.enableShareSheet", defaultValue: false)
+    @PropertiesWrapper(key: "enableShareSheet", defaultValue: false)
     public static var enableShareSheet: Bool
 
     public static func removeRecoveryFlag(with reason: String, userRequested: Bool) {
@@ -36,7 +36,7 @@ enum InterfaceBridge {
         }
     }
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.mainUserAgent", defaultValue: "Saily/2.0 Cydia/1.1.32")
+    @PropertiesWrapper(key: "mainUserAgent", defaultValue: "Saily/2.0 Cydia/1.1.32")
     public static var mainUserAgent: String
 }
 

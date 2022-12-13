@@ -8,31 +8,98 @@
 
 import Foundation
 
-@propertyWrapper
-public struct UserDefaultsWrapper<Value> {
-    let key: String
-    let defaultValue: Value
-    var storage: UserDefaults = .standard
+public enum Properties {
+    private static var storeLocation: URL?
+    private static var onError: (String) -> Void = { _ in }
 
-    public init(key: String, defaultValue: Value, storage: UserDefaults = .standard) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.storage = storage
+    public static func setup(storeAt location: URL, onError errorCall: @escaping (String) -> Void) {
+        storeLocation = location
+        onError = errorCall
+
+        do {
+            try? FileManager.default.createDirectory(at: location, withIntermediateDirectories: true)
+            var isDir = ObjCBool(false)
+            let exists = FileManager.default.fileExists(atPath: location.path, isDirectory: &isDir)
+            guard exists, isDir.boolValue else {
+                fatalError("Broken Setting Permission")
+            }
+        }
     }
 
-    public var wrappedValue: Value {
-        get {
-            let value = storage.value(forKey: key) as? Value
-            return value ?? defaultValue
+    private static func locationFor(key: String) -> URL? {
+        storeLocation?.appendingPathComponent(key)
+    }
+
+    static func read(key: String) -> Data? {
+        guard let url = locationFor(key: key) else {
+            return nil
         }
-        set {
-            storage.setValue(newValue, forKey: key)
+        return try? Data(contentsOf: url)
+    }
+
+    static func write(key: String, value: Data?) {
+        guard let url = locationFor(key: key) else {
+            return
+        }
+        do {
+            try? FileManager.default.removeItem(at: url)
+            if let value { try value.write(to: url) }
+        } catch {
+            onError(error.localizedDescription)
         }
     }
 }
 
-public extension UserDefaultsWrapper where Value: ExpressibleByNilLiteral {
-    init(key: String, storage: UserDefaults = .standard) {
-        self.init(key: key, defaultValue: nil, storage: storage)
+let encoder = JSONEncoder()
+let decoder = JSONDecoder()
+
+@propertyWrapper
+public struct PropertiesWrapper<Value: Codable> {
+    let key: String
+    let defaultValue: Value
+
+    let accessLock = NSLock()
+    var cachedValue: Value?
+
+    public init(key: String, defaultValue: Value) {
+        self.key = key
+        self.defaultValue = defaultValue
+        cachedValue = retainDiskValue()
+    }
+
+    public var wrappedValue: Value {
+        get {
+            accessLock.lock()
+            let value = cachedValue
+                ?? retainDiskValue()
+                ?? defaultValue
+            accessLock.unlock()
+            return value
+        }
+        set {
+            accessLock.lock()
+            cachedValue = newValue
+            writeDiskValue(newValue: newValue)
+            accessLock.unlock()
+        }
+    }
+
+    private func retainDiskValue() -> Value? {
+        guard let data = Properties.read(key: key),
+              let object = try? decoder.decode(Value.self, from: data)
+        else {
+            return nil
+        }
+        return object
+    }
+
+    private func writeDiskValue(newValue: Value?) {
+        if let newValue,
+           let data = try? encoder.encode(newValue)
+        {
+            Properties.write(key: key, value: data)
+        } else {
+            Properties.write(key: key, value: nil)
+        }
     }
 }

@@ -30,7 +30,7 @@ class SearchController: UITableViewController {
     private var searchResults = [[SearchResult]]()
     let guider = SearchPlaceholder()
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.searchWithCaseSensitive", defaultValue: false)
+    @PropertiesWrapper(key: "searchWithCaseSensitive", defaultValue: false)
     var searchWithCaseSensitive: Bool
 
     override func viewDidLoad() {

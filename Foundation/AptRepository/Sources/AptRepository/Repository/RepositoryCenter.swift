@@ -30,14 +30,14 @@ public final class RepositoryCenter {
     internal var container: [URL: Repository] = [:]
 
     /// store deleted repository
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).historyRecordsEnabled", defaultValue: true)
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).historyRecordsEnabled", defaultValue: true)
     public var historyRecordsEnabled: Bool {
         didSet {
             if !historyRecordsEnabled { historyRecords = [] }
         }
     }
 
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).historyRecords", defaultValue: [])
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).historyRecords", defaultValue: [])
     public var _historyRecords: [String]
     public var historyRecords: Set<String> {
         set {
@@ -49,7 +49,7 @@ public final class RepositoryCenter {
     }
 
     /// smart update time interval in seconds, default 86_400 to 1 day
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).smartUpdateTimeInterval", defaultValue: 86400)
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).smartUpdateTimeInterval", defaultValue: 86400)
     public var smartUpdateTimeInterval: Int
 
     /// used for compile data and persist engine
@@ -69,8 +69,8 @@ public final class RepositoryCenter {
     internal let persistDecoder: PropertyListDecoder = .init()
 
     /// update engine
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).updateConcurrencyLimit",
-                         defaultValue: ProcessInfo.processInfo.processorCount)
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).updateConcurrencyLimit",
+                       defaultValue: ProcessInfo.processInfo.processorCount)
     public var updateConcurrencyLimit: Int {
         didSet {
             if updateConcurrencyLimit < 1 {
@@ -86,13 +86,13 @@ public final class RepositoryCenter {
     internal var currentUpdateProgress: [URL: Progress] = [:]
 
     /// when updating repository property, set by application to user default, not here
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).networkingHeaders", defaultValue: [:])
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).networkingHeaders", defaultValue: [:])
     public var networkingHeaders: [String: String]
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).networkingTimeout", defaultValue: 60)
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).networkingTimeout", defaultValue: 60)
     public var networkingTimeout: Int
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).networkingVerboseLogging", defaultValue: false)
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).networkingVerboseLogging", defaultValue: false)
     public var networkingVerboseLogging: Bool
-    @UserDefaultsWrapper(key: "\(kRepositoryCenterIdentity).networkingRedirect", defaultValue: Data())
+    @PropertiesWrapper(key: "\(kRepositoryCenterIdentity).networkingRedirect", defaultValue: Data())
     private var _networkingRedirect: Data
     public var networkingRedirect: [URL: URL] {
         set {

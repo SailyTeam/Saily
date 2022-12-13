@@ -34,10 +34,6 @@ AuxiliaryExecuteWrapper.setupExecutables()
 
 // MARK: - Document
 
-UserDefaults
-    .standard
-    .setValue("wiki.qaq.chromatic", forKey: "wiki.qaq.chromatic.storeDirPrefix")
-
 private let availableDirectories = FileManager
     .default
     .urls(for: .documentDirectory, in: .userDomainMask)
@@ -64,6 +60,13 @@ do {
     #else
         NSLog(errorDescription)
     #endif
+}
+
+// MARK: - Properties
+
+import PropertyWrapper
+Properties.setup(storeAt: documentsDirectory.appendingPathComponent("Settings")) { str in
+    Dog.shared.join("Properties", "error occurred \(str)")
 }
 
 AuxiliaryExecuteWrapper.rootspawn(command: "whoami", args: [], timeout: 1) { _ in }

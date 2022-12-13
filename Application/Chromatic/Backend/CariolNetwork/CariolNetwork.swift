@@ -45,7 +45,7 @@ class CariolNetwork {
         return formatter
     }()
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.cariol.network", defaultValue: Data())
+    @PropertiesWrapper(key: "cariol.network", defaultValue: Data())
     private var _completedFileLookup: Data
     public var completedFileLookup: [URL: URL] {
         set {

@@ -31,9 +31,9 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
         }
     }
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.installed.sortOption", defaultValue: SortOption.lastModification.rawValue)
+    @PropertiesWrapper(key: "installed.sortOption", defaultValue: SortOption.lastModification.rawValue)
     var _sortOption: String
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.installed.sortReversed", defaultValue: false)
+    @PropertiesWrapper(key: "installed.sortReversed", defaultValue: false)
     var _sortReversed: Bool
 
     var sortOption: SortOption {
@@ -54,7 +54,7 @@ class InstalledController: UICollectionViewController, UICollectionViewDelegateF
 
     // MARK: - PROPERTY
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.searchWithCaseSensitive", defaultValue: false)
+    @PropertiesWrapper(key: "searchWithCaseSensitive", defaultValue: false)
     var searchWithCaseSensitive: Bool
 
     let searchController = UISearchController()

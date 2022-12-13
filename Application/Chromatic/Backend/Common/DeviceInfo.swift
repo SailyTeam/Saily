@@ -16,7 +16,7 @@ import UIKit
 class DeviceInfo {
     static let current = DeviceInfo()
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.useRealDeviceInfo", defaultValue: true)
+    @PropertiesWrapper(key: "useRealDeviceInfo", defaultValue: true)
     public var useRealDeviceInfo: Bool {
         didSet {
             setupUserAgents()

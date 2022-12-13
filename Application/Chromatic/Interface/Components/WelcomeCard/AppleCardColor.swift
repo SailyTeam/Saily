@@ -139,7 +139,7 @@ class AppleCardColorProvider {
     private let encoder = PropertyListEncoder()
     private let decoder = PropertyListDecoder()
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.AppleCard.Colors", defaultValue: Data())
+    @PropertiesWrapper(key: "AppleCard.Colors", defaultValue: Data())
     private var recordData: Data
 
     struct Record: Codable {

@@ -23,7 +23,7 @@ internal final class TaskManager {
 
     // MARK: - User Default
 
-    @UserDefaultsWrapper(key: "wiki.qaq.chromatic.automaticUpdateWhenAvailable", defaultValue: false)
+    @PropertiesWrapper(key: "automaticUpdateWhenAvailable", defaultValue: false)
     var automaticUpdateWhenAvailable: Bool
 
     // MARK: - Container

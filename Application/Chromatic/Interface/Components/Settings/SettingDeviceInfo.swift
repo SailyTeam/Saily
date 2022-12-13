@@ -9,6 +9,10 @@
 import UIKit
 
 extension SettingView {
+    @objc func copyUDIDAction(sender:UITapGestureRecognizer){
+        let view : SettingElement = sender.view as! SettingElement
+        UIPasteboard.general.string = view.label.text
+    }
     func setupDeviceInfoSection(anchor: inout UIView, safeAnchor: UIView) {
         let label0 = UILabel()
         label0.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -36,6 +40,7 @@ extension SettingView {
         let udid = SettingElement(iconSystemNamed: "",
                                   text: DeviceInfo.current.realDeviceIdentity.uppercased(),
                                   dataType: .none, initData: nil, withAction: nil)
+        udid.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(copyUDIDAction(sender: ))))
         udid.label.font = .monospacedSystemFont(ofSize: 16, weight: .semibold)
         let enableRandomDeviceInfo = SettingElement(iconSystemNamed: "eye.slash",
                                                     text: NSLocalizedString("RANDOM_INDO", comment: "Random Info"),

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Lakr Aream. All rights reserved.
 //
 
+import AptRepository
 import Bugsnag
 import Dog
 import UIKit
@@ -36,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_: UIApplication) {
-        InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)
+        UIApplication.gracefullyTerminate()
     }
 
     // MARK: - UISceneSession Lifecycle
@@ -82,5 +83,19 @@ extension UIApplication {
                     }
             }
         }
+    }
+}
+
+extension UIApplication {
+    static func gracefullyTerminate() {
+        Dog.shared.join("Terminator", "calling gracefully terminate", level: .warning)
+        InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: false)
+        CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication)
+        RepositoryCenter.default.issueCompileAndStore(sync: true)
+    }
+
+    static func suspendAndPrepareForExit() {
+        UIApplication.gracefullyTerminate()
+        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
     }
 }

@@ -115,12 +115,8 @@ enum AuxiliaryExecuteWrapper {
         #endif
     }
 
-    static func suspendApplication() {
-        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-    }
-
     static func reloadSpringboard() {
-        suspendApplication()
+        UIApplication.suspendAndPrepareForExit()
         rootspawn(command: sbreload, args: [], timeout: 0, output: { _ in })
         sleep(3) // <-- sbreload failed?
         rootspawn(command: killall, args: ["backboardd"], timeout: 0, output: { _ in })

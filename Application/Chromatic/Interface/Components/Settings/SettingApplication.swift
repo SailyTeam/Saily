@@ -98,7 +98,7 @@ extension SettingView {
             self.dropDownConfirm(anchor: anchor,
                                  text: NSLocalizedString("RELOAD_DESKTOP", comment: "Reload Desktop"))
             {
-                AuxiliaryExecuteWrapper.suspendApplication()
+                UIApplication.suspendAndPrepareForExit()
                 sleep(1)
                 AuxiliaryExecuteWrapper.reloadSpringboard()
             }
@@ -110,7 +110,7 @@ extension SettingView {
             self.dropDownConfirm(anchor: anchor,
                                  text: NSLocalizedString("ENTER_SAFE_MODE", comment: "Enter Safe Mode"))
             {
-                AuxiliaryExecuteWrapper.suspendApplication()
+                UIApplication.suspendAndPrepareForExit()
                 sleep(1)
                 AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.killall,
                                                   args: ["-SEGV", "SpringBoard"],

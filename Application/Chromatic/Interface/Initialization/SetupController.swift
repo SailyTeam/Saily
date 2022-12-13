@@ -289,7 +289,7 @@ class SetupViewController: UIViewController {
     @objc
     func rebootApplication() {
         InterfaceBridge.removeRecoveryFlag(with: #function, userRequested: true)
-        AuxiliaryExecuteWrapper.suspendApplication()
+        UIApplication.suspendAndPrepareForExit()
         sleep(1)
         exit(0)
     }

@@ -199,7 +199,7 @@ class OperationConsoleController: UIViewController {
                                           preferredStyle: .alert)
             present(alert, animated: true, completion: {
                 sleep(1)
-                AuxiliaryExecuteWrapper.suspendApplication()
+                UIApplication.suspendAndPrepareForExit()
                 sleep(1)
                 AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.uicache,
                                                   args: ["-p", Bundle.main.bundlePath],

@@ -37,44 +37,42 @@ extension RepositoryCenter {
     }
 
     /// save to disk
-    func issueCompileAndStore() {
-        compilerThrottle.throttle { [self] in
-            accessLock.lock()
-            let capture = container.values
-            accessLock.unlock()
+    func issueCompileAndStoreExec() {
+        accessLock.lock()
+        let capture = container.values
+        accessLock.unlock()
 
-            do {
-                // if not exists in ram, delete
-                let contents = try FileManager
-                    .default
-                    .contentsOfDirectory(atPath: workingLocation.path)
-                let filenames = capture
-                    .map(\.url)
-                    .map(\.absoluteString)
-                    .map { $0.sha1() }
-                    .compactMap { $0 }
-                let delete = contents
-                    .filter { !filenames.contains($0) }
-                for item in delete {
-                    let target = workingLocation.appendingPathComponent(item)
-                    try FileManager.default.removeItem(at: target)
-                }
-                // save what ever in ram
-                for repo in capture {
-                    let date = try persistEncoder.encode(repo)
-                    let name = repo.url.absoluteString.sha1()
-                    guard name.count > 0 else {
-                        Dog.shared.join(self, "hash on url \(repo.url.absoluteString) failed, persist engine giving up", level: .error)
-                        continue
-                    }
-                    let location = workingLocation.appendingPathComponent(name)
-                    try date.write(to: location)
-                }
-            } catch {
-                Dog.shared.join(self, "persist engine catches error \(error.localizedDescription)", level: .error)
+        do {
+            // if not exists in ram, delete
+            let contents = try FileManager
+                .default
+                .contentsOfDirectory(atPath: workingLocation.path)
+            let filenames = capture
+                .map(\.url)
+                .map(\.absoluteString)
+                .map { $0.sha1() }
+                .compactMap { $0 }
+            let delete = contents
+                .filter { !filenames.contains($0) }
+            for item in delete {
+                let target = workingLocation.appendingPathComponent(item)
+                try FileManager.default.removeItem(at: target)
             }
-            Dog.shared.join(self, "completed disptched compile")
+            // save what ever in ram
+            for repo in capture {
+                let date = try persistEncoder.encode(repo)
+                let name = repo.url.absoluteString.sha1()
+                guard name.count > 0 else {
+                    Dog.shared.join(self, "hash on url \(repo.url.absoluteString) failed, persist engine giving up", level: .error)
+                    continue
+                }
+                let location = workingLocation.appendingPathComponent(name)
+                try date.write(to: location)
+            }
+        } catch {
+            Dog.shared.join(self, "persist engine catches error \(error.localizedDescription)", level: .error)
         }
+        Dog.shared.join(self, "completed disptched compile")
     }
 
     // MARK: - UPDATE ENGINE

@@ -247,4 +247,16 @@ public extension RepositoryCenter {
             deleteRepository(withUrl: brokenRepo)
         }
     }
+
+    // save all the repos to disk
+    func issueCompileAndStore(sync: Bool = false) {
+        if sync {
+            Dog.shared.join(self, "compiling called with sync!", level: .info)
+            issueCompileAndStoreExec()
+        } else {
+            compilerThrottle.throttle { [self] in
+                issueCompileAndStoreExec()
+            }
+        }
+    }
 }

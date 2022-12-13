@@ -21,9 +21,9 @@ extension InterfaceBridge {
         var builder = [DashboardDataSection?]()
         builder.append(buildCollections())
         builder.append(buildAvailableUpdate())
+        builder.append(buildRecentUpdate())
         builder.append(buildRepoFeatured())
         builder.append(buildRecentInstall())
-        builder.append(buildRecentUpdate())
         return builder
             .compactMap { $0 }
             .filter { $0.package.count > 0 }

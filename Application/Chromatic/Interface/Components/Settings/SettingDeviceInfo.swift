@@ -7,12 +7,31 @@
 //
 
 import UIKit
-
+import SPIndicator
 extension SettingView {
     @objc func copyUDIDAction(sender:UITapGestureRecognizer){
         let view : SettingElement = sender.view as! SettingElement
-        UIPasteboard.general.string = view.label.text
+        let text : String = view.label.text ?? ""
+        if InterfaceBridge.enableShareSheet {
+            let activityViewController = UIActivityViewController(activityItems: [text],
+                                                                  applicationActivities: nil)
+            activityViewController
+                .popoverPresentationController?
+                .sourceView = view
+            view
+                .parentViewController?
+                .present(activityViewController, animated: true, completion: nil)
+        } else {
+            UIPasteboard.general.string = view.label.text
+            SPIndicator.present(title: NSLocalizedString("COPIED", comment: "Cpoied"),
+                                message: nil,
+                                preset: .done,
+                                haptic: .success,
+                                from: .top,
+                                completion: nil)
+        }
     }
+    
     func setupDeviceInfoSection(anchor: inout UIView, safeAnchor: UIView) {
         let label0 = UILabel()
         label0.font = .systemFont(ofSize: 18, weight: .semibold)

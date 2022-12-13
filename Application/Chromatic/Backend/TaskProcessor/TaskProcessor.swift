@@ -192,24 +192,22 @@ class TaskProcessor {
         // MARK: - CONFIGURE IF NEEDED
 
         repeat {
-            if operation.install.count > 0 {
-                output("\n===>\n")
-                var arguments = [
-                    "--configure",
-                    "-a",
-                    "--force-all",
-                    "--force-confdef",
-                ]
-                if isRootlessEnvironment { arguments += ["--root=\(rootlessPrefix)"] }
-                if operation.dryRun { arguments.append("--dry-run") }
-                let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.dpkg,
-                                                               args: arguments,
-                                                               timeout: 0) { str in
-                    Dog.shared.join(self, "dpkg config all")
-                    output(str)
-                }
-                output("[*] returning \(result.0)\n")
+            output("\n===>\n")
+            var arguments = [
+                "--configure",
+                "-a",
+                "--force-all",
+                "--force-confdef",
+            ]
+            if isRootlessEnvironment { arguments += ["--root=\(rootlessPrefix)"] }
+            if operation.dryRun { arguments.append("--dry-run") }
+            let result = AuxiliaryExecuteWrapper.rootspawn(command: AuxiliaryExecuteWrapper.dpkg,
+                                                           args: arguments,
+                                                           timeout: 0) { str in
+                Dog.shared.join(self, "dpkg config all")
+                output(str)
             }
+            output("[*] returning \(result.0)\n")
         } while false
 
         // MARK: - NOW LET'S CHECK WHAT WE HAVE WRITTEN

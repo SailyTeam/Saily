@@ -60,14 +60,14 @@ extension RepositoryCenter {
             }
             // save what ever in ram
             for repo in capture {
-                let date = try persistEncoder.encode(repo)
+                let data = try persistEncoder.encode(repo)
                 let name = repo.url.absoluteString.sha1()
                 guard name.count > 0 else {
                     Dog.shared.join(self, "hash on url \(repo.url.absoluteString) failed, persist engine giving up", level: .error)
                     continue
                 }
                 let location = workingLocation.appendingPathComponent(name)
-                try date.write(to: location)
+                try data.write(to: location)
             }
         } catch {
             Dog.shared.join(self, "persist engine catches error \(error.localizedDescription)", level: .error)

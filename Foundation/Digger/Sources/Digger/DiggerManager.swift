@@ -280,51 +280,45 @@ public extension DiggerManager {
 
 public extension URLSession {
     func dataTask(with url: URL, timeout: TimeInterval) -> URLSessionDataTask {
-        let range = DiggerCache.fileSize(filePath: DiggerCache.tempPath(url: url))
-
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: timeout)
+
+        let range = DiggerCache.fileSize(filePath: DiggerCache.tempPath(url: url))
         if range > 0 {
-            let headRange = "bytes=" + String(range) + "-"
-            request.setValue(headRange, forHTTPHeaderField: "Range")
+            if isContentRangeSupportedOn(url: url, timeout: timeout) {
+                let headRange = "bytes=" + String(range) + "-"
+                request.setValue(headRange, forHTTPHeaderField: "Range")
+            } else {
+                DiggerCache.removeTempFile(with: url)
+            }
         }
 
         let task = dataTask(with: request)
         task.priority = URLSessionTask.defaultPriority
-
         return task
     }
+
+    func isContentRangeSupportedOn(url: URL, timeout: TimeInterval) -> Bool {
+        var preflightCheck = URLRequest(
+            url: url,
+            cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
+            timeoutInterval: timeout
+        )
+        preflightCheck.httpMethod = "HEAD"
+
+        var supportRange = false
+        let sem = DispatchSemaphore(value: 0)
+        URLSession.shared.dataTask(with: preflightCheck) { _, resp, _ in
+            if let httpResponse = resp as? HTTPURLResponse {
+                for (key, value) in httpResponse.allHeaderFields {
+                    if let keyStr = key as? String, keyStr.lowercased() == "accept-ranges" {
+                        supportRange = (value as? String)?.lowercased() != "none"
+                    }
+                }
+            }
+            sem.signal()
+        }.resume()
+        sem.wait()
+
+        return supportRange
+    }
 }
-
-/*
-
- this may cause panic to paid packages
- as the arbitrary URL for authorization can only access once per life
-
- // check if server actually supports range
- var preflightCheck = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeout)
- preflightCheck.httpMethod = "HEAD"
- var supportRange = false
- let sem = DispatchSemaphore(value: 0)
- URLSession.shared.dataTask(with: preflightCheck) { _, resp, _ in
-     if let httpResponse = resp as? HTTPURLResponse {
-         for (key, value) in httpResponse.allHeaderFields {
-             if let keyStr = key as? String, keyStr.lowercased() == "accept-ranges" {
-                 supportRange = (value as? String)?.lowercased() != "none"
-             }
-         }
-     }
-     sem.signal()
- }.resume()
- sem.wait()
-
- let range = DiggerCache.fileSize(filePath: DiggerCache.tempPath(url: url))
-
- var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: timeout)
- if supportRange {
-     let headRange = "bytes=" + String(range) + "-"
-     request.setValue(headRange, forHTTPHeaderField: "Range")
- } else {
-     DiggerCache.removeTempFile(with: url)
- }
-
- */

@@ -17,7 +17,11 @@ internal extension RepositoryCenter {
     /// - Parameter fromUrl: data url
     /// - Returns: data if success
     func downloadData(fromUrl: URL) -> Data? {
-        var request = URLRequest(url: fromUrl, timeoutInterval: TimeInterval(networkingTimeout))
+        var request = URLRequest(
+            url: fromUrl,
+            cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
+            timeoutInterval: TimeInterval(networkingTimeout)
+        )
         networkingHeaders.forEach { key, value in
             request.setValue(value, forHTTPHeaderField: key)
         }

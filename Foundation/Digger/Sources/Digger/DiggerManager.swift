@@ -303,17 +303,14 @@ public extension URLSession {
             cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
             timeoutInterval: timeout
         )
-        preflightCheck.httpMethod = "HEAD"
+        let headRange = "bytes=0-1"
+        preflightCheck.setValue(headRange, forHTTPHeaderField: "Range")
 
         var supportRange = false
         let sem = DispatchSemaphore(value: 0)
-        URLSession.shared.dataTask(with: preflightCheck) { _, resp, _ in
-            if let httpResponse = resp as? HTTPURLResponse {
-                for (key, value) in httpResponse.allHeaderFields {
-                    if let keyStr = key as? String, keyStr.lowercased() == "accept-ranges" {
-                        supportRange = (value as? String)?.lowercased() != "none"
-                    }
-                }
+        URLSession.shared.dataTask(with: preflightCheck) { data, _, error in
+            if error == nil, data?.count == 2 {
+                supportRange = true
             }
             sem.signal()
         }.resume()

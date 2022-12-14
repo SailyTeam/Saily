@@ -77,8 +77,8 @@ extension SettingView {
             self.dropDownConfirm(anchor: anchor,
                                  text: NSLocalizedString("DELETE_ALL_DOWNLOADS", comment: "Delete All Downloads"))
             {
-                let cache = URL(fileURLWithPath: DiggerCache.cachesDirectory)
-                try? FileManager.default.removeItem(at: cache)
+                DiggerCache.cleanDownloadTempFiles()
+                DiggerCache.cleanDownloadFiles()
                 let download = CariolNetwork.shared.workingLocation
                 try? FileManager.default.removeItem(at: download)
                 let directInstall = documentsDirectory.appendingPathComponent("DirectInstallCache")

@@ -116,9 +116,10 @@ enum AuxiliaryExecuteWrapper {
     }
 
     static func reloadSpringboard() {
-        UIApplication.suspendAndPrepareForExit()
-        rootspawn(command: sbreload, args: [], timeout: 0, output: { _ in })
-        sleep(3) // <-- sbreload failed?
+        UIApplication.prepareForExitAndSuspend()
+        let result = rootspawn(command: sbreload, args: [], timeout: 0, output: { _ in })
+        if result.0 == 0 { return }
+        Dog.shared.join("sbreload", "unexpected return code \(result.0), calling kill on backboardd as fallback")
         rootspawn(command: killall, args: ["backboardd"], timeout: 0, output: { _ in })
     }
 
@@ -210,44 +211,9 @@ private extension AuxiliaryExecuteWrapper {
         .init(match: "exec-uicache", execute: { _ in
             // we may need root to lookup for apps...
             Self.setupExecutables()
-            for item in (try? FileManager.default.contentsOfDirectory(atPath: "/var/jb/Applications")) ?? [] {
-                let path = "/var/jb/Applications/\(item)"
-                print("calling uicache at \(path)")
-                AuxiliaryExecute.spawn(
-                    command: uicache,
-                    args: ["-p", path],
-                    environment: [:],
-                    timeout: 10,
-                    setPid: nil
-                ) { print($0) }
-            }
-            let list = AuxiliaryExecute.spawn(
-                command: uicache,
-                args: ["-l"],
-                environment: [:],
-                timeout: 30,
-                setPid: nil
-            ) { print($0) }
-            for line in list.stdout.components(separatedBy: "\n") {
-                guard line.contains(" : ") else { continue }
-                var sep = line.components(separatedBy: " : ")
-                guard sep.count == 2 else { continue }
-                let bundleIdentifier = sep.removeFirst().trimmingCharacters(in: .whitespacesAndNewlines)
-                let path = sep.removeFirst().trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !bundleIdentifier.lowercased().hasPrefix("com.apple.") else { continue } // safe guard
-                guard !FileManager.default.fileExists(atPath: path) else { continue }
-                print("[*] removing uicache at \(path)")
-                AuxiliaryExecute.spawn(
-                    command: uicache,
-                    args: ["-u", path],
-                    environment: [:],
-                    timeout: 10,
-                    setPid: nil
-                ) { print($0) }
-            }
             AuxiliaryExecute.spawn(
                 command: uicache,
-                args: ["-a"],
+                args: ["--all"],
                 environment: [:],
                 timeout: 120,
                 setPid: nil

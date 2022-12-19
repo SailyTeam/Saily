@@ -94,7 +94,7 @@ extension UIApplication {
         RepositoryCenter.default.issueCompileAndStore(sync: true)
     }
 
-    static func suspendAndPrepareForExit() {
+    static func prepareForExitAndSuspend() {
         UIApplication.gracefullyTerminate()
         UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
     }

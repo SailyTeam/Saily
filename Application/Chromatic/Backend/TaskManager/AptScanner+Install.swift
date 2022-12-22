@@ -224,7 +224,18 @@ extension TaskManager {
                         // one of the element work, we break down the loop
                         debugPrint("resolving depend \(eachDependency.original)")
 
-                        inner: for eachElement in eachDependency.elements {
+                        let sortedDependencyGroups = eachDependency.elements
+                            .sorted { elementA, elementB in
+                                let context = installContext.map(\.identity)
+                                let a1 = installedExtendedLookupTable[elementA.representPackage] == nil ? 0 : 1
+                                let a2 = !context.contains(elementA.representPackage) ? 0 : 1
+
+                                let b1 = installedExtendedLookupTable[elementB.representPackage] == nil ? 0 : 1
+                                let b2 = !context.contains(elementB.representPackage) ? 0 : 1
+                                return a1 + a2 > b1 + b2
+                            }
+
+                        inner: for eachElement in sortedDependencyGroups {
                             // can't put something to install while removing
                             if removing.contains(eachElement.representPackage) {
                                 // go search for next one
